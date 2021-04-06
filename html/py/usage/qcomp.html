@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>量子コンピュータ(QCompクラス, Backendクラスなど) &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazypy.html">qlazypy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>量子コンピュータ(QCompクラス, Backendクラスなど)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/py/usage/qcomp.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="qcomp-backend">
+<h1>量子コンピュータ(QCompクラス, Backendクラスなど)<a class="headerlink" href="#qcomp-backend" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>量子コンピュータ操作の基本<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>量子コンピュータで量子計算を行うというのは、欲しい結果を得るように設計
+された量子回路をユニタリゲートと測定の組み合わせという形で用意しておき、
+それを量子コンピュータに投入して測定結果を取得するということです。
+QCompクラスは、そのような一連の操作を実行できるように量子コンピュータ
+そのものを抽象化したクラスです。Backendクラスは、どの量子コンピュータ
+を使って量子計算を行うかを指定するためのクラスです。この2つのクラスを
+基本にして、どのように量子計算を実行するかについて、以下で説明します。</p>
+<div class="section" id="id2">
+<h3>量子コンピュータの生成・初期化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>量子計算を実行するためには、当たり前ですが、まず量子コンピュータを用意
+する必要があります。一番簡単な方法は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QComp</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>です。QCompのqubit_numには計算に必要な量子ビット数を指定します。これで
+2量子ビットの計算ができる量子コンピュータが用意できました。Backendを指
+定していない場合は、qlazyの「量子状態計算シミュレータ」
+(‘qlazy_qstate_simulator’)がセットされます。Backendを明示的に指定する
+場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">Backend</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">bk</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにします。Backendのnameには使用したいバックエンド名を指定します。
+qlazyの「スタビライザー計算シミュレータ」を使用したい場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy_stabilizer_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>とします。その他、現在のバージョンで対応しているバックエンドは、
+<a class="reference external" href="https://github.com/qulacs/qulacs">qulacsとqulacs-gpu</a>です。
+各々以下のように指定します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qulacs_simulator&#39;</span><span class="p">)</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qulacs_gpu_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>qulacsのインストールについては
+<a class="reference external" href="http://docs.qulacs.org/ja/latest/intro/1_install.html">Installation - Qulacs ドキュメント</a>
+をご覧ください。</p>
+<p>これでいろんな量子計算を実行する準備ができたのですが、量子計算途中の測
+定値を古典レジスタに格納しておき、その値によってその後のゲート演算の制
+御をしたい場合があります。そのような場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">bk</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のように、測定値を格納する古典メモリ(古典レジスタ)のサイズをcmem_numで
+指定しておけば、古典レジスタ用のメモリ領域が内部に確保されます。</p>
+</div>
+<div class="section" id="id3">
+<h3>量子回路の設定と実行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>量子コンピュータが用意できたら、次に量子回路を設定します。QStateクラス
+やDensopクラスと同じ記法でゲートを追加していきます。例えば、Bell状態を
+作成する回路を設定したい場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにします。hはアダマールゲート、cxはCNOTゲートを表します。または、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにゲートをつなげて書いてもOKです。これで量子コンピュータ内部に、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q0</span> <span class="o">--</span><span class="n">H</span><span class="o">--*---</span>
+        <span class="o">|</span>
+<span class="n">q1</span> <span class="o">-----</span><span class="n">X</span><span class="o">---</span>
+</pre></div>
+</div>
+<p>という回路が設定されたことになります。QStateクラスやDensOpクラスと違い、
+この段階ではまだゲート演算は実行されていません。以下のようにrunメソッ
+ドを適用することではじめて実行されます(初期状態は常に|00…0&gt;です。い
+まの例は2量子ビットなので|00&gt;です)。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>しかし、計算結果は測定をしないと得られないので、これでは意味がありませ
+ん。測定を表すゲートmeasureを付加して、以下のようにすれば、測定結果を
+取得することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>1行目のmeasureメソッドは計算基底で測定するためのゲートで、qidに測定す
+る量子ビット番号(量子レジスタ番号)を指定します。2行目のrunメソッドに指
+定されているshotsは実行回数(=測定回数)を表しています。これで測定結果が
+result変数に格納されることになります。resultをprintすると、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;measured_qid&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">})}</span>
+</pre></div>
+</div>
+<p>という具合に表示されます。runの返却値は、measured_qidとfrequencyという
+2つのキーからなる辞書データになっていることがわかります。最後に測定が
+ない回路をrunした場合、resultはNoneになります。</p>
+<p>古典レジスタに途中の測定結果を格納して、それで以降のゲート制御をしたい
+場合があります。その例を以下に示します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>2行目の量子回路を設定する部分で、まずh(0).cx(0,1)を追加した後に
+measure(qid=[0],cid=[0])を追加しています。measureメソッドのcidには測定
+値を格納する古典レジスタ番号リストを指定します。この例では、0番目の量
+子ビットの測定結果を0番目の古典レジスタに格納するということを表してい
+ます。次にx(0, ctrl=0)と続きます。xはQStateクラスやDensOpクラスと同様
+パウリXゲートを表しており、最初の引数は適用する量子ビット番号です。
+QCompクラスでは、ctrlという引数も指定することができます。これはこのゲー
+トを適用するか否かをctrlで指定した古典レジスタ番号に格納されている測定
+値によって決めるということを表すためのものです。つまり、いまの例の場合、
+前段のmeasureで0番目の量子ビットの測定結果を0番目の古典レジスタに格納
+していたので、その値が0であったか1であったかによってパウリXゲートが実
+行されるかどうかが決まります。次のx(1, ctrl=0)も同様の考え方で実行が制
+御されるパウリXゲートです。最後に再びmeasureです。今度は0番目と1番目の
+量子ビットが測定されます(cidが指定されていないので、古典レジスタに結果
+は格納されません)。</p>
+<p>3行目でrunによって、この回路が実行されます。shots=10と指定したので実行
+回数は10回です。そして、その測定値の頻度がカウントされて、測定量子ビッ
+ト番号リストとともにresultに格納されます。ここでご注意いただきたいので
+すが、runで測定結果がカウントされるのは、一番最後のmeasureに対してです。
+途中のmeasureの結果はカウントされません。</p>
+<p>というわけで、この例の結果はどうなるかわかりますでしょうか？答えは、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;measured_qid&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})}</span>
+</pre></div>
+</div>
+<p>です。最初のh(0).cx(0,1)で|00&gt;+|11&gt;というBell状態になり(規格化定数は省
+略)、0番目の量子ビットを測定して結果が0だった場合は、以降何もしないの
+で最終状態は|00&gt;となり、1だった場合は全ビットをビット反転するので最終
+状態は|11&gt;のビット反転で|00&gt;になります。これを最後に測定するので、100%
+の確率で|00&gt;になります。</p>
+</div>
+<div class="section" id="id4">
+<h3>量子コンピュータの解放<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>すべての計算が終わったら、生成・初期化した量子コンピュータを解放します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>基本は以上です。</p>
+</div>
+<div class="section" id="id5">
+<h3>対応している量子ゲート<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>以下に利用可能な量子ゲートを示します。指定できる引数はQStateクラスや
+DensOpクラスのものと同様で、さらに上で説明したctrlという引数がすべての
+ゲートで指定できます。</p>
+<div class="section" id="id6">
+<h4>1量子ビットゲート<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>x,y,z: Pauli X/Y/Z gate</p></li>
+<li><p>h: Hadamard gate</p></li>
+<li><p>xr,xr_dg: root X and root X dagger gate</p></li>
+<li><p>s,s_dg: S and S dagger gate</p></li>
+<li><p>t,t_dg: T and T dagger gate</p></li>
+<li><p>p: phase shift gate</p></li>
+<li><p>rx,ry,rz: RX/RY/RZ (rotation around X/Y/Z-axis) gate</p></li>
+<li><p>u1,u2,u3: U1/U2/U3 gate (by IBM)</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h4>2量子ビットゲート<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>cx,cy,cz: controlled X/Y/Z gate</p></li>
+<li><p>cxr,cxr_dg: controlled XR and XR dagger gate</p></li>
+<li><p>ch: controlled Hadamard gate</p></li>
+<li><p>cs,cs_dg: controlled S and S dagger gate</p></li>
+<li><p>ct,ct_dg: controlled T and T dagger gate</p></li>
+<li><p>sw: swap gate</p></li>
+<li><p>cp: controlled P gate</p></li>
+<li><p>crx,cry,crz: controlled RX/RY/RZ gate</p></li>
+<li><p>cu1,cu2,cu3: controlled U1/U2/U3 gate</p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h4>3量子ビットゲート<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>ccx: toffoli gate (or CCX gate, controlled controlled X gate)</p></li>
+<li><p>csw: fredkin gate (or controlled swap gate)</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h4>測定ゲート<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>measure: measurement gate (computational basis)</p></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h4>注意：スタビライザーシミュレータの場合<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>‘qlazy_stabilizer_simulator’の場合、実行できるのはクリフォードゲート
+(x,y,z,h,s,s_dg,cx,cy,cz)のみです。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>少し高度な技<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h3>リセットしない実行<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>上で説明した基本パターンを改めてまとめると、</p>
+<ul class="simple">
+<li><p>(1) バックエンドの定義</p></li>
+<li><p>(2) 量子コンピュータの初期化(量子レジスタ数、古典レジスタ数、バックエンドを設定)</p></li>
+<li><p>(3) 量子回路の設定(ユニタリゲートと測定ゲートを次々に追加)</p></li>
+<li><p>(4) 量子回路の実行と結果取得
+ということになります。</p></li>
+</ul>
+<p>例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">Backend</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">bk</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>という具合です。ここで、5行目のrunを実行したら、量子コンピュータ内部の
+「量子回路」と「量子状態」と「古典メモリ」はすべてリセットされる仕様に
+なっています。なので、再びrunしても何も起きません。しかし、同じ量子回
+路を保持したまま繰り返し何度も計算実行したい場合や、量子状態をリセット
+しないで別の量子回路を設定して実行したい場合や、古典メモリをそのままに
+して繰り返したい場合があると思います。runメソッドのreset_qcirc,
+reset_qubits, reset_cmemというオプションを使えば各々をリセットしない形
+の継続実行が実現できます。</p>
+<p>runした後に、量子回路をリセットしたくない場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">reset_qcirc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>runした後に、量子状態をリセットしたくない場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">reset_qubits</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>runした後に、古典レジスタをリセットしたくない場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">reset_cmem</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>runした後に、すべてをリセットしたくない場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">reset_qcirc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset_qubits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset_cmem</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>と指定します。言わずもがなですが、reset_qcirc, reset_qubits,
+reset_cmemのデフォルト値はTrueです。なので、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">reset_qcirc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reset_qubits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reset_cmem</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>と同じことを意味しています。</p>
+</div>
+<div class="section" id="id13">
+<h3>レジスタの設定<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>大規模な量子回路を相手に量子プログラミングしたい場合、例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>とやるわけですが(幸か不幸か1000量子ビットを扱えるデバイスはまだどこに
+も存在していないですが…)、たいていの場合1000個の量子ビットは対等な役
+割を担っているわけではないと思います。よくありがちなのは、0番目からM番
+目までは補助量子ビットでM+1番目からN-1番目まではデータ量子ビットとして
+扱うとか、あるいはデータ量子ビットもグループ分けして扱った方がプログラ
+ミングが楽になる場合があります。</p>
+<p>というわけで、量子レジスタや古典レジスタをグループ分けしてプログラミン
+グしたい場合、レジスタ関連ツールを使うことができます。</p>
+<p>まず、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy.tools.Register</span> <span class="kn">import</span> <span class="n">CreateRegister</span><span class="p">,</span><span class="n">InitRegister</span>
+</pre></div>
+</div>
+<p>という具合に、CreateRegister関数とInitRegister関数をインポートします。
+典型的な使い方は以下の通りです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">anc</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">anc</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>これは、3つのデータ量子ビットと2つの補助量子ビットを用意する例です。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">anc</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>という具合にdatやancに量子ビット番号が順番に重ならないようにリストとし
+て設定され、InitRegister関数の結果、合計のビット数がリターンされます。
+レジスタを1次元配列としてではなく、多次元配列にして管理したい場合もあ
+るかと思います。その場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>とすると、3X3の2次元配列として、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">9</span>
+</pre></div>
+</div>
+<p>のようにレジスタがセットされます。3次元以上の配列も同じように、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]],[[</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">],[</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">],[</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">]]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">24</span>
+</pre></div>
+</div>
+<p>とできます。量子レジスタと古典レジスタの両方をセットする場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 量子レジスタ</span>
+<span class="n">qid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+
+<span class="c1"># 古典レジスタ</span>
+<span class="n">cid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">cmem_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span>
+
+<span class="c1"># 量子コンピュータの初期化</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="s1">&#39;qlazy_stabilizer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="n">cmem_num</span><span class="p">)</span>
+
+<span class="c1"># 量子回路の設定と実行</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="o">...</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>とします。量子レジスタと古典レジスタの番号は別々に割り振りたいので、各々
+でCreateRegisterとInitRegisterを実行します。</p>
+</div>
+<div class="section" id="id14">
+<h3>カスタムゲートの追加<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>QCompクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
+ることができます。ベル状態を作成する回路をbellメソッドとして、QCompを
+継承したMyQCompクラスに追加する例を示します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyQComp</span><span class="p">(</span><span class="n">QComp</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">MyQComp</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">bk</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>これは非常に簡単な例なのであまりご利益を感じないかもしれませんが、大き
+な量子回路を繰り返し使いたい場合など、便利に使える場面は多いと思います。</p>
+<p>以上</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

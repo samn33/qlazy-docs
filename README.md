@@ -1,1 +1,4 @@
-# qlazy-docs
+qlazy-docs
+==========
+
+qlazy's docummentation

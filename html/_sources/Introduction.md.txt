@@ -1,0 +1,24 @@
+Introduction
+============
+
+Quantum Computing Simulator
+
+## Feature
+
+- Command line tool to perform simple quantum calculation.
+- Python package for performing complex quantum calculations.
+- Supports three types of quantum states: 1) quantum state vector, 2) density operator (matrix), 3) stabilizer state.
+- Other quantum computing simulators can be uesd as a backend: [qulacs/qulacs-gpu](https://github.com/qulacs/qulacs) (at present).
+
+## Requirements
+
+    * Linux(Ubuntu20.04)
+    * Python3.8
+
+## Licence
+
+Apache License 2.0
+
+## Author
+
+[Sam.N](http://github.com/samn33)

@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>簡単な使用例 &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazypy.html">qlazypy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>簡単な使用例</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/py/usage/basic.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>簡単な使用例<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>まず、簡単な使用例を示します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QState</span>
+
+<span class="c1"># ２つの量子ビットを|0&gt;に初期化</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># 量子ゲート実行</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>    <span class="c1"># 量子状態の表示</span>
+
+<span class="c1"># 測定</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>            <span class="c1"># 測定結果の表示</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>  <span class="c1"># 頻度リスト(python標準のCounter形式)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>       <span class="c1"># 最後の結果(0または1からなるの文字列)</span>
+
+<span class="c1"># 後始末（メモリ開放）</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>何をやっているか順に説明します。まず、QState()で量子ビットを各々|0&gt;に
+初期化します。初期化した量子状態に対して、次々に量子ゲートを作用させ、
+最後に測定して結果を表示する、というのが典型的な使用方法です。上の例で
+は、０番目の量子ビットにアダマールゲートをかけ、０番目と１番目の量子ビッ
+トに制御NOTゲートをかけています。qlazyではh()やcx()などの量子ゲートに
+対応したメソッドを呼び出した時点で、量子状態を変更させる計算を内部で行っ
+ています。他のシミュレータの多くは量子回路を定義した上で、最後にrunす
+るような仕様が多いように思いますが、その点ご注意ください。</p>
+<p>また、連続して適用したい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のような書き方（メソッド・チェーン）も可能です。</p>
+<p>量子状態は、show()メソッドで確認できます。上の例では、以下のような表示
+がなされます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+</pre></div>
+</div>
+<p>２量子ビットで実行しているので、量子状態は|00&gt;,|01&gt;,|10&gt;,|11&gt;の重ね合
+わせです。各々に対応した係数（複素数）をc[00],c[01],c[10],c[11]と定義
+しており、それを表示しています。量子ビットオーダーは左から右に向かって
+0番目,1番目…と定義しています。複素数の右に表示されている実数値
+（0.5000とか0.0000）は各々の絶対値の２乗、すなわちその状態が観測される
+確率を表しています。一番右に表示されている「++++++」は、その確率の大き
+さを視覚的にわかりやすくするための、棒グラフです。</p>
+<p>量子ゲートの操作が終わったら、m()メソッドで測定します。m()メソッドなど
+の測定系のメソッドは他のゲート演算メソッドと違い、測定データクラス
+MDataのインスタンスをリターンします。それを適当な変数で受けてshow()メ
+ソッドで表示します。上の例では、例えば以下のように表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">direction</span> <span class="n">of</span> <span class="n">measurement</span><span class="p">:</span> <span class="n">z</span><span class="o">-</span><span class="n">axis</span>
+<span class="n">frq</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="mi">49</span>
+<span class="n">frq</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="mi">51</span>
+<span class="n">last</span> <span class="n">state</span> <span class="o">=&gt;</span> <span class="mi">00</span>
+</pre></div>
+</div>
+<p>はじめの行「direction of measurement: z-axis」は、Z軸方向の測定をして
+います、ということ表しています。デフォルトの測定の方向はZ軸方向です。
+他の大抵のシミュレータと違い、qlazyでは任意方向の測定もオプション等で
+簡単に実行できるので、区別できるように測定方向を一応表示するようにして
+います。frq[xx]は、測定の結果、|xx&gt;だった回数を表しています。測定の回
+数は、何も指定しなければ、デフォルトで1回です。上の例では、|00&gt;だった
+回数は49回、|11&gt;だった回数は51回だったということを表しています。内部で
+乱数を発生させることで確率的な測定をシミュレートしていますので、実行の
+たびにこの回数は変わります。last stateは、最後の測定の結果が何だったか
+を表しています。</p>
+<p>測定結果の頻度のリストをpython標準のコンテナデータ型のサブクラス
+Counter形式で取得したい場合はfrequencyプロパティを、最後の測定値をバイ
+ナリの文字列で取得したい場合はlastプロパティを使うこともできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>  <span class="c1"># 頻度リスト</span>
+<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span><span class="mi">53</span><span class="p">,</span><span class="s1">&#39;11&#39;</span><span class="p">:</span><span class="mi">47</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>       <span class="c1"># 最後の結果</span>
+<span class="o">&gt;&gt;</span> <span class="s1">&#39;11&#39;</span>
+</pre></div>
+</div>
+<p>さて、上の例では最後の測定値は|00&gt;でした。qlazyでは、測定後の状態変化
+もシミュレーションしていますので、この測定後の状態に対して、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>をすると、以下のように、波束が収縮している様子も確認することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+</pre></div>
+</div>
+<p>すべて終わったら、後始末をします。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>qlazyは実質的な計算はすべてC言語で作成したライブラリで行っており、それ
+をCtypesを使って呼び出す形にしています。量子状態を格納しておくメモリは
+C言語側で動的に確保していますので、最後に、そのメモリを開放するという
+意味でfree()が必要です。</p>
+<p>以上</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

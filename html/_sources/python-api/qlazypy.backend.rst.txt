@@ -1,0 +1,45 @@
+qlazypy.backend package
+=======================
+
+Submodules
+----------
+
+qlazypy.backend.qlazy\_qstate\_simulator module
+-----------------------------------------------
+
+.. automodule:: qlazypy.backend.qlazy_qstate_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazypy.backend.qlazy\_stabilizer\_simulator module
+---------------------------------------------------
+
+.. automodule:: qlazypy.backend.qlazy_stabilizer_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazypy.backend.qulacs\_gpu\_simulator module
+---------------------------------------------
+
+.. automodule:: qlazypy.backend.qulacs_gpu_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazypy.backend.qulacs\_simulator module
+----------------------------------------
+
+.. automodule:: qlazypy.backend.qulacs_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: qlazypy.backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
