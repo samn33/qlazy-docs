@@ -84,7 +84,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazypy.html">qlazypy package</a></li>
 </ul>
 
@@ -153,23 +155,62 @@
             
   <h1>Source code for qlazypy.Backend</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">qlazypy.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazypy.error</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">BACKEND_DEVICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">,</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">,</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qasm_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;least_busy&#39;</span><span class="p">]}</span>
 
 <div class="viewcode-block" id="Backend"><a class="viewcode-back" href="../../python-api/qlazypy.html#qlazypy.Backend.Backend">[docs]</a><span class="k">class</span> <span class="nc">Backend</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Backend device of quantum computing</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    name : str, default &#39;qlazy_qstate_simulator&#39;</span>
+<span class="sd">    name : str</span>
+<span class="sd">        name of the backend</span>
+<span class="sd">        (&#39;qlazy&#39; or &#39;qulacs&#39; or &#39;ibmq&#39;)</span>
+<span class="sd">    device : str</span>
 <span class="sd">        name of the quantum computing device</span>
-<span class="sd">        (&#39;qlazy_qstate_simulator&#39;, &#39;qlazy_stabilizer_simulator&#39;,&#39;qulacs_simulator&#39;, &#39;qulacs_gpu_simulator&#39;)</span>
+<span class="sd">        (&#39;qstate_simulator&#39; or &#39;stabilizer_simulator&#39; for &#39;qlazy&#39;, </span>
+<span class="sd">        &#39;cpu_simulator&#39; or &#39;gpu_simulator&#39; for &#39;qulacs&#39;, </span>
+<span class="sd">        &#39;qasm_simulator&#39; or &#39;least_busy&#39; or other quantum system name for &#39;ibmq&#39;)</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(name=&#39;qlazy&#39;, device=&#39;stabilizer_simulator&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(name=&#39;qulacs&#39;, device=&#39;gpu_simulator&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(name=&#39;ibmq&#39;, device=&#39;least_busy&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;qlazy_stabilizer_simulator&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;qulacs_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;qulacs_gpu_simulator&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;qlazy&#39;</span>
+                <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;qstate_simulator&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">Backend_Error_NameNotSpecified</span><span class="p">()</span>            
+        
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+            <span class="k">elif</span> <span class="n">device</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
+
+        <span class="c1"># not supported in the near future</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;qlazy_stabilizer_simulator&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;qulacs_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;qulacs_gpu_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+            
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span></div>
 

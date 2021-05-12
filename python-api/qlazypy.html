@@ -184,10 +184,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="qlazypy.backend.html">qlazypy.backend package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#module-qlazypy.backend.ibmq">qlazypy.backend.ibmq module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#module-qlazypy.backend.qlazy_qstate_simulator">qlazypy.backend.qlazy_qstate_simulator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#module-qlazypy.backend.qlazy_stabilizer_simulator">qlazypy.backend.qlazy_stabilizer_simulator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#module-qlazypy.backend.qulacs_cpu_simulator">qlazypy.backend.qulacs_cpu_simulator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#qlazypy-backend-qulacs-gpu-simulator-module">qlazypy.backend.qulacs_gpu_simulator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#module-qlazypy.backend.qulacs_simulator">qlazypy.backend.qulacs_simulator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazypy.backend.html#module-qlazypy.backend">Module contents</a></li>
 </ul>
 </li>
@@ -213,21 +214,41 @@
 <span id="qlazypy-backend-module"></span><h2>qlazypy.Backend module<a class="headerlink" href="#module-qlazypy.Backend" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="qlazypy.Backend.Backend">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.Backend.</span></code><code class="sig-name descname"><span class="pre">Backend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qlazy_qstate_simulator'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/Backend.html#Backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.Backend.Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.Backend.</span></code><code class="sig-name descname"><span class="pre">Backend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/Backend.html#Backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.Backend.Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Backend device of quantum computing</p>
 <dl class="py attribute">
 <dt id="qlazypy.Backend.Backend.name">
 <code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#qlazypy.Backend.Backend.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>name of the quantum computing device
-(‘qlazy_qstate_simulator’, ‘qlazy_stabilizer_simulator’,’qulacs_simulator’, ‘qulacs_gpu_simulator’)</p>
+<dd><p>name of the backend
+(‘qlazy’ or ‘qulacs’ or ‘ibmq’)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str, default ‘qlazy_qstate_simulator’</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="qlazypy.Backend.Backend.device">
+<code class="sig-name descname"><span class="pre">device</span></code><a class="headerlink" href="#qlazypy.Backend.Backend.device" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the quantum computing device
+(‘qstate_simulator’ or ‘stabilizer_simulator’ for ‘qlazy’,
+‘cpu_simulator’ or ‘gpu_simulator’ for ‘qulacs’,
+‘qasm_simulator’ or ‘least_busy’ or other quantum system name for ‘ibmq’)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;least_busy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -299,16 +320,16 @@
 <dd class="field-odd"><p><strong>method</strong> (<em>func</em>) – method (custum gate) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<dl class="simple">
-<dt>def bell(self, q0, q1):</dt><dd><p>self.h(q0).cx(q0,q1)</p>
-</dd>
-</dl>
-<p>…
-DensOp.add_method(bell)
-qs = DensOp(qubit_num=2)
-qs.bell(0,1)
-…</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DensOp</span><span class="o">.</span><span class="n">add_method</span><span class="p">(</span><span class="n">bell</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">DensOp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -320,7 +341,7 @@ qs.bell(0,1)
 <dd class="field-odd"><p><strong>methods</strong> (<em>func</em><em>, </em><em>func</em><em>, </em><em>..</em>) – arguments of methods (custum gates) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="bp">self</span>
@@ -943,6 +964,12 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 <dl class="py attribute">
 <dt id="qlazypy.DensOp.DensOp.elm">
 <code class="sig-name descname"><span class="pre">elm</span></code><a class="headerlink" href="#qlazypy.DensOp.DensOp.elm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazypy.DensOp.DensOp.elm_tmp">
+<code class="sig-name descname"><span class="pre">elm_tmp</span></code><a class="headerlink" href="#qlazypy.DensOp.DensOp.elm_tmp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -2019,7 +2046,7 @@ system.</p>
 <dl class="py attribute">
 <dt id="qlazypy.QComp.QComp.qstate">
 <code class="sig-name descname"><span class="pre">qstate</span></code><a class="headerlink" href="#qlazypy.QComp.QComp.qstate" title="Permalink to this definition">¶</a></dt>
-<dd><p>quantum state</p>
+<dd><p>quantum state (depend on backend)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>instance of quantum state</p>
@@ -2490,7 +2517,7 @@ system.</p>
 <dd class="field-even"><p><strong>self</strong></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
+<dd class="field-odd"><p>instance of QComp</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -2564,10 +2591,18 @@ system.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add quantum gates, set circuit</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># run the circuit, get measured result</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># simple example</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add quantum gates, set circuit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># run the circuit, get measured result</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="go">{&#39;measured_qid&#39;: [0,1], &#39;frequency&#39;: Counter({&#39;00&#39;: 5, &#39;11&#39;: 5})}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># control qubits by measured results</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># set quantum and classical register</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">{&#39;measured_qid&#39;: [0, 1], &#39;frequency&#39;: Counter({&#39;00&#39;: 10})}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2965,16 +3000,16 @@ system.</p>
 <dd class="field-odd"><p><strong>method</strong> (<em>func</em>) – method (custum gate) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<dl class="simple">
-<dt>def bell(self, q0, q1):</dt><dd><p>self.h(q0).cx(q0,q1)</p>
-</dd>
-</dl>
-<p>…
-QState.add_method(bell)
-qs = QState(qubit_num=2)
-qs.bell(0,1)
-…</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QState</span><span class="o">.</span><span class="n">add_method</span><span class="p">(</span><span class="n">bell</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -2986,7 +3021,7 @@ qs.bell(0,1)
 <dd class="field-odd"><p><strong>methods</strong> (<em>func</em><em>, </em><em>func</em><em>, </em><em>..</em>) – arguments of methods (custum gates) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="bp">self</span>
@@ -3056,6 +3091,12 @@ length.</p>
 <dl class="py attribute">
 <dt id="qlazypy.QState.QState.camp">
 <code class="sig-name descname"><span class="pre">camp</span></code><a class="headerlink" href="#qlazypy.QState.QState.camp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazypy.QState.QState.camp_tmp">
+<code class="sig-name descname"><span class="pre">camp_tmp</span></code><a class="headerlink" href="#qlazypy.QState.QState.camp_tmp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -4648,7 +4689,7 @@ the original quantum state.</p>
 <dl class="py method">
 <dt id="qlazypy.Stabilizer.Stabilizer.get_pauli_op">
 <code class="sig-name descname"><span class="pre">get_pauli_op</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/Stabilizer.html#Stabilizer.get_pauli_op"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.Stabilizer.Stabilizer.get_pauli_op" title="Permalink to this definition">¶</a></dt>
-<dd><p>get pauli factor of generator (‘+1’,’-1’,’+i’,’-i’).</p>
+<dd><p>get pauli operator (‘I’,’X’,’Y’,’Z’).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5000,6 +5041,18 @@ the original quantum state.</p>
 </div>
 <div class="section" id="module-qlazypy.error">
 <span id="qlazypy-error-module"></span><h2>qlazypy.error module<a class="headerlink" href="#module-qlazypy.error" title="Permalink to this headline">¶</a></h2>
+<dl class="py exception">
+<dt id="qlazypy.error.Backend_Error_DeviceNotSupported">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.error.</span></code><code class="sig-name descname"><span class="pre">Backend_Error_DeviceNotSupported</span></code><a class="reference internal" href="../_modules/qlazypy/error.html#Backend_Error_DeviceNotSupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.error.Backend_Error_DeviceNotSupported" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="qlazypy.error.Backend_Error_NameNotSpecified">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.error.</span></code><code class="sig-name descname"><span class="pre">Backend_Error_NameNotSpecified</span></code><a class="reference internal" href="../_modules/qlazypy/error.html#Backend_Error_NameNotSpecified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.error.Backend_Error_NameNotSpecified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
 <dl class="py exception">
 <dt id="qlazypy.error.Backend_Error_NameNotSupported">
 <em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.error.</span></code><code class="sig-name descname"><span class="pre">Backend_Error_NameNotSupported</span></code><a class="reference internal" href="../_modules/qlazypy/error.html#Backend_Error_NameNotSupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.error.Backend_Error_NameNotSupported" title="Permalink to this definition">¶</a></dt>
@@ -5392,26 +5445,51 @@ the original quantum state.</p>
 <code class="sig-prename descclassname"><span class="pre">qlazypy.util.</span></code><code class="sig-name descname"><span class="pre">qstate_check_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/util.html#qstate_check_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.util.qstate_check_args" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt id="qlazypy.util.reverse_bit_order">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.util.</span></code><code class="sig-name descname"><span class="pre">reverse_bit_order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/util.html#reverse_bit_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.util.reverse_bit_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-qlazypy">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qlazypy" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="qlazypy.Backend">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.</span></code><code class="sig-name descname"><span class="pre">Backend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qlazy_qstate_simulator'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/Backend.html#Backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazypy.</span></code><code class="sig-name descname"><span class="pre">Backend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/Backend.html#Backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Backend device of quantum computing</p>
 <dl class="py attribute">
 <dt id="qlazypy.Backend.name">
 <code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#qlazypy.Backend.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>name of the quantum computing device
-(‘qlazy_qstate_simulator’, ‘qlazy_stabilizer_simulator’,’qulacs_simulator’, ‘qulacs_gpu_simulator’)</p>
+<dd><p>name of the backend
+(‘qlazy’ or ‘qulacs’ or ‘ibmq’)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str, default ‘qlazy_qstate_simulator’</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="qlazypy.Backend.device">
+<code class="sig-name descname"><span class="pre">device</span></code><a class="headerlink" href="#qlazypy.Backend.device" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the quantum computing device
+(‘qstate_simulator’ or ‘stabilizer_simulator’ for ‘qlazy’,
+‘cpu_simulator’ or ‘gpu_simulator’ for ‘qulacs’,
+‘qasm_simulator’ or ‘least_busy’ or other quantum system name for ‘ibmq’)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;least_busy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -5480,16 +5558,16 @@ the original quantum state.</p>
 <dd class="field-odd"><p><strong>method</strong> (<em>func</em>) – method (custum gate) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<dl class="simple">
-<dt>def bell(self, q0, q1):</dt><dd><p>self.h(q0).cx(q0,q1)</p>
-</dd>
-</dl>
-<p>…
-DensOp.add_method(bell)
-qs = DensOp(qubit_num=2)
-qs.bell(0,1)
-…</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DensOp</span><span class="o">.</span><span class="n">add_method</span><span class="p">(</span><span class="n">bell</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">DensOp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -5501,7 +5579,7 @@ qs.bell(0,1)
 <dd class="field-odd"><p><strong>methods</strong> (<em>func</em><em>, </em><em>func</em><em>, </em><em>..</em>) – arguments of methods (custum gates) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="bp">self</span>
@@ -6124,6 +6202,12 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 <dl class="py attribute">
 <dt id="qlazypy.DensOp.elm">
 <code class="sig-name descname"><span class="pre">elm</span></code><a class="headerlink" href="#qlazypy.DensOp.elm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazypy.DensOp.elm_tmp">
+<code class="sig-name descname"><span class="pre">elm_tmp</span></code><a class="headerlink" href="#qlazypy.DensOp.elm_tmp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -7015,16 +7099,16 @@ system.</p>
 <dd class="field-odd"><p><strong>method</strong> (<em>func</em>) – method (custum gate) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<dl class="simple">
-<dt>def bell(self, q0, q1):</dt><dd><p>self.h(q0).cx(q0,q1)</p>
-</dd>
-</dl>
-<p>…
-QState.add_method(bell)
-qs = QState(qubit_num=2)
-qs.bell(0,1)
-…</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QState</span><span class="o">.</span><span class="n">add_method</span><span class="p">(</span><span class="n">bell</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -7036,7 +7120,7 @@ qs.bell(0,1)
 <dd class="field-odd"><p><strong>methods</strong> (<em>func</em><em>, </em><em>func</em><em>, </em><em>..</em>) – arguments of methods (custum gates) to add.</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="bp">self</span>
@@ -7106,6 +7190,12 @@ length.</p>
 <dl class="py attribute">
 <dt id="qlazypy.QState.camp">
 <code class="sig-name descname"><span class="pre">camp</span></code><a class="headerlink" href="#qlazypy.QState.camp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazypy.QState.camp_tmp">
+<code class="sig-name descname"><span class="pre">camp_tmp</span></code><a class="headerlink" href="#qlazypy.QState.camp_tmp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8644,7 +8734,7 @@ the original quantum state.</p>
 <dl class="py method">
 <dt id="qlazypy.Stabilizer.get_pauli_op">
 <code class="sig-name descname"><span class="pre">get_pauli_op</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/Stabilizer.html#Stabilizer.get_pauli_op"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.Stabilizer.get_pauli_op" title="Permalink to this definition">¶</a></dt>
-<dd><p>get pauli factor of generator (‘+1’,’-1’,’+i’,’-i’).</p>
+<dd><p>get pauli operator (‘I’,’X’,’Y’,’Z’).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

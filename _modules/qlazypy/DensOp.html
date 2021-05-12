@@ -84,7 +84,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazypy.html">qlazypy package</a></li>
 </ul>
 
@@ -180,6 +182,7 @@
         <span class="p">(</span><span class="s1">&#39;row&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;col&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;elm&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;elm_tmp&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
     <span class="p">]</span>
     
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qstate</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[],</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -287,15 +290,15 @@
 <span class="sd">        method : func</span>
 <span class="sd">            method (custum gate) to add.</span>
 
-<span class="sd">        Example</span>
-<span class="sd">        -------</span>
-<span class="sd">        def bell(self, q0, q1):</span>
-<span class="sd">            self.h(q0).cx(q0,q1)</span>
-<span class="sd">        ...</span>
-<span class="sd">        DensOp.add_method(bell)</span>
-<span class="sd">        qs = DensOp(qubit_num=2)</span>
-<span class="sd">        qs.bell(0,1)</span>
-<span class="sd">        ...</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; def bell(self, q0, q1):</span>
+<span class="sd">        &gt;&gt;&gt;     self.h(q0).cx(q0,q1)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; DensOp.add_method(bell)</span>
+<span class="sd">        &gt;&gt;&gt; qs = DensOp(qubit_num=2)</span>
+<span class="sd">        &gt;&gt;&gt; qs.bell(0,1)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span></div>
@@ -310,8 +313,8 @@
 <span class="sd">        methods : func, func, ...</span>
 <span class="sd">            arguments of methods (custum gates) to add.</span>
 
-<span class="sd">        Example</span>
-<span class="sd">        -------</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; def bell(self, q0, q1):</span>
 <span class="sd">        &gt;&gt;&gt;     self.h(q0).cx(q0,q1)</span>
 <span class="sd">        &gt;&gt;&gt;     return self</span>

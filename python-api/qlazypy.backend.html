@@ -93,10 +93,11 @@
 <li class="toctree-l2 current"><a class="reference internal" href="qlazypy.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">qlazypy.backend package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazypy.backend.ibmq">qlazypy.backend.ibmq module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazypy.backend.qlazy_qstate_simulator">qlazypy.backend.qlazy_qstate_simulator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazypy.backend.qlazy_stabilizer_simulator">qlazypy.backend.qlazy_stabilizer_simulator module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazypy.backend.qulacs_cpu_simulator">qlazypy.backend.qulacs_cpu_simulator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#qlazypy-backend-qulacs-gpu-simulator-module">qlazypy.backend.qulacs_gpu_simulator module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-qlazypy.backend.qulacs_simulator">qlazypy.backend.qulacs_simulator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazypy.backend">Module contents</a></li>
 </ul>
 </li>
@@ -191,6 +192,29 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-qlazypy.backend.ibmq">
+<span id="qlazypy-backend-ibmq-module"></span><h2>qlazypy.backend.ibmq module<a class="headerlink" href="#module-qlazypy.backend.ibmq" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="qlazypy.backend.ibmq.free">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.ibmq.</span></code><code class="sig-name descname"><span class="pre">free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/ibmq.html#free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.ibmq.free" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazypy.backend.ibmq.init">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.ibmq.</span></code><code class="sig-name descname"><span class="pre">init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/ibmq.html#init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.ibmq.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazypy.backend.ibmq.reset">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.ibmq.</span></code><code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/ibmq.html#reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.ibmq.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazypy.backend.ibmq.run">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.ibmq.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/ibmq.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.ibmq.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="module-qlazypy.backend.qlazy_qstate_simulator">
 <span id="qlazypy-backend-qlazy-qstate-simulator-module"></span><h2>qlazypy.backend.qlazy_qstate_simulator module<a class="headerlink" href="#module-qlazypy.backend.qlazy_qstate_simulator" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -237,31 +261,31 @@
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-qlazypy.backend.qulacs_cpu_simulator">
+<span id="qlazypy-backend-qulacs-cpu-simulator-module"></span><h2>qlazypy.backend.qulacs_cpu_simulator module<a class="headerlink" href="#module-qlazypy.backend.qulacs_cpu_simulator" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="qlazypy.backend.qulacs_cpu_simulator.free">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_cpu_simulator.</span></code><code class="sig-name descname"><span class="pre">free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_cpu_simulator.html#free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_cpu_simulator.free" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazypy.backend.qulacs_cpu_simulator.init">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_cpu_simulator.</span></code><code class="sig-name descname"><span class="pre">init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_cpu_simulator.html#init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_cpu_simulator.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazypy.backend.qulacs_cpu_simulator.reset">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_cpu_simulator.</span></code><code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_cpu_simulator.html#reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_cpu_simulator.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazypy.backend.qulacs_cpu_simulator.run">
+<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_cpu_simulator.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_cpu_simulator.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_cpu_simulator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="qlazypy-backend-qulacs-gpu-simulator-module">
 <h2>qlazypy.backend.qulacs_gpu_simulator module<a class="headerlink" href="#qlazypy-backend-qulacs-gpu-simulator-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-qlazypy.backend.qulacs_simulator">
-<span id="qlazypy-backend-qulacs-simulator-module"></span><h2>qlazypy.backend.qulacs_simulator module<a class="headerlink" href="#module-qlazypy.backend.qulacs_simulator" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="qlazypy.backend.qulacs_simulator.free">
-<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_simulator.</span></code><code class="sig-name descname"><span class="pre">free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_simulator.html#free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_simulator.free" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="qlazypy.backend.qulacs_simulator.init">
-<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_simulator.</span></code><code class="sig-name descname"><span class="pre">init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_simulator.html#init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_simulator.init" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="qlazypy.backend.qulacs_simulator.reset">
-<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_simulator.</span></code><code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_simulator.html#reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_simulator.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="qlazypy.backend.qulacs_simulator.run">
-<code class="sig-prename descclassname"><span class="pre">qlazypy.backend.qulacs_simulator.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qstate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazypy/backend/qulacs_simulator.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazypy.backend.qulacs_simulator.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </div>
 <div class="section" id="module-qlazypy.backend">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qlazypy.backend" title="Permalink to this headline">¶</a></h2>

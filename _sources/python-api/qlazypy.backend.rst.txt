@@ -4,6 +4,14 @@ qlazypy.backend package
 Submodules
 ----------
 
+qlazypy.backend.ibmq module
+---------------------------
+
+.. automodule:: qlazypy.backend.ibmq
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazypy.backend.qlazy\_qstate\_simulator module
 -----------------------------------------------
 
@@ -20,18 +28,18 @@ qlazypy.backend.qlazy\_stabilizer\_simulator module
    :undoc-members:
    :show-inheritance:
 
-qlazypy.backend.qulacs\_gpu\_simulator module
+qlazypy.backend.qulacs\_cpu\_simulator module
 ---------------------------------------------
 
-.. automodule:: qlazypy.backend.qulacs_gpu_simulator
+.. automodule:: qlazypy.backend.qulacs_cpu_simulator
    :members:
    :undoc-members:
    :show-inheritance:
 
-qlazypy.backend.qulacs\_simulator module
-----------------------------------------
+qlazypy.backend.qulacs\_gpu\_simulator module
+---------------------------------------------
 
-.. automodule:: qlazypy.backend.qulacs_simulator
+.. automodule:: qlazypy.backend.qulacs_gpu_simulator
    :members:
    :undoc-members:
    :show-inheritance:

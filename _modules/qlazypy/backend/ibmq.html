@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>qlazypy.backend.ibmq &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazypy.html">qlazypy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>qlazypy.backend.ibmq</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for qlazypy.backend.ibmq</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cmath</span>
+
+<span class="kn">from</span> <span class="nn">qlazypy.error</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazypy.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazypy.util</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">ClassicalRegister</span><span class="p">,</span> <span class="n">QuantumRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">execute</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit.qasm</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.ibmq</span> <span class="kn">import</span> <span class="n">least_busy</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="n">SXdgGate</span>
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../../../python-api/qlazypy.backend.html#qlazypy.backend.ibmq.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">qstate</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">qubit_num</span><span class="p">)</span>
+    <span class="n">qstate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span>
+    <span class="k">return</span> <span class="n">qstate</span></div>
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../python-api/qlazypy.backend.html#qlazypy.backend.ibmq.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cmem_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qstate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="p">[],</span> <span class="n">cmem</span><span class="o">=</span><span class="p">[],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">cmem</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
+        <span class="n">cmem</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">cmem_num</span>
+        
+    <span class="n">qubit_reg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+    <span class="n">cmem_reg</span> <span class="o">=</span> <span class="p">[</span><span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cmem_reg_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)]</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">qubit_reg</span><span class="p">]</span> <span class="o">+</span> <span class="n">cmem_reg</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">measured_qid</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">measured_cid</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">crc</span> <span class="ow">in</span> <span class="n">qcirc</span><span class="p">:</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">]</span>
+        <span class="n">cid</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;phase&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">phase1</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;phase1&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">phase2</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;phase2&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="n">crc</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]</span>
+
+        <span class="n">term_num</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+        <span class="n">para_num</span> <span class="o">=</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">MEASURE</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cid</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cid</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[:]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cid</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cid length is not equal to qid&#39;s &quot;</span><span class="p">)</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cid</span><span class="p">)</span>
+            <span class="n">measured_qid</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[:]</span>
+            <span class="n">measured_cid</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">cid</span><span class="p">[:]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">__ibmq_add_qgate</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase2</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">)</span>
+
+    <span class="c1"># set backend</span>
+    <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qasm_simulator&#39;</span><span class="p">:</span>
+        <span class="n">ibmq_backend</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;qasm_simulator&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">provider</span> <span class="o">=</span> <span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;least_busy&#39;</span><span class="p">:</span>
+            <span class="n">ibmq_backend</span> <span class="o">=</span> <span class="n">least_busy</span><span class="p">(</span><span class="n">provider</span><span class="o">.</span><span class="n">backends</span><span class="p">(</span><span class="n">simulator</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ibmq_backend_system_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">provider</span><span class="o">.</span><span class="n">backends</span><span class="p">(</span><span class="n">simulator</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="n">ibmq_backend_system_names</span><span class="p">:</span>
+                <span class="n">ibmq_backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown device&quot;</span><span class="p">)</span>
+
+    <span class="c1"># execute the circuit</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">ibmq_backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+    <span class="n">frq</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+
+    <span class="c1"># execute the circuit (for state vector)</span>
+    <span class="n">ibmq_sv_backend</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;statevector_simulator&quot;</span><span class="p">)</span>
+    <span class="n">res_sv</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">ibmq_sv_backend</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+    <span class="n">qstate</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">reverse_bit_order</span><span class="p">(</span><span class="n">res_sv</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">(</span><span class="n">qc</span><span class="p">))</span>
+    
+    <span class="c1"># if nothing are measured</span>
+    <span class="k">if</span> <span class="n">measured_qid</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># else if something are measured</span>
+    <span class="n">lut</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">q</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">measured_qid</span><span class="p">,</span> <span class="n">measured_cid</span><span class="p">):</span>
+        <span class="n">lut</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">frq</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">bits_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+        <span class="n">bits_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="n">measured_bits_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">measured_qid</span><span class="p">:</span>
+            <span class="n">measured_bits_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bits_list</span><span class="p">[</span><span class="n">lut</span><span class="p">[</span><span class="n">q</span><span class="p">]])</span>
+        <span class="n">measured_bits</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">measured_bits_list</span><span class="p">)</span>
+        <span class="n">frequency</span><span class="p">[</span><span class="n">measured_bits</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;measured_qid&#39;</span><span class="p">:</span> <span class="n">measured_qid</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="n">frequency</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+        
+<div class="viewcode-block" id="reset"><a class="viewcode-back" href="../../../python-api/qlazypy.backend.html#qlazypy.backend.ibmq.reset">[docs]</a><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="n">qstate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="free"><a class="viewcode-back" href="../../../python-api/qlazypy.backend.html#qlazypy.backend.ibmq.free">[docs]</a><span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="n">qstate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">pass</span></div>
+
+<span class="k">def</span> <span class="nf">__ibmq_add_qgate</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase2</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">):</span>
+
+    <span class="c1"># 1-qubit, 0-parameter gate</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PAULI_X</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PAULI_Y</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PAULI_Z</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROOT_PAULI_X</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">sx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">sx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROOT_PAULI_X_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">sxdg</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">sxdg</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">HADAMARD</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PHASE_SHIFT_S</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PHASE_SHIFT_S_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">sdg</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">sdg</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PHASE_SHIFT_T</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PHASE_SHIFT_T_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">tdg</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">tdg</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">IDENTITY</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        
+    <span class="c1"># 1-qubit, 1-parameter gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_X</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_Y</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_Z</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PHASE_SHIFT</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_U1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        
+    <span class="c1"># 1-qubit, 2-parameter gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_U2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        
+    <span class="c1"># 1-qubit, 3-parameter gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_U3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># 2-qubit, 0-parameters gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_X</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_Y</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_Z</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_XR</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">csx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">csx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_XR_</span><span class="p">:</span>
+        <span class="n">q_csxdg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">qc_csxdg</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">q_csxdg</span><span class="p">)</span>
+        <span class="n">csxdg_gate</span> <span class="o">=</span> <span class="n">SXdgGate</span><span class="p">()</span><span class="o">.</span><span class="n">control</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">qc_csxdg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">csxdg_gate</span><span class="p">,</span> <span class="n">q_csxdg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qc_csxdg</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qc_csxdg</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_H</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">ch</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">ch</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_S</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_S_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_T</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_T_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_P</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">SWAP_QUBITS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># 2-qubit, 1-parameters gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_RX</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_RY</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cry</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cry</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_RZ</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_U1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># 2-qubit, 2-parameters gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_U2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># 2-qubit, 3-parameters gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_U3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown gate&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
