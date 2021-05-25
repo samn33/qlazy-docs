@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.4] - 2021-05-25
+### Changed
+- Pythonパッケージ名を変更: qlazypy -> qlazy
+
 ## [0.0.3] - 2021-05-12
 ### Changed
 - Tutorial (japanese)-Pythonパッケージ(qlazypy)-量子コンピュータ(QCompクラス, Backendクラスなど)

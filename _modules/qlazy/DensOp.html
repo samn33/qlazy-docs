@@ -1,0 +1,2067 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>qlazy.DensOp &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>qlazy.DensOp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for qlazy.DensOp</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.QState</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.densop_mcx</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="DensOp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp">[docs]</a><span class="k">class</span> <span class="nc">DensOp</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Density Operator</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    row : int</span>
+<span class="sd">        dimension of density operator (= 2**qubit_num).</span>
+<span class="sd">    col : int</span>
+<span class="sd">        dimension of density operator (= 2**qubit_num).</span>
+<span class="sd">    element : list of list of complex</span>
+<span class="sd">        matrix elements of density operator.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;row&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;col&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;elm&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;elm_tmp&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+    <span class="p">]</span>
+    
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qstate</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[],</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qubit_num : int</span>
+<span class="sd">            qubit number of the density operator.</span>
+<span class="sd">        qstate : list of instance of QState</span>
+<span class="sd">            quantum states of the mixed state.</span>
+<span class="sd">        prob : list of float</span>
+<span class="sd">            probability of each quantum state.</span>
+<span class="sd">        matrix : list of list of comprex</span>
+<span class="sd">            matrix elements of the density operator.</span>
+
+<span class="sd">        Examles</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; qs_0 = QState(2)</span>
+<span class="sd">        &gt;&gt;&gt; qs_1 = QState(2).h(0).cx(0,1)</span>
+<span class="sd">        &gt;&gt;&gt; de_A = DensOp(qubit_num=2)  # = |00..0&gt;&lt;00..0|</span>
+<span class="sd">        &gt;&gt;&gt; de_B = DensOp(qstate=[qs_0,qs_1], prob=[0.2,0.8])</span>
+<span class="sd">        &gt;&gt;&gt; de_C = DensOp(matrix=np.array([[0.7,0.0],[0.0,0.3]]))</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        You must set either &#39;qubit_num&#39; or &#39;qstate&#39; or &#39;matrix&#39;.</span>
+<span class="sd">        If &#39;prob&#39; isn&#39;t set, equal probabilities are set.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if prob is not specified, set equal probability</span>
+        <span class="k">if</span> <span class="n">qstate</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">prob</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="n">mixed_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="o">/</span><span class="n">mixed_num</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mixed_num</span><span class="p">)]</span>
+        
+        <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">qstate</span> <span class="o">=</span> <span class="p">[</span><span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">)]</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+            <span class="n">de</span> <span class="o">=</span> <span class="n">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
+            <span class="n">qstate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">de</span>
+        
+        <span class="k">elif</span> <span class="n">qstate</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">prob</span> <span class="o">!=</span> <span class="p">[]:</span>
+            <span class="k">return</span> <span class="n">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">densop_init_with_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">())</span>
+
+<div class="viewcode-block" id="DensOp.reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        reset to |0&gt;&lt;0| state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list</span>
+<span class="sd">            qubit id&#39;s list to reset.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If &#39;qid&#39; is not set, whole system is reset.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="DensOp.mix"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.mix">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">mix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        linear sum of the density operators.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densop : list of instances of DensOp</span>
+<span class="sd">            densitiy operators.</span>
+<span class="sd">        prob : list of float</span>
+<span class="sd">            probabilities (coefficients of the linear sum).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">densop</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">/</span><span class="n">s</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prob</span><span class="p">]</span>
+         
+        <span class="n">de_out</span> <span class="o">=</span> <span class="n">densop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">de_out</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="n">prob</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">densop</span><span class="p">)):</span>
+            <span class="n">de_tmp</span> <span class="o">=</span> <span class="n">densop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="n">de_tmp</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">de_out</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">densop</span><span class="o">=</span><span class="n">de_tmp</span><span class="p">)</span>
+            <span class="n">de_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">de_out</span></div>
+
+<div class="viewcode-block" id="DensOp.add_method"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.add_method">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">add_method</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add method (custum gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        method : func</span>
+<span class="sd">            method (custum gate) to add.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; def bell(self, q0, q1):</span>
+<span class="sd">        &gt;&gt;&gt;     self.h(q0).cx(q0,q1)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; DensOp.add_method(bell)</span>
+<span class="sd">        &gt;&gt;&gt; qs = DensOp(qubit_num=2)</span>
+<span class="sd">        &gt;&gt;&gt; qs.bell(0,1)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="DensOp.add_methods"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.add_methods">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">add_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">methods</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add methods (custum gates).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        methods : func, func, ...</span>
+<span class="sd">            arguments of methods (custum gates) to add.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; def bell(self, q0, q1):</span>
+<span class="sd">        &gt;&gt;&gt;     self.h(q0).cx(q0,q1)</span>
+<span class="sd">        &gt;&gt;&gt;     return self</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; def flip(self, q0, q1):</span>
+<span class="sd">        &gt;&gt;&gt;     self.x(q0).x(q1)</span>
+<span class="sd">        &gt;&gt;&gt;     return self</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; DensOp.add_methods(bell, flip, ...)</span>
+<span class="sd">        &gt;&gt;&gt; de = DensOp(qubit=2)</span>
+<span class="sd">        &gt;&gt;&gt; de.bell(0,1)</span>
+<span class="sd">        &gt;&gt;&gt; de.flip(0,1)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DensOp_Error_AddMethods</span><span class="p">()</span></div>
+            
+<div class="viewcode-block" id="DensOp.create_register"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.create_register">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        create registers (qubit id&#39;s list) and initialize zero.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num : int</span>
+<span class="sd">            qubit number you want to use.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qid : list of int</span>
+<span class="sd">            qubit id&#39;s list.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; qid = DensOp.create_register(3)</span>
+<span class="sd">        &gt;&gt;&gt; print(qid)</span>
+<span class="sd">        [0,0,0]</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">num</span>
+        <span class="k">return</span> <span class="n">qid</span></div>
+
+<div class="viewcode-block" id="DensOp.init_register"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.init_register">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">init_register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize registers (qubit id&#39;s list).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args : list, list,...</span>
+<span class="sd">            arguments of qubit registers.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        idx : int</span>
+<span class="sd">            total qubit number.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; qid_0 = DensOp.create_register(3)</span>
+<span class="sd">        &gt;&gt;&gt; qid_1 = DensOp.create_register(2)</span>
+<span class="sd">        &gt;&gt;&gt; print(qid_0, qid_1)</span>
+<span class="sd">        [0,0,0] [0,0]</span>
+<span class="sd">        &gt;&gt;&gt; qnum = DensOp.init_register(qid_0, qid_1)</span>
+<span class="sd">        &gt;&gt;&gt; print(qnum, qid_0, qid_1)</span>
+<span class="sd">        5 [0,1,2] [3,4]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
+                <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">idx</span></div>
+    
+<div class="viewcode-block" id="DensOp.free_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.free_all">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">free_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">densops</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of the all density operators.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densops : instance of DensOp,instance of DensOp,...</span>
+<span class="sd">            set of DensOp instances</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">de</span> <span class="ow">in</span> <span class="n">densops</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">de</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">de</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="o">*</span><span class="n">de</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">de</span><span class="p">)</span> <span class="ow">is</span> <span class="n">DensOp</span><span class="p">:</span>
+                <span class="n">de</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DensOp_Error_FreeAll</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; matrix elements of density operator. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="DensOp.get_elm"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.get_elm">[docs]</a>    <span class="k">def</span> <span class="nf">get_elm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the matrix elements of density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int, default - list of all of the qubit id</span>
+<span class="sd">            qubit id&#39;s list.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        elm : list of complex</span>
+<span class="sd">            elements of the density matrix.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If &#39;qid&#39; is set, matrix elements of specified density operator</span>
+<span class="sd">        are got after partial trace for remaining qubits. If no qubits</span>
+<span class="sd">        are specified, you get all matrix elements of the density</span>
+<span class="sd">        operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="n">elm</span> <span class="o">=</span> <span class="n">densop_get_elm</span><span class="p">(</span><span class="n">de_part</span><span class="p">)</span>
+        <span class="n">de_part</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">elm</span></div>
+    
+<div class="viewcode-block" id="DensOp.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">nonzero</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        show the elements of density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int, default - list of all of the qubit id</span>
+<span class="sd">            qubit id&#39;s list to show.</span>
+<span class="sd">        nonzero : bool, default False</span>
+<span class="sd">            if True, only non-zero elements are printed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If &#39;qid&#39; is set, it shows the matrix elements of density</span>
+<span class="sd">        operator for partial quantum system specified by &#39;qid&#39;. If</span>
+<span class="sd">        &#39;qid&#39; isn&#39;t set, it shows the matrix elements of whole quantum</span>
+<span class="sd">        system.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; de = DensOp(qubit_num=1)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; de.show()</span>
+<span class="sd">        elm[0][0] = +0.5000+0.0000*i : 0.2500 |++++</span>
+<span class="sd">        elm[0][1] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="sd">        elm[1][0] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="sd">        elm[1][1] = +0.5000+0.0000*i : 0.2500 |++++</span>
+<span class="sd">        ...</span>
+<span class="sd">        &gt;&gt;&gt; de.show(nonzero=True)</span>
+<span class="sd">        elm[0][0] = +0.5000+0.0000*i : 0.2500 |++++</span>
+<span class="sd">        elm[1][1] = +0.5000+0.0000*i : 0.2500 |++++</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="n">densop_print</span><span class="p">(</span><span class="n">de_part</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">)</span>
+        <span class="n">de_part</span><span class="o">.</span><span class="n">free</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DensOp.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the copy of density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            copy of the original density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop</span> <span class="o">=</span> <span class="n">densop_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">densop</span></div>
+    
+<div class="viewcode-block" id="DensOp.add"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add the density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operator to add.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This method change the original density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="n">densop</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.mul"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.mul">[docs]</a>    <span class="k">def</span> <span class="nf">mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        multiply the density operator by factor.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factor : float, default 1.0</span>
+<span class="sd">            number to multiply.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This method change the original density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.trace"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.trace">[docs]</a>    <span class="k">def</span> <span class="nf">trace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the trace of density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        trace : float</span>
+<span class="sd">            trace of the density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">trace</span> <span class="o">=</span> <span class="n">densop_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">trace</span></div>
+        
+<div class="viewcode-block" id="DensOp.sqtrace"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.sqtrace">[docs]</a>    <span class="k">def</span> <span class="nf">sqtrace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the square trace of density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sqtrace : float</span>
+<span class="sd">            square trace of the density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sqtrace</span> <span class="o">=</span> <span class="n">densop_sqtrace</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sqtrace</span></div>
+        
+<div class="viewcode-block" id="DensOp.patrace"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.patrace">[docs]</a>    <span class="k">def</span> <span class="nf">patrace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the partial trace of density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int</span>
+<span class="sd">            qubit id&#39;s list to show.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operator after partial trace.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop</span> <span class="o">=</span> <span class="n">densop_patrace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">densop</span></div>
+
+<div class="viewcode-block" id="DensOp.partial"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.partial">[docs]</a>    <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the density operator for partial system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int</span>
+<span class="sd">            qubit id&#39;s list to show.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operator for partial system </span>
+<span class="sd">            (= partial trace for remaining system).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
+            <span class="n">qid_remained</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+                    <span class="n">qid_remained</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">de_remained</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patrace</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid_remained</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">de_remained</span></div>
+        
+<div class="viewcode-block" id="DensOp.tenspro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.tenspro">[docs]</a>    <span class="k">def</span> <span class="nf">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the tensor product with density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operator to get the tensor product..</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        densop_out : instance of DensOp</span>
+<span class="sd">            tensor produt of &#39;self&#39; and &#39;densop&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_out</span> <span class="o">=</span> <span class="n">densop_tensor_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">densop_out</span></div>
+
+<div class="viewcode-block" id="DensOp.composite"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.composite">[docs]</a>    <span class="k">def</span> <span class="nf">composite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the composite density operator of same density operators.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num : int</span>
+<span class="sd">            number of density operators..</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        de : instance of DensOp</span>
+<span class="sd">            composite density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">de</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">de_tmp</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">de</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="n">de</span> <span class="o">=</span> <span class="n">de_tmp</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                <span class="n">de_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">de</span></div>
+        
+<div class="viewcode-block" id="DensOp.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the expectation value of matrix under this density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        matrix : list of list of complex</span>
+<span class="sd">            matrix expression of hermitian operator.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            expectation value.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        &#39;matrix&#39; must be hermitian, and its dimension is equal to</span>
+<span class="sd">        the dimension of density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">densop_apply_matrix</span><span class="p">(</span><span class="n">densop</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">densop</span><span class="o">.</span><span class="n">trace</span><span class="p">()</span>
+        <span class="n">densop</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+        
+<div class="viewcode-block" id="DensOp.apply"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        apply the matrix to density operator.</span>
+<span class="sd">        (= [matrix] * [self] * [dagger of matrix])</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        matrix : list of list</span>
+<span class="sd">            matrix to apply.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If &#39;qid&#39; isn&#39;t set, dimension of the matrix must be equal to</span>
+<span class="sd">        dimension of the density operator. If &#39;qid&#39; is set, dimension</span>
+<span class="sd">        of the matrix must be equal to the 2 power of &#39;qid&#39; length.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_apply_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="n">matrix</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="n">dire</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.probability"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.probability">[docs]</a>    <span class="k">def</span> <span class="nf">probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kraus</span><span class="o">=</span><span class="p">[],</span> <span class="n">povm</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the probabilities for measuring operators. </span>
+<span class="sd">        (Kraus or POVM operators).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kraus : list of list of comprex</span>
+<span class="sd">            Kraus operators.</span>
+<span class="sd">        povm : list of list of comprex</span>
+<span class="sd">            POVM operators.</span>
+<span class="sd">        qid : list</span>
+<span class="sd">            qubit id&#39;s list to measure.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        prob : list of float</span>
+<span class="sd">            probabilities for measuring operators.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Either &#39;kraus&#39; or &#39;povm&#39; must be set. If &#39;qid&#39; is not set, all</span>
+<span class="sd">        of the qubits are measured, the dimention of Kraus or POVM</span>
+<span class="sd">        operator must be equal to the dimension of density</span>
+<span class="sd">        operator. If &#39;qid&#39; is set, the part of qubits are measured,</span>
+<span class="sd">        the dimension of Kraus or POVM operator must be equal to the 2</span>
+<span class="sd">        power of &#39;qid&#39; length. This method does not change the</span>
+<span class="sd">        original density operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kraus</span> <span class="o">!=</span> <span class="p">[]:</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kraus</span><span class="p">)</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                 <span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">densop_probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="n">kraus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span>
+                                             <span class="n">matrix_type</span><span class="o">=</span><span class="s1">&#39;kraus&#39;</span><span class="p">)</span>
+                 <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">:</span>
+                     <span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">elif</span> <span class="n">povm</span> <span class="o">!=</span> <span class="p">[]:</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">povm</span><span class="p">)</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                <span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">densop_probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="n">povm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span>
+                                             <span class="n">matrix_type</span><span class="o">=</span><span class="s1">&#39;povm&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">:</span>
+                    <span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Probability</span><span class="p">()</span>
+                
+        <span class="k">return</span> <span class="n">prob</span></div>
+
+<div class="viewcode-block" id="DensOp.instrument"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.instrument">[docs]</a>    <span class="k">def</span> <span class="nf">instrument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kraus</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">measured_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        instrument to the density operator</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kraus : list of list of comprex</span>
+<span class="sd">            Kraus operators.</span>
+<span class="sd">        qid : list</span>
+<span class="sd">            qubit id&#39;s list to measure.</span>
+<span class="sd">        measured_value : int</span>
+<span class="sd">            index of measurement </span>
+<span class="sd">            (in the case of selective measurement).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If &#39;measured_value&#39; is set, selective measurement of the index</span>
+<span class="sd">        corresponding to &#39;measured_value&#39; is done (but not</span>
+<span class="sd">        normalize). If &#39;measured_value&#39; is not set, non-selective</span>
+<span class="sd">        measurement is done (only operator sum for the Kraus operators</span>
+<span class="sd">        are executed). This method does change the original density</span>
+<span class="sd">        operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="n">qnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
+            <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">kraus</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Instrument</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kraus</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">measured_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># non-selective measurement</span>
+            
+            <span class="n">densop_ori</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">kraus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">densop_tmp</span> <span class="o">=</span> <span class="n">densop_ori</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                    <span class="n">densop_tmp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">kraus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">densop</span><span class="o">=</span><span class="n">densop_tmp</span><span class="p">)</span>
+                    <span class="n">densop_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="n">densop_ori</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># selective measurement</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">measured_value</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">measured_value</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">DensOp_Error_Instrument</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">kraus</span><span class="p">[</span><span class="n">measured_value</span><span class="p">],</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+            <span class="c1">#prob = self.trace()</span>
+            <span class="c1">#self.mul(factor=1.0/prob)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.bit_flip"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.bit_flip">[docs]</a>    <span class="k">def</span> <span class="nf">bit_flip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        execute the quantum channel of bit flip.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q : int</span>
+<span class="sd">            qubit id to execute.</span>
+<span class="sd">        prob : float</span>
+<span class="sd">            probabillity of the quantum channel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Sigma_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Sigma_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="n">para_a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">para_b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">kraus</span> <span class="o">=</span> <span class="p">[</span><span class="n">para_a</span><span class="o">*</span><span class="n">Sigma_0</span><span class="p">,</span> <span class="n">para_b</span><span class="o">*</span><span class="n">Sigma_1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">kraus</span><span class="o">=</span><span class="n">kraus</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+<div class="viewcode-block" id="DensOp.phase_flip"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.phase_flip">[docs]</a>    <span class="k">def</span> <span class="nf">phase_flip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        execute the quantum channel of phase flip.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q : int</span>
+<span class="sd">            qubit id to execute.</span>
+<span class="sd">        prob : float</span>
+<span class="sd">            probability of the quantum channel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Sigma_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Sigma_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="n">para_a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">para_b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">kraus</span> <span class="o">=</span> <span class="p">[</span><span class="n">para_a</span><span class="o">*</span><span class="n">Sigma_0</span><span class="p">,</span> <span class="n">para_b</span><span class="o">*</span><span class="n">Sigma_3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">kraus</span><span class="o">=</span><span class="n">kraus</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+<div class="viewcode-block" id="DensOp.bit_phase_flip"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.bit_phase_flip">[docs]</a>    <span class="k">def</span> <span class="nf">bit_phase_flip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        execute the quantum channel of bit and phase flip.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q : int</span>
+<span class="sd">            qubit id to execute.</span>
+<span class="sd">        prob : float</span>
+<span class="sd">            probability of the quantum channel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Sigma_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Sigma_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="n">para_a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">para_b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">kraus</span> <span class="o">=</span> <span class="p">[</span><span class="n">para_a</span><span class="o">*</span><span class="n">Sigma_0</span><span class="p">,</span> <span class="n">para_b</span><span class="o">*</span><span class="n">Sigma_2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">kraus</span><span class="o">=</span><span class="n">kraus</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+<div class="viewcode-block" id="DensOp.depolarize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.depolarize">[docs]</a>    <span class="k">def</span> <span class="nf">depolarize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        execute the quantum channel of depolarize.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q : int</span>
+<span class="sd">            qubit id to execute.</span>
+<span class="sd">        prob : float</span>
+<span class="sd">            probability of the quantum channel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Sigma_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Sigma_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">Sigma_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="n">para_a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.75</span><span class="o">*</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">para_b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.25</span><span class="o">*</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">para_c</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.25</span><span class="o">*</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">para_d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.25</span><span class="o">*</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">kraus</span> <span class="o">=</span> <span class="p">[</span><span class="n">para_a</span><span class="o">*</span><span class="n">Sigma_0</span><span class="p">,</span> <span class="n">para_b</span><span class="o">*</span><span class="n">Sigma_1</span><span class="p">,</span> <span class="n">para_c</span><span class="o">*</span><span class="n">Sigma_2</span><span class="p">,</span> <span class="n">para_d</span><span class="o">*</span><span class="n">Sigma_3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">kraus</span><span class="o">=</span><span class="n">kraus</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+<div class="viewcode-block" id="DensOp.amp_dump"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.amp_dump">[docs]</a>    <span class="k">def</span> <span class="nf">amp_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        execute the quantum channel of amplitude dumping.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q : int</span>
+<span class="sd">            qubit id to execute.</span>
+<span class="sd">        prob : float</span>
+<span class="sd">            probability of the quantum channel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transmit</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">reflect</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">kraus</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">transmit</span><span class="p">]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="n">reflect</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">kraus</span><span class="o">=</span><span class="n">kraus</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+<div class="viewcode-block" id="DensOp.phase_dump"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.phase_dump">[docs]</a>    <span class="k">def</span> <span class="nf">phase_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        execute the quantum channel of phase dumping.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q : int</span>
+<span class="sd">            qubit id to execute.</span>
+<span class="sd">        prob : float</span>
+<span class="sd">            probability of the quantum channel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transmit</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">reflect</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">kraus</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">transmit</span><span class="p">]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">reflect</span><span class="p">]])]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">kraus</span><span class="o">=</span><span class="n">kraus</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+    <span class="k">def</span> <span class="nf">__mat_sqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mat</span><span class="p">):</span>  <span class="c1"># mat is hermite</span>
+
+        <span class="n">eigenvals</span><span class="p">,</span> <span class="n">unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+        <span class="n">unitary_dg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">mat_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">eigenvals</span><span class="p">)))</span>
+        <span class="n">mat_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">unitary</span><span class="p">,</span><span class="n">mat_diag</span><span class="p">),</span><span class="n">unitary_dg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mat_sq</span>
+
+    <span class="k">def</span> <span class="nf">__mat_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mat</span><span class="p">):</span>
+
+        <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">),</span><span class="n">mat</span><span class="p">)</span>  <span class="c1"># mat2 is hermite</span>
+        <span class="n">mat2_sqrt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_sqrt</span><span class="p">(</span><span class="n">mat2</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">mat2_sqrt</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+
+        <span class="k">return</span> <span class="n">norm</span> 
+
+<div class="viewcode-block" id="DensOp.fidelity"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.fidelity">[docs]</a>    <span class="k">def</span> <span class="nf">fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the fidelity with density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operators to get fidelity.</span>
+<span class="sd">        qid : list of int, default - all of the qubit id&#39;s list</span>
+<span class="sd">            qubit id&#39;s list.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fid : float</span>
+<span class="sd">            fidelity of two density operators.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mat1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="n">mat2</span> <span class="o">=</span> <span class="n">densop</span><span class="o">.</span><span class="n">get_elm</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mat1</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">mat2</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Fidelity</span><span class="p">()</span>
+
+        <span class="n">mat1_sqrt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_sqrt</span><span class="p">(</span><span class="n">mat1</span><span class="p">)</span>
+        <span class="n">mat2_sqrt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_sqrt</span><span class="p">(</span><span class="n">mat2</span><span class="p">)</span>
+
+        <span class="n">fid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mat1_sqrt</span><span class="p">,</span><span class="n">mat2_sqrt</span><span class="p">))</span>
+            
+        <span class="k">return</span> <span class="n">fid</span></div>
+
+<div class="viewcode-block" id="DensOp.distance"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the trace distance with the density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operator to get the trace distance.</span>
+
+<span class="sd">        qid : list of int, default - all of the qubit id&#39;s list</span>
+<span class="sd">            qubit id&#39;s list.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dis : float</span>
+<span class="sd">            trace distance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mat1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="n">mat2</span> <span class="o">=</span> <span class="n">densop</span><span class="o">.</span><span class="n">get_elm</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mat1</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">mat2</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Distance</span><span class="p">()</span>
+
+        <span class="n">dis</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_norm</span><span class="p">(</span><span class="n">mat1</span><span class="o">-</span><span class="n">mat2</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">dis</span></div>
+
+    <span class="k">def</span> <span class="nf">__mat_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mat</span><span class="p">):</span>  <span class="c1"># mat is hermite</span>
+
+        <span class="n">eigenvals</span><span class="p">,</span> <span class="n">unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+        <span class="n">unitary_T</span> <span class="o">=</span> <span class="n">unitary</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="n">eigenvals</span><span class="p">,</span><span class="n">unitary_T</span>
+
+<div class="viewcode-block" id="DensOp.spectrum"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.spectrum">[docs]</a>    <span class="k">def</span> <span class="nf">spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the spectrum.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qstate : list of QState</span>
+<span class="sd">            list of the quantum state basis.</span>
+<span class="sd">        prob : list of float</span>
+<span class="sd">            list of coefficients for each quantum states basis.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
+        <span class="n">eigvals</span><span class="p">,</span><span class="n">eigvecs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_spectrum</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="n">eigvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigvals</span><span class="p">))</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">eigvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">]</span>
+        <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">eigvecs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigvals</span><span class="p">))</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">eigvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">]</span>
+        <span class="n">qstate</span> <span class="o">=</span> <span class="p">[</span><span class="n">QState</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">vecs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prob</span><span class="p">))]</span>
+
+        <span class="c1">#return prob,qstate</span>
+        <span class="k">return</span> <span class="n">qstate</span><span class="p">,</span><span class="n">prob</span></div>
+
+    <span class="k">def</span> <span class="nf">__von_neumann_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># von neumann entropy</span>
+
+        <span class="n">mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
+        <span class="n">eigvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+        <span class="n">diag</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">eigvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">eigvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigvals</span><span class="p">))</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">eigvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">]</span>
+        <span class="n">ent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diag</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ent</span>
+    
+<div class="viewcode-block" id="DensOp.entropy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.entropy">[docs]</a>    <span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the von neumann entropy (or entanglement entropy).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int, default - list all of the qubit id</span>
+<span class="sd">            qubit id&#39;s list (sub-system) to calculate the entropy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ent : float</span>
+<span class="sd">            von neumann entropy.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="n">ent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__von_neumann_entropy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span><span class="o">!=</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid</span><span class="p">))):</span>
+                <span class="k">raise</span> <span class="n">DensOp_Error_Entropy</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">==</span> <span class="n">qubit_num</span><span class="p">:</span>
+                <span class="n">ent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__von_neumann_entropy</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+                <span class="n">ent</span> <span class="o">=</span> <span class="n">de_part</span><span class="o">.</span><span class="n">__von_neumann_entropy</span><span class="p">()</span>
+                <span class="n">de_part</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                
+        <span class="k">return</span> <span class="n">ent</span></div>
+
+<div class="viewcode-block" id="DensOp.cond_entropy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cond_entropy">[docs]</a>    <span class="k">def</span> <span class="nf">cond_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the conditional entropy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid_0 : list of int</span>
+<span class="sd">            qubit id&#39;s list (sub-system) to calculate the entropy.</span>
+<span class="sd">        qid_1 : list of int</span>
+<span class="sd">            qubit id&#39;s list (sub-system) to calculate the entropy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ent : float</span>
+<span class="sd">            conditianal entropy (S(qid_0|qid_1)).</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">qid_0</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">or</span> <span class="n">qid_1</span> <span class="o">==</span> <span class="p">[]</span>
+            <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span>
+            <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span>
+            <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid_0</span><span class="p">))</span>
+            <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid_1</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Entropy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qid_merge</span> <span class="o">=</span> <span class="n">qid_0</span> <span class="o">+</span> <span class="n">qid_1</span>
+            <span class="n">qid_whole</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">qid_merge</span><span class="p">)</span>
+            <span class="n">ent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">qid_whole</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">ent</span></div>
+
+<div class="viewcode-block" id="DensOp.mutual_info"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.mutual_info">[docs]</a>    <span class="k">def</span> <span class="nf">mutual_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[]):</span>  <span class="c1"># mutual information</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the mutual information.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid_0 : list of int</span>
+<span class="sd">            qubit id&#39;s list (sub-system) to calculate the mutual information.</span>
+<span class="sd">        qid_1 : list of int</span>
+<span class="sd">            qubit id&#39;s list (sub-system) to calculate the mutual information.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ent : float</span>
+<span class="sd">            mutual information (S(qid_0:qid_1)).</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">qid_0</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">or</span> <span class="n">qid_1</span> <span class="o">==</span> <span class="p">[]</span>
+            <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span>
+            <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span>
+            <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid_0</span><span class="p">))</span>
+            <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid_1</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Entropy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cond_entropy</span><span class="p">(</span><span class="n">qid_0</span><span class="p">,</span><span class="n">qid_1</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">ent</span></div>
+
+<div class="viewcode-block" id="DensOp.relative_entropy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.relative_entropy">[docs]</a>    <span class="k">def</span> <span class="nf">relative_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># relative entropy</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the relative entropy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            density operator to get the relative entropy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ent : float</span>
+<span class="sd">            relative entropy.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">!=</span> <span class="n">densop</span><span class="o">.</span><span class="n">row</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DensOp_Error_Entropy</span><span class="p">()</span>
+        
+        <span class="n">mat_A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
+        <span class="n">mat_B</span> <span class="o">=</span> <span class="n">densop</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
+
+        <span class="n">eigvals_A</span><span class="p">,</span><span class="n">eigvecs_A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_spectrum</span><span class="p">(</span><span class="n">mat_A</span><span class="p">)</span>
+        <span class="n">eigvals_B</span><span class="p">,</span><span class="n">eigvecs_B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mat_spectrum</span><span class="p">(</span><span class="n">mat_B</span><span class="p">)</span>
+
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">eigvecs_A</span><span class="o">.</span><span class="n">T</span><span class="p">),</span><span class="n">eigvecs_B</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">*</span><span class="n">P</span>
+        
+        <span class="n">diag_A</span> <span class="o">=</span> <span class="p">[</span><span class="n">eigvals_A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">eigvals_A</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigvals_A</span><span class="p">))</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">eigvals_A</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">]</span>
+        <span class="n">relent_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diag_A</span><span class="p">)</span>
+
+        <span class="n">relent_B</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigvals_A</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">eigvals_A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">EPS</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eigvals_B</span><span class="p">)):</span>
+                <span class="n">relent_B</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">eigvals_A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">eigvals_B</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        
+        <span class="n">relent</span> <span class="o">=</span> <span class="n">relent_A</span> <span class="o">-</span> <span class="n">relent_B</span>
+        <span class="k">return</span> <span class="n">relent</span></div>
+
+    <span class="c1"># 1-qubit gate</span>
+
+<div class="viewcode-block" id="DensOp.x"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.x">[docs]</a>    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate X gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.y"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate Y gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.z"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate Z gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.xr"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.xr">[docs]</a>    <span class="k">def</span> <span class="nf">xr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate root X gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="n">ROOT_PAULI_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.xr_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.xr_dg">[docs]</a>    <span class="k">def</span> <span class="nf">xr_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate root X dagger gate </span>
+<span class="sd">        (hermmitian conjugate of root X gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROOT_PAULI_X_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.h"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.h">[docs]</a>    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate H gate (hadamard gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">HADAMARD</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.s"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.s">[docs]</a>    <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate S gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.s_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.s_dg">[docs]</a>    <span class="k">def</span> <span class="nf">s_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate S dagger gate (hermitian conjugate of S gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.t"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.t">[docs]</a>    <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate T gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_T</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.t_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.t_dg">[docs]</a>    <span class="k">def</span> <span class="nf">t_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate T dagger gate (hermitian conjugate of T gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_T_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.rx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.rx">[docs]</a>    <span class="k">def</span> <span class="nf">rx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate RX gate (rotation around X-axis).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.ry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.ry">[docs]</a>    <span class="k">def</span> <span class="nf">ry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate RY gate (rotation around Y-axis).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.rz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.rz">[docs]</a>    <span class="k">def</span> <span class="nf">rz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate RZ gate (rotation around Z-axis).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.p"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.p">[docs]</a>    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate P gate (phase shift gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        matrix expression is following...</span>
+<span class="sd">        | 1.0 0.0             |</span>
+<span class="sd">        | 0.0 exp(i*phase*PI) |</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.u1"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.u1">[docs]</a>    <span class="k">def</span> <span class="nf">u1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate U1 gate (by IBM).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        this opration is equal to P gate (phase shift gate)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_U1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.u2"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.u2">[docs]</a>    <span class="k">def</span> <span class="nf">u2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate U2 gate (by IBM).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+<span class="sd">        beta : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        matrix experssion is following...</span>
+<span class="sd">        | 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |</span>
+<span class="sd">        | exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_U2</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.u3"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.u3">[docs]</a>    <span class="k">def</span> <span class="nf">u3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_U3</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                             <span class="n">phase2</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate U3 gate (by IBM).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id.</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+<span class="sd">        beta : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+<span class="sd">        gamma : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        matrix expression is following...</span>
+<span class="sd">        | cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |</span>
+<span class="sd">        | exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># 2-qubit gate</span>
+
+<div class="viewcode-block" id="DensOp.cx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cx">[docs]</a>    <span class="k">def</span> <span class="nf">cx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CX gate (controlled X gate, controlled NOT gate, CNOT gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cy">[docs]</a>    <span class="k">def</span> <span class="nf">cy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CY gate (controlled X gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cz">[docs]</a>    <span class="k">def</span> <span class="nf">cz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CZ gate (controlled Z gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cxr"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cxr">[docs]</a>    <span class="k">def</span> <span class="nf">cxr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CXR gate (controlled root X gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_XR</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cxr_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cxr_dg">[docs]</a>    <span class="k">def</span> <span class="nf">cxr_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CXR dagger gate (controlled XR dagger gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_XR_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.ch"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.ch">[docs]</a>    <span class="k">def</span> <span class="nf">ch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CH gate (controlled H gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cs"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cs">[docs]</a>    <span class="k">def</span> <span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CS gate (controlled S gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_S</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cs_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cs_dg">[docs]</a>    <span class="k">def</span> <span class="nf">cs_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CS dagger gate (controlled S dagger gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_S_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.ct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.ct">[docs]</a>    <span class="k">def</span> <span class="nf">ct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CT gate (controlled T gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_T</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.ct_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.ct_dg">[docs]</a>    <span class="k">def</span> <span class="nf">ct_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CT dagger gate (controlled T dagger gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_T_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.sw"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.sw">[docs]</a>    <span class="k">def</span> <span class="nf">sw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        swap gate</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">SWAP_QUBITS</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cp">[docs]</a>    <span class="k">def</span> <span class="nf">cp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CP gate (controlled P gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_P</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.crx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.crx">[docs]</a>    <span class="k">def</span> <span class="nf">crx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CRX gate (controlled RX gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RX</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cry">[docs]</a>    <span class="k">def</span> <span class="nf">cry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CRY gate (controlled RY gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RY</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.crz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.crz">[docs]</a>    <span class="k">def</span> <span class="nf">crz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CRZ gate (controlled RZ gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cu1"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cu1">[docs]</a>    <span class="k">def</span> <span class="nf">cu1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CU1 gate (controlled U1 gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_U1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cu2"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cu2">[docs]</a>    <span class="k">def</span> <span class="nf">cu2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CU2 gate (controlled U2 gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+<span class="sd">        beta : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_U2</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                             <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.cu3"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.cu3">[docs]</a>    <span class="k">def</span> <span class="nf">cu3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CU3 gate (controlled U3 gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+<span class="sd">        beta : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+<span class="sd">        gamma : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_U3</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                             <span class="n">phase2</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># 3-qubit gate</span>
+    
+<div class="viewcode-block" id="DensOp.ccx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.ccx">[docs]</a>    <span class="k">def</span> <span class="nf">ccx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CCX gate (toffoli gate, controlled controlled X gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q2 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr_dg</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.csw"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.csw">[docs]</a>    <span class="k">def</span> <span class="nf">csw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate CSW gate (fredkin gate, controlled swap gate).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (swap qubit).</span>
+<span class="sd">        q2 : int</span>
+<span class="sd">            qubit id (swap qubit).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+    <span class="c1"># other gate</span>
+    
+<div class="viewcode-block" id="DensOp.mcx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.mcx">[docs]</a>    <span class="k">def</span> <span class="nf">mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate MCX gate (multi-controlled X gate).</span>
+<span class="sd">       </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int</span>
+<span class="sd">            qubit id list [control, control, ... , control, target]</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">densop_mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DensOp.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of quantum state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        self : instance of DensOp</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># return self.densop_free()</span>
+        <span class="k">return</span> <span class="n">densop_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+
+    
+<span class="c1"># c-library for densop</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.densop_c</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

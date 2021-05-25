@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Command Line Tool &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorial_jp.html">gTutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Command Line Tool</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/Tutorial_c.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="command-line-tool">
+<h1>Command Line Tool<a class="headerlink" href="#command-line-tool" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>量子回路ファイルの実行<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>まず、簡単な使用例を示します。以下のようなファイル(foo.qc)を用意し、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">init</span> <span class="mi">2</span>
+<span class="n">h</span> <span class="mi">0</span>
+<span class="n">cx</span> <span class="mi">0</span> <span class="mi">1</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+<p>実行すると、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlazy -qc foo.qc
+direction of measurement: z-axis
+frq[00] = 49
+frq[11] = 51
+last state =&gt; 00
+</pre></div>
+</div>
+<p>となります。foo.qcで何をやっているかと言うと、</p>
+<ul class="simple">
+<li><p>1行目:量子ビットを2つ用意</p></li>
+<li><p>2行目:0番目の量子ビットにアダマールゲートを作用</p></li>
+<li><p>3行目:0番目と1番目の量子ビットに制御NOTゲートを作用</p></li>
+<li><p>4行目:全量子ビットを測定</p></li>
+</ul>
+<p>実行結果として表示されるのは、この場合、測定結果です。
+はじめの行「direction of measurement: z-axis」は、
+Z軸方向の測定をしています、ということ表しています。
+デフォルトの測定の方向はZ軸方向です。他の大抵のシミュレータと違い、
+qlazyでは任意方向の測定もオプション等で簡単に実行できるので、
+区別できるように測定方向を一応表示するようにしています。
+frq[xx]は、測定の結果、|xx&gt;だった回数を表しています。測定の回数は、
+何も指定しなければ、デフォルトで100回です。上の例では、
+|00&gt;だった回数は49回、|11&gt;だった回数は51回だったということを表しています。
+内部で乱数を発生させることで確率的な測定をシミュレートしていますので、
+実行のたびにこの回数は変わります。last stateは、
+最後の測定の結果が何だったかを表しています。上の例では|00&gt;でした。
+ということを意味しています。</p>
+<p>また、制御NOTゲートの後に、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">show</span>
+</pre></div>
+</div>
+<p>を挿入すると、この時点の量子状態を以下のように表示することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+</pre></div>
+</div>
+<p>2量子ビットで実行しているので、量子状態は|00&gt;,|01&gt;,|10&gt;,|11&gt;の重ね合わ
+せです。各々に対応した係数（複素数）をc[00],c[01],c[10],c[11]と定義し
+ており、それを表示しています。量子ビットオーダーは左から右に向かって0
+番目,1番目…と定義しています。複素数の右に表示されている実数値
+（0.5000とか0.0000）は各々の絶対値の２乗、すなわちその状態が観測される
+確率を表しています。一番右に表示されている「++++++」は、その確率の大き
+さを視覚的にわかりやすくするための、棒グラフです。</p>
+</div>
+<div class="section" id="id2">
+<h2>対話モードでの実行（量子電卓）<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>対話モードで実行することもできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlazy
+
+&gt;&gt; init 2
+&gt;&gt; h 0
+&gt;&gt; cx 0 1
+&gt;&gt; show
+c[00] = +0.7071+0.0000*i : 0.5000 |++++++
+c[01] = +0.0000+0.0000*i : 0.0000 |
+c[10] = +0.0000+0.0000*i : 0.0000 |
+c[11] = +0.7071+0.0000*i : 0.5000 |++++++
+&gt;&gt; m
+direction of measurement: z-axis
+frq[00] = 49
+frq[11] = 51
+last state =&gt; 00
+&gt;&gt; quit
+</pre></div>
+</div>
+<p>対話モード中で、helpすると、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt; help
+[commands]
+* initialize quantum state: %,init
+* print quantum circuitt:   &amp;,circ                                                       
+* print quantum gates:      !,gates
+* print quantum state:      -,show
+* print bloch angles:       |,bloch
+* echo input string:        @,echo
+* output quantum gates:     &gt;,output
+* quit:                     .,quit
+* help:                     ?,help
+[quantum gates]
+* 1-qubit gates:            X,Y,Z,XR,XR+,H,S,S+,T,T+,P,RX,RY,RZ,U1,U2,U3
+* 2-qubit gates:            CX,CY,CZ,CXR,CXR+,CH,CS,CS+,CP,CRX,CRY,CRZ,CU1,CU2,CU3,SW
+* 3-qubit gates:            CCX
+* measurement:              M,MX,MY,MZ,MB
+[notes]
+* see &#39;help &lt;item&gt;&#39;, for more information
+</pre></div>
+</div>
+<p>のように、定義されているコマンドや使用可能な量子ゲートのリストを表示できます。
+各々の詳細は、helpの後に参照したいコマンドや量子ゲートの記号を入れると表示されます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">help</span> <span class="n">X</span>
+<span class="o">==</span> <span class="n">X</span> <span class="n">gate</span> <span class="o">==</span>
+<span class="p">[</span><span class="n">description</span><span class="p">]</span>
+  <span class="n">X</span> <span class="n">gate</span> <span class="ow">is</span> <span class="mi">1</span><span class="o">-</span><span class="n">qubit</span> <span class="n">gate</span> <span class="n">called</span> <span class="s1">&#39;pauli X gate&#39;</span><span class="o">.</span>
+  <span class="o">-</span> <span class="n">matrix</span> <span class="n">expression</span><span class="p">:</span>
+    <span class="o">|</span> <span class="mi">0</span> <span class="mi">1</span> <span class="o">|</span>
+    <span class="o">|</span> <span class="mi">1</span> <span class="mi">0</span> <span class="o">|</span>
+<span class="p">[</span><span class="n">usage</span><span class="p">]</span>
+  <span class="o">&gt;&gt;</span> <span class="n">X</span> <span class="o">&lt;</span><span class="n">qubit_id</span><span class="o">&gt;</span>
+<span class="p">[</span><span class="n">alias</span><span class="p">]</span>
+  <span class="n">x</span>
+</pre></div>
+</div>
+<p>以上</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

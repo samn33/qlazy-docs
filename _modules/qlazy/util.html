@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>qlazy.util &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>qlazy.util</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for qlazy.util</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="get_lib_ext"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.get_lib_ext">[docs]</a><span class="k">def</span> <span class="nf">get_lib_ext</span><span class="p">():</span>
+    
+    <span class="kn">import</span> <span class="nn">platform</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;dylib&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;so&#39;</span></div>
+
+<div class="viewcode-block" id="qstate_check_args"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.qstate_check_args">[docs]</a><span class="k">def</span> <span class="nf">qstate_check_args</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">q</span> <span class="o">&gt;=</span> <span class="n">qs</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QState_OutOfBound</span><span class="p">()</span>
+            
+    <span class="n">qnum</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># any qubit number</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qs</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+            
+        <span class="c1"># check same qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QState_SameQubitID</span><span class="p">()</span>
+            
+    <span class="k">elif</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+            
+    <span class="k">elif</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+    
+        <span class="c1"># check same qubit number</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">QState_SameQubitID</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+            
+    <span class="k">elif</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+    
+        <span class="c1"># check same qubit id</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="n">qid</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">QState_SameQubitID</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+    
+<div class="viewcode-block" id="densop_check_args"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.densop_check_args">[docs]</a><span class="k">def</span> <span class="nf">densop_check_args</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
+        
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">q</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QState_OutOfBound</span><span class="p">()</span>
+            
+    <span class="n">qnum</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># any qubit number</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qubit_num</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+            
+        <span class="c1"># check same qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QState_SameQubitID</span><span class="p">()</span>
+            
+    <span class="k">elif</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+            
+    <span class="k">elif</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># check same qubit number</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">QState_SameQubitID</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+            
+    <span class="k">elif</span> <span class="n">qnum</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># check qubit number</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_TooManyArguments</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">qnum</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QState_NeedMoreArguments</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># check same qubit id</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="n">qid</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">==</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">QState_SameQubitID</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="get_qgate_qubit_num"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.get_qgate_qubit_num">[docs]</a><span class="k">def</span> <span class="nf">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">SHOW</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Z</span><span class="p">):</span>  <span class="c1"># 0 if any number</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">BLOCH</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Z</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">HADAMARD</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_S</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_S_</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_T</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_T_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_Z</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_U1</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_U2</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_U3</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_Z</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_XR</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_XR_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_H</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_S</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_S_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_T</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_T_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">SWAP_QUBITS</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_P</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_RX</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_RY</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_RZ</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_U1</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_U2</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_U3</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_BELL</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">QState_UnknownQgateKind</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="get_qgate_param_num"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.get_qgate_param_num">[docs]</a><span class="k">def</span> <span class="nf">get_qgate_param_num</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">SHOW</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">BLOCH</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Z</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_BELL</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Z</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">HADAMARD</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_S</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_S_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_T</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_T_</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_Z</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_XR</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_XR_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_H</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_S</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_S_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_T</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_T_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">SWAP_QUBITS</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_Z</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_U1</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_P</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_RX</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_RY</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_RZ</span> <span class="ow">or</span>
+          <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_U1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_U2</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_U2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">ROTATION_U3</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">CONTROLLED_U3</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">QState_UnknownQgateKind</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="is_clifford_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.is_clifford_gate">[docs]</a><span class="k">def</span> <span class="nf">is_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">HADAMARD</span><span class="p">,</span>
+                <span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">PHASE_SHIFT_S_</span><span class="p">,</span>
+                <span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">CONTROLLED_Y</span><span class="p">,</span> <span class="n">CONTROLLED_Z</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="is_measurement_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.is_measurement_gate">[docs]</a><span class="k">def</span> <span class="nf">is_measurement_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">MEASURE</span><span class="p">,</span> <span class="n">MEASURE_X</span><span class="p">,</span> <span class="n">MEASURE_Y</span><span class="p">,</span> <span class="n">MEASURE_Z</span><span class="p">,</span> <span class="n">MEASURE_BELL</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="reverse_bit_order"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.reverse_bit_order">[docs]</a><span class="k">def</span> <span class="nf">reverse_bit_order</span><span class="p">(</span><span class="n">vec_in</span><span class="p">):</span>
+
+    <span class="n">vec_out</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec_in</span><span class="p">)</span>
+    <span class="n">digits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec_in</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">digits</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of vector must be power of two&quot;</span><span class="p">)</span>
+        
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec_in</span><span class="p">):</span>
+        <span class="n">idx_binstr</span> <span class="o">=</span> <span class="s1">&#39;{:0</span><span class="si">{digits}</span><span class="s1">b}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">digits</span><span class="p">))</span>
+        <span class="n">idx_binstr_rev</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">idx_binstr</span><span class="p">)))</span>
+        <span class="n">idx_rev</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx_binstr_rev</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">vec_out</span><span class="p">[</span><span class="n">idx_rev</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">return</span> <span class="n">vec_out</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

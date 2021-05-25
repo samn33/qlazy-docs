@@ -1,7 +1,7 @@
-qlazypy
-=======
+qlazy
+=====
 
 .. toctree::
    :maxdepth: 4
 
-   qlazypy
+   qlazy

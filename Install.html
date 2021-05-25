@@ -88,12 +88,14 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#command-line-tool-and-library">Command line tool and Library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#python-package">Python package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-from-source-code">Build from source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uninstall">Uninstall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uninstall-old-version-0-1-5">Uninstall (old version &lt;= 0.1.5)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Tutorial_jp.html">Tutorial (japanese)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python-api/qlazypy.html">qlazypy package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api/qlazy.html">qlazy package</a></li>
 </ul>
 
             
@@ -163,17 +165,17 @@
             
   <div class="section" id="install">
 <h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="command-line-tool-and-library">
-<h2>Command line tool and Library<a class="headerlink" href="#command-line-tool-and-library" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/samn33/qlazy.git
-$ cd qlazy/c
-$ mkdir build; cd build; cmake ..; make
-$ mv libqlz.so ~/lib; mv qlazy ~/bin
+<div class="section" id="quick-install">
+<h2>Quick install<a class="headerlink" href="#quick-install" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install qlazy
 </pre></div>
 </div>
-<p>add followings to your ~/.bashrc</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export PATH=$PATH:~/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib
+</div>
+<div class="section" id="build-from-source-code">
+<h2>Build from source code<a class="headerlink" href="#build-from-source-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/samn33/qlazy.git
+$ cd qlazy
+$ python setup install --user	
 </pre></div>
 </div>
 <p>You may also need to install ‘libreadline-dev’</p>
@@ -181,10 +183,15 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib
 </pre></div>
 </div>
 </div>
-<div class="section" id="python-package">
-<h2>Python package<a class="headerlink" href="#python-package" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ../../py
-$ pip install -e .
+<div class="section" id="uninstall">
+<h2>Uninstall<a class="headerlink" href="#uninstall" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip uninstall qlazy
+</pre></div>
+</div>
+</div>
+<div class="section" id="uninstall-old-version-0-1-5">
+<h2>Uninstall (old version &lt;= 0.1.5)<a class="headerlink" href="#uninstall-old-version-0-1-5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ rm ~/bin/qlazy ~/lib/libqlz.so
 </pre></div>
 </div>
 </div>

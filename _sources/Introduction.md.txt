@@ -14,8 +14,8 @@ Quantum Computing Simulator
 	
 ## Requirements
 
-    * Linux(Ubuntu20.04)
-    * Python3.8
+- Linux(Ubuntu20.04)
+- Python3.8
 
 ## Licence
 

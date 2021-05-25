@@ -1,0 +1,53 @@
+qlazy.backend package
+=====================
+
+Submodules
+----------
+
+qlazy.backend.ibmq module
+-------------------------
+
+.. automodule:: qlazy.backend.ibmq
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.backend.qlazy\_qstate\_simulator module
+---------------------------------------------
+
+.. automodule:: qlazy.backend.qlazy_qstate_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.backend.qlazy\_stabilizer\_simulator module
+-------------------------------------------------
+
+.. automodule:: qlazy.backend.qlazy_stabilizer_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.backend.qulacs\_cpu\_simulator module
+-------------------------------------------
+
+.. automodule:: qlazy.backend.qulacs_cpu_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.backend.qulacs\_gpu\_simulator module
+-------------------------------------------
+
+.. automodule:: qlazy.backend.qulacs_gpu_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: qlazy.backend
+   :members:
+   :undoc-members:
+   :show-inheritance:

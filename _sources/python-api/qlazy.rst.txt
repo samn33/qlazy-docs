@@ -1,0 +1,111 @@
+qlazy package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   qlazy.backend
+   qlazy.lib
+   qlazy.tools
+
+Submodules
+----------
+
+qlazy.Backend module
+--------------------
+
+.. automodule:: qlazy.Backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.DensOp module
+-------------------
+
+.. automodule:: qlazy.DensOp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.MData module
+------------------
+
+.. automodule:: qlazy.MData
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.Observable module
+-----------------------
+
+.. automodule:: qlazy.Observable
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.QComp module
+------------------
+
+.. automodule:: qlazy.QComp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.QState module
+-------------------
+
+.. automodule:: qlazy.QState
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.Stabilizer module
+-----------------------
+
+.. automodule:: qlazy.Stabilizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.config module
+-------------------
+
+.. automodule:: qlazy.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.core module
+-----------------
+
+.. automodule:: qlazy.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.error module
+------------------
+
+.. automodule:: qlazy.error
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.util module
+-----------------
+
+.. automodule:: qlazy.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: qlazy
+   :members:
+   :undoc-members:
+   :show-inheritance:

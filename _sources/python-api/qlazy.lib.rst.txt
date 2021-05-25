@@ -1,0 +1,69 @@
+qlazy.lib package
+=================
+
+Submodules
+----------
+
+qlazy.lib.densop\_c module
+--------------------------
+
+.. automodule:: qlazy.lib.densop_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.densop\_mcx module
+----------------------------
+
+.. automodule:: qlazy.lib.densop_mcx
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.mdata\_c module
+-------------------------
+
+.. automodule:: qlazy.lib.mdata_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.observable\_c module
+------------------------------
+
+.. automodule:: qlazy.lib.observable_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.qstate\_c module
+--------------------------
+
+.. automodule:: qlazy.lib.qstate_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.qstate\_mcx module
+----------------------------
+
+.. automodule:: qlazy.lib.qstate_mcx
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.stabilizer\_c module
+------------------------------
+
+.. automodule:: qlazy.lib.stabilizer_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: qlazy.lib
+   :members:
+   :undoc-members:
+   :show-inheritance:

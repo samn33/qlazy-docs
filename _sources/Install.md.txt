@@ -1,23 +1,24 @@
 Install
 =======
 
-## Command line tool and Library
+## Quick install
+
+    $ pip install qlazy
+
+## Build from source code
 
     $ git clone https://github.com/samn33/qlazy.git
-    $ cd qlazy/c
-    $ mkdir build; cd build; cmake ..; make
-    $ mv libqlz.so ~/lib; mv qlazy ~/bin
-	
-add followings to your ~/.bashrc
-
-    export PATH=$PATH:~/bin
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib
+    $ cd qlazy
+    $ python setup install --user	
 
 You may also need to install 'libreadline-dev'
 
     $ sudo apt install libreadline-dev
 
-## Python package
+## Uninstall
 
-    $ cd ../../py
-    $ pip install -e .
+    $ pip uninstall qlazy
+
+## Uninstall (old version <= 0.1.5)
+
+    $ rm ~/bin/qlazy ~/lib/libqlz.so

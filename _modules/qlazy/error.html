@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>qlazy.error &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>qlazy.error</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for qlazy.error</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># QState</span>
+
+<div class="viewcode-block" id="QState_Error_Initialize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Initialize">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Initialize</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to initialize&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_GetCmp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_GetCmp">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_GetCmp</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to get cmp&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Show">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Show</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to show&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Clone">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Clone</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to clone&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_InnerProduct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_InnerProduct">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_InnerProduct</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to inner product&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_TensorProduct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_TensorProduct">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_TensorProduct</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to tensor product&quot;</span></div>
+
+<div class="viewcode-block" id="QState_OutOfBound"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_OutOfBound">[docs]</a><span class="k">class</span> <span class="nc">QState_OutOfBound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: out of bound&quot;</span></div>
+
+<div class="viewcode-block" id="QState_TooManyArguments"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_TooManyArguments">[docs]</a><span class="k">class</span> <span class="nc">QState_TooManyArguments</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: too many arguments&quot;</span></div>
+
+<div class="viewcode-block" id="QState_NeedMoreArguments"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_NeedMoreArguments">[docs]</a><span class="k">class</span> <span class="nc">QState_NeedMoreArguments</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: need more arguments&quot;</span></div>
+
+<div class="viewcode-block" id="QState_SameQubitID"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_SameQubitID">[docs]</a><span class="k">class</span> <span class="nc">QState_SameQubitID</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: same qubit id&quot;</span></div>
+    
+<div class="viewcode-block" id="QState_UnknownQgateKind"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_UnknownQgateKind">[docs]</a><span class="k">class</span> <span class="nc">QState_UnknownQgateKind</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: unknown qgate kind&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_OperateQgate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_OperateQgate">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_OperateQgate</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to operate qgate&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Evolve"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Evolve">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Evolve</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to evolve&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Expect">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Expect</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to expect&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Apply"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Apply">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Apply</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to apply&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Bloch"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Bloch">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Bloch</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to bloch&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_Reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_Reset">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_Reset</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to reset&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_FreeAll"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_FreeAll">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_FreeAll</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to free all&quot;</span></div>
+
+<div class="viewcode-block" id="QState_Error_AddMethods"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QState_Error_AddMethods">[docs]</a><span class="k">class</span> <span class="nc">QState_Error_AddMethods</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QState: fail to add methods&quot;</span></div>
+
+<span class="c1"># MData</span>
+
+<div class="viewcode-block" id="MData_Error_GetFrq"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.MData_Error_GetFrq">[docs]</a><span class="k">class</span> <span class="nc">MData_Error_GetFrq</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;MData: fail to get frq&quot;</span></div>
+
+<div class="viewcode-block" id="MData_Error_Show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.MData_Error_Show">[docs]</a><span class="k">class</span> <span class="nc">MData_Error_Show</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;MData: fail to show&quot;</span></div>
+
+<div class="viewcode-block" id="MData_Error_GetMeasuredData"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.MData_Error_GetMeasuredData">[docs]</a><span class="k">class</span> <span class="nc">MData_Error_GetMeasuredData</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;MData: fail to get measured data (probably not measured yet)&quot;</span></div>
+
+<span class="c1"># Observable</span>
+
+<div class="viewcode-block" id="Observable_Error_Initialize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Observable_Error_Initialize">[docs]</a><span class="k">class</span> <span class="nc">Observable_Error_Initialize</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Observable: fail to initialize&quot;</span></div>
+
+<span class="c1"># DensOp</span>
+
+<div class="viewcode-block" id="DensOp_Error_Initialize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Initialize">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Initialize</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to initialize&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Show">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Show</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to show&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Clone">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Clone</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to clone&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Add"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Add">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Add</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to add&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Mul"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Mul">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Mul</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to mul&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_GetElm"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_GetElm">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_GetElm</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to get_elm&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Trace"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Trace">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Trace</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to trace&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_SqTrace"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_SqTrace">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_SqTrace</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to square trace&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_PaTrace"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_PaTrace">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_PaTrace</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to partial trace&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Apply"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Apply">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Apply</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to apply&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Probability"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Probability">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Probability</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to probability&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Instrument"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Instrument">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Instrument</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to instrument&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Fidelity"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Fidelity">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Fidelity</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to get fidelity&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Distance"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Distance">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Distance</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to get distance&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Spectrum"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Spectrum">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Spectrum</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to get spectrum&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_Entropy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Entropy">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Entropy</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to get entropy&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_OperateQGate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_OperateQGate">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_OperateQGate</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to operate qgate&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_TensorProduct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_TensorProduct">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_TensorProduct</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to tensor product&quot;</span></div>
+    
+<div class="viewcode-block" id="DensOp_Error_Reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_Reset">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_Reset</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to reset&quot;</span></div>
+    
+<div class="viewcode-block" id="DensOp_Error_FreeAll"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_FreeAll">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_FreeAll</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to free all&quot;</span></div>
+
+<div class="viewcode-block" id="DensOp_Error_AddMethods"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.DensOp_Error_AddMethods">[docs]</a><span class="k">class</span> <span class="nc">DensOp_Error_AddMethods</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DensOp: fail to add methods&quot;</span></div>
+
+<span class="c1"># Stabilizer</span>
+
+<div class="viewcode-block" id="Stabilizer_Error_Initialize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_Initialize">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_Initialize</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to initialize&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_Clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_Clone">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_Clone</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to clone&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_AddMethos"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_AddMethos">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_AddMethos</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to add methods&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_SetPauliFac"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_SetPauliFac">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_SetPauliFac</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to set pauli factor.&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_GetPauliFac"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_GetPauliFac">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_GetPauliFac</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to get pauli factor.&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_SetPauliOp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_SetPauliOp">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_SetPauliOp</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to set pauli op.&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_GetPauliOp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_GetPauliOp">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_GetPauliOp</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to get pauli op.&quot;</span></div>
+
+<span class="k">class</span> <span class="nc">Stabilizer_Error_GetRank</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to get rank.&quot;</span>
+
+<div class="viewcode-block" id="Stabilizer_Error_OperateQgate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_OperateQgate">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_OperateQgate</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to operate qgate.&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_GetRank"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_GetRank">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_GetRank</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to get rank.&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_Measure"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_Measure">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_Measure</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to measure qubits.&quot;</span></div>
+
+<div class="viewcode-block" id="Stabilizer_Error_FreeAll"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_FreeAll">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_FreeAll</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to free all&quot;</span></div>
+
+<span class="c1"># QComp</span>
+
+<div class="viewcode-block" id="QComp_Error_QgateNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_QgateNotSupported">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_QgateNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QComp: qgate is not supported&quot;</span></div>
+
+<div class="viewcode-block" id="QComp_Error_BackendNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_BackendNotSupported">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_BackendNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QComp: backend is not supported&quot;</span></div>
+
+<div class="viewcode-block" id="QComp_Error_NumberOfClassicalReg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_NumberOfClassicalReg">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_NumberOfClassicalReg</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QComp: number of classical register must be equal to corresponding quantum register&quot;</span></div>
+
+<span class="c1"># Backend</span>
+
+<div class="viewcode-block" id="Backend_Error_NameNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Backend_Error_NameNotSupported">[docs]</a><span class="k">class</span> <span class="nc">Backend_Error_NameNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Backend: name is not supported&quot;</span></div>
+
+<div class="viewcode-block" id="Backend_Error_DeviceNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Backend_Error_DeviceNotSupported">[docs]</a><span class="k">class</span> <span class="nc">Backend_Error_DeviceNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Backend: device is not supported&quot;</span></div>
+
+<div class="viewcode-block" id="Backend_Error_NameNotSpecified"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Backend_Error_NameNotSpecified">[docs]</a><span class="k">class</span> <span class="nc">Backend_Error_NameNotSpecified</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Backend: name is not specified&quot;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

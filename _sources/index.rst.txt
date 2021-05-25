@@ -13,7 +13,7 @@ Welcome to qlazy's documentation!
    Introduction
    Install
    Tutorial_jp
-   python-api/qlazypy
+   python-api/qlazy
 
 Indices and tables
 ==================

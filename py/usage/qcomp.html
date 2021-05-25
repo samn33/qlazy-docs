@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazypy.html">qlazypy package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazy.html">qlazy package</a></li>
 </ul>
 
             
@@ -170,7 +170,7 @@ QCompクラスは、そのような一連の操作を実行できるように量
 <h3>量子コンピュータの生成・初期化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>量子計算を実行するためには、当たり前ですが、まず量子コンピュータを用意
 する必要があります。一番簡単な方法は、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QComp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QComp</span>
 <span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -179,7 +179,7 @@ QCompクラスは、そのような一連の操作を実行できるように量
 定していない場合は、qlazyの「量子状態計算シミュレータ」(‘qlazy’という
 名前の’qstate_simulator’というデバイス)がセットされます。Backendを明示
 的に指定する場合は、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">Backend</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">Backend</span>
 <span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
 <span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">bk</span><span class="p">)</span>
 </pre></div>
@@ -361,7 +361,7 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 ということになります。</p></li>
 </ul>
 <p>例えば、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">Backend</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">Backend</span>
 <span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">)</span>
 <span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">bk</span><span class="p">)</span>
 <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -420,7 +420,7 @@ reset_cmemのデフォルト値はTrueです。なので、</p>
 <p>というわけで、量子レジスタや古典レジスタをグループ分けしてプログラミン
 グしたい場合、レジスタ関連ツールを使うことができます。</p>
 <p>まず、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazypy.tools.Register</span> <span class="kn">import</span> <span class="n">CreateRegister</span><span class="p">,</span><span class="n">InitRegister</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy.tools.Register</span> <span class="kn">import</span> <span class="n">CreateRegister</span><span class="p">,</span><span class="n">InitRegister</span>
 </pre></div>
 </div>
 <p>という具合に、CreateRegister関数とInitRegister関数をインポートします。
