@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>qlazy.Observable &mdash; qlazy  documentation</title>
+  <title>qlazy.QCirc &mdash; qlazy  documentation</title>
   
 
   
@@ -138,7 +138,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>qlazy.Observable</li>
+      <li>qlazy.QCirc</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -153,50 +153,80 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for qlazy.Observable</h1><div class="highlight"><pre>
+  <h1>Source code for qlazy.QCirc</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable">[docs]</a><span class="k">class</span> <span class="nc">Observable</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Obserbavle for quantum many-body spin system. &quot;&quot;&quot;</span>
-    
+<div class="viewcode-block" id="QCirc"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc">[docs]</a><span class="k">class</span> <span class="nc">QCirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Quantum Circuit</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qubit_num : int</span>
+<span class="sd">        qubit number of the quantum state (= log(state_num)).</span>
+<span class="sd">    cmem_num : int</span>
+<span class="sd">        number of the classical register.</span>
+<span class="sd">    gate_num : int</span>
+<span class="sd">        number of gates in the quantum circuit.</span>
+<span class="sd">    first: object</span>
+<span class="sd">        first gate of the quantum circuit.</span>
+<span class="sd">    last: object</span>
+<span class="sd">        last gate of the quantum circuit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;spin_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;array_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;spro_array&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;cmem_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;gate_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        string : str</span>
-<span class="sd">            expression for the observable.</span>
+<span class="sd">        None</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ob : instance of Observable</span>
-<span class="sd">            observable corresponding to the string expression.</span>
-
-<span class="sd">        Examles</span>
-<span class="sd">        -------</span>
-<span class="sd">        Hamiltonian for 2-body spin system : -2.0 + Z0 X1 + X0 X1</span>
-<span class="sd">        &gt;&gt;&gt; ob = Observable(&quot;-2.0+z_0*z_1+x_0+x_1&quot;)</span>
+<span class="sd">        qcirc : instance (QCirc)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">spin_num</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">array_num</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">spro_array</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">ob</span> <span class="o">=</span> <span class="n">observable_init</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ob</span>
-
-<div class="viewcode-block" id="Observable.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="n">ob</span><span class="p">):</span>
+        <span class="n">qcirc</span> <span class="o">=</span> <span class="n">qcirc_init</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">qcirc</span>
+            
+<div class="viewcode-block" id="QCirc.append_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.append_gate">[docs]</a>    <span class="k">def</span> <span class="nf">append_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        free memory of observable.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kind : int</span>
+<span class="sd">            kind of gate</span>
+<span class="sd">        qid : list (int)</span>
+<span class="sd">            list of qubit id</span>
+<span class="sd">        para : list (float), default None</span>
+<span class="sd">            list of parameters</span>
+<span class="sd">        c : int, default None</span>
+<span class="sd">            classical register id to store measured data</span>
+<span class="sd">        ctrl : int, default None</span>
+<span class="sd">            classical register id to controll the gate</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qcirc_append_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QCirc.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of quantum circuit.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -207,15 +237,15 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># observable_free(ob)</span>
+        <span class="c1"># qcirc_free(self)</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
-
+        
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="n">observable_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-
-<span class="c1"># c-library for observable</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.observable_c</span> <span class="kn">import</span> <span class="o">*</span>
+        <span class="n">qcirc_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        
+<span class="c1"># c-library for qstate</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.qcirc_c</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 
            </div>

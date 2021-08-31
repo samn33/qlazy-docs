@@ -4,6 +4,14 @@ qlazy.lib package
 Submodules
 ----------
 
+qlazy.lib.cmem\_c module
+------------------------
+
+.. automodule:: qlazy.lib.cmem_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.lib.densop\_c module
 --------------------------
 
@@ -32,6 +40,14 @@ qlazy.lib.observable\_c module
 ------------------------------
 
 .. automodule:: qlazy.lib.observable_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.lib.qcirc\_c module
+-------------------------
+
+.. automodule:: qlazy.lib.qcirc_c
    :members:
    :undoc-members:
    :show-inheritance:

@@ -22,6 +22,14 @@ qlazy.Backend module
    :undoc-members:
    :show-inheritance:
 
+qlazy.CMem module
+-----------------
+
+.. automodule:: qlazy.CMem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.DensOp module
 -------------------
 
@@ -46,6 +54,22 @@ qlazy.Observable module
    :undoc-members:
    :show-inheritance:
 
+qlazy.PauliProduct module
+-------------------------
+
+.. automodule:: qlazy.PauliProduct
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.QCirc module
+------------------
+
+.. automodule:: qlazy.QCirc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.QComp module
 ------------------
 
@@ -66,6 +90,14 @@ qlazy.Stabilizer module
 -----------------------
 
 .. automodule:: qlazy.Stabilizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.UnitaryOperator module
+----------------------------
+
+.. automodule:: qlazy.UnitaryOperator
    :members:
    :undoc-members:
    :show-inheritance:

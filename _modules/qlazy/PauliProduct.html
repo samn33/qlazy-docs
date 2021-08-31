@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>qlazy.PauliProduct &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>qlazy.PauliProduct</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for qlazy.PauliProduct</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">qlazy.UnitaryOperator</span> <span class="kn">import</span> <span class="n">UnitaryOperator</span>
+        
+<div class="viewcode-block" id="PauliProduct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct">[docs]</a><span class="k">class</span> <span class="nc">PauliProduct</span><span class="p">(</span><span class="n">UnitaryOperator</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Pauli Product</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qid : list of int</span>
+<span class="sd">        list of qubit id.</span>
+<span class="sd">    pauli_list : list of str</span>
+<span class="sd">        list of pauli operators.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pauli_str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pauli_str : str</span>
+<span class="sd">            string representation of Pauli Product.</span>
+<span class="sd">            ex) &quot;XZZY&quot;</span>
+<span class="sd">        qid : list of int, default - [0,1,..,len(pauli_str)-1]</span>
+<span class="sd">            list of qubit id.</span>
+<span class="sd">            ex) [1, 0, 3, 6]</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        &#39;pauli_str&#39; must consist of &#39;X&#39;,&#39;Y&#39;,&#39;Z&#39;, and length of &#39;pauli_str&#39; must be equal to length of &#39;qid&#39;</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; pp = PauliProduct(pauli_str =&quot;XZZY&quot;, qid=[1, 0, 3, 6])</span>
+<span class="sd">        represent Pauli Product : X1*Z0*Z3*Y6.</span>
+<span class="sd">        &gt;&gt;&gt; pp = PauliProduct(pauli_str =&quot;I&quot;)</span>
+<span class="sd">        represent identity.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pauli_str</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pauli_str or qid is not specified&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">))]</span>
+    
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of &#39;pauli_str&#39; is not equal to length of &#39;qid&#39;&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;some elements of &#39;qid&#39; are duplicated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">)])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;pauli_str&#39; must consist of &#39;X&#39;,&#39;Y&#39;,&#39;Z&#39;&quot;</span><span class="p">)</span>
+
+        <span class="n">qid_sorted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">pauli_list_sorted</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">))</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]:</span>
+            <span class="n">qid_sorted</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pauli_list_sorted</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">))):</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="k">continue</span>
+                <span class="n">qid_sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="n">pauli_list_sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid_sorted</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pauli_list_sorted</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">pauli_product</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">)):</span>
+            <span class="n">pauli_product</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{0:}</span><span class="s2">(</span><span class="si">{1:}</span><span class="s2">) &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="n">pauli_product</span> <span class="o">=</span> <span class="n">pauli_product</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pauli_product</span>
+
+<div class="viewcode-block" id="PauliProduct.get_binary_rep"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct.get_binary_rep">[docs]</a>    <span class="k">def</span> <span class="nf">get_binary_rep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get binary representation of pauli product.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qubit_num : int, default - max(self.qid)+1</span>
+<span class="sd">            qubit number of binary representation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        binary_rep : list of int</span>
+<span class="sd">            output binary representation of the pauli product.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; pp = PauliProduct(pauli_str=&quot;XYZ&quot;, qid=[0,1,2])</span>
+<span class="sd">        &gt;&gt;&gt; print(pp.get_binary_rep())</span>
+<span class="sd">        [1,1,0,0,1,1]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qubit_num</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">qubit_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
+
+        <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">Valueerror</span><span class="p">(</span><span class="s2">&quot;qubit_num is smaller than the size required by pauli product&quot;</span><span class="p">)</span>
+            
+        <span class="n">binary_rep</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">qubit_num</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="n">binary_rep</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="n">binary_rep</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="n">binary_rep</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">binary_rep</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">binary_rep</span></div>
+
+<div class="viewcode-block" id="PauliProduct.is_commute"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct.is_commute">[docs]</a>    <span class="k">def</span> <span class="nf">is_commute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        is pauli product commute to other pauli product or not.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ans : bool</span>
+<span class="sd">            commute (True) or anti-commute (False)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">qid</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">binary_rep_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_binary_rep</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+        <span class="n">binary_rep_pp</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">get_binary_rep</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+
+        <span class="n">inner_prod</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">):</span>
+            <span class="n">inner_prod</span> <span class="o">+=</span> <span class="p">(</span><span class="n">binary_rep_self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">binary_rep_pp</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span>
+            <span class="n">inner_prod</span> <span class="o">+=</span> <span class="p">(</span><span class="n">binary_rep_self</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">binary_rep_pp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">inner_prod</span> <span class="o">=</span> <span class="n">inner_prod</span> <span class="o">%</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">inner_prod</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+<div class="viewcode-block" id="PauliProduct.tenspro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct.tenspro">[docs]</a>    <span class="k">def</span> <span class="nf">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get tensor product with other pauli product.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pp_out : instance of PauliProduct</span>
+<span class="sd">            output pauli product</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">qid</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        
+        <span class="n">binary_rep_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_binary_rep</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+        <span class="n">binary_rep_pp</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">get_binary_rep</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+
+        <span class="n">binary_rep</span> <span class="o">=</span> <span class="p">[(</span><span class="n">bs</span> <span class="o">+</span> <span class="n">bp</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">bs</span><span class="p">,</span> <span class="n">bp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">binary_rep_self</span><span class="p">,</span> <span class="n">binary_rep_pp</span><span class="p">)]</span>
+
+        <span class="n">pauli_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">binary_rep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">binary_rep</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pauli_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+                <span class="n">qid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">binary_rep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pauli_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+                <span class="n">qid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">binary_rep</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pauli_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+                <span class="n">qid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="n">pauli_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pauli_list</span><span class="p">)</span>
+
+        <span class="n">pp_out</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="n">pauli_str</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pp_out</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

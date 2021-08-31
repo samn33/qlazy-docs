@@ -158,6 +158,7 @@
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
@@ -203,7 +204,7 @@
 <span class="sd">        &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">        &gt;&gt;&gt; qs_0 = QState(2)</span>
 <span class="sd">        &gt;&gt;&gt; qs_1 = QState(2).h(0).cx(0,1)</span>
-<span class="sd">        &gt;&gt;&gt; de_A = DensOp(qubit_num=2)  # = |00..0&gt;&lt;00..0|</span>
+<span class="sd">        &gt;&gt;&gt; de_A = DensOp(qubit_num=5)  # = |00..0&gt;&lt;00..0|</span>
 <span class="sd">        &gt;&gt;&gt; de_B = DensOp(qstate=[qs_0,qs_1], prob=[0.2,0.8])</span>
 <span class="sd">        &gt;&gt;&gt; de_C = DensOp(matrix=np.array([[0.7,0.0],[0.0,0.3]]))</span>
 
@@ -222,7 +223,7 @@
             <span class="n">qstate</span> <span class="o">=</span> <span class="p">[</span><span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">)]</span>
             <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
             <span class="n">de</span> <span class="o">=</span> <span class="n">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
-            <span class="n">qstate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="c1"># qstate[0].free()</span>
             <span class="k">return</span> <span class="n">de</span>
         
         <span class="k">elif</span> <span class="n">qstate</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">prob</span> <span class="o">!=</span> <span class="p">[]:</span>
@@ -276,7 +277,7 @@
             <span class="n">de_tmp</span> <span class="o">=</span> <span class="n">densop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="n">de_tmp</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="n">de_out</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">densop</span><span class="o">=</span><span class="n">de_tmp</span><span class="p">)</span>
-            <span class="n">de_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="c1"># de_tmp.free()</span>
 
         <span class="k">return</span> <span class="n">de_out</span></div>
 
@@ -409,11 +410,36 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># for de in densops:</span>
+        <span class="c1">#     if type(de) is list or type(de) is tuple:</span>
+        <span class="c1">#         cls.free_all(*de)</span>
+        <span class="c1">#     elif type(de) is DensOp:</span>
+        <span class="c1">#         de.free()</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         raise DensOp_Error_FreeAll()</span>
+        
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DensOp.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.del_all">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">del_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">densops</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of the all density operators.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        densops : instance of DensOp,instance of DensOp,...</span>
+<span class="sd">            set of DensOp instances</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">de</span> <span class="ow">in</span> <span class="n">densops</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">de</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">de</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="o">*</span><span class="n">de</span><span class="p">)</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="o">*</span><span class="n">de</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">de</span><span class="p">)</span> <span class="ow">is</span> <span class="n">DensOp</span><span class="p">:</span>
-                <span class="n">de</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="k">del</span> <span class="n">de</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">DensOp_Error_FreeAll</span><span class="p">()</span></div>
 
@@ -446,7 +472,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">elm</span> <span class="o">=</span> <span class="n">densop_get_elm</span><span class="p">(</span><span class="n">de_part</span><span class="p">)</span>
-        <span class="n">de_part</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+        <span class="c1"># de_part.free()</span>
         <span class="k">return</span> <span class="n">elm</span></div>
     
 <div class="viewcode-block" id="DensOp.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">nonzero</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -487,8 +513,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">densop_print</span><span class="p">(</span><span class="n">de_part</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">)</span>
-        <span class="n">de_part</span><span class="o">.</span><span class="n">free</span><span class="p">()</span></div>
+        <span class="n">densop_print</span><span class="p">(</span><span class="n">de_part</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">)</span></div>
+        <span class="c1"># de_part.free()</span>
 
 <div class="viewcode-block" id="DensOp.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -667,11 +693,34 @@
             <span class="n">de</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">de_tmp</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-                <span class="n">de</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="c1"># de.free()</span>
                 <span class="n">de</span> <span class="o">=</span> <span class="n">de_tmp</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-                <span class="n">de_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="c1"># de_tmp.free()</span>
             <span class="k">return</span> <span class="n">de</span></div>
         
+<div class="viewcode-block" id="DensOp.join"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">de_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get tensor product state (density operator) of the density operators&#39; list.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        de_list : list (DensOp)</span>
+<span class="sd">            list of density operators.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        de_out : instance of DensOp</span>
+<span class="sd">            tensor product state (density operator).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">de_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">de</span> <span class="ow">in</span> <span class="n">de_list</span><span class="p">:</span>
+            <span class="n">de_tmp</span> <span class="o">=</span> <span class="n">de_out</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="c1"># de_out.free()</span>
+            <span class="n">de_out</span> <span class="o">=</span> <span class="n">de_tmp</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">de</span><span class="p">)</span>
+            <span class="c1"># de_tmp.free()</span>
+        <span class="k">return</span> <span class="n">de_out</span></div>
+
 <div class="viewcode-block" id="DensOp.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the expectation value of matrix under this density operator.</span>
@@ -695,7 +744,7 @@
         <span class="n">densop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="n">densop_apply_matrix</span><span class="p">(</span><span class="n">densop</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">densop</span><span class="o">.</span><span class="n">trace</span><span class="p">()</span>
-        <span class="n">densop</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+        <span class="c1"># densop.free()</span>
         <span class="k">return</span> <span class="n">value</span></div>
         
 <div class="viewcode-block" id="DensOp.apply"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
@@ -820,8 +869,8 @@
                     <span class="n">densop_tmp</span> <span class="o">=</span> <span class="n">densop_ori</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
                     <span class="n">densop_tmp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">kraus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">densop</span><span class="o">=</span><span class="n">densop_tmp</span><span class="p">)</span>
-                    <span class="n">densop_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-            <span class="n">densop_ori</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                    <span class="c1"># densop_tmp.free()</span>
+            <span class="c1"># densop_ori.free()</span>
                 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># selective measurement</span>
 
@@ -1129,7 +1178,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
                 <span class="n">ent</span> <span class="o">=</span> <span class="n">de_part</span><span class="o">.</span><span class="n">__von_neumann_entropy</span><span class="p">()</span>
-                <span class="n">de_part</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="c1"># de_part.free()</span>
                 
         <span class="k">return</span> <span class="n">ent</span></div>
 
@@ -1999,6 +2048,52 @@
         <span class="n">densop_mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
+<div class="viewcode-block" id="DensOp.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate unitary operator to density operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product to operate</span>
+<span class="sd">        ctrl : int</span>
+<span class="sd">            contoroll qubit id for controlled pauli product</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of DensOp</span>
+<span class="sd">            density operator after operation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
+    
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;controll and target qubit id conflict&quot;</span><span class="p">)</span>
+        
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+    
+        <span class="k">return</span> <span class="bp">self</span></div>
+
 <div class="viewcode-block" id="DensOp.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        free memory of quantum state.</span>
@@ -2013,9 +2108,12 @@
 <span class="sd">        self : instance of DensOp</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># return self.densop_free()</span>
-        <span class="k">return</span> <span class="n">densop_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+        <span class="c1"># densop_free(self)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">densop_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
     
 <span class="c1"># c-library for densop</span>
 <span class="kn">from</span> <span class="nn">qlazy.lib.densop_c</span> <span class="kn">import</span> <span class="o">*</span>

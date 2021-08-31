@@ -235,7 +235,28 @@
 </div>
 </div>
 <div class="section" id="id5">
-<h3>量子チャネル<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3>パウリ積の演算<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>パウリ演算子X,Y,Zのテンソル積を定義して密度演算子に演算することができま
+す。パウリ積を扱うために、まず、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">DensOp</span><span class="p">,</span> <span class="n">PauliProduct</span>
+</pre></div>
+</div>
+<p>のようにPauliProductクラスをimportする必要があります。例えば、3量子ビッ
+トの密度演算子deに対して、X2 Y0 Z1というパウリ積を演算したい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">de</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
+定します。制御化されたパウリ積はoperateメソッドのctrlオプションに制御
+量子ビット番号を指定することで実現できます。以下のようにします。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>量子チャネル<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>密度演算子に対して、いくつかの代表的な量子チャネルを適用することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">bit_flip</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>
 <span class="n">de</span><span class="o">.</span><span class="n">phase_flip</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>
@@ -251,51 +272,47 @@
 の量子チャネルが何を意味するかについては、例えば、ニールセン・チャンの
 「量子コンピュータと量子通信３」を参照してください。</p>
 </div>
-<div class="section" id="id6">
-<h3>メモリ解放<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>量子状態インスタンスと同様、密度演算子を使った作業がすべて終わったら、
-内部のメモリを解放する必要があります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+<div class="section" id="id7">
+<h3>メモリ解放<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>密度演算子インスタンスのメモリは使用されなくなったら自動的に解放されますが、
+明示的に解放したい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">de</span>
 </pre></div>
 </div>
-<p>複数の密度演算子のインスタンスがある場合、クラス・メソッド’free_all’で
-一気に解放することができます。</p>
+<p>とすれば好きなタイミングで解放することができます。</p>
+<p>クラス・メソッド’del_all’を使えば複数の密度演算子のインスタンスを一気に
+解放することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]])</span>
 <span class="n">de_0</span> <span class="o">=</span> <span class="n">DensOp</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">mat</span><span class="p">)</span>
 <span class="n">de_1</span> <span class="o">=</span> <span class="n">DensOp</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">mat</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">de_2</span> <span class="o">=</span> <span class="n">DensOp</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">mat</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="o">...</span>
-<span class="n">DensOp</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">de_0</span><span class="p">,</span> <span class="n">de_1</span><span class="p">,</span> <span class="n">de_2</span><span class="p">)</span>
+<span class="n">DensOp</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">de_0</span><span class="p">,</span> <span class="n">de_1</span><span class="p">,</span> <span class="n">de_2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>また、引数に指定するのは密度演算子のリストやタプルであっても良いですし、
-それらの入れ子でもOKです。例えば、</p>
+<p>このとき、引数に指定するのは密度演算子のリストやタプルであっても良いで
+すし、それらの入れ子でもOKです。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de_A</span> <span class="o">=</span> <span class="p">[</span><span class="n">de_1</span><span class="p">,</span> <span class="n">de_2</span><span class="p">]</span>
-<span class="n">DensOp</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">de_0</span><span class="p">,</span> <span class="n">de_A</span><span class="p">)</span>
+<span class="n">DensOp</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">de_0</span><span class="p">,</span> <span class="n">de_A</span><span class="p">)</span>
 
 <span class="n">de_B</span> <span class="o">=</span> <span class="p">[</span><span class="n">de_3</span><span class="p">,</span> <span class="p">[</span><span class="n">de_4</span><span class="p">,</span> <span class="n">de_5</span><span class="p">]]</span>
-<span class="n">DensOp</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">de_B</span><span class="p">)</span>
+<span class="n">DensOp</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">de_B</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>という指定の仕方でも大丈夫です。ただし、同じ密度演算子インスタンスを２度
-以上解放するのはNGです。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DensOp</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">de_0</span><span class="p">,</span> <span class="p">[</span><span class="n">de_0</span><span class="p">,</span> <span class="n">de_1</span><span class="p">])</span>
-</pre></div>
+<p>という指定の仕方でも大丈夫です。</p>
 </div>
-<p>こうしてしまわないようにご注意を。</p>
-</div>
-<div class="section" id="id7">
-<h3>複製<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>複製<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>密度演算子を複製することができます。シミュレータならではの機能です。以下
 のようにcloneメソッドを呼び出します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de_clone</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>リセット<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>すでに生成済みの密度演算子を破棄(free)することなく、再度初期化して使い
-たい場合は、reset()メソッドを使います。</p>
+<div class="section" id="id9">
+<h3>リセット<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>すでに生成済みの密度演算子を破棄することなく、再度初期化して使いたい場
+合は、reset()メソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -310,10 +327,10 @@
 のみを強制的に|0&gt;にすることもできます。</p>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>密度演算子の表示<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id10">
-<h3>要素の表示<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h2>密度演算子の表示<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>要素の表示<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>DensOpクラスのshowメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -337,8 +354,8 @@
 では0番目と3番目の量子ビット以外の量子ビットに関して部分トレースを実行
 しています。</p>
 </div>
-<div class="section" id="id11">
-<h3>非ゼロ要素のみ表示<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>非ゼロ要素のみ表示<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>ゼロでない要素だけを表示したい場合、以下のように’nonzero’オプションを使えばできます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nonzero</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -349,8 +366,8 @@
 </div>
 <p>のように非ゼロ要素のみが表示されます。</p>
 </div>
-<div class="section" id="id12">
-<h3>要素の取得<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>要素の取得<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>get_elmメソッドで取得できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elm</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
 <span class="n">elm</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">get_elm</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
@@ -358,10 +375,10 @@
 </div>
 </div>
 </div>
-<div class="section" id="id13">
-<h2>密度演算子に関する計算<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id14">
-<h3>トレース<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h2>密度演算子に関する計算<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>トレース<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>traceメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">trace</span><span class="p">()</span>
 </pre></div>
@@ -371,8 +388,8 @@
 て、何らかの行列変換を適用しておいて(後述)、そのトレースを計算したい場
 合があります。その場合、このメソッドを使うことで、計算できます。</p>
 </div>
-<div class="section" id="id15">
-<h3>２乗のトレース<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>２乗のトレース<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>DensOpクラスのsqtraceメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sqtr</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">sqtrace</span><span class="p">()</span>
 </pre></div>
@@ -382,8 +399,8 @@
 かっています。このメソッドを使う典型的な状況は、純粋状態と混合状態を判
 別したいときです。</p>
 </div>
-<div class="section" id="id16">
-<h3>部分トレース<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>部分トレース<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>DensOpクラスのpatraceメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de_reduced</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">patrace</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="o">...</span><span class="p">])</span>
 </pre></div>
@@ -392,8 +409,8 @@
 処理を施せば良いということがわかっています。その計算を実行します。返却
 値は、縮約された(部分系の)密度演算子インスタンスです。</p>
 </div>
-<div class="section" id="id17">
-<h3>部分系<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>部分系<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>部分トレースをとった残りの部分系を取得します。qidに取得したい部分系に
 対応した量子ビット番号リストを指定します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de_partial</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="o">...</span><span class="p">])</span>
@@ -403,8 +420,8 @@
 partialメソッドでは「残したい」量子ビット番号を指定します。引数の解釈
 の違いを除けば、両者の内部処理は全く同じです。</p>
 </div>
-<div class="section" id="id18">
-<h3>テンソル積<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>テンソル積<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>２つの密度演算子のテンソル積を計算できます。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de_product</span> <span class="o">=</span> <span class="n">de_A</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">de_B</span><span class="p">)</span>
 </pre></div>
@@ -412,16 +429,16 @@ partialメソッドでは「残したい」量子ビット番号を指定しま�
 <p>密度演算子de_Aとde_Bのテンソル積(de_A (X) de_B)を計算し、新たな密度演
 算子de_productを生成しています（(X)は丸付きの☓のつもり）。</p>
 </div>
-<div class="section" id="id19">
-<h3>複合状態の生成<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>複合状態の生成<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p>compositeメソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de_com</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>全く同じdeを4つ複合した状態が生成されます。</p>
 </div>
-<div class="section" id="id20">
-<h3>行列の適用<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>行列の適用<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p>applyメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]])</span>
@@ -435,8 +452,8 @@ partialメソッドでは「残したい」量子ビット番号を指定しま�
 くてはなりません。applyメソッドは、元のインスタンスの内容を変えます。
 ご注意ください。</p>
 </div>
-<div class="section" id="id21">
-<h3>和とスカラー積<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>和とスカラー積<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p>addメソッド、mulメソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">de_0</span><span class="p">)</span>
 <span class="n">de</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
@@ -445,16 +462,16 @@ partialメソッドでは「残したい」量子ビット番号を指定しま�
 <p>deにde_0を足して、さらに0.3倍する例です。add,mulはもとのインスタンスの
 内容を変えます。</p>
 </div>
-<div class="section" id="id22">
-<h3>密度演算子の混合<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>密度演算子の混合<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span> <span class="o">=</span> <span class="n">DensOp</span><span class="o">.</span><span class="n">mix</span><span class="p">(</span><span class="n">densop</span><span class="o">=</span><span class="p">[</span><span class="n">de1</span><span class="p">,</span><span class="n">de2</span><span class="p">],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.8</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>量子状態ではなく、複数の密度演算子を用意し、その混合で新たな密度演算子
 を生成することができます。</p>
 </div>
-<div class="section" id="id23">
-<h3>確率<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>確率<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">probability</span><span class="p">(</span><span class="n">povm</span><span class="o">=</span><span class="p">[</span><span class="n">E0</span><span class="p">,</span><span class="n">E1</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">prob</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">probability</span><span class="p">(</span><span class="n">kraus</span><span class="o">=</span><span class="p">[</span><span class="n">M0</span><span class="p">,</span><span class="n">M1</span><span class="p">],</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
@@ -482,22 +499,22 @@ measured_valueに測定値（Kraus演算子番号）を指定すると、密度�
 </pre></div>
 </div>
 </div>
-<div class="section" id="id24">
-<h3>フィデリティ（忠実度）<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h3>フィデリティ（忠実度）<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fid</span> <span class="o">=</span> <span class="n">de1</span><span class="o">.</span><span class="n">fidelity</span><span class="p">(</span><span class="n">de2</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>密度演算子de1とde2のフィデリティを計算します。</p>
 </div>
-<div class="section" id="id25">
-<h3>トレース距離<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>トレース距離<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dis</span> <span class="o">=</span> <span class="n">de1</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">de2</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>密度演算子de1とde2のトレース距離を計算します。</p>
 </div>
-<div class="section" id="id26">
-<h3>スペクトル分解<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>スペクトル分解<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qstate</span><span class="p">,</span><span class="n">prob</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">spectrum</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -509,15 +526,15 @@ measured_valueに測定値（Kraus演算子番号）を指定すると、密度�
 <p>とやると、スペクトル分解の逆操作となり密度演算子は元に戻ります（計算誤
 差を除き、ですが）。</p>
 </div>
-<div class="section" id="id27">
-<h3>エントロピー（フォンノイマン・エントロピー）<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>エントロピー（フォンノイマン・エントロピー）<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ent</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">entropy</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>密度演算子deのフォンノイマン・エントロピーを計算します。</p>
 </div>
-<div class="section" id="id28">
-<h3>エンタングルメント・エントロピー<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>エンタングルメント・エントロピー<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ent_A</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>    <span class="c1"># for system A</span>
 <span class="n">ent_B</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>  <span class="c1"># for system B</span>
 </pre></div>
@@ -530,8 +547,8 @@ measured_valueに測定値（Kraus演算子番号）を指定すると、密度�
 全体系が純粋状態の場合、部分系Aと部分系Bのエンタングルメント・エントロ
 ピーの値は一致します。</p>
 </div>
-<div class="section" id="id29">
-<h3>条件付きエントロピー<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>条件付きエントロピー<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ent_cond</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">cond_entropy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -540,8 +557,8 @@ measured_valueに測定値（Kraus演算子番号）を指定すると、密度�
 S(A|B)=S(A,B)-S(A)と定義されます。古典情報理論における条件付きエントロ
 ピーと違い、負の値になる場合もあります。</p>
 </div>
-<div class="section" id="id30">
-<h3>相互情報量<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>相互情報量<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mut_info</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">mutual_info</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -549,18 +566,18 @@ S(A|B)=S(A,B)-S(A)と定義されます。古典情報理論における条件�
 互情報量を計算します。I(A:B)=S(A)+S(B)-S(A,B)と定義されます。AとBを入
 れ替えても同じ値になります。</p>
 </div>
-<div class="section" id="id31">
-<h3>相対エントロピー<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>相対エントロピー<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rel_ent</span> <span class="o">=</span> <span class="n">de1</span><span class="o">.</span><span class="n">relative_entropy</span><span class="p">(</span><span class="n">de2</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>密度演算子de1とde2の相対エントロピーを計算します。</p>
 </div>
 </div>
-<div class="section" id="id32">
-<h2>便利な機能<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id33">
-<h3>量子ビット番号（レジスタ）の準備<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<h2>便利な機能<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id34">
+<h3>量子ビット番号（レジスタ）の準備<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <p>大きめの量子回路を実行する場合、量子ビット番号（レジスタ）をグループ化
 した方が、わかりやすいプログラムになることが多々あります。QStateクラス
 のクラス・メソッドとして、レジスタをクリエイトする’create_register’と

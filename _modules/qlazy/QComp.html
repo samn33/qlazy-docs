@@ -173,8 +173,18 @@
 <span class="sd">        size of classical memory</span>
 <span class="sd">    cmem : list</span>
 <span class="sd">        classical memory</span>
-<span class="sd">    qcirc : dict</span>
+<span class="sd">    qcirc : list of dict</span>
 <span class="sd">        quantum circuit</span>
+<span class="sd">        dict = {&#39;kind&#39;: kind, &#39;qid&#39;: qid, &#39;cid&#39;: cid, </span>
+<span class="sd">                &#39;phase&#39;: phase, &#39;phase1&#39;: phase1, &#39;phase2&#39;: phase2,</span>
+<span class="sd">                &#39;ctrl&#39;: ctrl}</span>
+<span class="sd">        kind: int</span>
+<span class="sd">        qid: list of int</span>
+<span class="sd">        cid: list of int</span>
+<span class="sd">        phase: float</span>
+<span class="sd">        phase1: float</span>
+<span class="sd">        phase2: float</span>
+<span class="sd">        ctrl: int</span>
 <span class="sd">    qstate : instance of quantum state</span>
 <span class="sd">        quantum state (depend on backend)</span>
 
@@ -244,45 +254,45 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__reset</span> <span class="o">=</span> <span class="n">reset</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__free</span> <span class="o">=</span> <span class="n">free</span>
 
+        <span class="c1"># # </span>
+        <span class="c1"># # note: followings are not supported in the near future</span>
+        <span class="c1"># #</span>
         <span class="c1"># </span>
-        <span class="c1"># note: followings are not supported in the near future</span>
-        <span class="c1">#</span>
-        
-        <span class="c1"># qlazy qstate simulator</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;qlazy_qstate_simulator&#39;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_qstate_simulator</span> <span class="kn">import</span> <span class="n">init</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">reset</span><span class="p">,</span> <span class="n">free</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__init</span> <span class="o">=</span> <span class="n">init</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__reset</span> <span class="o">=</span> <span class="n">reset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__free</span> <span class="o">=</span> <span class="n">free</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;You should use name=&#39;qlazy&#39;,device=&#39;qstate_simulator&#39;, because name=&#39;qlazy_qstate_simulator&#39; will be not supported in the near future&quot;</span><span class="p">)</span>
-        
-        <span class="c1"># qlazy stabilizer simulator</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;qlazy_stabilizer_simulator&#39;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_stabilizer_simulator</span> <span class="kn">import</span> <span class="n">init</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">reset</span><span class="p">,</span> <span class="n">free</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__init</span> <span class="o">=</span> <span class="n">init</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__reset</span> <span class="o">=</span> <span class="n">reset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__free</span> <span class="o">=</span> <span class="n">free</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;You should use name=&#39;qlazy&#39;,device=&#39;stabilizer_simulator&#39;, because name=&#39;qlazy_stabilizer_simulator&#39; will be not supported in the near future&quot;</span><span class="p">)</span>
-        
-        <span class="c1"># qulacs</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;qulacs_simulator&#39;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">qlazy.backend.qulacs_cpu_simulator</span> <span class="kn">import</span> <span class="n">init</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">reset</span><span class="p">,</span> <span class="n">free</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__init</span> <span class="o">=</span> <span class="n">init</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__reset</span> <span class="o">=</span> <span class="n">reset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__free</span> <span class="o">=</span> <span class="n">free</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;You should use name=&#39;qulacs&#39;,device=&#39;cpu_simulator&#39;, because name=&#39;qulacs_simulator&#39; will be not supported in the near future&quot;</span><span class="p">)</span>
-        
-        <span class="c1"># qulacs-gpu</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;qulacs_gpu_simulator&#39;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">qlazy.backend.qulacs_gpu_simulator</span> <span class="kn">import</span> <span class="n">init</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">reset</span><span class="p">,</span> <span class="n">free</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__init</span> <span class="o">=</span> <span class="n">init</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__reset</span> <span class="o">=</span> <span class="n">reset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__free</span> <span class="o">=</span> <span class="n">free</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;You should use name=&#39;qulacs&#39;,device=&#39;gpu_simulator&#39;, because name=&#39;qulacs_gpu_simulator&#39; will be not supported in the near future&quot;</span><span class="p">)</span>
+        <span class="c1"># # qlazy qstate simulator</span>
+        <span class="c1"># elif self.backend.name == &#39;qlazy_qstate_simulator&#39;:</span>
+        <span class="c1">#     from qlazy.backend.qlazy_qstate_simulator import init, run, reset, free</span>
+        <span class="c1">#     self.__init = init</span>
+        <span class="c1">#     self.__run = run</span>
+        <span class="c1">#     self.__reset = reset</span>
+        <span class="c1">#     self.__free = free</span>
+        <span class="c1">#     warnings.warn(&quot;You should use name=&#39;qlazy&#39;,device=&#39;qstate_simulator&#39;, because name=&#39;qlazy_qstate_simulator&#39; will be not supported in the near future&quot;)</span>
+        <span class="c1"># </span>
+        <span class="c1"># # qlazy stabilizer simulator</span>
+        <span class="c1"># elif self.backend.name == &#39;qlazy_stabilizer_simulator&#39;:</span>
+        <span class="c1">#     from qlazy.backend.qlazy_stabilizer_simulator import init, run, reset, free</span>
+        <span class="c1">#     self.__init = init</span>
+        <span class="c1">#     self.__run = run</span>
+        <span class="c1">#     self.__reset = reset</span>
+        <span class="c1">#     self.__free = free</span>
+        <span class="c1">#     warnings.warn(&quot;You should use name=&#39;qlazy&#39;,device=&#39;stabilizer_simulator&#39;, because name=&#39;qlazy_stabilizer_simulator&#39; will be not supported in the near future&quot;)</span>
+        <span class="c1"># </span>
+        <span class="c1"># # qulacs</span>
+        <span class="c1"># elif self.backend.name == &#39;qulacs_simulator&#39;:</span>
+        <span class="c1">#     from qlazy.backend.qulacs_cpu_simulator import init, run, reset, free</span>
+        <span class="c1">#     self.__init = init</span>
+        <span class="c1">#     self.__run = run</span>
+        <span class="c1">#     self.__reset = reset</span>
+        <span class="c1">#     self.__free = free</span>
+        <span class="c1">#     warnings.warn(&quot;You should use name=&#39;qulacs&#39;,device=&#39;cpu_simulator&#39;, because name=&#39;qulacs_simulator&#39; will be not supported in the near future&quot;)</span>
+        <span class="c1"># </span>
+        <span class="c1"># # qulacs-gpu</span>
+        <span class="c1"># elif self.backend.name == &#39;qulacs_gpu_simulator&#39;:</span>
+        <span class="c1">#     from qlazy.backend.qulacs_gpu_simulator import init, run, reset, free</span>
+        <span class="c1">#     self.__init = init</span>
+        <span class="c1">#     self.__run = run</span>
+        <span class="c1">#     self.__reset = reset</span>
+        <span class="c1">#     self.__free = free</span>
+        <span class="c1">#     warnings.warn(&quot;You should use name=&#39;qulacs&#39;,device=&#39;gpu_simulator&#39;, because name=&#39;qulacs_gpu_simulator&#39; will be not supported in the near future&quot;)</span>
         
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span>
@@ -333,11 +343,69 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if self.qstate != None:</span>
+        <span class="c1">#     self.__free(qstate=self.qstate, backend=self.backend)</span>
+        <span class="c1"># </span>
+        <span class="c1"># del self.cmem</span>
+        <span class="c1"># del self.qcirc</span>
+        
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">qstate</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__free</span><span class="p">(</span><span class="n">qstate</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qstate</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
 
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmem</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">qcirc</span></div>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">qcirc</span>
+
+<div class="viewcode-block" id="QComp.free_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QComp.QComp.free_all">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">free_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">qcomps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of the all quantum computers.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qcomps : instance of QComp,instance of QComp,...</span>
+<span class="sd">            set of QComp instances</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># for qc in qcomps:</span>
+        <span class="c1">#     if type(qc) is list or type(qc) is tuple:</span>
+        <span class="c1">#         cls.free_all(*qc)</span>
+        <span class="c1">#     elif type(qc) is QComp:</span>
+        <span class="c1">#         qc.free()</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         raise QComp_Error_FreeAll()</span>
+        
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QComp.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QComp.QComp.del_all">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">del_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">qcomps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of the all quantum computers.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qcomps : instance of QComp,instance of QComp,...</span>
+<span class="sd">            set of QComp instances</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">qc</span> <span class="ow">in</span> <span class="n">qcomps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="o">*</span><span class="n">qc</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span> <span class="ow">is</span> <span class="n">QComp</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">qc</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">QComp_Error_FreeAll</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="QComp.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QComp.QComp.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">,</span> <span class="n">reset_qubits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reset_cmem</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reset_qcirc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1224,6 +1292,52 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="QComp.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QComp.QComp.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add unitary operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product to operate</span>
+<span class="sd">        ctrl : int</span>
+<span class="sd">            contoroll qubit id for controlled pauli product</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of QComp</span>
+<span class="sd">            quantum computer after adding</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
+    
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;controll and target qubit id conflict&quot;</span><span class="p">)</span>
+        
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+    
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">__add_quantum_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

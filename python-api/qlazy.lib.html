@@ -94,10 +94,12 @@
 <li class="toctree-l3"><a class="reference internal" href="qlazy.backend.html">qlazy.backend package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">qlazy.lib package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.cmem_c">qlazy.lib.cmem_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.densop_c">qlazy.lib.densop_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.densop_mcx">qlazy.lib.densop_mcx module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.mdata_c">qlazy.lib.mdata_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.observable_c">qlazy.lib.observable_c module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qcirc_c">qlazy.lib.qcirc_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qstate_c">qlazy.lib.qstate_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qstate_mcx">qlazy.lib.qstate_mcx module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.stabilizer_c">qlazy.lib.stabilizer_c module</a></li>
@@ -109,12 +111,16 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Backend">qlazy.Backend module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.CMem">qlazy.CMem module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.DensOp">qlazy.DensOp module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MData">qlazy.MData module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Observable">qlazy.Observable module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QComp">qlazy.QComp module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Stabilizer">qlazy.Stabilizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.UnitaryOperator">qlazy.UnitaryOperator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.config">qlazy.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.core">qlazy.core module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.error">qlazy.error module</a></li>
@@ -195,6 +201,19 @@
 <h1>qlazy.lib package<a class="headerlink" href="#qlazy-lib-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-qlazy.lib.cmem_c">
+<span id="qlazy-lib-cmem-c-module"></span><h2>qlazy.lib.cmem_c module<a class="headerlink" href="#module-qlazy.lib.cmem_c" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="qlazy.lib.cmem_c.cmem_free">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.cmem_c.</span></code><code class="sig-name descname"><span class="pre">cmem_free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmem</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/cmem_c.html#cmem_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.cmem_c.cmem_free" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.cmem_c.cmem_init">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.cmem_c.</span></code><code class="sig-name descname"><span class="pre">cmem_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/cmem_c.html#cmem_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.cmem_c.cmem_init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-qlazy.lib.densop_c">
 <span id="qlazy-lib-densop-c-module"></span><h2>qlazy.lib.densop_c module<a class="headerlink" href="#module-qlazy.lib.densop_c" title="Permalink to this headline">¶</a></h2>
@@ -387,6 +406,24 @@
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-qlazy.lib.qcirc_c">
+<span id="qlazy-lib-qcirc-c-module"></span><h2>qlazy.lib.qcirc_c module<a class="headerlink" href="#module-qlazy.lib.qcirc_c" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="qlazy.lib.qcirc_c.qcirc_append_gate">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></code><code class="sig-name descname"><span class="pre">qcirc_append_gate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">para</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_append_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_append_gate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.qcirc_c.qcirc_free">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></code><code class="sig-name descname"><span class="pre">qcirc_free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_free" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.qcirc_c.qcirc_init">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></code><code class="sig-name descname"><span class="pre">qcirc_init</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="module-qlazy.lib.qstate_c">
 <span id="qlazy-lib-qstate-c-module"></span><h2>qlazy.lib.qstate_c module<a class="headerlink" href="#module-qlazy.lib.qstate_c" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -452,6 +489,11 @@
 <dl class="py function">
 <dt id="qlazy.lib.qstate_c.qstate_measure_bell">
 <code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_measure_bell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MDATA_TABLE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_measure_bell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_measure_bell" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.qstate_c.qstate_operate_qcirc">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_operate_qcirc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_operate_qcirc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_operate_qcirc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

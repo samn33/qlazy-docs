@@ -158,11 +158,13 @@
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.MData</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.PauliProduct</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.lib.qstate_mcx</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">MDATA_TABLE</span> <span class="o">=</span> <span class="p">{}</span>
@@ -184,8 +186,10 @@
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;state_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;buf_id&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;camp&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;camp_tmp&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;buffer_0&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;buffer_1&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;gbank&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
     <span class="p">]</span>
 
@@ -217,7 +221,7 @@
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
-            
+
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_amp</span><span class="p">())</span>
@@ -255,6 +259,7 @@
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; def bell(self, q0, q1):</span>
 <span class="sd">        &gt;&gt;&gt;     self.h(q0).cx(q0,q1)</span>
+<span class="sd">        &gt;&gt;&gt;     return self</span>
 <span class="sd">        &gt;&gt;&gt; ...</span>
 <span class="sd">        &gt;&gt;&gt; QState.add_method(bell)</span>
 <span class="sd">        &gt;&gt;&gt; qs = QState(qubit_num=2)</span>
@@ -364,11 +369,36 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># for qs in qstates:</span>
+        <span class="c1">#     if type(qs) is list or type(qs) is tuple:</span>
+        <span class="c1">#         cls.free_all(*qs)</span>
+        <span class="c1">#     elif type(qs) is QState:</span>
+        <span class="c1">#         qs.free()</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         raise QState_Error_FreeAll()</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="QState.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.del_all">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">del_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">qstates</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        free memory of the all quantum states.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qstates : instance of QState,instance of QState,...</span>
+<span class="sd">            set of QState instances</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">qs</span> <span class="ow">in</span> <span class="n">qstates</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="o">*</span><span class="n">qs</span><span class="p">)</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="o">*</span><span class="n">qs</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="ow">is</span> <span class="n">QState</span><span class="p">:</span>
-                <span class="n">qs</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="k">del</span> <span class="n">qs</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">QState_Error_FreeAll</span><span class="p">()</span></div>
 
@@ -548,8 +578,8 @@
             <span class="n">qs_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">qs_1</span> <span class="o">=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">inp</span> <span class="o">=</span> <span class="n">qstate_inner_product</span><span class="p">(</span><span class="n">qs_0</span><span class="p">,</span> <span class="n">qs_1</span><span class="p">)</span>
-            <span class="n">qs_0</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-            <span class="n">qs_1</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="c1"># qs_0.free()</span>
+            <span class="c1"># qs_1.free()</span>
         <span class="k">return</span> <span class="n">inp</span></div>
         
 <div class="viewcode-block" id="QState.tenspro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.tenspro">[docs]</a>    <span class="k">def</span> <span class="nf">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">):</span>
@@ -618,11 +648,34 @@
             <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">qs_tmp</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-                <span class="n">qs</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="c1"># qs.free()</span>
                 <span class="n">qs</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-                <span class="n">qs_tmp</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="c1"># qs_tmp.free()</span>
             <span class="k">return</span> <span class="n">qs</span></div>
         
+<div class="viewcode-block" id="QState.join"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qs_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get tensor product state of the quantum states&#39; list.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qs_list : list (QState)</span>
+<span class="sd">            list of quantum states.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qs_out : instance of QState</span>
+<span class="sd">            tensor product state.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qs_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">qs</span> <span class="ow">in</span> <span class="n">qs_list</span><span class="p">:</span>
+            <span class="n">qs_tmp</span> <span class="o">=</span> <span class="n">qs_out</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="c1"># qs_out.free()</span>
+            <span class="n">qs_out</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
+            <span class="c1"># qs_tmp.free()</span>
+        <span class="k">return</span> <span class="n">qs_out</span></div>
+
 <div class="viewcode-block" id="QState.evolve"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.evolve">[docs]</a>    <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        evolve the quantum state.</span>
@@ -1761,6 +1814,52 @@
         <span class="n">mfrq</span> <span class="o">=</span> <span class="n">MDATA_TABLE</span><span class="p">[</span><span class="n">tag_long</span><span class="p">]</span><span class="o">.</span><span class="n">measured_freq</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mfrq</span></div>
 
+<div class="viewcode-block" id="QState.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate unitary operator to quantum state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product to operate</span>
+<span class="sd">        ctrl : int</span>
+<span class="sd">            contoroll qubit id for controlled pauli product</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of QState</span>
+<span class="sd">            quantum state after operation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
+    
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;controll and target qubit id conflict&quot;</span><span class="p">)</span>
+        
+            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+    
+        <span class="k">return</span> <span class="bp">self</span></div>
+
 <div class="viewcode-block" id="QState.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        free memory of quantum state.</span>
@@ -1774,8 +1873,12 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
-        
+        <span class="c1"># qstate_free(self)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">qstate_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <span class="c1"># c-library for qstate</span>
 <span class="kn">from</span> <span class="nn">qlazy.lib.qstate_c</span> <span class="kn">import</span> <span class="o">*</span>

@@ -173,9 +173,6 @@
 <span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>            <span class="c1"># 測定結果の表示</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>  <span class="c1"># 頻度リスト(python標準のCounter形式)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>       <span class="c1"># 最後の結果(0または1からなるの文字列)</span>
-
-<span class="c1"># 後始末（メモリ解放）</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>何をやっているか順に説明します。まず、QState()で量子ビットを各々|0&gt;に
@@ -232,7 +229,7 @@ Counter形式で取得したい場合はfrequencyプロパティを、最後の�
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>  <span class="c1"># 頻度リスト</span>
 <span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span><span class="mi">53</span><span class="p">,</span><span class="s1">&#39;11&#39;</span><span class="p">:</span><span class="mi">47</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>       <span class="c1"># 最後の結果</span>
-<span class="o">&gt;&gt;</span> <span class="s1">&#39;11&#39;</span>
+<span class="o">&gt;&gt;</span> <span class="s1">&#39;00&#39;</span>
 </pre></div>
 </div>
 <p>さて、上の例では最後の測定値は|00&gt;でした。qlazyでは、測定後の状態変化
@@ -247,14 +244,6 @@ Counter形式で取得したい場合はfrequencyプロパティを、最後の�
 <span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
 </pre></div>
 </div>
-<p>すべて終わったら、後始末をします。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>qlazyは実質的な計算はすべてC言語で作成したライブラリで行っており、それ
-をCtypesを使って呼び出す形にしています。量子状態を格納しておくメモリは
-C言語側で動的に確保していますので、最後に、そのメモリを開放するという
-意味でfree()が必要です。</p>
 <p>以上</p>
 </div>
 

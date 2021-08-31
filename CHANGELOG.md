@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.5] - 2021-08-31
+- qlazyバージョンアップに伴う変更
+
 ## [0.0.4] - 2021-05-25
 ### Changed
 - Pythonパッケージ名を変更: qlazypy -> qlazy

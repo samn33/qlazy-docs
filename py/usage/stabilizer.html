@@ -238,6 +238,20 @@ set_pauli_facメソッドを使います。例えば、</p>
 </div>
 <p>とします。set_pauli_facの第1引数は生成元の番具で、第2引数は指定したい
 符号(4つのうちのどれか)を文字列で指定します。</p>
+<p>パウリ積のリストをStabilizerの引数に与えてインスタンスを生成することも
+できます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">str_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IIIXXXX&quot;</span><span class="p">,</span> <span class="s2">&quot;IXXIIXX&quot;</span><span class="p">,</span> <span class="s2">&quot;XIXIXIX&quot;</span><span class="p">,</span> <span class="s2">&quot;IIIZZZZ&quot;</span><span class="p">,</span> <span class="s2">&quot;IZZIIZZ&quot;</span><span class="p">,</span> <span class="s2">&quot;ZIZIZIZ&quot;</span><span class="p">]</span>
+<span class="n">pp_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="n">pp_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">pp_str</span> <span class="ow">in</span> <span class="n">str_list</span><span class="p">]</span>
+<span class="n">sb</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">pp_list</span><span class="o">=</span><span class="n">gene_list</span><span class="p">)</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">shoe</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="n">IIIXXXX</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="n">IXXIIXX</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>  <span class="n">XIXIXIX</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>  <span class="n">IIIZZZZ</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>  <span class="n">IZZIIZZ</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span>  <span class="n">ZIZIZIZ</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id3">
 <h3>ゲート演算<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
@@ -299,7 +313,28 @@ Stabilizerクラスのメソッドとして登録したい場合は、Stabilizer
 </div>
 </div>
 <div class="section" id="id7">
-<h3>測定<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>パウリ積の演算<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>パウリ演算子X,Y,Zのテンソル積を定義してスタビライザー状態に演算することができま
+す。パウリ積を扱うために、まず、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Stabilizer</span><span class="p">,</span> <span class="n">PauliProduct</span>
+</pre></div>
+</div>
+<p>のようにPauliProductクラスをimportする必要があります。例えば、3量子ビッ
+トのスタビライザー状態sbに対して、X2 Y0 Z1というパウリ積を演算したい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
+定します。制御化されたパウリ積はoperateメソッドのctrlオプションに制御
+量子ビット番号を指定することで実現できます。以下のようにします。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>測定<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>QStateクラスと同様にmメソッドで測定データ(MDataStabilizerクラス)を取得
 して適当な変数に格納します。頻度や最後の測定結果はfrequencyプロパティ
 (pythonのCounter形式)とlastプロパティ(文字列)で取得することができます。</p>
@@ -311,53 +346,49 @@ Stabilizerクラスのメソッドとして登録したい場合は、Stabilizer
 </pre></div>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>メモリ解放<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>量子状態インスタンスや密度演算子インスタンスと同様、スタビライザーを使っ
-た作業がすべて終わったら、内部のメモリを解放する必要があります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+<div class="section" id="id9">
+<h3>メモリ解放<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>スタビライザーインスタンスのメモリは使用されなくなったら自動的に解放されますが、
+明示的に解放したい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">sb</span>
 </pre></div>
 </div>
-<p>複数のスタビライザーのインスタンスがある場合、クラス・メソッ
-ド’free_all’で一気に解放することができます。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Stabilizer</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">sb_0</span><span class="p">,</span> <span class="n">sb_1</span><span class="p">,</span> <span class="n">sb_2</span><span class="p">)</span>
+<p>とすれば好きなタイミングで解放することができます。</p>
+<p>クラス・メソッド’del_all’を使えば複数のスタビライザーのインスタンスを一気に
+解放することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Stabilizer</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">sb_0</span><span class="p">,</span> <span class="n">sb_1</span><span class="p">,</span> <span class="n">sb_2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>また、引数に指定するのはスタビライザーのリストやタプルであっても良いですし、
-それらの入れ子でもOKです。例えば、</p>
+<p>このとき、引数に指定するのはスタビライザーのリストやタプルであっても良
+いですし、それらの入れ子でもOKです。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb_A</span> <span class="o">=</span> <span class="p">[</span><span class="n">sb_1</span><span class="p">,</span> <span class="n">sb_2</span><span class="p">]</span>
-<span class="n">Stabilizer</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">sb_0</span><span class="p">,</span> <span class="n">sb_A</span><span class="p">)</span>
+<span class="n">Stabilizer</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">sb_0</span><span class="p">,</span> <span class="n">sb_A</span><span class="p">)</span>
 
 <span class="n">sb_B</span> <span class="o">=</span> <span class="p">[</span><span class="n">sb_3</span><span class="p">,</span> <span class="p">[</span><span class="n">sb_4</span><span class="p">,</span> <span class="n">sb_5</span><span class="p">]]</span>
-<span class="n">Stabilizer</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">sb_B</span><span class="p">)</span>
+<span class="n">Stabilizer</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">sb_B</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>という指定の仕方でも大丈夫です。ただし、同じスタビライザーインスタンス
-を２度以上解放するのはNGです。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Stabilizer</span><span class="o">.</span><span class="n">free_all</span><span class="p">(</span><span class="n">sb_0</span><span class="p">,</span> <span class="p">[</span><span class="n">sb_0</span><span class="p">,</span> <span class="n">sb_1</span><span class="p">])</span>
-</pre></div>
+<p>という指定の仕方でも大丈夫です。</p>
 </div>
-<p>こうしてしまわないようにご注意を。</p>
-</div>
-<div class="section" id="id9">
-<h3>複製<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>複製<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>スタビライザーを複製することができます。以下のようにcloneメソッドを呼
 び出します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb_clone</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id10">
-<h3>リセット<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>すでに生成済みのスタビライザーを破棄(free)することなく、再度初期化して
-使いたい場合は、reset()メソッドを使います。</p>
+<div class="section" id="id11">
+<h3>リセット<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>すでに生成済みのスタビライザーを破棄することなく、再度初期化して使いた
+い場合は、reset()メソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>とすれば、すべての演算子を恒等演算子Iにリセットすることができます。</p>
 </div>
-<div class="section" id="id11">
-<h3>スタビライザーの表示<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>スタビライザーの表示<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Stabilizerクラスのshowメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -369,8 +400,8 @@ Stabilizerクラスのメソッドとして登録したい場合は、Stabilizer
 </pre></div>
 </div>
 </div>
-<div class="section" id="id12">
-<h3>要素の取得<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>要素の取得<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>get_pauli_opメソッドget_pauli_facメソッドで取得できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="n">XXI</span>
