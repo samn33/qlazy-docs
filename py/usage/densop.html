@@ -205,33 +205,22 @@
 </div>
 <div class="section" id="id4">
 <h4>カスタム・ゲートの追加<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
-<p>上で説明した基本的なゲートを組み合わせてユーザーが独自に作成したカスタ
-ム・ゲートを、DensOpクラスのメソッドとして登録したい場合は、DensOpクラ
-スのクラス・メソッド’add_method’を使います。</p>
-<p>例えば、指定した３つの量子ビット番号に各々X,Y,Zゲートを演算する’foo’ゲー
-トを登録したいとします。まず、その演算を以下のように関数定義します。引
-数’self’は、DensOpのインスタンスで、このselfに対してゲート演算を適用し
-て、関数の最後でselfをリターンするようにします。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">self</span>
+<p>DensOpクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
+ることができます。ベル状態を作成する回路をbellメソッドとして、DensOpを
+継承したMyDensOpクラスに追加する例を示します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyDensOp</span><span class="p">(</span><span class="n">DensOp</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<span class="n">de</span> <span class="o">=</span> <span class="n">MyDensOp</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">de</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">...</span>
 </pre></div>
 </div>
-<p>これをメソッドとして登録するには、以下のようにします。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DensOp</span><span class="o">.</span><span class="n">add_method</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>‘foo’を使用する場合は、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">de</span><span class="o">.</span><span class="n">foo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>という具合に、通常のゲート演算と同様の書き方で実行できます。</p>
-<p>また、複数のメソッドを同時に登録したい場合は、クラス・メソッ
-ド’add_methods’を使って、以下のようにします。引数として設定できる関数
-の数には特に制限はありません。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DensOp</span><span class="o">.</span><span class="n">add_methods</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="n">hoge</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>これは非常に簡単な例なのであまりご利益を感じないかもしれませんが、大規
+模な量子回路を作成したい場合など、便利に使える場面は多いと思います。</p>
 </div>
 </div>
 <div class="section" id="id5">

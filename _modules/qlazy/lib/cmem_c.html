@@ -180,9 +180,9 @@
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">CMem_Error_Initialize</span><span class="p">()</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_cmem</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">))</span>
-        
-    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span></div>
+    <span class="c1"># out = ctypes.cast(c_cmem.value, ctypes.POINTER(CMem))</span>
+    <span class="c1"># return out.contents</span>
+    <span class="k">return</span> <span class="n">c_cmem</span></div>
     
 <div class="viewcode-block" id="cmem_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.cmem_c.cmem_free">[docs]</a><span class="k">def</span> <span class="nf">cmem_free</span><span class="p">(</span><span class="n">cmem</span><span class="p">):</span>
 

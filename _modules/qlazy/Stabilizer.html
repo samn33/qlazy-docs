@@ -159,6 +159,7 @@
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
@@ -240,7 +241,9 @@
             <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">pp_list</span><span class="p">:</span>
                 <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">qubit_num</span><span class="p">]</span> <span class="o">+</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">qubit_num</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">sb</span> <span class="o">=</span> <span class="n">stabilizer_init</span><span class="p">(</span><span class="n">gene_num</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="c1"># sb = stabilizer_init(gene_num, qubit_num, seed)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">stabilizer_init</span><span class="p">(</span><span class="n">gene_num</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="n">sb</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pp_list</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">qid</span><span class="p">):</span>
                     <span class="n">sb</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
@@ -253,7 +256,10 @@
                 <span class="n">gene_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
             <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">gene_num</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">Stabilizer_Error_Initialize</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">stabilizer_init</span><span class="p">(</span><span class="n">gene_num</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="c1"># return stabilizer_init(gene_num, qubit_num, seed)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">stabilizer_init</span><span class="p">(</span><span class="n">gene_num</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="n">sb</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
+            <span class="k">return</span> <span class="n">sb</span>
             
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -366,8 +372,11 @@
 <span class="sd">            copy of the original stabilizer.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stab</span> <span class="o">=</span> <span class="n">stabilizer_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">stab</span></div>
+        <span class="c1"># stab = stabilizer_copy(self)</span>
+        <span class="c1"># return stab</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">stabilizer_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">sb</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
+        <span class="k">return</span> <span class="n">sb</span></div>
 
 <div class="viewcode-block" id="Stabilizer.get_rank"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.get_rank">[docs]</a>    <span class="k">def</span> <span class="nf">get_rank</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -801,7 +810,6 @@
                 <span class="n">mval</span> <span class="o">=</span> <span class="n">stabilizer_measure</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="n">mval_str</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
             <span class="n">frequency</span> <span class="o">+=</span> <span class="p">{</span><span class="n">mval_str</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
-            <span class="c1"># st.free()</span>
 
         <span class="c1"># last measurement</span>
         <span class="n">mval_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -831,14 +839,6 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># for sb in stabs:</span>
-        <span class="c1">#     if type(sb) is list or type(sb) is tuple:</span>
-        <span class="c1">#         cls.free_all(*sb)</span>
-        <span class="c1">#     elif type(sb) is Stabilizer:</span>
-        <span class="c1">#         sb.free()</span>
-        <span class="c1">#     else:</span>
-        <span class="c1">#         raise Stabilizer_Error_FreeAll()</span>
-
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Stabilizer.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.del_all">[docs]</a>    <span class="nd">@classmethod</span>

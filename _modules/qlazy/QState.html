@@ -159,6 +159,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
@@ -217,10 +218,17 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;qubit number must be </span><span class="si">{0:d}</span><span class="s2"> or less.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="n">QState_Error_Initialize</span><span class="p">()</span>
 
-            <span class="k">return</span> <span class="n">qstate_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">qstate_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="c1"># return qstate_init(qubit_num, seed)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="c1"># return qstate_init_with_vector(vector, seed)</span>
+            
+        <span class="c1"># self = ctypes.cast(obj.value, ctypes.POINTER(QState)).contents</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -369,14 +377,6 @@
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># for qs in qstates:</span>
-        <span class="c1">#     if type(qs) is list or type(qs) is tuple:</span>
-        <span class="c1">#         cls.free_all(*qs)</span>
-        <span class="c1">#     elif type(qs) is QState:</span>
-        <span class="c1">#         qs.free()</span>
-        <span class="c1">#     else:</span>
-        <span class="c1">#         raise QState_Error_FreeAll()</span>
-
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
         
 <div class="viewcode-block" id="QState.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.del_all">[docs]</a>    <span class="nd">@classmethod</span>
@@ -520,8 +520,11 @@
 <span class="sd">            copy of the original quantum state.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate</span> <span class="o">=</span> <span class="n">qstate_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">qstate</span></div>
+        <span class="c1"># qstate = qstate_copy(self)</span>
+        <span class="c1"># return qstate</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">qstate_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">qs</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
+        <span class="k">return</span> <span class="n">qs</span></div>
 
 <div class="viewcode-block" id="QState.bloch"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.bloch">[docs]</a>    <span class="k">def</span> <span class="nf">bloch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -578,8 +581,6 @@
             <span class="n">qs_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">qs_1</span> <span class="o">=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">inp</span> <span class="o">=</span> <span class="n">qstate_inner_product</span><span class="p">(</span><span class="n">qs_0</span><span class="p">,</span> <span class="n">qs_1</span><span class="p">)</span>
-            <span class="c1"># qs_0.free()</span>
-            <span class="c1"># qs_1.free()</span>
         <span class="k">return</span> <span class="n">inp</span></div>
         
 <div class="viewcode-block" id="QState.tenspro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.tenspro">[docs]</a>    <span class="k">def</span> <span class="nf">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">):</span>
@@ -597,8 +598,11 @@
 <span class="sd">            tensor produt of &#39;self&#39; and &#39;qstate&#39;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_out</span> <span class="o">=</span> <span class="n">qstate_tensor_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">qstate_out</span></div>
+        <span class="c1"># qstate_out = qstate_tensor_product(self, qstate)</span>
+        <span class="c1"># return qstate_out</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">qstate_tensor_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">)</span>
+        <span class="n">qs</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
+        <span class="k">return</span> <span class="n">qs</span></div>
 
 <div class="viewcode-block" id="QState.fidelity"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.fidelity">[docs]</a>    <span class="k">def</span> <span class="nf">fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -648,9 +652,7 @@
             <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">qs_tmp</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-                <span class="c1"># qs.free()</span>
                 <span class="n">qs</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-                <span class="c1"># qs_tmp.free()</span>
             <span class="k">return</span> <span class="n">qs</span></div>
         
 <div class="viewcode-block" id="QState.join"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qs_list</span><span class="p">):</span>
@@ -671,9 +673,7 @@
         <span class="n">qs_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">qs</span> <span class="ow">in</span> <span class="n">qs_list</span><span class="p">:</span>
             <span class="n">qs_tmp</span> <span class="o">=</span> <span class="n">qs_out</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-            <span class="c1"># qs_out.free()</span>
             <span class="n">qs_out</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
-            <span class="c1"># qs_tmp.free()</span>
         <span class="k">return</span> <span class="n">qs_out</span></div>
 
 <div class="viewcode-block" id="QState.evolve"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.evolve">[docs]</a>    <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
