@@ -1,0 +1,21 @@
+qlazy.tools package
+===================
+
+Submodules
+----------
+
+qlazy.tools.Register module
+---------------------------
+
+.. automodule:: qlazy.tools.Register
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: qlazy.tools
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -690,121 +690,37 @@ phi+ =&gt; 0, phi- =&gt; 3, psi+ =&gt; 1, psi- =&gt; 2と定義しています�
 得したい場合はfrequencyプロパティを、測定値をバイナリの文字列で取得し
 たい場合はlastプロパティを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>  <span class="c1"># 頻度リスト</span>
-<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span><span class="mi">53</span><span class="p">,</span><span class="s1">&#39;11&#39;</span><span class="p">:</span><span class="mi">47</span><span class="p">})</span>
+<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;00&#39;</span><span class="p">:</span><span class="mi">53</span><span class="p">,</span><span class="s1">&#39;11&#39;</span><span class="p">:</span><span class="mi">47</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>       <span class="c1"># 最後の結果</span>
 <span class="o">&gt;&gt;</span> <span class="s1">&#39;11&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id29">
-<h3>測定の実行と測定データの取得（もう一つの方法）<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
-<p>測定実行時にその測定結果にタグを付与して内部的に保持しておき、後からそ
-の結果を参照する、というやり方も可能です。例えば、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-<span class="n">freq</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m_freq</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">54</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="mi">46</span><span class="p">})</span>
+<h3>一回限りの測定<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>計算基底で単純に１回だけ測定してその測定値を得たい場合、measureメソッ
+ドを使うこともできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mval</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>のように、測定実行時にタグ’foo’を指定して測定データを保持しておき、
-m_freqメソッドにタグ’foo’を指定することで測定結果を得ることができます。
-python標準のコンテナデータ型のサブクラスCounter形式で結果が返ってきま
-す。測定関連のメソッドm,mx,my,mz,mbすべてで同様に実行可能です。</p>
-<p>測定の際、tagの指定を省略した場合は、’default’というタグに保持されます。
-m_freqメソッドで参照する際にtagの指定を省略すると、’default’タグが指定
-されたとみなされ、結果を返しますので、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">freq</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m_freq</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="mi">49</span><span class="p">})</span>
+<p>とやればmvalに文字列’00’または’11’が格納されます。量子状態は測定後の状
+態になります（例えば以下のように）。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="mi">11</span>
+<span class="o">&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="o">&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="o">&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="o">&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
 </pre></div>
 </div>
-<p>という書き方も可能です。計算したい量子回路に測定が1箇所しかない場合は、
-これで十分です。</p>
-<p>複数のQStateクラスのインスタンスがあって、それに対して別々に測定する場
-合、インスタンスごとのタグ名で各測定結果が保持されますので、以下のよう
-に指定しても大丈夫です。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs_0</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">qs_0</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
-
-<span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">qs_1</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
-<span class="n">qs_1</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;hoge&#39;</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">qs_0</span><span class="o">.</span><span class="n">m_freq</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">qs_1</span><span class="o">.</span><span class="n">m_freq</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="mi">49</span><span class="p">})</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">qs_1</span><span class="o">.</span><span class="n">m_freq</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;hoge&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
-</pre></div>
 </div>
-<p>測定結果の頻度分布を得るm_freq以外にも、タグで管理された測定データを参
-照するいくつかのメソッドがありますので、以下で説明します。</p>
-<p>測定データ（複数回測定する場合は最後の測定結果）を取得するm_value()と
-いうメソッドは、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_value</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="mi">0</span>
-</pre></div>
 </div>
-<p>のように使います。結果は整数値になります。２進数の文字列で値を取得した
-い場合は、引数binaryにTrueを指定します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_value</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="s1">&#39;00&#39;</span>
-</pre></div>
-</div>
-<p>となります。</p>
-<p>測定データの中の特定の量子ビットが’0’だったのか’1’だったのかを知るため
-には、m_bit()メソッドを使います。以下のように、取得したい量子ビット番
-号を最初に指定して、続けて他の引数を指定します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_bit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="mi">1</span>
-</pre></div>
-</div>
-<p>論理値(True,False)で取得したい場合は、引数booleanにTrueを指定します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_bit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">boolean</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span> <span class="kc">True</span>
-</pre></div>
-</div>
-<p>ここまでの例は、mメソッドによる測定、つまりZ軸方向の測定でしたが、他
-の角度での測定の場合、結果を取得する際に角度を指定する必要があります。
-測定時と違う角度で結果を参照しようとすると、まだ測定されていないという、
-エラーが返ってきます。例えば、以下のようにやります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">mx</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>  <span class="c1"># mメソッドにangle=0.5が指定されたのと同じ</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_value</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_bit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_freq</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>あるいは、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_value</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.25</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_bit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.25</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">m_freq</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.25</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>です。</p>
 <div class="section" id="id30">
-<h4>注意事項<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
-<p>cloneメソッドやtensproメソッドで、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs_clone</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-<span class="n">qs_out</span> <span class="o">=</span> <span class="n">qs_S</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">qs_E</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>のように既存のインスタンスから新たなインスタンスを生成した場合、もとの
-量子状態で実行した測定結果は、新たな量子状態インスタンスには引き継がれ
-ません。</p>
-</div>
-</div>
-</div>
+<h2>量子状態に関する計算<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id31">
-<h2>量子状態に関する計算<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id32">
-<h3>２つの量子状態の内積<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<h3>２つの量子状態の内積<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <p>QStateクラスのinproメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs_0</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -813,8 +729,8 @@ m_freqメソッドで参照する際にtagの指定を省略すると、’defau
 </div>
 <p>状態|00&gt;と状態|11&gt;の内積を計算しています。</p>
 </div>
-<div class="section" id="id33">
-<h3>２つの量子状態の忠実度<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>２つの量子状態の忠実度<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <p>QStateクラスのfidelityメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs_0</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -823,8 +739,8 @@ m_freqメソッドで参照する際にtagの指定を省略すると、’defau
 </div>
 <p>状態|00&gt;と状態|11&gt;の内積の絶対値を計算しています。</p>
 </div>
-<div class="section" id="id34">
-<h3>２つの量子状態のテンソル積<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>２つの量子状態のテンソル積<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <p>QStateクラスのtensproメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">qs_2</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -833,16 +749,16 @@ m_freqメソッドで参照する際にtagの指定を省略すると、’defau
 </div>
 <p>|1&gt;と(|00&gt;+|11&gt;)/sqrt(2)のテンソル積を作成し、変数qs_3に格納しています。</p>
 </div>
-<div class="section" id="id35">
-<h3>量子状態の複合<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>量子状態の複合<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <p>QStateクラスのcompositeメソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs_com</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>qsを4つ複合した状態が生成されます。</p>
 </div>
-<div class="section" id="id36">
-<h3>量子状態への行列適用<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h3>量子状態への行列適用<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <p>QStateクラスのapplyメソッドを使います。行列をnumpyの配列として定義し、
 applyメソッドの引数として渡します。また、適用したい量子ビット番号リス
 トを指定することもできます。使用例を以下に示します。</p>
@@ -857,8 +773,8 @@ qidで指定する引数のリストのサイズをnとしたとき、行列の�
 に2^nでなくてはなりません。applyメソッドは、元のインスタンスの内容を変
 えます。ご注意ください。</p>
 </div>
-<div class="section" id="id37">
-<h3>シュミット分解<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id36">
+<h3>シュミット分解<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <p>量子状態をシュミット分解した結果のシュミット係数と各基底状態を計算する
 ことができます。例えば、5量子ビットの状態qsがあったとします。これを量
 子ビット[0,1]番目の系と[2,3,4]番目の系にシュミット分解したいとします。
@@ -879,38 +795,6 @@ schmidt_decompメソッドを使って、以下のようにします。</p>
 [2,3,4]番目の系は、テンソル積で分解できる、つまりエンタングルしていな
 いということなので、シュミット分解はエンタングルメント判定器として使用
 することもできます。</p>
-</div>
-</div>
-<div class="section" id="id38">
-<h2>便利な機能<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id39">
-<h3>量子ビット番号（レジスタ）の準備<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
-<p>大きめの量子回路を実行する場合、量子ビット番号（レジスタ）をグループ化
-した方が、わかりやすいプログラムになることが多々あります。QStateクラス
-のクラス・メソッドとして、レジスタをクリエイトする’create_register’と
-初期化する’init_register’を使うことができます。’create_register’は引数
-に量子ビット数を指定することで、量子ビット数分の番号を格納するためのリ
-ストを返します。この時点で要素はすべて’0’になっていま
-す。’init_register’は、その量子ビット番号リストに順番に重複なく、数字
-を入れていき、全量子ビット数を返します。典型的な使用例を以下に示します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qid_A</span> <span class="o">=</span> <span class="n">QState</span><span class="o">.</span><span class="n">create_register</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">qid_B</span> <span class="o">=</span> <span class="n">QState</span><span class="o">.</span><span class="n">create_register</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">QState</span><span class="o">.</span><span class="n">init_register</span><span class="p">(</span><span class="n">qid_A</span><span class="p">,</span><span class="n">qid_B</span><span class="p">)</span>
-<span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-<span class="o">...</span>
-</pre></div>
-</div>
-<p>レジスタAを2量子ビット、レジスタBを3量子ビット分確保する処理です
-（init_registerの引数に与えるリストの数は何個でも良いです）。この例の
-場合、qid_A,qid_B,qubit_numには、以下のような値が入ることになります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">qid_A</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">qid_B</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-<span class="mi">5</span>
-</pre></div>
-</div>
 <p>以上</p>
 </div>
 </div>

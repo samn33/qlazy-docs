@@ -561,37 +561,6 @@ S(A|B)=S(A,B)-S(A)と定義されます。古典情報理論における条件�
 </pre></div>
 </div>
 <p>密度演算子de1とde2の相対エントロピーを計算します。</p>
-</div>
-</div>
-<div class="section" id="id33">
-<h2>便利な機能<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id34">
-<h3>量子ビット番号（レジスタ）の準備<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
-<p>大きめの量子回路を実行する場合、量子ビット番号（レジスタ）をグループ化
-した方が、わかりやすいプログラムになることが多々あります。QStateクラス
-のクラス・メソッドとして、レジスタをクリエイトする’create_register’と
-初期化する’init_register’を使うことができます。’create_register’は引数
-に量子ビット数を指定することで、量子ビット数分の番号を格納するためのリ
-ストを返します。この時点で要素はすべて’0’になっていま
-す。’init_register’は、その量子ビット番号リストに順番に重複なく、数字
-を入れていき、全量子ビット数を返します。典型的な使用例を以下に示します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qid_A</span> <span class="o">=</span> <span class="n">DensOp</span><span class="o">.</span><span class="n">create_register</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">qid_B</span> <span class="o">=</span> <span class="n">DensOp</span><span class="o">.</span><span class="n">create_register</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">DensOpp</span><span class="o">.</span><span class="n">init_register</span><span class="p">(</span><span class="n">qid_A</span><span class="p">,</span><span class="n">qid_B</span><span class="p">)</span>
-<span class="o">...</span>
-</pre></div>
-</div>
-<p>レジスタAを2量子ビット、レジスタBを3量子ビット分確保する処理です
-（init_registerの引数に与えるリストの数は何個でも良いです）。この例の
-場合、qid_A,qid_B,qubit_numには、以下のような値が入ることになります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">qid_A</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">qid_B</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-<span class="mi">5</span>
-</pre></div>
-</div>
 <p>以上</p>
 </div>
 </div>

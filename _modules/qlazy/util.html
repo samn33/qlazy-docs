@@ -295,7 +295,7 @@
 <div class="viewcode-block" id="get_qgate_qubit_num"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.get_qgate_qubit_num">[docs]</a><span class="k">def</span> <span class="nf">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">SHOW</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE</span> <span class="ow">or</span>
-        <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Z</span><span class="p">):</span>  <span class="c1"># 0 if any number</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Z</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">RESET</span><span class="p">):</span>  <span class="c1"># 0 if any number</span>
         <span class="k">return</span> <span class="mi">0</span>
     <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">BLOCH</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Z</span> <span class="ow">or</span>
           <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">HADAMARD</span> <span class="ow">or</span>
@@ -319,6 +319,7 @@
 
     <span class="k">if</span> <span class="p">(</span><span class="n">kind</span><span class="o">==</span><span class="n">SHOW</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">BLOCH</span> <span class="ow">or</span>
         <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_Z</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">MEASURE_BELL</span> <span class="ow">or</span>
+        <span class="n">kind</span><span class="o">==</span><span class="n">RESET</span> <span class="ow">or</span>
         <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Y</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PAULI_Z</span> <span class="ow">or</span>
         <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">ROOT_PAULI_X_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">HADAMARD</span> <span class="ow">or</span>
         <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_S</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_S_</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_T</span> <span class="ow">or</span> <span class="n">kind</span><span class="o">==</span><span class="n">PHASE_SHIFT_T_</span> <span class="ow">or</span>
@@ -355,6 +356,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
+<div class="viewcode-block" id="is_reset_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.is_reset_gate">[docs]</a><span class="k">def</span> <span class="nf">is_reset_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">RESET</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
 <div class="viewcode-block" id="reverse_bit_order"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.reverse_bit_order">[docs]</a><span class="k">def</span> <span class="nf">reverse_bit_order</span><span class="p">(</span><span class="n">vec_in</span><span class="p">):</span>
 
     <span class="n">vec_out</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec_in</span><span class="p">)</span>
@@ -369,7 +377,6 @@
         <span class="n">vec_out</span><span class="p">[</span><span class="n">idx_rev</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="k">return</span> <span class="n">vec_out</span></div>
-
 </pre></div>
 
            </div>

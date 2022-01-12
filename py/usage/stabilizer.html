@@ -243,7 +243,7 @@ set_pauli_facメソッドを使います。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">str_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IIIXXXX&quot;</span><span class="p">,</span> <span class="s2">&quot;IXXIIXX&quot;</span><span class="p">,</span> <span class="s2">&quot;XIXIXIX&quot;</span><span class="p">,</span> <span class="s2">&quot;IIIZZZZ&quot;</span><span class="p">,</span> <span class="s2">&quot;IZZIIZZ&quot;</span><span class="p">,</span> <span class="s2">&quot;ZIZIZIZ&quot;</span><span class="p">]</span>
 <span class="n">pp_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="n">pp_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">pp_str</span> <span class="ow">in</span> <span class="n">str_list</span><span class="p">]</span>
 <span class="n">sb</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">pp_list</span><span class="o">=</span><span class="n">gene_list</span><span class="p">)</span>
-<span class="n">sb</span><span class="o">.</span><span class="n">shoe</span><span class="p">()</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="n">IIIXXXX</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="n">IXXIIXX</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>  <span class="n">XIXIXIX</span>
@@ -336,7 +336,25 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id9">
-<h3>メモリ解放<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>一回限りの測定（もう一つの方法）<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>計算基底で単純に１回だけ測定してその測定値を得たい場合、measureメソッ
+ドを使うこともできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">set_all</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mval</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>とやればmvalに文字列’00’または’11’が格納されます。スタビライザー状態は測定後の状
+態になります（例えば以下のように）。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="mi">11</span>
+<span class="o">&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="o">-</span><span class="n">ZI</span>
+<span class="o">&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="n">ZZ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>メモリ解放<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>スタビライザーインスタンスのメモリは使用されなくなったら自動的に解放されますが、
 明示的に解放したい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">sb</span>
@@ -359,16 +377,16 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 <p>という指定の仕方でも大丈夫です。</p>
 </div>
-<div class="section" id="id10">
-<h3>複製<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>複製<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>スタビライザーを複製することができます。以下のようにcloneメソッドを呼
 び出します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb_clone</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id11">
-<h3>リセット<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>リセット<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>すでに生成済みのスタビライザーを破棄することなく、再度初期化して使いた
 い場合は、reset()メソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -376,8 +394,8 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 <p>とすれば、すべての演算子を恒等演算子Iにリセットすることができます。</p>
 </div>
-<div class="section" id="id12">
-<h3>スタビライザーの表示<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>スタビライザーの表示<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>Stabilizerクラスのshowメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -389,8 +407,8 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </pre></div>
 </div>
 </div>
-<div class="section" id="id13">
-<h3>要素の取得<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>要素の取得<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>get_pauli_opメソッドget_pauli_facメソッドで取得できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="n">XXI</span>

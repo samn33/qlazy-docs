@@ -190,7 +190,7 @@
         <span class="p">(</span><span class="s1">&#39;gbank&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
     <span class="p">]</span>
     
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qstate</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[],</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qstate</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[],</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -218,7 +218,6 @@
 <span class="sd">        If &#39;prob&#39; isn&#39;t set, equal probabilities are set.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># if prob is not specified, set equal probability</span>
         <span class="k">if</span> <span class="n">qstate</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">prob</span> <span class="o">==</span> <span class="p">[]:</span>
             <span class="n">mixed_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
             <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="o">/</span><span class="n">mixed_num</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mixed_num</span><span class="p">)]</span>
@@ -226,16 +225,12 @@
         <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">qstate</span> <span class="o">=</span> <span class="p">[</span><span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">)]</span>
             <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
-            <span class="c1"># de = densop_init(qstate, prob)</span>
-            <span class="c1"># return de</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
         
         <span class="k">elif</span> <span class="n">qstate</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">prob</span> <span class="o">!=</span> <span class="p">[]:</span>
-            <span class="c1"># return densop_init(qstate, prob)</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># return densop_init_with_matrix(matrix)</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">densop_init_with_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 
         <span class="bp">self</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
@@ -254,12 +249,18 @@
 <span class="sd">        qid : list</span>
 <span class="sd">            qubit id&#39;s list to reset.</span>
 
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        densop : instance of DensOp</span>
+<span class="sd">            reset density operator.</span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        If &#39;qid&#39; is not set, whole system is reset.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">densop_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span></div>
+        <span class="n">densop_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
         
 <div class="viewcode-block" id="DensOp.mix"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.mix">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">mix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[]):</span>
@@ -528,8 +529,6 @@
 <span class="sd">            copy of the original density operator.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># densop = densop_copy(self)</span>
-        <span class="c1"># return densop</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">densop_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">de</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">de</span></div>
@@ -625,8 +624,6 @@
 <span class="sd">            density operator after partial trace.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># densop = densop_patrace(self, qid=qid)</span>
-        <span class="c1"># return densop</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">densop_patrace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">de</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">de</span></div>
@@ -673,8 +670,6 @@
 <span class="sd">            tensor produt of &#39;self&#39; and &#39;densop&#39;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># densop_out = densop_tensor_product(self, densop)</span>
-        <span class="c1"># return densop_out</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">densop_tensor_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">densop</span><span class="p">)</span>
         <span class="n">de</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">de</span></div>

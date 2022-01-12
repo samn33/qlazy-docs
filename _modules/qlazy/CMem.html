@@ -170,7 +170,7 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    cmem_num : int</span>
-<span class="sd">        number of the classical register.</span>
+<span class="sd">        number of the classical register (classical memory size).</span>
 <span class="sd">    bit_array : list (int)</span>
 <span class="sd">        bit array of classical memory.</span>
 
@@ -180,7 +180,7 @@
         <span class="p">(</span><span class="s1">&#39;bit_array&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -192,14 +192,13 @@
 <span class="sd">        cmem : instance (CMem)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># cmem = cmem_init(cmem_num)</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">cmem_init</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)</span>
         <span class="n">cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">cmem</span>
             
-<div class="viewcode-block" id="CMem.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.CMem.CMem.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CMem.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.CMem.CMem.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        free memory of classical memory.</span>
+<span class="sd">        get the copy of the classical memory.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -207,12 +206,14 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        None</span>
+<span class="sd">        cmem : instance of CMem</span>
+<span class="sd">            copy of the original classical memory.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># cmem_free(self)</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
-        
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">cmem_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
+        <span class="k">return</span> <span class="n">cmem</span></div>
+
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="n">cmem_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>

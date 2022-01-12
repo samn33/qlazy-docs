@@ -159,10 +159,14 @@
 <span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 
-<span class="kn">from</span> <span class="nn">qlazy.Stabilizer</span> <span class="kn">import</span> <span class="n">Stabilizer</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.Stabilizer</span> <span class="kn">import</span> <span class="n">Stabilizer</span>
+<span class="kn">from</span> <span class="nn">qlazy.MData</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.QCirc</span> <span class="kn">import</span> <span class="n">QCirc</span>
+<span class="kn">from</span> <span class="nn">qlazy.CMem</span> <span class="kn">import</span> <span class="n">CMem</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.mdata_c</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">lib</span><span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
 <span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span><span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
@@ -183,8 +187,6 @@
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">Stabilizer_Error_Initialize</span><span class="p">()</span>
         
-    <span class="c1"># out = ctypes.cast(c_stab.value, ctypes.POINTER(Stabilizer))</span>
-    <span class="c1"># return out.contents</span>
     <span class="k">return</span> <span class="n">c_stab</span></div>
 
 <div class="viewcode-block" id="stabilizer_copy"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_copy">[docs]</a><span class="k">def</span> <span class="nf">stabilizer_copy</span><span class="p">(</span><span class="n">sb</span><span class="p">):</span>
@@ -201,8 +203,6 @@
         <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">Stabilizer_Error_Clone</span><span class="p">()</span>
 
-        <span class="c1"># out = ctypes.cast(c_stab.value, ctypes.POINTER(Stabilizer))</span>
-        <span class="c1"># return out.contents</span>
         <span class="k">return</span> <span class="n">c_stab</span>
         
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -319,6 +319,47 @@
     <span class="n">mval</span> <span class="o">=</span> <span class="n">c_mval</span><span class="o">.</span><span class="n">value</span>
 
     <span class="k">return</span> <span class="n">mval</span></div>
+    
+<div class="viewcode-block" id="stabilizer_operate_qcirc"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_operate_qcirc">[docs]</a><span class="k">def</span> <span class="nf">stabilizer_operate_qcirc</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">cmem</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="p">):</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">stabilizer_operate_qcirc</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">stabilizer_operate_qcirc</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">Stabilizer</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">cmem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem</span><span class="o">.</span><span class="n">cmem_num</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">shots</span><span class="p">):</span>
+            
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">shots</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">sb_tmp</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                <span class="n">cmem_tmp</span> <span class="o">=</span> <span class="n">cmem</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">stabilizer_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">sb_tmp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem_tmp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
+                <span class="n">bit_array</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">cmem_tmp</span><span class="o">.</span><span class="n">bit_array</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="o">*</span><span class="n">cmem_num</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">stabilizer_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">sb</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
+                <span class="n">bit_array</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">cmem</span><span class="o">.</span><span class="n">bit_array</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="o">*</span><span class="n">cmem_num</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">Stabilizer_Error_OperateQcirc</span><span class="p">()</span>
+        
+            <span class="n">cmem_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_array</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)]</span>
+            <span class="n">cmem_list_part</span> <span class="o">=</span> <span class="p">[</span><span class="n">cmem_list</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cid</span><span class="p">]</span>
+            <span class="n">mval</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">cmem_list_part</span><span class="p">))</span>
+
+            <span class="n">frequency</span><span class="p">[</span><span class="n">mval</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">frequency</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="n">c_cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">)()</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">stabilizer_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">sb</span><span class="p">),</span> <span class="n">c_cmem</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">Stabilizer_Error_OperateQcirc</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div>
     
 <div class="viewcode-block" id="stabilizer_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_free">[docs]</a><span class="k">def</span> <span class="nf">stabilizer_free</span><span class="p">(</span><span class="n">stab</span><span class="p">):</span>
 

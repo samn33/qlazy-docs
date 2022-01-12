@@ -394,23 +394,27 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to free all&quot;</span></div>
 
-<span class="c1"># QComp</span>
-
-<div class="viewcode-block" id="QComp_Error_QgateNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_QgateNotSupported">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_QgateNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="Stabilizer_Error_OperateQcirc"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Stabilizer_Error_OperateQcirc">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer_Error_OperateQcirc</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;QComp: qgate is not supported&quot;</span></div>
+        <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to operate qcirc&quot;</span></div>
 
-<div class="viewcode-block" id="QComp_Error_BackendNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_BackendNotSupported">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_BackendNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;QComp: backend is not supported&quot;</span></div>
-
-<div class="viewcode-block" id="QComp_Error_NumberOfClassicalReg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_NumberOfClassicalReg">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_NumberOfClassicalReg</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;QComp: number of classical register must be equal to corresponding quantum register&quot;</span></div>
-
-<div class="viewcode-block" id="QComp_Error_FreeAll"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QComp_Error_FreeAll">[docs]</a><span class="k">class</span> <span class="nc">QComp_Error_FreeAll</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;QComp: fail to free all&quot;</span></div>
+<span class="c1"># # QComp</span>
+<span class="c1"># </span>
+<span class="c1"># class QComp_Error_QgateNotSupported(Exception):</span>
+<span class="c1">#     def __str__(self):</span>
+<span class="c1">#         return &quot;QComp: qgate is not supported&quot;</span>
+<span class="c1"># </span>
+<span class="c1"># class QComp_Error_BackendNotSupported(Exception):</span>
+<span class="c1">#     def __str__(self):</span>
+<span class="c1">#         return &quot;QComp: backend is not supported&quot;</span>
+<span class="c1"># </span>
+<span class="c1"># class QComp_Error_NumberOfClassicalReg(Exception):</span>
+<span class="c1">#     def __str__(self):</span>
+<span class="c1">#         return &quot;QComp: number of classical register must be equal to corresponding quantum register&quot;</span>
+<span class="c1"># </span>
+<span class="c1"># class QComp_Error_FreeAll(Exception):</span>
+<span class="c1">#     def __str__(self):</span>
+<span class="c1">#         return &quot;QComp: fail to free all&quot;</span>
     
 <span class="c1"># Backend</span>
 
@@ -432,15 +436,35 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;QCirc: fail to initialize&quot;</span></div>
 
+<div class="viewcode-block" id="QCirc_Error_Copy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QCirc_Error_Copy">[docs]</a><span class="k">class</span> <span class="nc">QCirc_Error_Copy</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QCirc: fail to copy&quot;</span></div>
+
+<div class="viewcode-block" id="QCirc_Error_Merge"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QCirc_Error_Merge">[docs]</a><span class="k">class</span> <span class="nc">QCirc_Error_Merge</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QCirc: fail to merge&quot;</span></div>
+
 <div class="viewcode-block" id="QCirc_Error_AppendGate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QCirc_Error_AppendGate">[docs]</a><span class="k">class</span> <span class="nc">QCirc_Error_AppendGate</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;QCirc: fail to append gate&quot;</span></div>
+
+<div class="viewcode-block" id="QCirc_Error_KindFirst"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QCirc_Error_KindFirst">[docs]</a><span class="k">class</span> <span class="nc">QCirc_Error_KindFirst</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QCirc: fail to kind first&quot;</span></div>
+
+<div class="viewcode-block" id="QCirc_Error_PopGate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.QCirc_Error_PopGate">[docs]</a><span class="k">class</span> <span class="nc">QCirc_Error_PopGate</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;QCirc: fail to pop gate&quot;</span></div>
 
 <span class="c1"># CMem</span>
 
 <div class="viewcode-block" id="CMem_Error_Initialize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.CMem_Error_Initialize">[docs]</a><span class="k">class</span> <span class="nc">CMem_Error_Initialize</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;CMem: fail to initialize&quot;</span></div>
+
+<div class="viewcode-block" id="CMem_Error_Clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.CMem_Error_Clone">[docs]</a><span class="k">class</span> <span class="nc">CMem_Error_Clone</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;CMem: fail to clone&quot;</span></div>
 
 </pre></div>
 

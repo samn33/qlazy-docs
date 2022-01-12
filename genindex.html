@@ -167,9 +167,9 @@
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
@@ -279,6 +279,12 @@
         <li><a href="python-api/qlazy.html#qlazy.Backend.Backend">(class in qlazy.Backend)</a>
 </li>
       </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.Result.backend">backend (qlazy.Result attribute)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Result.Result.backend">(qlazy.Result.Result attribute)</a>
+</li>
+      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.error.Backend_Error_DeviceNotSupported">Backend_Error_DeviceNotSupported</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.Backend_Error_NameNotSpecified">Backend_Error_NameNotSpecified</a>
@@ -303,14 +309,14 @@
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.bit_phase_flip">(qlazy.DensOp.DensOp method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.QState.bloch">bloch() (qlazy.QState method)</a>
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.QState.QState.bloch">(qlazy.QState.QState method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.buf_id">buf_id (qlazy.DensOp attribute)</a>
 
       <ul>
@@ -358,7 +364,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.ccx">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.ccx">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.ccx">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.ccx">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.ccx">(qlazy.QState method)</a>
 </li>
@@ -370,7 +378,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.ch">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.ch">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.ch">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.ch">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.ch">(qlazy.QState method)</a>
 </li>
@@ -383,10 +393,24 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.check_matrix">(qlazy.Stabilizer.Stabilizer attribute)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.DensOp.clone">clone() (qlazy.DensOp method)</a>
+      <li><a href="python-api/qlazy.html#qlazy.Result.cid">cid (qlazy.Result attribute)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Result.Result.cid">(qlazy.Result.Result attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.CMem.clone">clone() (qlazy.CMem method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.CMem.CMem.clone">(qlazy.CMem.CMem method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.DensOp.clone">(qlazy.DensOp method)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.clone">(qlazy.DensOp.DensOp method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.clone">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.clone">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.clone">(qlazy.QState method)</a>
 </li>
@@ -403,7 +427,9 @@
         <li><a href="python-api/qlazy.html#qlazy.CMem.CMem">(class in qlazy.CMem)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cmem">cmem (qlazy.QComp.QComp attribute)</a>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.cmem_c.cmem_copy">cmem_copy() (in module qlazy.lib.cmem_c)</a>
+</li>
+      <li><a href="python-api/qlazy.html#qlazy.error.CMem_Error_Clone">CMem_Error_Clone</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.CMem_Error_Initialize">CMem_Error_Initialize</a>
 </li>
@@ -419,8 +445,6 @@
         <li><a href="python-api/qlazy.html#id24">(qlazy.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.cmem_num">[1]</a>
 </li>
         <li><a href="python-api/qlazy.html#id7">(qlazy.QCirc.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cmem_num">[1]</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cmem_num">(qlazy.QComp.QComp attribute)</a>
 </li>
       </ul></li>
       <li><a href="python-api/qlazy.html#id21">col (qlazy.DensOp attribute)</a>, <a href="python-api/qlazy.html#qlazy.DensOp.col">[1]</a>
@@ -450,7 +474,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cp">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cp">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cp">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cp">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cp">(qlazy.QState method)</a>
 </li>
@@ -474,7 +500,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.crx">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.crx">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.crx">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.crx">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.crx">(qlazy.QState method)</a>
 </li>
@@ -486,7 +514,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cry">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cry">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cry">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cry">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cry">(qlazy.QState method)</a>
 </li>
@@ -498,7 +528,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.crz">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.crz">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.crz">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.crz">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.crz">(qlazy.QState method)</a>
 </li>
@@ -510,7 +542,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cs">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cs">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cs">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cs">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cs">(qlazy.QState method)</a>
 </li>
@@ -524,7 +558,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cs_dg">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cs_dg">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cs_dg">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cs_dg">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cs_dg">(qlazy.QState method)</a>
 </li>
@@ -536,7 +572,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.csw">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.csw">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.csw">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.csw">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.csw">(qlazy.QState method)</a>
 </li>
@@ -548,7 +586,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.ct">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.ct">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.ct">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.ct">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.ct">(qlazy.QState method)</a>
 </li>
@@ -560,7 +600,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.ct_dg">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.ct_dg">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.ct_dg">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.ct_dg">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.ct_dg">(qlazy.QState method)</a>
 </li>
@@ -572,7 +614,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cu1">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cu1">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cu1">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cu1">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cu1">(qlazy.QState method)</a>
 </li>
@@ -584,7 +628,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cu2">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cu2">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cu2">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cu2">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cu2">(qlazy.QState method)</a>
 </li>
@@ -596,7 +642,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cu3">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cu3">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cu3">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cu3">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cu3">(qlazy.QState method)</a>
 </li>
@@ -608,7 +656,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cx">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cx">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cx">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cx">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cx">(qlazy.QState method)</a>
 </li>
@@ -624,7 +674,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cxr">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cxr">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cxr">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cxr">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cxr">(qlazy.QState method)</a>
 </li>
@@ -636,7 +688,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cxr_dg">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cxr_dg">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cxr_dg">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cxr_dg">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cxr_dg">(qlazy.QState method)</a>
 </li>
@@ -648,7 +702,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cy">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cy">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cy">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cy">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cy">(qlazy.QState method)</a>
 </li>
@@ -664,7 +720,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.cz">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.cz">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.cz">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.cz">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.cz">(qlazy.QState method)</a>
 </li>
@@ -685,8 +743,6 @@
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.del_all">(qlazy.DensOp.DensOp class method)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.del_all">(qlazy.QComp.QComp class method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.del_all">(qlazy.QState class method)</a>
 </li>
@@ -739,10 +795,10 @@
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.DensOp_Error_PaTrace">DensOp_Error_PaTrace</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.error.DensOp_Error_Probability">DensOp_Error_Probability</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.error.DensOp_Error_Reset">DensOp_Error_Reset</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.DensOp_Error_Show">DensOp_Error_Show</a>
@@ -793,6 +849,12 @@
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.Backend.Backend.device">(qlazy.Backend.Backend attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.Backend.devices">devices() (qlazy.Backend class method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Backend.Backend.devices">(qlazy.Backend.Backend class method)</a>
 </li>
       </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.distance">distance() (qlazy.DensOp method)</a>
@@ -871,21 +933,9 @@
         <li><a href="python-api/qlazy.html#id8">(qlazy.QCirc.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.QCirc.first">[1]</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.backend.html#qlazy.backend.ibmq.free">free() (in module qlazy.backend.ibmq)</a>
+      <li><a href="python-api/qlazy.html#qlazy.DensOp.free">free() (qlazy.DensOp method)</a>
 
       <ul>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_qstate_simulator.free">(in module qlazy.backend.qlazy_qstate_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_stabilizer_simulator.free">(in module qlazy.backend.qlazy_stabilizer_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qulacs_cpu_simulator.free">(in module qlazy.backend.qulacs_cpu_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.CMem.free">(qlazy.CMem method)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.CMem.CMem.free">(qlazy.CMem.CMem method)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.DensOp.free">(qlazy.DensOp method)</a>
-</li>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.free">(qlazy.DensOp.DensOp method)</a>
 </li>
         <li><a href="python-api/qlazy.lib.html#qlazy.lib.mdata_c.MDataC.free">(qlazy.lib.mdata_c.MDataC method)</a>
@@ -893,12 +943,6 @@
         <li><a href="python-api/qlazy.html#qlazy.Observable.free">(qlazy.Observable method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.Observable.Observable.free">(qlazy.Observable.Observable method)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.QCirc.free">(qlazy.QCirc method)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.free">(qlazy.QCirc.QCirc method)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.free">(qlazy.QComp.QComp method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.free">(qlazy.QState method)</a>
 </li>
@@ -916,8 +960,6 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.free_all">(qlazy.DensOp.DensOp class method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.free_all">(qlazy.QComp.QComp class method)</a>
-</li>
         <li><a href="python-api/qlazy.html#qlazy.QState.free_all">(qlazy.QState class method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.QState.free_all">(qlazy.QState.QState class method)</a>
@@ -929,6 +971,12 @@
       </ul></li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.mdata_c.MDataC.freq">freq (qlazy.lib.mdata_c.MDataC attribute)</a>
 </li>
+      <li><a href="python-api/qlazy.html#qlazy.Result.freqency">freqency (qlazy.Result attribute)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Result.Result.freqency">(qlazy.Result.Result attribute)</a>
+</li>
+      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.MData.MData.frequency">frequency (qlazy.MData.MData attribute)</a>
 
       <ul>
@@ -1030,7 +1078,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.h">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.h">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.h">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.h">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.h">(qlazy.QState method)</a>
 </li>
@@ -1047,14 +1097,10 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.backend.html#qlazy.backend.ibmq.init">init() (in module qlazy.backend.ibmq)</a>
+      <li><a href="python-api/qlazy.html#qlazy.Result.info">info (qlazy.Result attribute)</a>
 
       <ul>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_qstate_simulator.init">(in module qlazy.backend.qlazy_qstate_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_stabilizer_simulator.init">(in module qlazy.backend.qlazy_stabilizer_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qulacs_cpu_simulator.init">(in module qlazy.backend.qulacs_cpu_simulator)</a>
+        <li><a href="python-api/qlazy.html#qlazy.Result.Result.info">(qlazy.Result.Result attribute)</a>
 </li>
       </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.init_register">init_register() (qlazy.DensOp class method)</a>
@@ -1067,8 +1113,6 @@
         <li><a href="python-api/qlazy.html#qlazy.QState.QState.init_register">(qlazy.QState.QState class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.tools.html#qlazy.tools.Register.InitRegister">InitRegister() (in module qlazy.tools.Register)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.QState.inpro">inpro() (qlazy.QState method)</a>
@@ -1077,6 +1121,8 @@
         <li><a href="python-api/qlazy.html#qlazy.QState.QState.inpro">(qlazy.QState.QState method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.instrument">instrument() (qlazy.DensOp method)</a>
 
       <ul>
@@ -1091,7 +1137,15 @@
         <li><a href="python-api/qlazy.html#qlazy.PauliProduct.PauliProduct.is_commute">(qlazy.PauliProduct.PauliProduct method)</a>
 </li>
       </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.is_equal">is_equal() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.is_equal">(qlazy.QCirc.QCirc method)</a>
+</li>
+      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.util.is_measurement_gate">is_measurement_gate() (in module qlazy.util)</a>
+</li>
+      <li><a href="python-api/qlazy.html#qlazy.util.is_reset_gate">is_reset_gate() (in module qlazy.util)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1107,6 +1161,18 @@
         <li><a href="python-api/qlazy.html#qlazy.QState.join">(qlazy.QState method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.QState.join">(qlazy.QState.QState method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.kind_first">kind_first() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.kind_first">(qlazy.QCirc.QCirc method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1151,24 +1217,6 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.m">(qlazy.Stabilizer.Stabilizer method)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.QState.m_bit">m_bit() (qlazy.QState method)</a>
-
-      <ul>
-        <li><a href="python-api/qlazy.html#qlazy.QState.QState.m_bit">(qlazy.QState.QState method)</a>
-</li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.QState.m_freq">m_freq() (qlazy.QState method)</a>
-
-      <ul>
-        <li><a href="python-api/qlazy.html#qlazy.QState.QState.m_freq">(qlazy.QState.QState method)</a>
-</li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.QState.m_value">m_value() (qlazy.QState method)</a>
-
-      <ul>
-        <li><a href="python-api/qlazy.html#qlazy.QState.QState.m_value">(qlazy.QState.QState method)</a>
-</li>
-      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.core.main">main() (in module qlazy.core)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.QState.mb">mb() (qlazy.QState method)</a>
@@ -1203,14 +1251,32 @@
 </li>
       <li><a href="python-api/qlazy.html#qlazy.Stabilizer.MDataStabilizer">MDataStabilizer (class in qlazy.Stabilizer)</a>
 </li>
-      <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.measure">measure() (qlazy.QComp.QComp method)</a>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.measure">measure() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.measure">(qlazy.QCirc.QCirc method)</a>
 </li>
+        <li><a href="python-api/qlazy.html#qlazy.QState.measure">(qlazy.QState method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QState.QState.measure">(qlazy.QState.QState method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.Stabilizer.measure">(qlazy.Stabilizer method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.measure">(qlazy.Stabilizer.Stabilizer method)</a>
+</li>
+      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.MData.MData.measured_bit">measured_bit() (qlazy.MData.MData method)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.MData.MData.measured_freq">measured_freq() (qlazy.MData.MData method)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.MData.MData.measured_value">measured_value() (qlazy.MData.MData method)</a>
 </li>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.merge">merge() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.merge">(qlazy.QCirc.QCirc method)</a>
+</li>
+      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.mix">mix() (qlazy.DensOp class method)</a>
 
       <ul>
@@ -1233,7 +1299,7 @@
 </li>
         <li><a href="python-api/qlazy.backend.html#module-qlazy.backend.qlazy_stabilizer_simulator">qlazy.backend.qlazy_stabilizer_simulator</a>
 </li>
-        <li><a href="python-api/qlazy.backend.html#module-qlazy.backend.qulacs_cpu_simulator">qlazy.backend.qulacs_cpu_simulator</a>
+        <li><a href="python-api/qlazy.backend.html#module-qlazy.backend.qulacs_simulator">qlazy.backend.qulacs_simulator</a>
 </li>
         <li><a href="python-api/qlazy.html#module-qlazy.CMem">qlazy.CMem</a>
 </li>
@@ -1273,9 +1339,9 @@
 </li>
         <li><a href="python-api/qlazy.html#module-qlazy.QCirc">qlazy.QCirc</a>
 </li>
-        <li><a href="python-api/qlazy.html#module-qlazy.QComp">qlazy.QComp</a>
-</li>
         <li><a href="python-api/qlazy.html#module-qlazy.QState">qlazy.QState</a>
+</li>
+        <li><a href="python-api/qlazy.html#module-qlazy.Result">qlazy.Result</a>
 </li>
         <li><a href="python-api/qlazy.html#module-qlazy.Stabilizer">qlazy.Stabilizer</a>
 </li>
@@ -1335,18 +1401,6 @@
   </ul></td>
 </tr></table>
 
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.html#qlazy.Backend.name">name (qlazy.Backend attribute)</a>
-
-      <ul>
-        <li><a href="python-api/qlazy.html#qlazy.Backend.Backend.name">(qlazy.Backend.Backend attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1367,7 +1421,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.operate">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.operate">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.operate">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.operate">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.operate">(qlazy.QState method)</a>
 </li>
@@ -1389,7 +1445,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.p">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.p">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.p">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.p">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.p">(qlazy.QState method)</a>
 </li>
@@ -1418,14 +1476,14 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.pauli_factor">(qlazy.Stabilizer.Stabilizer attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.PauliProduct.pauli_list">pauli_list (qlazy.PauliProduct attribute)</a>
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.PauliProduct.PauliProduct.pauli_list">(qlazy.PauliProduct.PauliProduct attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.PauliProduct">PauliProduct (class in qlazy)</a>
 
       <ul>
@@ -1450,10 +1508,28 @@
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.phase_flip">(qlazy.DensOp.DensOp method)</a>
 </li>
       </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.pop_gate">pop_gate() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.pop_gate">(qlazy.QCirc.QCirc method)</a>
+</li>
+      </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.probability">probability() (qlazy.DensOp method)</a>
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.probability">(qlazy.DensOp.DensOp method)</a>
+</li>
+      </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.Backend.product">product (qlazy.Backend attribute)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Backend.Backend.product">(qlazy.Backend.Backend attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.Backend.products">products() (qlazy.Backend class method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Backend.Backend.products">(qlazy.Backend.Backend class method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1468,27 +1544,33 @@
         <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc">(class in qlazy.QCirc)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.qcirc">qcirc (qlazy.QComp.QComp attribute)</a>
-</li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_append_gate">qcirc_append_gate() (in module qlazy.lib.qcirc_c)</a>
+</li>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_copy">qcirc_copy() (in module qlazy.lib.qcirc_c)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.QCirc_Error_AppendGate">QCirc_Error_AppendGate</a>
 </li>
+      <li><a href="python-api/qlazy.html#qlazy.error.QCirc_Error_Copy">QCirc_Error_Copy</a>
+</li>
       <li><a href="python-api/qlazy.html#qlazy.error.QCirc_Error_Initialize">QCirc_Error_Initialize</a>
+</li>
+      <li><a href="python-api/qlazy.html#qlazy.error.QCirc_Error_KindFirst">QCirc_Error_KindFirst</a>
+</li>
+      <li><a href="python-api/qlazy.html#qlazy.error.QCirc_Error_Merge">QCirc_Error_Merge</a>
+</li>
+      <li><a href="python-api/qlazy.html#qlazy.error.QCirc_Error_PopGate">QCirc_Error_PopGate</a>
 </li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_free">qcirc_free() (in module qlazy.lib.qcirc_c)</a>
 </li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_init">qcirc_init() (in module qlazy.lib.qcirc_c)</a>
 </li>
-      <li><a href="python-api/qlazy.html#qlazy.QComp.QComp">QComp (class in qlazy.QComp)</a>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_is_equal">qcirc_is_equal() (in module qlazy.lib.qcirc_c)</a>
 </li>
-      <li><a href="python-api/qlazy.html#qlazy.error.QComp_Error_BackendNotSupported">QComp_Error_BackendNotSupported</a>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_kind_first">qcirc_kind_first() (in module qlazy.lib.qcirc_c)</a>
 </li>
-      <li><a href="python-api/qlazy.html#qlazy.error.QComp_Error_FreeAll">QComp_Error_FreeAll</a>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_merge">qcirc_merge() (in module qlazy.lib.qcirc_c)</a>
 </li>
-      <li><a href="python-api/qlazy.html#qlazy.error.QComp_Error_NumberOfClassicalReg">QComp_Error_NumberOfClassicalReg</a>
-</li>
-      <li><a href="python-api/qlazy.html#qlazy.error.QComp_Error_QgateNotSupported">QComp_Error_QgateNotSupported</a>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_pop_gate">qcirc_pop_gate() (in module qlazy.lib.qcirc_c)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.MData.MData.qid">qid (qlazy.MData.MData attribute)</a>
 
@@ -1545,10 +1627,10 @@
 </li>
       </ul></li>
       <li>
-    qlazy.backend.qulacs_cpu_simulator
+    qlazy.backend.qulacs_simulator
 
       <ul>
-        <li><a href="python-api/qlazy.backend.html#module-qlazy.backend.qulacs_cpu_simulator">module</a>
+        <li><a href="python-api/qlazy.backend.html#module-qlazy.backend.qulacs_simulator">module</a>
 </li>
       </ul></li>
       <li>
@@ -1677,6 +1759,8 @@
         <li><a href="python-api/qlazy.html#module-qlazy.PauliProduct">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     qlazy.QCirc
 
@@ -1684,20 +1768,18 @@
         <li><a href="python-api/qlazy.html#module-qlazy.QCirc">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    qlazy.QComp
-
-      <ul>
-        <li><a href="python-api/qlazy.html#module-qlazy.QComp">module</a>
-</li>
-      </ul></li>
       <li>
     qlazy.QState
 
       <ul>
         <li><a href="python-api/qlazy.html#module-qlazy.QState">module</a>
+</li>
+      </ul></li>
+      <li>
+    qlazy.Result
+
+      <ul>
+        <li><a href="python-api/qlazy.html#module-qlazy.Result">module</a>
 </li>
       </ul></li>
       <li>
@@ -1741,8 +1823,6 @@
         <li><a href="python-api/qlazy.html#qlazy.QState.QState">(class in qlazy.QState)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.qstate">qstate (qlazy.QComp.QComp attribute)</a>
-</li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_apply_matrix">qstate_apply_matrix() (in module qlazy.lib.qstate_c)</a>
 </li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_bloch">qstate_bloch() (in module qlazy.lib.qstate_c)</a>
@@ -1803,7 +1883,9 @@
       </ul></li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure">qstate_measure() (in module qlazy.lib.qstate_c)</a>
 </li>
-      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure_bell">qstate_measure_bell() (in module qlazy.lib.qstate_c)</a>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure_bell_stats">qstate_measure_bell_stats() (in module qlazy.lib.qstate_c)</a>
+</li>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure_stats">qstate_measure_stats() (in module qlazy.lib.qstate_c)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.QState_NeedMoreArguments">QState_NeedMoreArguments</a>
 </li>
@@ -1836,8 +1918,6 @@
 </li>
         <li><a href="python-api/qlazy.html#id11">(qlazy.QCirc.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.QCirc.qubit_num">[1]</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.qubit_num">(qlazy.QComp.QComp attribute)</a>
-</li>
         <li><a href="python-api/qlazy.html#id30">(qlazy.QState attribute)</a>, <a href="python-api/qlazy.html#qlazy.QState.qubit_num">[1]</a>
 </li>
         <li><a href="python-api/qlazy.html#id13">(qlazy.QState.QState attribute)</a>, <a href="python-api/qlazy.html#qlazy.QState.QState.qubit_num">[1]</a>
@@ -1861,20 +1941,14 @@
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.relative_entropy">(qlazy.DensOp.DensOp method)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.backend.html#qlazy.backend.ibmq.reset">reset() (in module qlazy.backend.ibmq)</a>
+      <li><a href="python-api/qlazy.html#qlazy.DensOp.reset">reset() (qlazy.DensOp method)</a>
 
       <ul>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_qstate_simulator.reset">(in module qlazy.backend.qlazy_qstate_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_stabilizer_simulator.reset">(in module qlazy.backend.qlazy_stabilizer_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qulacs_cpu_simulator.reset">(in module qlazy.backend.qulacs_cpu_simulator)</a>
-</li>
-        <li><a href="python-api/qlazy.html#qlazy.DensOp.reset">(qlazy.DensOp method)</a>
-</li>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.reset">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.reset">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.reset">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.reset">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.reset">(qlazy.QState method)</a>
 </li>
@@ -1883,6 +1957,12 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.reset">(qlazy.Stabilizer method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.reset">(qlazy.Stabilizer.Stabilizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.Result">Result (class in qlazy)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.Result.Result">(class in qlazy.Result)</a>
 </li>
       </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.util.reverse_bit_order">reverse_bit_order() (in module qlazy.util)</a>
@@ -1900,21 +1980,25 @@
 </li>
         <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_stabilizer_simulator.run">(in module qlazy.backend.qlazy_stabilizer_simulator)</a>
 </li>
-        <li><a href="python-api/qlazy.backend.html#qlazy.backend.qulacs_cpu_simulator.run">(in module qlazy.backend.qulacs_cpu_simulator)</a>
+        <li><a href="python-api/qlazy.html#qlazy.Backend.run">(qlazy.Backend method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.run">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.Backend.Backend.run">(qlazy.Backend.Backend method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.backend.html#qlazy.backend.qlazy_qstate_simulator.run_old">run_old() (in module qlazy.backend.qlazy_qstate_simulator)</a>
+      <li><a href="python-api/qlazy.backend.html#qlazy.backend.qulacs_simulator.run_cpu">run_cpu() (in module qlazy.backend.qulacs_simulator)</a>
+</li>
+      <li><a href="python-api/qlazy.backend.html#qlazy.backend.qulacs_simulator.run_gpu">run_gpu() (in module qlazy.backend.qulacs_simulator)</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.rx">rx() (qlazy.DensOp method)</a>
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.rx">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.rx">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.rx">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.rx">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.rx">(qlazy.QState method)</a>
 </li>
@@ -1926,7 +2010,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.ry">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.ry">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.ry">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.ry">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.ry">(qlazy.QState method)</a>
 </li>
@@ -1938,7 +2024,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.rz">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.rz">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.rz">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.rz">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.rz">(qlazy.QState method)</a>
 </li>
@@ -1956,7 +2044,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.s">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.s">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.s">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.s">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.s">(qlazy.QState method)</a>
 </li>
@@ -1972,7 +2062,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.s_dg">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.s_dg">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.s_dg">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.s_dg">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.s_dg">(qlazy.QState method)</a>
 </li>
@@ -2045,6 +2137,12 @@
         <li><a href="python-api/qlazy.html#qlazy.Observable.Observable.spin_num">(qlazy.Observable.Observable attribute)</a>
 </li>
       </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.split_unitary_non_unitary">split_unitary_non_unitary() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.split_unitary_non_unitary">(qlazy.QCirc.QCirc method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#qlazy.Observable.spro_array">spro_array (qlazy.Observable attribute)</a>
@@ -2083,6 +2181,8 @@
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.Stabilizer_Error_Measure">Stabilizer_Error_Measure</a>
 </li>
+      <li><a href="python-api/qlazy.html#qlazy.error.Stabilizer_Error_OperateQcirc">Stabilizer_Error_OperateQcirc</a>
+</li>
       <li><a href="python-api/qlazy.html#qlazy.error.Stabilizer_Error_OperateQgate">Stabilizer_Error_OperateQgate</a>
 </li>
       <li><a href="python-api/qlazy.html#qlazy.error.Stabilizer_Error_SetPauliFac">Stabilizer_Error_SetPauliFac</a>
@@ -2100,6 +2200,8 @@
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_init">stabilizer_init() (in module qlazy.lib.stabilizer_c)</a>
 </li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_measure">stabilizer_measure() (in module qlazy.lib.stabilizer_c)</a>
+</li>
+      <li><a href="python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_operate_qcirc">stabilizer_operate_qcirc() (in module qlazy.lib.stabilizer_c)</a>
 </li>
       <li><a href="python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_operate_qgate">stabilizer_operate_qgate() (in module qlazy.lib.stabilizer_c)</a>
 </li>
@@ -2122,7 +2224,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.sw">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.sw">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.sw">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.sw">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.sw">(qlazy.QState method)</a>
 </li>
@@ -2140,7 +2244,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.t">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.t">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.t">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.t">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.t">(qlazy.QState method)</a>
 </li>
@@ -2152,7 +2258,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.t_dg">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.t_dg">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.t_dg">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.t_dg">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.t_dg">(qlazy.QState method)</a>
 </li>
@@ -2161,8 +2269,6 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.html#qlazy.MData.MData.tag">tag (qlazy.MData.MData attribute)</a>
-</li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.tenspro">tenspro() (qlazy.DensOp method)</a>
 
       <ul>
@@ -2177,6 +2283,12 @@
         <li><a href="python-api/qlazy.html#qlazy.QState.QState.tenspro">(qlazy.QState.QState method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.UnitaryOperator.UnitaryOperator.tenspro">(qlazy.UnitaryOperator.UnitaryOperator method)</a>
+</li>
+      </ul></li>
+      <li><a href="python-api/qlazy.html#qlazy.QCirc.to_string">to_string() (qlazy.QCirc method)</a>
+
+      <ul>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.to_string">(qlazy.QCirc.QCirc method)</a>
 </li>
       </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.DensOp.trace">trace() (qlazy.DensOp method)</a>
@@ -2196,7 +2308,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.u1">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.u1">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.u1">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.u1">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.u1">(qlazy.QState method)</a>
 </li>
@@ -2208,7 +2322,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.u2">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.u2">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.u2">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.u2">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.u2">(qlazy.QState method)</a>
 </li>
@@ -2222,7 +2338,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.u3">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.u3">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.u3">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.u3">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.u3">(qlazy.QState method)</a>
 </li>
@@ -2242,7 +2360,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.x">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.x">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.x">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.x">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.x">(qlazy.QState method)</a>
 </li>
@@ -2258,7 +2378,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.xr">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.xr">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.xr">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.xr">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.xr">(qlazy.QState method)</a>
 </li>
@@ -2272,7 +2394,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.xr_dg">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.xr_dg">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.xr_dg">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.xr_dg">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.xr_dg">(qlazy.QState method)</a>
 </li>
@@ -2290,7 +2414,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.y">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.y">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.y">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.y">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.y">(qlazy.QState method)</a>
 </li>
@@ -2312,7 +2438,9 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.z">(qlazy.DensOp.DensOp method)</a>
 </li>
-        <li><a href="python-api/qlazy.html#qlazy.QComp.QComp.z">(qlazy.QComp.QComp method)</a>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.z">(qlazy.QCirc method)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.z">(qlazy.QCirc.QCirc method)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.QState.z">(qlazy.QState method)</a>
 </li>

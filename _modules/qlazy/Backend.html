@@ -167,53 +167,145 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    name : str</span>
-<span class="sd">        name of the backend</span>
+<span class="sd">    product : str</span>
+<span class="sd">        product name of the backend</span>
 <span class="sd">        (&#39;qlazy&#39; or &#39;qulacs&#39; or &#39;ibmq&#39;)</span>
 <span class="sd">    device : str</span>
-<span class="sd">        name of the quantum computing device</span>
-<span class="sd">        (&#39;qstate_simulator&#39; or &#39;stabilizer_simulator&#39; for &#39;qlazy&#39;, </span>
-<span class="sd">        &#39;cpu_simulator&#39; or &#39;gpu_simulator&#39; for &#39;qulacs&#39;, </span>
-<span class="sd">        &#39;qasm_simulator&#39; or &#39;least_busy&#39; or other quantum system name for &#39;ibmq&#39;)</span>
+<span class="sd">        device name of the product</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
-<span class="sd">    &gt;&gt;&gt; bk = Backend(name=&#39;qlazy&#39;, device=&#39;stabilizer_simulator&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; bk = Backend(name=&#39;qulacs&#39;, device=&#39;gpu_simulator&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; bk = Backend(name=&#39;ibmq&#39;, device=&#39;least_busy&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;qlazy&#39;, device=&#39;stabilizer_simulator&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;qulacs&#39;, device=&#39;gpu_simulator&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;ibmq&#39;, device=&#39;least_busy&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1">#</span>
+        <span class="c1"># set attributes (procuct, device)</span>
+        <span class="c1">#</span>
+        
+        <span class="k">if</span> <span class="n">product</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;qlazy&#39;</span>
+                <span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;qlazy&#39;</span>
                 <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;qstate_simulator&#39;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">Backend_Error_NameNotSpecified</span><span class="p">()</span>            
         
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span>
 
-            <span class="k">if</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
             <span class="k">elif</span> <span class="n">device</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
 
-        <span class="c1"># # not supported in the near future</span>
-        <span class="c1"># elif name in (&#39;qlazy_qstate_simulator&#39;, &#39;qlazy_stabilizer_simulator&#39;,</span>
-        <span class="c1">#               &#39;qulacs_simulator&#39;, &#39;qulacs_gpu_simulator&#39;, &#39;ibmq&#39;):</span>
-        <span class="c1">#     self.name = name</span>
-            
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span></div>
+            <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span>
 
+        <span class="c1">#</span>
+        <span class="c1"># set method (__run)</span>
+        <span class="c1">#</span>
+        
+        <span class="c1"># qlazy</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qlazy&#39;</span><span class="p">:</span>
+    
+            <span class="c1"># qstate simulator</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qstate_simulator&#39;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_qstate_simulator</span> <span class="kn">import</span> <span class="n">run</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
+        
+            <span class="c1"># stabilizer simulator</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_stabilizer_simulator</span> <span class="kn">import</span> <span class="n">run</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
+            
+        <span class="c1"># qulacs</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span>
+    
+            <span class="c1"># cpu_simulator</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;cpu_simulator&#39;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">qlazy.backend.qulacs_simulator</span> <span class="kn">import</span> <span class="n">run_cpu</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run_cpu</span>
+        
+            <span class="c1"># gpu_simulator</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;gpu_simulator&#39;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">qlazy.backend.qulacs_simulator</span> <span class="kn">import</span> <span class="n">run_gpu</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run_gpu</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
+        
+        <span class="c1"># ibmq</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">qlazy.backend.ibmq</span> <span class="kn">import</span> <span class="n">run</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
+    
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Backend.products"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.products">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">products</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">BACKEND_DEVICES</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Backend.devices"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.devices">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">devices</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">product</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">BACKEND_DEVICES</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run the quantum circuit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qcirc : instance of QCirc, default None</span>
+<span class="sd">            quantum circuit.</span>
+<span class="sd">        shots : int, default 1</span>
+<span class="sd">            number of measurements.</span>
+<span class="sd">        cid : list, default []</span>
+<span class="sd">            classical register id list to count frequency.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        result : incetance of Result</span>
+<span class="sd">            measurement result.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; # simple example</span>
+<span class="sd">        &gt;&gt;&gt; from qlazy import QCirc, Backend</span>
+<span class="sd">        &gt;&gt;&gt; bk = Backend(product=&#39;qlazy&#39;, device=&#39;qstate_simulator&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; qc = QCirc().h(0).cx(0,1).measure(qid=[0,1], cid=[0,1])</span>
+<span class="sd">        &gt;&gt;&gt; result = bk.run(qcirc=qc, shots=100)</span>
+<span class="sd">        &gt;&gt;&gt; print(result.frequency)</span>
+<span class="sd">        Counter({&#39;00&#39;: 51, &#39;11&#39;: 49})</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; # control quantum gate by measured results</span>
+<span class="sd">        &gt;&gt;&gt; from qlazy import QCirc, Backend</span>
+<span class="sd">        &gt;&gt;&gt; bk = Backend(product=&#39;qlazy&#39;, device=&#39;qstate_simulator&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; qc = QCirc.h(0).cx(0,1).measure(qid=[0],cid=[0]).x(0, ctrl=0).x(1, ctrl=0).measure(qid=[0,1], cid=[0,1])</span>
+<span class="sd">        &gt;&gt;&gt; result = bk.run(qcirc=qc, shots=100)</span>
+<span class="sd">	&gt;&gt;&gt; print(result.frequency)</span>
+<span class="sd">        Counter({&#39;00&#39;: 100})</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
 </pre></div>
 
            </div>
