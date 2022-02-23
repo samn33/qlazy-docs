@@ -167,56 +167,41 @@
 <span class="n">lib</span><span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
 <span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span><span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MDataC"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.MDataC">[docs]</a><span class="k">class</span> <span class="nc">MDataC</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+<div class="viewcode-block" id="mdata_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.mdata_init">[docs]</a><span class="k">def</span> <span class="nf">mdata_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;state_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;shot_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;angle&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;phase&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;qubit_id&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="o">*</span><span class="n">MAX_QUBIT_NUM</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;freq&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)),</span>
-        <span class="p">(</span><span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-    <span class="p">]</span>
-
-<div class="viewcode-block" id="MDataC.show"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.MDataC.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="n">mdata_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">frq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+    <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
+    
+    <span class="n">mdata</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">c_mdata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">mdata</span><span class="p">)</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">freq</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">state_num</span><span class="p">))</span>
-            <span class="n">freq_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_num</span><span class="p">)]</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">MData_Error_GetFrq</span><span class="p">()</span>
-        
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">freq_list</span><span class="p">)</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
+                               <span class="n">IntArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">shots</span><span class="p">),</span>
+                         <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">,</span> <span class="n">c_mdata</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">lst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">MData_Error_Initialize</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span>
-            
-<div class="viewcode-block" id="MDataC.free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.MDataC.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">c_mdata</span></div>
 
-        <span class="n">mdata_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="mdata_print"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.mdata_print">[docs]</a><span class="k">def</span> <span class="nf">mdata_print</span><span class="p">(</span><span class="n">md</span><span class="p">):</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
-    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MDataC</span><span class="p">)]</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">md</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">MData_Error_Show</span><span class="p">()</span></div>
 
-
 <div class="viewcode-block" id="mdata_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.mdata_free">[docs]</a><span class="k">def</span> <span class="nf">mdata_free</span><span class="p">(</span><span class="n">md</span><span class="p">):</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_free</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MDataC</span><span class="p">)]</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_free</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">)]</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">mdata_free</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">md</span><span class="p">))</span></div>
 </pre></div>
 

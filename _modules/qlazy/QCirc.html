@@ -158,12 +158,29 @@
 <span class="kn">import</span> <span class="nn">ctypes</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
+<span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
 
+<div class="viewcode-block" id="string_to_args"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.string_to_args">[docs]</a><span class="k">def</span> <span class="nf">string_to_args</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># for from_qasm</span>
+
+    <span class="n">token</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">token</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">token</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t split string </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">args</span></div>
+            
 <div class="viewcode-block" id="QCirc"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc">[docs]</a><span class="k">class</span> <span class="nc">QCirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Quantum Circuit</span>
 
@@ -207,57 +224,7 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
-    
-<div class="viewcode-block" id="QCirc.to_string"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        get string of quantum circuit description.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        qcirc_str : str</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-        <span class="n">qcirc_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">kind</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
-                <span class="n">term_num</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">MEASURE</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">RESET</span><span class="p">):</span>
-                    <span class="n">term_num</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="n">para_num</span> <span class="o">=</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
-
-                <span class="n">gate_str</span> <span class="o">=</span> <span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
-                <span class="n">qid_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">term_num</span><span class="p">)]))</span>
-                <span class="n">qid_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-                <span class="k">if</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">para</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">para_num</span><span class="p">)]))</span>
-                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">para_str</span><span class="o">+</span> <span class="s2">&quot;)&quot;</span>
-                
-                <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">c_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">c_str</span> <span class="o">=</span> <span class="s2">&quot;-&gt; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">ctrl_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">ctrl_str</span> <span class="o">=</span> <span class="s2">&quot;, ctrl = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
-                    
-                <span class="n">qcirc_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{0:}{2:}</span><span class="s2"> </span><span class="si">{1:}</span><span class="s2"> </span><span class="si">{3:}{4:}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate_str</span><span class="p">,</span> <span class="n">qid_str</span><span class="p">,</span> <span class="n">para_str</span><span class="p">,</span> <span class="n">c_str</span><span class="p">,</span> <span class="n">ctrl_str</span><span class="p">)</span>
-                
-        <span class="k">return</span> <span class="n">qcirc_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
-        
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -322,6 +289,335 @@
         <span class="n">ans</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_equal</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
 
+<div class="viewcode-block" id="QCirc.to_string"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get string of the circuit (qlazy format).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qcirc_str : str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">qcirc_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+                <span class="n">term_num</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">MEASURE</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">RESET</span><span class="p">):</span>
+                    <span class="n">term_num</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">para_num</span> <span class="o">=</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+
+                <span class="n">gate_str</span> <span class="o">=</span> <span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
+                <span class="n">qid_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">term_num</span><span class="p">)]))</span>
+                <span class="n">qid_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">para</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">para_num</span><span class="p">)]))</span>
+                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">para_str</span><span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+                
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">c_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">c_str</span> <span class="o">=</span> <span class="s2">&quot;-&gt; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">ctrl_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ctrl_str</span> <span class="o">=</span> <span class="s2">&quot;, ctrl = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
+                    
+                <span class="n">qcirc_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{0:}{2:}</span><span class="s2"> </span><span class="si">{1:}</span><span class="s2"> </span><span class="si">{3:}{4:}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate_str</span><span class="p">,</span> <span class="n">qid_str</span><span class="p">,</span> <span class="n">para_str</span><span class="p">,</span> <span class="n">c_str</span><span class="p">,</span> <span class="n">ctrl_str</span><span class="p">)</span>
+                
+        <span class="k">return</span> <span class="n">qcirc_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="QCirc.from_qasm"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.from_qasm">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_qasm</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get QCirc instance from OpenQASM 2.0 string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qcirc : instance of QCirc</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Non-unitary gates (measure, reset) and user customized gates are not supported. Supported gates are </span>
+<span class="sd">        &#39;x&#39;, &#39;y&#39;, &#39;z&#39;, &#39;h&#39;, &#39;s&#39;, &#39;sdg&#39;, &#39;t&#39;, &#39;tdg&#39;, &#39;cx&#39;, &#39;cz&#39;, &#39;ch&#39;, &#39;rx&#39;, &#39;rz&#39;, &#39;crz&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">line_list</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># line #0</span>
+        <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">string_to_args</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="n">line_count</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;OPENQASM&#39;</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2.0;&#39;</span><span class="p">:</span>
+            <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;line #0 must be &#39;OPENQASM 2.0;&#39;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># line #1</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">string_to_args</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="n">line_count</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;include&#39;</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&quot;qelib1.inc&quot;;&#39;</span><span class="p">:</span>
+            <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;line #1 must be &#39;include &quot;qelib1.inc;&quot;&#39; &quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># line #2 (#3)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">string_to_args</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="n">line_count</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;qreg&#39;</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span>
+            <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;line #2 must be &#39;qreg q[&lt;int&gt;];&quot;&#39; &quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># line (#3) #4 ...</span>
+        <span class="n">qcirc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">line_count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">line_list</span><span class="p">)):</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">string_to_args</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;measure&#39;</span><span class="p">,</span> <span class="s1">&#39;reset&#39;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sorry, &#39;measure&#39;, &#39;reset&#39; is not supported.&quot;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;sdg&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;tdg&#39;</span><span class="p">):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">q</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;argument &#39;</span><span class="si">{}</span><span class="s2">&#39; is not valid for &#39;</span><span class="si">{}</span><span class="s2">&#39; gate.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sdg&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">s_dg</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;tdg&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">t_dg</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                    
+            <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;q\[[0-9]+\],\s*q\[[0-9]+\];&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">qubits</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                    <span class="n">q0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="n">q1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;argument &#39;</span><span class="si">{}</span><span class="s2">&#39; is not valid for &#39;</span><span class="si">{}</span><span class="s2">&#39; gate.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;cz&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ch&#39;</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">ch</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+                    
+            <span class="k">elif</span> <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span>
+                  <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+
+                <span class="n">res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">q</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;argument &#39;</span><span class="si">{}</span><span class="s2">&#39; is not valid for &#39;</span><span class="si">{}</span><span class="s2">&#39; gate.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                
+                <span class="n">para_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;.+\(|\)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;pi&quot;</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">para_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                    <span class="n">para</span> <span class="o">=</span> <span class="mf">0.</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">denominator</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="k">if</span> <span class="n">para_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">numerator</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">numerator</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">para_str</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">para_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">denominator</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">denominator</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">para_str</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">para</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">para</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">para</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;crz&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+                <span class="n">res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;q\[[0-9]+\],\s*q\[[0-9]+\];&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">qubits</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                    <span class="n">q0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="n">q1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;q\[|\];&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;argument &#39;</span><span class="si">{}</span><span class="s2">&#39; is not valid for &#39;</span><span class="si">{}</span><span class="s2">&#39; gate.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                
+                <span class="n">para_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;.+\(|\)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;pi&quot;</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">para_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                    <span class="n">para</span> <span class="o">=</span> <span class="mf">0.</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">denominator</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="k">if</span> <span class="n">para_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">numerator</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">numerator</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">para_str</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">para_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">denominator</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">denominator</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">para_str</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">para</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+                
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;crz&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">qcirc</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">para</span><span class="p">)</span>
+                    
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> gate is not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">qcirc</span></div>
+        
+<div class="viewcode-block" id="QCirc.from_qasm_file"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.from_qasm_file">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_qasm_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get QCirc instance from OpenQASM 2.0 file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_path: str</span>
+<span class="sd">            file path name of OpenQASM 2.0 file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qcirc : instance of QCirc</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Non-unitary gates (measure, reset) and user customized gates are not supported. Supported gates are </span>
+<span class="sd">        &#39;x&#39;, &#39;y&#39;, &#39;z&#39;, &#39;h&#39;, &#39;s&#39;, &#39;sdg&#39;, &#39;t&#39;, &#39;tdg&#39;, &#39;cx&#39;, &#39;cz&#39;, &#39;ch&#39;, &#39;rx&#39;, &#39;rz&#39;, &#39;crz&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            
+        <span class="n">qcirc</span> <span class="o">=</span> <span class="vm">__class__</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">qcirc</span></div>
+    
+<div class="viewcode-block" id="QCirc.to_qasm"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.to_qasm">[docs]</a>    <span class="k">def</span> <span class="nf">to_qasm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get OpenQASM 2.0 string of the circuit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qcirc_str : str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="c1"># header and include file</span>
+        <span class="n">qcirc_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;OPENQASM 2.0;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">qcirc_str</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;include &quot;qelib1.inc&quot;;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="c1"># definition of qreg, creg</span>
+        <span class="n">qcirc_str</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;qreg q[</span><span class="si">{}</span><span class="s2">];</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmem_num</span><span class="p">):</span>
+            <span class="n">qcirc_str</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;creg c</span><span class="si">{}</span><span class="s2">[1];</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        
+        <span class="c1"># description of each gate operation</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+                <span class="n">term_num</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">MEASURE</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">RESET</span><span class="p">):</span>
+                    <span class="n">term_num</span> <span class="o">=</span> <span class="mi">1</span>
+
+                <span class="n">para_num</span> <span class="o">=</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+                <span class="n">para_frac</span> <span class="o">=</span> <span class="p">[</span><span class="n">Fraction</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">para</span><span class="p">]</span>
+
+                <span class="n">gate_str</span> <span class="o">=</span> <span class="n">GATE_STRING_QASM</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
+                <span class="n">qid_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;q[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">term_num</span><span class="p">)])</span>
+                <span class="n">qid_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_S</span><span class="p">:</span>
+                        <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(pi/2)&quot;</span>
+                    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_S_</span><span class="p">:</span>
+                        <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(-pi/2)&quot;</span>
+                    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_T</span><span class="p">:</span>
+                        <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(pi/4)&quot;</span>
+                    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_T_</span><span class="p">:</span>
+                        <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(-pi/4)&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">para_str_list</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">para_frac</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">para_num</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">numerator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">para_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">numerator</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">para_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;pi/&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">denominator</span><span class="p">))</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">para_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numerator</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;*pi/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">denominator</span><span class="p">))</span>
+                            
+                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">para_str_list</span><span class="p">)</span>
+                    <span class="n">para_str</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">para_str</span><span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+                
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">c_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">c_str</span> <span class="o">=</span> <span class="s2">&quot; -&gt; c</span><span class="si">{}</span><span class="s2">[0]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">ctrl_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ctrl_str</span> <span class="o">=</span> <span class="s2">&quot;if(c</span><span class="si">{}</span><span class="s2">==1) &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
+                    
+                <span class="n">qcirc_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{4:}{0:}{2:}</span><span class="s2"> </span><span class="si">{1:}{3:}</span><span class="s2">;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate_str</span><span class="p">,</span> <span class="n">qid_str</span><span class="p">,</span> <span class="n">para_str</span><span class="p">,</span> <span class="n">c_str</span><span class="p">,</span> <span class="n">ctrl_str</span><span class="p">)</span>
+                
+        <span class="k">return</span> <span class="n">qcirc_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QCirc.to_qasm_file"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.to_qasm_file">[docs]</a>    <span class="k">def</span> <span class="nf">to_qasm_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        write to OpenQASM 2.0 file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_path: str</span>
+<span class="sd">            file path name of OpenQASM 2.0 file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+        
 <div class="viewcode-block" id="QCirc.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        clone quantum circuit.</span>
@@ -387,7 +683,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        kind : int</span>
+<span class="sd">        kind_list : int</span>
 <span class="sd">            kind of first quantum gate of quantum circuit</span>
 
 <span class="sd">        Note</span>
@@ -397,6 +693,405 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kind</span> <span class="o">=</span> <span class="n">qcirc_kind_first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">kind</span></div>
+
+<div class="viewcode-block" id="QCirc.kind_list"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.kind_list">[docs]</a>    <span class="k">def</span> <span class="nf">kind_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get list of kinds from the circuit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        kinds : list of kind</span>
+<span class="sd">            kinds of the quantum circuit</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        return None if none of gates included</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">kind_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">break</span>
+            <span class="n">kind_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">kind_list</span></div>
+    
+<div class="viewcode-block" id="QCirc.get_gates"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.get_gates">[docs]</a>    <span class="k">def</span> <span class="nf">get_gates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get list of gates from the circuit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        gates : list of dict</span>
+<span class="sd">            gates of the quantum circuit</span>
+<span class="sd">            gates = [{&#39;kind&#39;:kind, &#39;qid&#39;:qid, &#39;phase&#39;:phase, &#39;cid&#39;:cid, &#39;ctrl&#39;:ctrl}, ...]</span>
+<span class="sd">            - kind: gate name</span>
+<span class="sd">            - qid: qubit id</span>
+<span class="sd">            - phase: phase parameter (non-zero only for rotation gates)</span>
+<span class="sd">            - cid: classical register id (set only for measurement gate)</span>
+<span class="sd">            - ctrl: classical register id to control gate operation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+                <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span> <span class="k">if</span> <span class="n">q</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">cid</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">cid</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">],</span> <span class="s1">&#39;qid&#39;</span><span class="p">:</span> <span class="n">qid</span><span class="p">,</span> <span class="s1">&#39;phase&#39;</span><span class="p">:</span> <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">cid</span><span class="p">,</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">:</span> <span class="n">ctrl</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">gates</span></div>
+
+<div class="viewcode-block" id="QCirc.add_gates"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.add_gates">[docs]</a>    <span class="k">def</span> <span class="nf">add_gates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add list of gates to the circuit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gates : list of dict</span>
+<span class="sd">            gates of the quantum circuit</span>
+<span class="sd">            gates = [{&#39;kind&#39;:kind, &#39;qid&#39;:qid, &#39;phase&#39;:phase, &#39;cid&#39;:cid, &#39;ctrl&#39;:ctrl}, ...]</span>
+<span class="sd">            - kind: gate name</span>
+<span class="sd">            - qid: qubit id</span>
+<span class="sd">            - phase: phase parameter (non-zero only for rotation gates)</span>
+<span class="sd">            - cid: classical register id (set only for measurement gate)</span>
+<span class="sd">            - ctrl: classical register id for controlling gate operation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self: instance of QCirc</span>
+<span class="sd">            circuit after adding gates</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">gates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gates must be specified.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">GATE_KIND</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]]</span>
+            <span class="n">qid</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">]</span>
+            <span class="n">para</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;phase&#39;</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ctrl</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="QCirc.dump"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        dump the circuit</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_path: str</span>
+<span class="sd">            file path of dump file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gates</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QCirc.load"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        load the circuit</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_path: str</span>
+<span class="sd">            file path of dump file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qcirc: instance of QCirc</span>
+<span class="sd">            loaded circuit</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">gates</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">qcirc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span><span class="o">.</span><span class="n">add_gates</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">qcirc</span></div>
+    
+<div class="viewcode-block" id="QCirc.get_stats"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.get_stats">[docs]</a>    <span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get statistics of the circuit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        stats : dict</span>
+<span class="sd">            {&#39;qubit_num&#39;:qubit_num, &#39;cmem_num&#39;:cmem_num, &#39;gate_num&#39;:gate_num, &#39;gate_freq&#39;:gate_freq}</span>
+<span class="sd">            - qubit_num: number of qubits</span>
+<span class="sd">            - cmem_num: number of classical bits</span>
+<span class="sd">            - gate_num: number of gates</span>
+<span class="sd">            - gate_freq: frequency of gates (Counter)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gate_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span> <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind_list</span><span class="p">()]</span>
+        <span class="n">gate_freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">gate_list</span><span class="p">)</span>
+
+        <span class="n">gatetype_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind_list</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">is_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">or</span> <span class="n">is_non_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">gatetype_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;unitary&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">gatetype_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;clifford&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">is_non_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">gatetype_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;non-clifford&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">is_measurement_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">or</span> <span class="n">is_reset_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">gatetype_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;non-unitary&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown gate kind:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kind</span><span class="p">))</span>
+        <span class="n">gatetype_freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">gatetype_list</span><span class="p">)</span>
+
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">,</span> <span class="s1">&#39;cmem_num&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">cmem_num</span><span class="p">,</span> <span class="s1">&#39;gate_num&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">gate_list</span><span class="p">),</span>
+                 <span class="s1">&#39;gate_freq&#39;</span><span class="p">:</span> <span class="n">gate_freq</span><span class="p">,</span> <span class="s1">&#39;gatetype_freq&#39;</span><span class="p">:</span> <span class="n">gatetype_freq</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">stats</span></div>
+
+<div class="viewcode-block" id="QCirc.generate_random_gates"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.generate_random_gates">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_random_gates</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gate_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        generate circuit including random gates.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qubit_num: int</span>
+<span class="sd">            number of qubits</span>
+<span class="sd">        gate_num: int</span>
+<span class="sd">            numbner of gates</span>
+<span class="sd">        phase: tupple of float</span>
+<span class="sd">            phases selected randomly</span>
+<span class="sd">        prob: dict</span>
+<span class="sd">            {&#39;x&#39;:prob_x, &#39;z&#39;:prob_z, &#39;h&#39;:prob_h, &#39;s&#39;:prob_s, &#39;s_dg&#39;:prob_s_dg,</span>
+<span class="sd">             &#39;t&#39;:prob_t, &#39;t_dg&#39;:prob_t_dg, &#39;rx&#39;:prob_rx, &#39;rz&#39;:prob_rz, &#39;cx&#39;:prob_cx,</span>
+<span class="sd">             &#39;cz&#39;:prob_cz, &#39;ch&#39;:prob_ch, &#39;crz&#39;:prob_crz}</span>
+<span class="sd">            - prob_x: probability of x</span>
+<span class="sd">            - prob_z: probability of z</span>
+<span class="sd">            - prob_h: probability of h</span>
+<span class="sd">            - prob_s: probability of s</span>
+<span class="sd">            - prob_s_dg: probability of s_dg</span>
+<span class="sd">            - prob_t: probability of t</span>
+<span class="sd">            - prob_t_dg: probability of t_dg</span>
+<span class="sd">            - prob_rx: probability of rx</span>
+<span class="sd">            - prob_rz: probability of rz</span>
+<span class="sd">            - prob_cx: probability of cx</span>
+<span class="sd">            - prob_cz: probability of cz</span>
+<span class="sd">            - prob_ch: probability of ch</span>
+<span class="sd">            - prob_crz: probability of crz</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qcirc: instance of QCirc</span>
+<span class="sd">            generated circuit</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; qc = QCirc.generate_random_gates(qubit_num=5, gate_num=100, phase_unit=0.25, prob={&#39;h&#39;:3, &#39;cx&#39;:7, &#39;rz&#39;:1})</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        * each probability values are normalized so that the sum of the probabilities is 1.0. </span>
+<span class="sd">        * Phase parameters of rotation gates are selected randomly in the element of &#39;phase&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">gate_num</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span> <span class="ow">or</span> <span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">gate_num</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit_num and/or gate_num must be positive integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;phase value(s) must be int/float of tuple.&quot;</span><span class="p">)</span>
+        
+        <span class="n">total_prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prob</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">total_prob</span> <span class="o">+=</span> <span class="n">p</span>
+        <span class="n">glist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">prob</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;probability must be positive value.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">k</span>  <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;s_dg&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;t_dg&#39;</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;crz&#39;</span><span class="p">):</span>
+                <span class="n">glist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">total_prob</span>
+                <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gate &#39;</span><span class="si">{}</span><span class="s2">&#39; is not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">plist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span> <span class="n">plist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="n">qcirc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+
+        <span class="n">TRY_MAX</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># for random generation</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gate_num</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plist</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="n">kind</span> <span class="o">=</span> <span class="n">GATE_KIND</span><span class="p">[</span><span class="n">glist</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                    <span class="k">break</span>
+            <span class="n">term_num</span> <span class="o">=</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+            <span class="n">para_num</span> <span class="o">=</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">term_num</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>    <span class="c1"># 1-qubit gate</span>
+                <span class="n">q0</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">qcirc</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">term_num</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># 1-qubit and 1-parameter gate</span>
+                <span class="n">q0</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">phase</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
+                <span class="n">qcirc</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="p">[</span><span class="n">q0</span><span class="p">],</span> <span class="n">para</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">term_num</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># 2-qubit gate</span>
+                <span class="n">q0</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">q1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">q0</span> <span class="o">==</span> <span class="n">q1</span> <span class="ow">and</span> <span class="n">cnt</span> <span class="o">&lt;</span> <span class="n">TRY_MAX</span><span class="p">:</span>
+                    <span class="n">q1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">cnt</span> <span class="o">&gt;=</span> <span class="n">TRY_MAX</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t generate qubit id for &#39;</span><span class="si">{}</span><span class="s2">&#39; gate.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]))</span>
+                <span class="n">qcirc</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">term_num</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">para_num</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># 2-qubit and 1-parameter gate</span>
+                <span class="n">q0</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">q1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">q0</span> <span class="o">==</span> <span class="n">q1</span> <span class="ow">and</span> <span class="n">cnt</span> <span class="o">&lt;</span> <span class="n">TRY_MAX</span><span class="p">:</span>
+                    <span class="n">q1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">cnt</span> <span class="o">&gt;=</span> <span class="n">TRY_MAX</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t generate qubit id for &#39;</span><span class="si">{}</span><span class="s2">&#39; gate.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">phase</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
+                <span class="n">qcirc</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">],</span> <span class="n">para</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gate of term_num=</span><span class="si">{}</span><span class="s2">, param_num=</span><span class="si">{}</span><span class="s2"> is not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">term_num</span><span class="p">,</span> <span class="n">para_num</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">qcirc</span></div>
+
+<div class="viewcode-block" id="QCirc.to_pyzx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.to_pyzx">[docs]</a>    <span class="k">def</span> <span class="nf">to_pyzx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get pyzx&#39;s Circuit instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        zxqc: instance of pyzx&#39;s Circuit</span>
+<span class="sd">            quantum circuit</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Non-unitary gates: measure, reset are not supported.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyzx</span> <span class="k">as</span> <span class="nn">zx</span>
+        <span class="kn">from</span> <span class="nn">pyzx</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+        <span class="n">zxqc</span> <span class="o">=</span> <span class="n">Circuit</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">zxqc</span></div>
+
+<div class="viewcode-block" id="QCirc.from_pyzx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.from_pyzx">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_pyzx</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">zxqc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get pyzx&#39;s Circuit instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        zxqc: instance of pyzx&#39;s Circuit</span>
+<span class="sd">            quantum circuit</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qc: instance of QCirc</span>
+<span class="sd">            quantum circuit</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Non-unitary gates: measure, reset are not supported.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyzx</span> <span class="k">as</span> <span class="nn">zx</span>
+        <span class="kn">from</span> <span class="nn">pyzx</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+        <span class="n">qc</span> <span class="o">=</span> <span class="vm">__class__</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="n">zxqc</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">qc</span></div>
+        
+<div class="viewcode-block" id="QCirc.optimize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        optimize the quantum circuit (using pyzx&#39;s full_optimize method).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qc: instance of QCirc</span>
+<span class="sd">            optimized circuit</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Non-unitary gates: measure, reset are not supported.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyzx</span> <span class="k">as</span> <span class="nn">zx</span>
+        <span class="kn">from</span> <span class="nn">pyzx</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+        <span class="n">zxqc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_pyzx</span><span class="p">()</span>
+        <span class="n">zxqc_opt</span> <span class="o">=</span> <span class="n">zx</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">full_optimize</span><span class="p">(</span><span class="n">zxqc</span><span class="p">)</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="vm">__class__</span><span class="o">.</span><span class="n">from_pyzx</span><span class="p">(</span><span class="n">zxqc_opt</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">qc</span></div>
+        
+<div class="viewcode-block" id="QCirc.equivalent"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.equivalent">[docs]</a>    <span class="k">def</span> <span class="nf">equivalent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qc</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        two quantum circuits are equivalent or not (using pyzx&#39;s verify_equality method).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ans: bool</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Non-unitary gates: measure, reset are not supported.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyzx</span> <span class="k">as</span> <span class="nn">zx</span>
+        <span class="kn">from</span> <span class="nn">pyzx</span> <span class="kn">import</span> <span class="n">Circuit</span>
+        
+        <span class="n">zxqc_A</span> <span class="o">=</span> <span class="n">Circuit</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">())</span>
+        <span class="n">zxqc_B</span> <span class="o">=</span> <span class="n">Circuit</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">())</span>
+        <span class="n">ans</span> <span class="o">=</span><span class="n">zxqc_A</span><span class="o">.</span><span class="n">verify_equality</span><span class="p">(</span><span class="n">zxqc_B</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ans</span></div>
 
 <div class="viewcode-block" id="QCirc.pop_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.pop_gate">[docs]</a>    <span class="k">def</span> <span class="nf">pop_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -457,7 +1152,7 @@
 <span class="sd">        qc_pair : tupple of (QCirc, Qcirc)</span>
 <span class="sd">            former part includes only unitary gates and later part includes non-unitary gate (measure or reset) first</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qc_unitary</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
+        <span class="n">qc_unitary</span> <span class="o">=</span> <span class="vm">__class__</span><span class="p">()</span>
         <span class="n">qc_non_unitary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">kind_ori</span> <span class="o">=</span> <span class="n">qc_non_unitary</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
@@ -473,6 +1168,8 @@
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="n">qcirc_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># non-unitary gate</span>
 
 <div class="viewcode-block" id="QCirc.measure"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.measure">[docs]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">cid</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -815,95 +1512,95 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QCirc.u1"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.u1">[docs]</a>    <span class="k">def</span> <span class="nf">u1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        add U1 gate (by IBM).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        alpha : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            address of classical memory to control gate operation.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QCirc</span>
-<span class="sd">            quantum circuit after adding</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        this opration is equal to P gate (phase shift gate)</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_U1</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="QCirc.u2"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.u2">[docs]</a>    <span class="k">def</span> <span class="nf">u2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        add U2 gate (by IBM).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        alpha : float</span>
-<span class="sd">            rotation angle (unit of angle is pi radian).</span>
-<span class="sd">        beta : float</span>
-<span class="sd">            rotation angle (unit of angle is pi radian).</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            address of classical memory to control gate operation.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QCirc</span>
-<span class="sd">            quantum circuit after adding</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        matrix experssion is following...</span>
-<span class="sd">        | 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |</span>
-<span class="sd">        | exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_U2</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="QCirc.u3"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.u3">[docs]</a>    <span class="k">def</span> <span class="nf">u3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        add U3 gate (by IBM).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        alpha : float</span>
-<span class="sd">            rotation angle (unit of angle is pi radian).</span>
-<span class="sd">        beta : float</span>
-<span class="sd">            rotation angle (unit of angle is pi radian).</span>
-<span class="sd">        gamma : float</span>
-<span class="sd">            rotation angle (unit of angle is pi radian).</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            address of classical memory to control gate operation.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QCirc</span>
-<span class="sd">            quantum circuit after adding</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        matrix expression is following...</span>
-<span class="sd">        | cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |</span>
-<span class="sd">        | exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</span>
-
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_U3</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
-                                <span class="n">phase2</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+    <span class="c1"># def u1(self, q0, alpha=DEF_PHASE, ctrl=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     add U1 gate (by IBM).</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     q0 : int</span>
+    <span class="c1">#         qubit id.</span>
+    <span class="c1">#     alpha : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     ctrl : int</span>
+    <span class="c1">#         address of classical memory to control gate operation.</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     self : instance of QCirc</span>
+    <span class="c1">#         quantum circuit after adding</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Notes</span>
+    <span class="c1">#     -----</span>
+    <span class="c1">#     this opration is equal to P gate (phase shift gate)</span>
+    <span class="c1"># </span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self.__add_quantum_gate(kind=ROTATION_U1, qid=[q0], phase=alpha, ctrl=ctrl)</span>
+    <span class="c1">#     return self</span>
+    <span class="c1"># </span>
+    <span class="c1"># def u2(self, q0, alpha=DEF_PHASE, beta=DEF_PHASE, ctrl=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     add U2 gate (by IBM).</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     q0 : int</span>
+    <span class="c1">#         qubit id.</span>
+    <span class="c1">#     alpha : float</span>
+    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
+    <span class="c1">#     beta : float</span>
+    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
+    <span class="c1">#     ctrl : int</span>
+    <span class="c1">#         address of classical memory to control gate operation.</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     self : instance of QCirc</span>
+    <span class="c1">#         quantum circuit after adding</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Notes</span>
+    <span class="c1">#     -----</span>
+    <span class="c1">#     matrix experssion is following...</span>
+    <span class="c1">#     | 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |</span>
+    <span class="c1">#     | exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</span>
+    <span class="c1"># </span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self.__add_quantum_gate(kind=ROTATION_U2, qid=[q0], phase=alpha, phase1=beta, ctrl=ctrl)</span>
+    <span class="c1">#     return self</span>
+    <span class="c1"># </span>
+    <span class="c1"># def u3(self, q0, alpha=DEF_PHASE, beta=DEF_PHASE, gamma=DEF_PHASE, ctrl=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     add U3 gate (by IBM).</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     q0 : int</span>
+    <span class="c1">#         qubit id.</span>
+    <span class="c1">#     alpha : float</span>
+    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
+    <span class="c1">#     beta : float</span>
+    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
+    <span class="c1">#     gamma : float</span>
+    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
+    <span class="c1">#     ctrl : int</span>
+    <span class="c1">#         address of classical memory to control gate operation.</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     self : instance of QCirc</span>
+    <span class="c1">#         quantum circuit after adding</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Notes</span>
+    <span class="c1">#     -----</span>
+    <span class="c1">#     matrix expression is following...</span>
+    <span class="c1">#     | cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |</span>
+    <span class="c1">#     | exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</span>
+    <span class="c1"># </span>
+    <span class="c1"># </span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self.__add_quantum_gate(kind=ROTATION_U3, qid=[q0], phase=alpha, phase1=beta,</span>
+    <span class="c1">#                             phase2=gamma, ctrl=ctrl)</span>
+    <span class="c1">#     return self</span>
 
     <span class="c1"># add 2-qubit gate</span>
     
@@ -1245,84 +1942,84 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QCirc.cu1"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.cu1">[docs]</a>    <span class="k">def</span> <span class="nf">cu1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        add CU1 gate (controlled U1 gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        alpha : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            address of classical memory to control gate operation.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QCirc</span>
-<span class="sd">            quantum circuit after adding</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_U1</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="QCirc.cu2"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.cu2">[docs]</a>    <span class="k">def</span> <span class="nf">cu2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        add CU2 gate (controlled U2 gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        alpha : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        beta : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            address of classical memory to control gate operation.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QCirc</span>
-<span class="sd">            quantum circuit after adding</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_U2</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="QCirc.cu3"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.cu3">[docs]</a>    <span class="k">def</span> <span class="nf">cu3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        add CU3 gate (controlled U3 gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        alpha : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        beta : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        gamma : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            address of classical memory to control gate operation.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QCirc</span>
-<span class="sd">            quantum circuit after adding</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_quantum_gate</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_U3</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
-                                <span class="n">phase2</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="n">ctrl</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+    <span class="c1"># def cu1(self, q0, q1, alpha=DEF_PHASE, ctrl=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     add CU1 gate (controlled U1 gate).</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     q0 : int</span>
+    <span class="c1">#         qubit id (control qubit).</span>
+    <span class="c1">#     q1 : int</span>
+    <span class="c1">#         qubit id (target qubit).</span>
+    <span class="c1">#     alpha : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     ctrl : int</span>
+    <span class="c1">#         address of classical memory to control gate operation.</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     self : instance of QCirc</span>
+    <span class="c1">#         quantum circuit after adding</span>
+    <span class="c1"># </span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self.__add_quantum_gate(kind=CONTROLLED_U1, qid=[q0,q1], phase=alpha, ctrl=ctrl)</span>
+    <span class="c1">#     return self</span>
+    <span class="c1"># </span>
+    <span class="c1"># def cu2(self, q0, q1, alpha=DEF_PHASE, beta=DEF_PHASE, ctrl=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     add CU2 gate (controlled U2 gate).</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     q0 : int</span>
+    <span class="c1">#         qubit id (control qubit).</span>
+    <span class="c1">#     q1 : int</span>
+    <span class="c1">#         qubit id (target qubit).</span>
+    <span class="c1">#     alpha : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     beta : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     ctrl : int</span>
+    <span class="c1">#         address of classical memory to control gate operation.</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     self : instance of QCirc</span>
+    <span class="c1">#         quantum circuit after adding</span>
+    <span class="c1"># </span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self.__add_quantum_gate(kind=CONTROLLED_U2, qid=[q0,q1], phase=alpha, phase1=beta, ctrl=ctrl)</span>
+    <span class="c1">#     return self</span>
+    <span class="c1"># </span>
+    <span class="c1"># def cu3(self, q0, q1, alpha=DEF_PHASE, beta=DEF_PHASE, gamma=DEF_PHASE, ctrl=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     add CU3 gate (controlled U3 gate).</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     q0 : int</span>
+    <span class="c1">#         qubit id (control qubit).</span>
+    <span class="c1">#     q1 : int</span>
+    <span class="c1">#         qubit id (target qubit).</span>
+    <span class="c1">#     alpha : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     beta : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     gamma : float</span>
+    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
+    <span class="c1">#     ctrl : int</span>
+    <span class="c1">#         address of classical memory to control gate operation.</span>
+    <span class="c1"># </span>
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     self : instance of QCirc</span>
+    <span class="c1">#         quantum circuit after adding</span>
+    <span class="c1"># </span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     self.__add_quantum_gate(kind=CONTROLLED_U3, qid=[q0,q1], phase=alpha, phase1=beta,</span>
+    <span class="c1">#                             phase2=gamma, ctrl=ctrl)</span>
+    <span class="c1">#     return self</span>
 
     <span class="c1"># 3-qubit gate</span>
     
@@ -1435,14 +2132,96 @@
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cid</span><span class="p">):</span>
                 <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+
         <span class="k">elif</span> <span class="n">is_reset_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
                 <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="p">]</span>
                 <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+        
         <span class="k">else</span><span class="p">:</span>
             <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span></div>
+            <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PAULI_Y</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROOT_PAULI_X</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_X</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROOT_PAULI_X_</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_X</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">PHASE_SHIFT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">ROTATION_Y</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_X</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_XR</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_XR_</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_RX</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_RY</span><span class="p">:</span>
+                <span class="c1"># cs_dg gate</span>
+                <span class="n">phase</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+
+                <span class="c1"># cs gate</span>
+                <span class="n">phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_P</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_S</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_S_</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_T</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.125</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">CONTROLLED_T_</span><span class="p">:</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.25</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.125</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">SWAP_QUBITS</span><span class="p">:</span>
+                <span class="n">qid_inv</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[:]</span>
+                <span class="n">qid_inv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid_inv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">qid_inv</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span></div>
         
 <span class="c1"># c-library for qstate</span>
 <span class="kn">from</span> <span class="nn">qlazy.lib.qcirc_c</span> <span class="kn">import</span> <span class="o">*</span>

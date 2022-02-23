@@ -176,7 +176,7 @@
 
 <div class="viewcode-block" id="qstate_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_init">[docs]</a><span class="k">def</span> <span class="nf">qstate_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">init_qlazy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+    <span class="n">libc</span><span class="o">.</span><span class="n">srand</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
         
     <span class="n">qstate</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_qstate</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
@@ -192,7 +192,7 @@
 
 <div class="viewcode-block" id="qstate_init_with_vector"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_init_with_vector">[docs]</a><span class="k">def</span> <span class="nf">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
-    <span class="n">lib</span><span class="o">.</span><span class="n">init_qlazy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+    <span class="n">libc</span><span class="o">.</span><span class="n">srand</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
         
     <span class="n">qstate</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_qstate</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
@@ -229,11 +229,11 @@
     
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
             
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_reset</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
@@ -256,11 +256,11 @@
         
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         
@@ -370,10 +370,10 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         <span class="n">camp</span> <span class="o">=</span> <span class="kc">None</span>
@@ -486,10 +486,10 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         <span class="n">row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="c1"># dimension of the unitary matrix</span>
@@ -535,10 +535,10 @@
     <span class="n">qstate_check_args</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">phase1</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="n">phase2</span><span class="p">)</span>
 
-    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
         <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qgate</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
@@ -559,10 +559,10 @@
 
     <span class="c1"># operate</span>
     <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
         <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
     <span class="n">mval</span> <span class="o">=</span> <span class="mi">0</span>
@@ -595,10 +595,10 @@
 
     <span class="c1"># operate</span>
     <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
         <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
     <span class="n">mdata</span> <span class="o">=</span> <span class="kc">None</span>
@@ -616,18 +616,9 @@
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">QState_Error_Measure</span><span class="p">()</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_mdata</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MDataC</span><span class="p">))</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_mdata</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">))</span>
         
-    <span class="n">state_num</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">state_num</span>
-    <span class="n">last_state</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">last</span>
-    <span class="n">freq</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="o">*</span><span class="n">state_num</span><span class="p">))</span>
-    <span class="n">freq_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state_num</span><span class="p">)]</span>
-    <span class="n">md</span> <span class="o">=</span> <span class="n">MData</span><span class="p">(</span><span class="n">freq_list</span><span class="o">=</span><span class="n">freq_list</span><span class="p">,</span> <span class="n">last_state</span><span class="o">=</span><span class="n">last_state</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span>
-               <span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">state_num</span><span class="o">=</span><span class="n">state_num</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span>
-               <span class="n">is_bell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">md</span></div>
+    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span></div>
 
 <div class="viewcode-block" id="qstate_measure_bell_stats"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure_bell_stats">[docs]</a><span class="k">def</span> <span class="nf">qstate_measure_bell_stats</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
 
@@ -640,10 +631,10 @@
     <span class="c1"># operate</span>
     <span class="n">state_num</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">qubit_num</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">):</span>
         <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
         
     <span class="n">mdata</span> <span class="o">=</span> <span class="kc">None</span>
@@ -660,17 +651,9 @@
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">QState_Error_Measure</span><span class="p">()</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_mdata</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MDataC</span><span class="p">))</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_mdata</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">))</span>
         
-    <span class="n">last_state</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">last</span>
-    <span class="n">freq</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="o">*</span><span class="n">state_num</span><span class="p">))</span>
-    <span class="n">freq_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state_num</span><span class="p">)]</span>
-    <span class="n">md</span> <span class="o">=</span> <span class="n">MData</span><span class="p">(</span><span class="n">freq_list</span><span class="o">=</span><span class="n">freq_list</span><span class="p">,</span> <span class="n">last_state</span><span class="o">=</span><span class="n">last_state</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span>
-               <span class="n">qubit_num</span><span class="o">=</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">state_num</span><span class="o">=</span><span class="n">state_num</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-               <span class="n">is_bell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">md</span></div>
+    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span></div>
 
 <div class="viewcode-block" id="qstate_operate_qcirc"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_operate_qcirc">[docs]</a><span class="k">def</span> <span class="nf">qstate_operate_qcirc</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">cmem</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="p">):</span>
 

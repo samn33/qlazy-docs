@@ -177,8 +177,10 @@
     <span class="k">if</span> <span class="n">qcirc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;quantum circuit must be specified.&quot;</span><span class="p">)</span>
 
-    <span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">qubit_num</span>
-    <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">cmem_num</span>
+    <span class="n">qcirc_tmp</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    
+    <span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">qubit_num</span>
+    <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">cmem_num</span>
 
     <span class="k">if</span> <span class="n">cmem_num</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cid</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of cid must be less than classical resister size of qcirc&quot;</span><span class="p">)</span>
@@ -187,16 +189,17 @@
         <span class="n">cid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)]</span>
 
     <span class="n">qubit_reg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-    <span class="n">cmem_reg</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)</span>
+    <span class="n">cmem_reg</span> <span class="o">=</span> <span class="p">[</span><span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)]</span>
 
-    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qubit_reg</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">qubit_reg</span><span class="p">]</span> <span class="o">+</span> <span class="n">cmem_reg</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
     <span class="n">exist_measurement</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">kind</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="k">break</span>
 
-        <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">MEASURE</span><span class="p">:</span>
             <span class="n">exist_measurement</span> <span class="o">=</span> <span class="kc">True</span>
@@ -213,7 +216,9 @@
                              <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">)</span>
 
     <span class="c1"># set backend</span>
-    <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qasm_simulator&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;aer_simulator&#39;</span><span class="p">:</span>
+        <span class="n">ibmq_backend</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;aer_simulator&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qasm_simulator&#39;</span><span class="p">:</span>
         <span class="n">ibmq_backend</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;qasm_simulator&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">provider</span> <span class="o">=</span> <span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
@@ -249,9 +254,9 @@
     <span class="c1"># execute the circuit (for state vector)</span>
     <span class="n">ibmq_sv_backend</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;statevector_simulator&quot;</span><span class="p">)</span>
     <span class="n">res_sv</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">ibmq_sv_backend</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-    <span class="n">statevector</span> <span class="o">=</span> <span class="n">res_sv</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+    <span class="n">statevector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">res_sv</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">(</span><span class="n">qc</span><span class="p">))</span>
 
-    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;statevector&#39;</span><span class="p">:</span> <span class="n">statevector</span><span class="p">,</span> <span class="s1">&#39;creg&#39;</span><span class="p">:</span> <span class="n">cmem_reg</span><span class="p">}</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;statevector&#39;</span><span class="p">:</span> <span class="n">statevector</span><span class="p">,</span> <span class="s1">&#39;creg&#39;</span><span class="p">:</span> <span class="n">cmem_reg</span><span class="p">,</span> <span class="s1">&#39;quantum_circuit&#39;</span><span class="p">:</span> <span class="n">qc</span><span class="p">}</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span></div>

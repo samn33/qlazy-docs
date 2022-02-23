@@ -349,6 +349,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
+<div class="viewcode-block" id="is_non_clifford_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.is_non_clifford_gate">[docs]</a><span class="k">def</span> <span class="nf">is_non_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">is_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">is_measurement_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">is_reset_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
 <div class="viewcode-block" id="is_measurement_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.is_measurement_gate">[docs]</a><span class="k">def</span> <span class="nf">is_measurement_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">MEASURE</span><span class="p">,</span> <span class="n">MEASURE_X</span><span class="p">,</span> <span class="n">MEASURE_Y</span><span class="p">,</span> <span class="n">MEASURE_Z</span><span class="p">,</span> <span class="n">MEASURE_BELL</span><span class="p">):</span>

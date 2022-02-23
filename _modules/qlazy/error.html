@@ -240,6 +240,10 @@
 
 <span class="c1"># MData</span>
 
+<div class="viewcode-block" id="MData_Error_Initialize"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.MData_Error_Initialize">[docs]</a><span class="k">class</span> <span class="nc">MData_Error_Initialize</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;MData: fail to initialize&quot;</span></div>
+
 <div class="viewcode-block" id="MData_Error_GetFrq"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.MData_Error_GetFrq">[docs]</a><span class="k">class</span> <span class="nc">MData_Error_GetFrq</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;MData: fail to get frq&quot;</span></div>
@@ -398,24 +402,6 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Stabilizer: fail to operate qcirc&quot;</span></div>
 
-<span class="c1"># # QComp</span>
-<span class="c1"># </span>
-<span class="c1"># class QComp_Error_QgateNotSupported(Exception):</span>
-<span class="c1">#     def __str__(self):</span>
-<span class="c1">#         return &quot;QComp: qgate is not supported&quot;</span>
-<span class="c1"># </span>
-<span class="c1"># class QComp_Error_BackendNotSupported(Exception):</span>
-<span class="c1">#     def __str__(self):</span>
-<span class="c1">#         return &quot;QComp: backend is not supported&quot;</span>
-<span class="c1"># </span>
-<span class="c1"># class QComp_Error_NumberOfClassicalReg(Exception):</span>
-<span class="c1">#     def __str__(self):</span>
-<span class="c1">#         return &quot;QComp: number of classical register must be equal to corresponding quantum register&quot;</span>
-<span class="c1"># </span>
-<span class="c1"># class QComp_Error_FreeAll(Exception):</span>
-<span class="c1">#     def __str__(self):</span>
-<span class="c1">#         return &quot;QComp: fail to free all&quot;</span>
-    
 <span class="c1"># Backend</span>
 
 <div class="viewcode-block" id="Backend_Error_NameNotSupported"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.error.Backend_Error_NameNotSupported">[docs]</a><span class="k">class</span> <span class="nc">Backend_Error_NameNotSupported</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>

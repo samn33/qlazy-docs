@@ -173,7 +173,7 @@
 
 <div class="viewcode-block" id="stabilizer_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.stabilizer_c.stabilizer_init">[docs]</a><span class="k">def</span> <span class="nf">stabilizer_init</span><span class="p">(</span><span class="n">gene_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">init_qlazy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+    <span class="n">libc</span><span class="o">.</span><span class="n">srand</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
     
     <span class="n">stab</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_stab</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">stab</span><span class="p">)</span>

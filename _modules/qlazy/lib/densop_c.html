@@ -194,8 +194,6 @@
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DensOp_Error_Initialize</span><span class="p">()</span>
             
-    <span class="c1"># out = ctypes.cast(c_densop.value, ctypes.POINTER(DensOp))</span>
-    <span class="c1"># return out.contents</span>
     <span class="k">return</span> <span class="n">c_densop</span></div>
 
 <div class="viewcode-block" id="densop_init_with_matrix"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_init_with_matrix">[docs]</a><span class="k">def</span> <span class="nf">densop_init_with_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -229,8 +227,6 @@
     <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DensOp_Error_Initialize</span><span class="p">()</span>
             
-    <span class="c1"># out = ctypes.cast(c_densop.value, ctypes.POINTER(DensOp))</span>
-    <span class="c1"># return out.contents</span>
     <span class="k">return</span> <span class="n">c_densop</span></div>
 
 
@@ -271,11 +267,11 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
             
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
@@ -315,8 +311,6 @@
         <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DensOp_Error_Clone</span><span class="p">()</span>
 
-        <span class="c1"># out = ctypes.cast(c_densop.value, ctypes.POINTER(DensOp))</span>
-        <span class="c1"># return out.contents</span>
         <span class="k">return</span> <span class="n">c_densop</span>
         
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -417,10 +411,10 @@
         <span class="n">c_densop</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">densop</span><span class="p">)</span>
             
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_patrace</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
@@ -433,8 +427,6 @@
         <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DensOp_Error_PaTrace</span><span class="p">()</span>
             
-        <span class="c1"># out = ctypes.cast(c_densop.value, ctypes.POINTER(DensOp))</span>
-        <span class="c1"># return out.contents</span>
         <span class="k">return</span> <span class="n">c_densop</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -456,8 +448,6 @@
         <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DensOp_Error_TensorProduct</span><span class="p">()</span>
 
-        <span class="c1"># out = ctypes.cast(c_densop_out.value, ctypes.POINTER(DensOp))</span>
-        <span class="c1"># return out.contents</span>
         <span class="k">return</span> <span class="n">c_densop_out</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -467,8 +457,6 @@
 
     <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DensOp_Error_Apply</span><span class="p">()</span>
-    <span class="c1"># if (matrix.shape[0] &gt; de.row or matrix.shape[1] &gt; de.col):</span>
-    <span class="c1">#     raise DensOp_Error_Apply()</span>
         
     <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="n">qnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
@@ -485,10 +473,10 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         <span class="n">row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="c1"># dimension of the unitary matrix</span>
@@ -496,7 +484,6 @@
         <span class="n">size</span> <span class="o">=</span> <span class="n">row</span> <span class="o">*</span> <span class="n">col</span>
 
         <span class="c1"># set array of matrix</span>
-        <span class="c1"># mat_complex = list(matrix.flatten())</span>
         <span class="n">mat_complex</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">mat_row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">mat_elm</span> <span class="ow">in</span> <span class="n">mat_row</span><span class="p">:</span>
@@ -549,10 +536,10 @@
             
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+        <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+        <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         <span class="n">row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="c1"># dimension of the unitary matrix</span>
@@ -603,10 +590,10 @@
     <span class="n">densop_check_args</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">phase1</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="n">phase2</span><span class="p">)</span>
 
-    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">)]</span>
+    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
         <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">MAX_QUBIT_NUM</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">densop_operate_qgate</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>

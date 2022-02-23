@@ -308,17 +308,6 @@
 ない）。phaseに指定する値の単位はPIラジアンです。なので、0.5は0.5*PIラ
 ジアンを意味します。</p>
 </div>
-<div class="section" id="u1-u2-u3-by-ibm">
-<h4>回転ゲート(U1,U2,U3 by IBM)<a class="headerlink" href="#u1-u2-u3-by-ibm" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">u1</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">u2</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">xxx</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">u3</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">xxx</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">xxx</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>alpha,beta,gamma（実数値）が指定されなければ0ラジアンとみなされます
-（つまり何もしない）。phaseに指定する値の単位はPIラジアンです。なので、
-0.5は0.5*PIラジアンを意味します。</p>
-</div>
 <div class="section" id="id11">
 <h4>制御ユニタリゲート<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
 <p>パウリX,Y,Zゲート、ルートパウリXゲート、アダマールゲート、位相シフトゲー
@@ -339,9 +328,6 @@
 <span class="n">qs</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># 制御X軸回転ゲート</span>
 <span class="n">qs</span><span class="o">.</span><span class="n">cry</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># 制御Y軸回転ゲート</span>
 <span class="n">qs</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># 制御Z軸回転ゲート</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">cu1</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>                       <span class="c1"># 制御U1ゲート</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">cu2</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">xxx</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>             <span class="c1"># 制御U2ゲート</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">cu3</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">xxx</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">xxx</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># 制御U2ゲート</span>
 </pre></div>
 </div>
 </div>

@@ -261,12 +261,27 @@
 </div>
 <dl class="py method">
 <dt id="qlazy.Backend.Backend.devices">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">devices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.devices" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">devices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.devices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.Backend.ibmq_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">ibmq_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.ibmq_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.ibmq_devices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Backend.Backend.products">
 <em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">products</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.products" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.Backend.qlazy_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qlazy_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qlazy_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.qlazy_devices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.Backend.qulacs_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qulacs_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qulacs_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.qulacs_devices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -876,72 +891,6 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
 <li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.DensOp.cu1">
-<code class="sig-name descname"><span class="pre">cu1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cu1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.cu1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU1 gate (controlled U1 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.DensOp.cu2">
-<code class="sig-name descname"><span class="pre">cu2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cu2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.cu2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU2 gate (controlled U2 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.DensOp.cu3">
-<code class="sig-name descname"><span class="pre">cu3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cu3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.cu3" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU3 gate (controlled U3 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1571,7 +1520,7 @@ original density operator.</p>
 <dl class="py method">
 <dt id="qlazy.DensOp.DensOp.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id36"><span class="problematic" id="id37">|0&gt;&lt;0|</span></a> state.</p>
+<dd><p>reset to <a href="#id34"><span class="problematic" id="id35">|0&gt;&lt;0|</span></a> state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em>) – qubit id’s list to reset.</p>
@@ -1850,58 +1799,6 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.DensOp.DensOp.u1">
-<code class="sig-name descname"><span class="pre">u1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.u1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.u1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U1 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>this opration is equal to P gate (phase shift gate)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.DensOp.u2">
-<code class="sig-name descname"><span class="pre">u2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.u2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.u2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U2 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix experssion is following…
-| 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |
-| exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.DensOp.u3">
-<code class="sig-name descname"><span class="pre">u3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.u3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.u3" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt id="qlazy.DensOp.DensOp.x">
 <code class="sig-name descname"><span class="pre">x</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.x" title="Permalink to this definition">¶</a></dt>
 <dd><p>operate X gate.</p>
@@ -1994,161 +1891,83 @@ system.</p>
 <span id="qlazy-mdata-module"></span><h2>qlazy.MData module<a class="headerlink" href="#module-qlazy.MData" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="qlazy.MData.MData">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.MData.</span></code><code class="sig-name descname"><span class="pre">MData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_bell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/MData.html#MData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.MData.MData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Measured Data</p>
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.frq">
-<code class="sig-name descname"><span class="pre">frq</span></code><a class="headerlink" href="#qlazy.MData.MData.frq" title="Permalink to this definition">¶</a></dt>
-<dd><p>frequencies of measured value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.frequency">
-<code class="sig-name descname"><span class="pre">frequency</span></code><a class="headerlink" href="#qlazy.MData.MData.frequency" title="Permalink to this definition">¶</a></dt>
-<dd><p>frequencies of measured value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Counter</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.lst">
-<code class="sig-name descname"><span class="pre">lst</span></code><a class="headerlink" href="#qlazy.MData.MData.lst" title="Permalink to this definition">¶</a></dt>
-<dd><p>last measured value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.last">
-<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#qlazy.MData.MData.last" title="Permalink to this definition">¶</a></dt>
-<dd><p>last measured value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.qid">
-<code class="sig-name descname"><span class="pre">qid</span></code><a class="headerlink" href="#qlazy.MData.MData.qid" title="Permalink to this definition">¶</a></dt>
-<dd><p>qubit id’s list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.qubit_num">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#qlazy.MData.MData.qubit_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>qubit number of the quantum state (= log(state_num)).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="qlazy.MData.MData.state_num">
-<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#qlazy.MData.MData.state_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>dimension of the quantum state vector (= 2**qubit_num).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.MData.</span></code><code class="sig-name descname"><span class="pre">MData</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/MData.html#MData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.MData.MData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ctypes.Structure</span></code></p>
 <dl class="py attribute">
 <dt id="qlazy.MData.MData.angle">
 <code class="sig-name descname"><span class="pre">angle</span></code><a class="headerlink" href="#qlazy.MData.MData.angle" title="Permalink to this definition">¶</a></dt>
-<dd><p>measured direction with Z-axis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.MData.MData.freq">
+<code class="sig-name descname"><span class="pre">freq</span></code><a class="headerlink" href="#qlazy.MData.MData.freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.MData.MData.frequency">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">frequency</span></code><a class="headerlink" href="#qlazy.MData.MData.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>frequencies of measured value (Counter)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.MData.MData.frq">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">frq</span></code><a class="headerlink" href="#qlazy.MData.MData.frq" title="Permalink to this definition">¶</a></dt>
+<dd><p>frequencies of measured value (list)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.MData.MData.last">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#qlazy.MData.MData.last" title="Permalink to this definition">¶</a></dt>
+<dd><p>last measured value (binary string)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.MData.MData.last_val">
+<code class="sig-name descname"><span class="pre">last_val</span></code><a class="headerlink" href="#qlazy.MData.MData.last_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.MData.MData.lst">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lst</span></code><a class="headerlink" href="#qlazy.MData.MData.lst" title="Permalink to this definition">¶</a></dt>
+<dd><p>last measured value (integer)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="qlazy.MData.MData.phase">
 <code class="sig-name descname"><span class="pre">phase</span></code><a class="headerlink" href="#qlazy.MData.MData.phase" title="Permalink to this definition">¶</a></dt>
-<dd><p>measured direction with X-axis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
+<dd><p>Structure/Union member</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id5">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">frequency</span></code><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
-<dd><p>frequencies of measured value (Counter)</p>
+<dl class="py attribute">
+<dt id="qlazy.MData.MData.qubit_id">
+<code class="sig-name descname"><span class="pre">qubit_id</span></code><a class="headerlink" href="#qlazy.MData.MData.qubit_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id6">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
-<dd><p>last measured value (binary string)</p>
+<dl class="py attribute">
+<dt id="qlazy.MData.MData.qubit_num">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#qlazy.MData.MData.qubit_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="qlazy.MData.MData.measured_bit">
-<code class="sig-name descname"><span class="pre">measured_bit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/MData.html#MData.measured_bit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.MData.MData.measured_bit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.MData.MData.measured_freq">
-<code class="sig-name descname"><span class="pre">measured_freq</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/MData.html#MData.measured_freq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.MData.MData.measured_freq" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.MData.MData.measured_value">
-<code class="sig-name descname"><span class="pre">measured_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/MData.html#MData.measured_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.MData.MData.measured_value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="py attribute">
+<dt id="qlazy.MData.MData.shot_num">
+<code class="sig-name descname"><span class="pre">shot_num</span></code><a class="headerlink" href="#qlazy.MData.MData.shot_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.MData.MData.show">
 <code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/MData.html#MData.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.MData.MData.show" title="Permalink to this definition">¶</a></dt>
-<dd><p>show the measured data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>None</strong> – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="go">direction of measurement: z-axis</span>
-<span class="go">frq[00] = 51</span>
-<span class="go">frq[11] = 49</span>
-<span class="go">last state =&gt; 11</span>
-</pre></div>
-</div>
-</dd></dl>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.MData.MData.state_num">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#qlazy.MData.MData.state_num" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -2350,6 +2169,29 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.QCirc.QCirc.add_gates">
+<code class="sig-name descname"><span class="pre">add_gates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.add_gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.add_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>add list of gates to the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gates</strong> (<em>list of dict</em>) – gates of the quantum circuit
+gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘ctrl’:ctrl}, …]
+- kind: gate name
+- qid: qubit id
+- phase: phase parameter (non-zero only for rotation gates)
+- cid: classical register id (set only for measurement gate)
+- ctrl: classical register id for controlling gate operation</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong> – circuit after adding gates</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.QCirc.QCirc.append_gate">
 <code class="sig-name descname"><span class="pre">append_gate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">para</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.append_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.append_gate" title="Permalink to this definition">¶</a></dt>
 <dd><p>append gate to the end of the circuit.</p>
@@ -2433,8 +2275,8 @@ system.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id7">
-<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dt id="id5">
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -2632,75 +2474,6 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.QCirc.cu1">
-<code class="sig-name descname"><span class="pre">cu1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cu1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.cu1" title="Permalink to this definition">¶</a></dt>
-<dd><p>add CU1 gate (controlled U1 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QCirc.QCirc.cu2">
-<code class="sig-name descname"><span class="pre">cu2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cu2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.cu2" title="Permalink to this definition">¶</a></dt>
-<dd><p>add CU2 gate (controlled U2 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QCirc.QCirc.cu3">
-<code class="sig-name descname"><span class="pre">cu3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cu3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.cu3" title="Permalink to this definition">¶</a></dt>
-<dd><p>add CU3 gate (controlled U3 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="qlazy.QCirc.QCirc.cx">
 <code class="sig-name descname"><span class="pre">cx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.cx" title="Permalink to this definition">¶</a></dt>
 <dd><p>add CX gate (controlled X gate, controlled NOT gate, CNOT gate).</p>
@@ -2805,16 +2578,206 @@ system.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="id8">
-<code class="sig-name descname"><span class="pre">first</span></code><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
-<dd><p>Structure/Union member</p>
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.dump">
+<code class="sig-name descname"><span class="pre">dump</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path of dump file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.equivalent">
+<code class="sig-name descname"><span class="pre">equivalent</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.equivalent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.equivalent" title="Permalink to this definition">¶</a></dt>
+<dd><p>two quantum circuits are equivalent or not (using pyzx’s verify_equality method).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ans</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id9">
-<code class="sig-name descname"><span class="pre">gate_num</span></code><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dt id="id6">
+<code class="sig-name descname"><span class="pre">first</span></code><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.from_pyzx">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_pyzx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zxqc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.from_pyzx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.from_pyzx" title="Permalink to this definition">¶</a></dt>
+<dd><p>get pyzx’s Circuit instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zxqc</strong> (<em>instance of pyzx's Circuit</em>) – quantum circuit</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qc</strong> – quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.from_qasm">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_qasm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.from_qasm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.from_qasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>get QCirc instance from OpenQASM 2.0 string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates (measure, reset) and user customized gates are not supported. Supported gates are
+‘x’, ‘y’, ‘z’, ‘h’, ‘s’, ‘sdg’, ‘t’, ‘tdg’, ‘cx’, ‘cz’, ‘ch’, ‘rx’, ‘rz’, ‘crz’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.from_qasm_file">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_qasm_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.from_qasm_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.from_qasm_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>get QCirc instance from OpenQASM 2.0 file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path name of OpenQASM 2.0 file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates (measure, reset) and user customized gates are not supported. Supported gates are
+‘x’, ‘y’, ‘z’, ‘h’, ‘s’, ‘sdg’, ‘t’, ‘tdg’, ‘cx’, ‘cz’, ‘ch’, ‘rx’, ‘rz’, ‘crz’.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="id7">
+<code class="sig-name descname"><span class="pre">gate_num</span></code><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.generate_random_gates">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_random_gates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.generate_random_gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.generate_random_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate circuit including random gates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit_num</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>gate_num</strong> (<em>int</em>) – numbner of gates</p></li>
+<li><p><strong>phase</strong> (<em>tupple of float</em>) – phases selected randomly</p></li>
+<li><p><strong>prob</strong> (<em>dict</em>) – <dl class="simple">
+<dt>{‘x’:prob_x, ‘z’:prob_z, ‘h’:prob_h, ‘s’:prob_s, ‘s_dg’:prob_s_dg,</dt><dd><p>’t’:prob_t, ‘t_dg’:prob_t_dg, ‘rx’:prob_rx, ‘rz’:prob_rz, ‘cx’:prob_cx,
+‘cz’:prob_cz, ‘ch’:prob_ch, ‘crz’:prob_crz}</p>
+</dd>
+</dl>
+<ul>
+<li><p>prob_x: probability of x</p></li>
+<li><p>prob_z: probability of z</p></li>
+<li><p>prob_h: probability of h</p></li>
+<li><p>prob_s: probability of s</p></li>
+<li><p>prob_s_dg: probability of s_dg</p></li>
+<li><p>prob_t: probability of t</p></li>
+<li><p>prob_t_dg: probability of t_dg</p></li>
+<li><p>prob_rx: probability of rx</p></li>
+<li><p>prob_rz: probability of rz</p></li>
+<li><p>prob_cx: probability of cx</p></li>
+<li><p>prob_cz: probability of cz</p></li>
+<li><p>prob_ch: probability of ch</p></li>
+<li><p>prob_crz: probability of crz</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong> – generated circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">generate_random_gates</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">gate_num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">phase_unit</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>each probability values are normalized so that the sum of the probabilities is 1.0.</p></li>
+<li><p>Phase parameters of rotation gates are selected randomly in the element of ‘phase’.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.get_gates">
+<code class="sig-name descname"><span class="pre">get_gates</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.get_gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.get_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>get list of gates from the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>gates</strong> – gates of the quantum circuit
+gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘ctrl’:ctrl}, …]
+- kind: gate name
+- qid: qubit id
+- phase: phase parameter (non-zero only for rotation gates)
+- cid: classical register id (set only for measurement gate)
+- ctrl: classical register id to control gate operation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.get_stats">
+<code class="sig-name descname"><span class="pre">get_stats</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.get_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.get_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>get statistics of the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>stats</strong> – {‘qubit_num’:qubit_num, ‘cmem_num’:cmem_num, ‘gate_num’:gate_num, ‘gate_freq’:gate_freq}
+- qubit_num: number of qubits
+- cmem_num: number of classical bits
+- gate_num: number of gates
+- gate_freq: frequency of gates (Counter)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -2863,7 +2826,7 @@ system.</p>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>kind</strong> – kind of first quantum gate of quantum circuit</p>
+<dd class="field-even"><p><strong>kind_list</strong> – kind of first quantum gate of quantum circuit</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
@@ -2875,10 +2838,48 @@ system.</p>
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.kind_list">
+<code class="sig-name descname"><span class="pre">kind_list</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.kind_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.kind_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>get list of kinds from the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>kinds</strong> – kinds of the quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of kind</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>return None if none of gates included</p>
+</div>
+</dd></dl>
+
 <dl class="py attribute">
-<dt id="id10">
-<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dt id="id8">
+<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.load">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>load the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path of dump file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong> – loaded circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -2939,6 +2940,25 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.QCirc.QCirc.optimize">
+<code class="sig-name descname"><span class="pre">optimize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>optimize the quantum circuit (using pyzx’s full_optimize method).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qc</strong> – optimized circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.QCirc.QCirc.p">
 <code class="sig-name descname"><span class="pre">p</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.p" title="Permalink to this definition">¶</a></dt>
 <dd><p>add P gate (phase shift gate).</p>
@@ -2986,8 +3006,8 @@ system.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id11">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dt id="id9">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -3195,9 +3215,28 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.QCirc.to_string">
-<code class="sig-name descname"><span class="pre">to_string</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.to_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>get string of quantum circuit description.</p>
+<dt id="qlazy.QCirc.QCirc.to_pyzx">
+<code class="sig-name descname"><span class="pre">to_pyzx</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_pyzx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.to_pyzx" title="Permalink to this definition">¶</a></dt>
+<dd><p>get pyzx’s Circuit instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>zxqc</strong> – quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of pyzx’s Circuit</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.QCirc.to_qasm">
+<code class="sig-name descname"><span class="pre">to_qasm</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_qasm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.to_qasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>get OpenQASM 2.0 string of the circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
@@ -3212,79 +3251,37 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.QCirc.u1">
-<code class="sig-name descname"><span class="pre">u1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.u1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.u1" title="Permalink to this definition">¶</a></dt>
-<dd><p>add U1 gate (by IBM).</p>
+<dt id="qlazy.QCirc.QCirc.to_qasm_file">
+<code class="sig-name descname"><span class="pre">to_qasm_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_qasm_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.to_qasm_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>write to OpenQASM 2.0 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path name of OpenQASM 2.0 file</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>this opration is equal to P gate (phase shift gate)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.QCirc.u2">
-<code class="sig-name descname"><span class="pre">u2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.u2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.u2" title="Permalink to this definition">¶</a></dt>
-<dd><p>add U2 gate (by IBM).</p>
+<dt id="qlazy.QCirc.QCirc.to_string">
+<code class="sig-name descname"><span class="pre">to_string</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>get string of the circuit (qlazy format).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
+<dd class="field-even"><p><strong>qcirc_str</strong></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>matrix experssion is following…
-| 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |
-| exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QCirc.QCirc.u3">
-<code class="sig-name descname"><span class="pre">u3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.u3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.u3" title="Permalink to this definition">¶</a></dt>
-<dd><p>add U3 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix expression is following…
-| cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |
-| exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</p>
 </dd></dl>
 
 <dl class="py method">
@@ -3390,6 +3387,11 @@ system.</p>
 
 </dd></dl>
 
+<dl class="py function">
+<dt id="qlazy.QCirc.string_to_args">
+<code class="sig-prename descclassname"><span class="pre">qlazy.QCirc.</span></code><code class="sig-name descname"><span class="pre">string_to_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#string_to_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.string_to_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-qlazy.QState">
 <span id="qlazy-qstate-module"></span><h2>qlazy.QState module<a class="headerlink" href="#module-qlazy.QState" title="Permalink to this headline">¶</a></h2>
@@ -3481,8 +3483,8 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="id12">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">amp</span></code><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dt id="id10">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">amp</span></code><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
 <dd><p>elements of quantum state vector.</p>
 </dd></dl>
 
@@ -3818,72 +3820,6 @@ length.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
 <li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.QState.cu1">
-<code class="sig-name descname"><span class="pre">cu1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.cu1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.cu1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU1 gate (controlled U1 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.QState.cu2">
-<code class="sig-name descname"><span class="pre">cu2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.cu2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.cu2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU2 gate (controlled U2 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.QState.cu3">
-<code class="sig-name descname"><span class="pre">cu3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.cu3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.cu3" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU3 gate (controlled U3 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -4468,15 +4404,15 @@ you get the copy of original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id13">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dt id="id11">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.QState.QState.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id14"><span class="problematic" id="id15">|</span></a>00..0&gt; state.</p>
+<dd><p>reset to <a href="#id12"><span class="problematic" id="id13">|</span></a>00..0&gt; state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em><em>, </em><em>default - qubit id's list for all of the qubits</em>) – qubit id’s list to reset.</p>
@@ -4677,8 +4613,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id16">
-<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
+<dt id="id14">
+<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -4751,79 +4687,6 @@ the original quantum state.</p>
 <dd class="field-odd"><p>instance of QState</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.QState.u1">
-<code class="sig-name descname"><span class="pre">u1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.u1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.u1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U1 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>this opration is equal to P gate (phase shift gate)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.QState.u2">
-<code class="sig-name descname"><span class="pre">u2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.u2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.u2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U2 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix experssion is following…
-| 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |
-| exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.QState.u3">
-<code class="sig-name descname"><span class="pre">u3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.u3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.u3" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U3 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix expression is following…
-| cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |
-| exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</p>
 </dd></dl>
 
 <dl class="py method">
@@ -5197,8 +5060,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id17">
-<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
+<dt id="id15">
+<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -5428,8 +5291,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id18">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dt id="id16">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -5826,6 +5689,12 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py exception">
+<dt id="qlazy.error.MData_Error_Initialize">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.error.</span></code><code class="sig-name descname"><span class="pre">MData_Error_Initialize</span></code><a class="reference internal" href="../_modules/qlazy/error.html#MData_Error_Initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.error.MData_Error_Initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
 <dt id="qlazy.error.MData_Error_Show">
 <em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.error.</span></code><code class="sig-name descname"><span class="pre">MData_Error_Show</span></code><a class="reference internal" href="../_modules/qlazy/error.html#MData_Error_Show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.error.MData_Error_Show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -6099,6 +5968,11 @@ the original quantum state.</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt id="qlazy.util.is_non_clifford_gate">
+<code class="sig-prename descclassname"><span class="pre">qlazy.util.</span></code><code class="sig-name descname"><span class="pre">is_non_clifford_gate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/util.html#is_non_clifford_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.util.is_non_clifford_gate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt id="qlazy.util.is_reset_gate">
 <code class="sig-prename descclassname"><span class="pre">qlazy.util.</span></code><code class="sig-name descname"><span class="pre">is_reset_gate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/util.html#is_reset_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.util.is_reset_gate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -6152,12 +6026,27 @@ the original quantum state.</p>
 </div>
 <dl class="py method">
 <dt id="qlazy.Backend.devices">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">devices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.devices" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">devices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.devices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.ibmq_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">ibmq_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.ibmq_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.ibmq_devices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Backend.products">
 <em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">products</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.products" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.qlazy_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qlazy_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qlazy_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.qlazy_devices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.qulacs_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qulacs_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qulacs_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.qulacs_devices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -6229,8 +6118,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id19">
-<code class="sig-name descname"><span class="pre">bit_array</span></code><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dt id="id17">
+<code class="sig-name descname"><span class="pre">bit_array</span></code><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -6252,8 +6141,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id20">
-<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
+<dt id="id18">
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -6523,8 +6412,8 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id21">
-<code class="sig-name descname"><span class="pre">col</span></code><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
+<dt id="id19">
+<code class="sig-name descname"><span class="pre">col</span></code><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -6773,72 +6662,6 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.DensOp.cu1">
-<code class="sig-name descname"><span class="pre">cu1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cu1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.cu1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU1 gate (controlled U1 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.cu2">
-<code class="sig-name descname"><span class="pre">cu2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cu2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.cu2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU2 gate (controlled U2 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.cu3">
-<code class="sig-name descname"><span class="pre">cu3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cu3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.cu3" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU3 gate (controlled U3 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="qlazy.DensOp.cx">
 <code class="sig-name descname"><span class="pre">cx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.cx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.cx" title="Permalink to this definition">¶</a></dt>
 <dd><p>operate CX gate (controlled X gate, controlled NOT gate, CNOT gate).</p>
@@ -6996,8 +6819,8 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="id22">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">element</span></code><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
+<dt id="id20">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">element</span></code><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
 <dd><p>matrix elements of density operator.</p>
 </dd></dl>
 
@@ -7456,7 +7279,7 @@ original density operator.</p>
 <dl class="py method">
 <dt id="qlazy.DensOp.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id38"><span class="problematic" id="id39">|0&gt;&lt;0|</span></a> state.</p>
+<dd><p>reset to <a href="#id36"><span class="problematic" id="id37">|0&gt;&lt;0|</span></a> state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em>) – qubit id’s list to reset.</p>
@@ -7473,8 +7296,8 @@ original density operator.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id23">
-<code class="sig-name descname"><span class="pre">row</span></code><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
+<dt id="id21">
+<code class="sig-name descname"><span class="pre">row</span></code><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -7733,58 +7556,6 @@ system.</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.u1">
-<code class="sig-name descname"><span class="pre">u1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.u1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.u1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U1 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>this opration is equal to P gate (phase shift gate)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.u2">
-<code class="sig-name descname"><span class="pre">u2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.u2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.u2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U2 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of DensOp</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix experssion is following…
-| 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |
-| exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.DensOp.u3">
-<code class="sig-name descname"><span class="pre">u3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.u3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.u3" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.DensOp.x">
@@ -8063,6 +7834,29 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.QCirc.add_gates">
+<code class="sig-name descname"><span class="pre">add_gates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.add_gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.add_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>add list of gates to the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gates</strong> (<em>list of dict</em>) – gates of the quantum circuit
+gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘ctrl’:ctrl}, …]
+- kind: gate name
+- qid: qubit id
+- phase: phase parameter (non-zero only for rotation gates)
+- cid: classical register id (set only for measurement gate)
+- ctrl: classical register id for controlling gate operation</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong> – circuit after adding gates</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.QCirc.append_gate">
 <code class="sig-name descname"><span class="pre">append_gate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">para</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.append_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.append_gate" title="Permalink to this definition">¶</a></dt>
 <dd><p>append gate to the end of the circuit.</p>
@@ -8146,8 +7940,8 @@ system.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id24">
-<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dt id="id22">
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8345,75 +8139,6 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.cu1">
-<code class="sig-name descname"><span class="pre">cu1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cu1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.cu1" title="Permalink to this definition">¶</a></dt>
-<dd><p>add CU1 gate (controlled U1 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QCirc.cu2">
-<code class="sig-name descname"><span class="pre">cu2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cu2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.cu2" title="Permalink to this definition">¶</a></dt>
-<dd><p>add CU2 gate (controlled U2 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QCirc.cu3">
-<code class="sig-name descname"><span class="pre">cu3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cu3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.cu3" title="Permalink to this definition">¶</a></dt>
-<dd><p>add CU3 gate (controlled U3 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="qlazy.QCirc.cx">
 <code class="sig-name descname"><span class="pre">cx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.cx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.cx" title="Permalink to this definition">¶</a></dt>
 <dd><p>add CX gate (controlled X gate, controlled NOT gate, CNOT gate).</p>
@@ -8518,16 +8243,206 @@ system.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="id25">
-<code class="sig-name descname"><span class="pre">first</span></code><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
-<dd><p>Structure/Union member</p>
+<dl class="py method">
+<dt id="qlazy.QCirc.dump">
+<code class="sig-name descname"><span class="pre">dump</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path of dump file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.equivalent">
+<code class="sig-name descname"><span class="pre">equivalent</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.equivalent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.equivalent" title="Permalink to this definition">¶</a></dt>
+<dd><p>two quantum circuits are equivalent or not (using pyzx’s verify_equality method).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ans</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id26">
-<code class="sig-name descname"><span class="pre">gate_num</span></code><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
+<dt id="id23">
+<code class="sig-name descname"><span class="pre">first</span></code><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.from_pyzx">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_pyzx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zxqc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.from_pyzx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.from_pyzx" title="Permalink to this definition">¶</a></dt>
+<dd><p>get pyzx’s Circuit instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zxqc</strong> (<em>instance of pyzx's Circuit</em>) – quantum circuit</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qc</strong> – quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.from_qasm">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_qasm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.from_qasm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.from_qasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>get QCirc instance from OpenQASM 2.0 string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates (measure, reset) and user customized gates are not supported. Supported gates are
+‘x’, ‘y’, ‘z’, ‘h’, ‘s’, ‘sdg’, ‘t’, ‘tdg’, ‘cx’, ‘cz’, ‘ch’, ‘rx’, ‘rz’, ‘crz’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.from_qasm_file">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_qasm_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.from_qasm_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.from_qasm_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>get QCirc instance from OpenQASM 2.0 file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path name of OpenQASM 2.0 file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates (measure, reset) and user customized gates are not supported. Supported gates are
+‘x’, ‘y’, ‘z’, ‘h’, ‘s’, ‘sdg’, ‘t’, ‘tdg’, ‘cx’, ‘cz’, ‘ch’, ‘rx’, ‘rz’, ‘crz’.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="id24">
+<code class="sig-name descname"><span class="pre">gate_num</span></code><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.generate_random_gates">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generate_random_gates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.generate_random_gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.generate_random_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate circuit including random gates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit_num</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>gate_num</strong> (<em>int</em>) – numbner of gates</p></li>
+<li><p><strong>phase</strong> (<em>tupple of float</em>) – phases selected randomly</p></li>
+<li><p><strong>prob</strong> (<em>dict</em>) – <dl class="simple">
+<dt>{‘x’:prob_x, ‘z’:prob_z, ‘h’:prob_h, ‘s’:prob_s, ‘s_dg’:prob_s_dg,</dt><dd><p>’t’:prob_t, ‘t_dg’:prob_t_dg, ‘rx’:prob_rx, ‘rz’:prob_rz, ‘cx’:prob_cx,
+‘cz’:prob_cz, ‘ch’:prob_ch, ‘crz’:prob_crz}</p>
+</dd>
+</dl>
+<ul>
+<li><p>prob_x: probability of x</p></li>
+<li><p>prob_z: probability of z</p></li>
+<li><p>prob_h: probability of h</p></li>
+<li><p>prob_s: probability of s</p></li>
+<li><p>prob_s_dg: probability of s_dg</p></li>
+<li><p>prob_t: probability of t</p></li>
+<li><p>prob_t_dg: probability of t_dg</p></li>
+<li><p>prob_rx: probability of rx</p></li>
+<li><p>prob_rz: probability of rz</p></li>
+<li><p>prob_cx: probability of cx</p></li>
+<li><p>prob_cz: probability of cz</p></li>
+<li><p>prob_ch: probability of ch</p></li>
+<li><p>prob_crz: probability of crz</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong> – generated circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">generate_random_gates</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">gate_num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">phase_unit</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>each probability values are normalized so that the sum of the probabilities is 1.0.</p></li>
+<li><p>Phase parameters of rotation gates are selected randomly in the element of ‘phase’.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.get_gates">
+<code class="sig-name descname"><span class="pre">get_gates</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.get_gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.get_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>get list of gates from the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>gates</strong> – gates of the quantum circuit
+gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘ctrl’:ctrl}, …]
+- kind: gate name
+- qid: qubit id
+- phase: phase parameter (non-zero only for rotation gates)
+- cid: classical register id (set only for measurement gate)
+- ctrl: classical register id to control gate operation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.get_stats">
+<code class="sig-name descname"><span class="pre">get_stats</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.get_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.get_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>get statistics of the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>stats</strong> – {‘qubit_num’:qubit_num, ‘cmem_num’:cmem_num, ‘gate_num’:gate_num, ‘gate_freq’:gate_freq}
+- qubit_num: number of qubits
+- cmem_num: number of classical bits
+- gate_num: number of gates
+- gate_freq: frequency of gates (Counter)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -8576,7 +8491,7 @@ system.</p>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>kind</strong> – kind of first quantum gate of quantum circuit</p>
+<dd class="field-even"><p><strong>kind_list</strong> – kind of first quantum gate of quantum circuit</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
@@ -8588,10 +8503,48 @@ system.</p>
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt id="qlazy.QCirc.kind_list">
+<code class="sig-name descname"><span class="pre">kind_list</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.kind_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.kind_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>get list of kinds from the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>kinds</strong> – kinds of the quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of kind</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>return None if none of gates included</p>
+</div>
+</dd></dl>
+
 <dl class="py attribute">
-<dt id="id27">
-<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
+<dt id="id25">
+<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.load">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>load the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path of dump file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qcirc</strong> – loaded circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -8652,6 +8605,25 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.QCirc.optimize">
+<code class="sig-name descname"><span class="pre">optimize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>optimize the quantum circuit (using pyzx’s full_optimize method).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>qc</strong> – optimized circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of QCirc</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.QCirc.p">
 <code class="sig-name descname"><span class="pre">p</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.p" title="Permalink to this definition">¶</a></dt>
 <dd><p>add P gate (phase shift gate).</p>
@@ -8699,8 +8671,8 @@ system.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id28">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
+<dt id="id26">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8908,9 +8880,28 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.to_string">
-<code class="sig-name descname"><span class="pre">to_string</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.to_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>get string of quantum circuit description.</p>
+<dt id="qlazy.QCirc.to_pyzx">
+<code class="sig-name descname"><span class="pre">to_pyzx</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_pyzx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.to_pyzx" title="Permalink to this definition">¶</a></dt>
+<dd><p>get pyzx’s Circuit instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>zxqc</strong> – quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>instance of pyzx’s Circuit</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Non-unitary gates: measure, reset are not supported.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.QCirc.to_qasm">
+<code class="sig-name descname"><span class="pre">to_qasm</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_qasm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.to_qasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>get OpenQASM 2.0 string of the circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
@@ -8925,79 +8916,37 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.u1">
-<code class="sig-name descname"><span class="pre">u1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.u1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.u1" title="Permalink to this definition">¶</a></dt>
-<dd><p>add U1 gate (by IBM).</p>
+<dt id="qlazy.QCirc.to_qasm_file">
+<code class="sig-name descname"><span class="pre">to_qasm_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_qasm_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.to_qasm_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>write to OpenQASM 2.0 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – file path name of OpenQASM 2.0 file</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>this opration is equal to P gate (phase shift gate)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="qlazy.QCirc.u2">
-<code class="sig-name descname"><span class="pre">u2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.u2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.u2" title="Permalink to this definition">¶</a></dt>
-<dd><p>add U2 gate (by IBM).</p>
+<dt id="qlazy.QCirc.to_string">
+<code class="sig-name descname"><span class="pre">to_string</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>get string of the circuit (qlazy format).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
+<dd class="field-even"><p><strong>qcirc_str</strong></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>matrix experssion is following…
-| 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |
-| exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QCirc.u3">
-<code class="sig-name descname"><span class="pre">u3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.u3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.u3" title="Permalink to this definition">¶</a></dt>
-<dd><p>add U3 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>ctrl</strong> (<em>int</em>) – address of classical memory to control gate operation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – quantum circuit after adding</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QCirc</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix expression is following…
-| cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |
-| exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</p>
 </dd></dl>
 
 <dl class="py method">
@@ -9191,8 +9140,8 @@ system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="id29">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">amp</span></code><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
+<dt id="id27">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">amp</span></code><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
 <dd><p>elements of quantum state vector.</p>
 </dd></dl>
 
@@ -9528,72 +9477,6 @@ length.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
 <li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.cu1">
-<code class="sig-name descname"><span class="pre">cu1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.cu1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.cu1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU1 gate (controlled U1 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.cu2">
-<code class="sig-name descname"><span class="pre">cu2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.cu2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.cu2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU2 gate (controlled U2 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.cu3">
-<code class="sig-name descname"><span class="pre">cu3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.cu3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.cu3" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate CU3 gate (controlled U3 gate).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id (control qubit).</p></li>
-<li><p><strong>q1</strong> (<em>int</em>) – qubit id (target qubit).</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -10178,15 +10061,15 @@ you get the copy of original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id30">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
+<dt id="id28">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.QState.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id31"><span class="problematic" id="id32">|</span></a>00..0&gt; state.</p>
+<dd><p>reset to <a href="#id29"><span class="problematic" id="id30">|</span></a>00..0&gt; state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em><em>, </em><em>default - qubit id's list for all of the qubits</em>) – qubit id’s list to reset.</p>
@@ -10387,8 +10270,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id33">
-<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<dt id="id31">
+<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -10461,79 +10344,6 @@ the original quantum state.</p>
 <dd class="field-odd"><p>instance of QState</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.u1">
-<code class="sig-name descname"><span class="pre">u1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.u1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.u1" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U1 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is PI radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>this opration is equal to P gate (phase shift gate)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.u2">
-<code class="sig-name descname"><span class="pre">u2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.u2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.u2" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U2 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix experssion is following…
-| 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |
-| exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="qlazy.QState.u3">
-<code class="sig-name descname"><span class="pre">u3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.u3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.u3" title="Permalink to this definition">¶</a></dt>
-<dd><p>operate U3 gate (by IBM).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>int</em>) – qubit id.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – rotation angle (unit of angle is pi radian).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>instance of QState</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>matrix expression is following…
-| cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |
-| exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</p>
 </dd></dl>
 
 <dl class="py method">
@@ -10850,8 +10660,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id34">
-<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id34" title="Permalink to this definition">¶</a></dt>
+<dt id="id32">
+<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -11081,8 +10891,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id35">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id35" title="Permalink to this definition">¶</a></dt>
+<dt id="id33">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
