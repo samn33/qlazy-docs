@@ -4,6 +4,14 @@ qlazy.backend package
 Submodules
 ----------
 
+qlazy.backend.amazon\_braket module
+-----------------------------------
+
+.. automodule:: qlazy.backend.amazon_braket
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.backend.ibmq module
 -------------------------
 

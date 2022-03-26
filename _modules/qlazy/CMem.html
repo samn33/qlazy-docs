@@ -155,14 +155,8 @@
             
   <h1>Source code for qlazy.CMem</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Classical Memory &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">ctypes</span>
-
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="CMem"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.CMem.CMem">[docs]</a><span class="k">class</span> <span class="nc">CMem</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Classical Memory</span>
@@ -195,7 +189,16 @@
         <span class="n">obj</span> <span class="o">=</span> <span class="n">cmem_init</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)</span>
         <span class="n">cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">cmem</span>
-            
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_bits</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; bit list of classical memory. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bits</span><span class="p">()</span>
+
 <div class="viewcode-block" id="CMem.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.CMem.CMem.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the copy of the classical memory.</span>
@@ -214,12 +217,29 @@
         <span class="n">cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">cmem</span></div>
 
+<div class="viewcode-block" id="CMem.get_bits"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.CMem.CMem.get_bits">[docs]</a>    <span class="k">def</span> <span class="nf">get_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get bit list of the classical memory.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bits : numpy.ndarray (int)</span>
+<span class="sd">            bits array of the classical memory</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="n">cmem_get_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bits</span></div>
+
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
+
         <span class="n">cmem_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-        
+
 <span class="c1"># c-library for qstate</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.cmem_c</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.cmem_c</span> <span class="kn">import</span> <span class="n">cmem_init</span><span class="p">,</span> <span class="n">cmem_copy</span><span class="p">,</span> <span class="n">cmem_get_bits</span><span class="p">,</span> <span class="n">cmem_free</span>
 </pre></div>
 
            </div>

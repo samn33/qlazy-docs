@@ -155,14 +155,12 @@
             
   <h1>Source code for qlazy.Stabilizer</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Stabilizer State &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">ctypes</span>
 
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
 
 <div class="viewcode-block" id="MDataStabilizer"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.MDataStabilizer">[docs]</a><span class="k">class</span> <span class="nc">MDataStabilizer</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Measured Data for Stabilizer</span>
@@ -181,14 +179,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">last</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qid</span> <span class="o">=</span> <span class="n">qid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span></div>
-        
+
 <div class="viewcode-block" id="Stabilizer"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Quantum State</span>
+    <span class="sd">&quot;&quot;&quot; Stabilizer State</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -216,12 +214,12 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        You must specify &#39;qubit_num&#39;. If &#39;gene_num&#39; is not specified, </span>
+<span class="sd">        You must specify &#39;qubit_num&#39;. If &#39;gene_num&#39; is not specified,</span>
 <span class="sd">        &#39;gene_num&#39; is equal to &#39;qubit_num.&#39;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000000</span><span class="p">)</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pp_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">gene_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pp_list</span><span class="p">)</span>
@@ -234,19 +232,19 @@
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pp_list</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">qid</span><span class="p">):</span>
                     <span class="n">sb</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-            <span class="k">return</span> <span class="n">sb</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">qubit_num</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Stabilizer_Error_Initialize</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit number must be set.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">gene_num</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">gene_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
             <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">gene_num</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Stabilizer_Error_Initialize</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit_num and gene_num must be positive integer.&quot;</span><span class="p">)</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">stabilizer_init</span><span class="p">(</span><span class="n">gene_num</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
             <span class="n">sb</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
-            <span class="k">return</span> <span class="n">sb</span>
-            
+
+        <span class="k">return</span> <span class="n">sb</span>
+
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
@@ -260,10 +258,10 @@
 <span class="sd">        ----------</span>
 <span class="sd">        method : func</span>
 <span class="sd">            method (custum gate) to add.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span></div>
-        
+
 <div class="viewcode-block" id="Stabilizer.add_methods"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.add_methods">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">add_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">methods</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -273,15 +271,16 @@
 <span class="sd">        ----------</span>
 <span class="sd">        methods : func, func, ...</span>
 <span class="sd">            arguments of methods (custum gates) to add.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Stabillizer_Error_AddMethods</span><span class="p">()</span></div>
-            
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t add method.&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Stabilizer.get_str"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.get_str">[docs]</a>    <span class="k">def</span> <span class="nf">get_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get string of the stabilzer &quot;&quot;&quot;</span>
 
         <span class="n">str_out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span><span class="p">):</span>
@@ -289,7 +288,7 @@
 
             <span class="n">gene_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">):</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                 <span class="n">gene_str</span> <span class="o">+=</span> <span class="n">s</span>
 
             <span class="k">if</span> <span class="n">pauli_fac_complex</span> <span class="o">==</span> <span class="mi">1</span><span class="o">+</span><span class="mi">0</span><span class="n">j</span><span class="p">:</span>
@@ -301,12 +300,12 @@
             <span class="k">elif</span> <span class="n">pauli_fac_complex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">:</span>
                 <span class="n">pauli_fac_str</span> <span class="o">=</span> <span class="s2">&quot;-i&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Stabilizer_Error_GetStr</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get string.&quot;</span><span class="p">)</span>
 
-            <span class="n">str_out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{0:}{1:}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pauli_fac_str</span><span class="p">,</span><span class="n">gene_str</span><span class="p">)</span>
-                
+            <span class="n">str_out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{0:}{1:}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pauli_fac_str</span><span class="p">,</span> <span class="n">gene_str</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">str_out</span></div>
-        
+
 <div class="viewcode-block" id="Stabilizer.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        show the generators of stabilizer.</span>
@@ -323,8 +322,8 @@
         <span class="n">digits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_str</span><span class="p">()</span>
         <span class="n">gene_list</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">gene_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gene_list</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g[{0:</span><span class="si">{digits}</span><span class="s2">d}]:</span><span class="si">{1:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">gene_str</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">gene_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gene_list</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g[{0:</span><span class="si">{digits}</span><span class="s2">d}]:</span><span class="si">{1:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">gene_str</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Stabilizer.reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -338,14 +337,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        self : instance of Stabilizer</span>
 <span class="sd">            stabilizer state.</span>
-<span class="sd"> </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="s1">&#39;I&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_fac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;+1&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_fac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;+1&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-        
+
 <div class="viewcode-block" id="Stabilizer.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the copy of the quantum state.</span>
@@ -365,10 +364,11 @@
         <span class="k">return</span> <span class="n">sb</span></div>
 
 <div class="viewcode-block" id="Stabilizer.get_rank"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.get_rank">[docs]</a>    <span class="k">def</span> <span class="nf">get_rank</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get rank of the stabilizer &quot;&quot;&quot;</span>
 
         <span class="n">rank</span> <span class="o">=</span> <span class="n">stabilizer_get_rank</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rank</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.set_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.set_all">[docs]</a>    <span class="k">def</span> <span class="nf">set_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pauli_op_str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        set all of the qubits same pauli operators.</span>
@@ -393,10 +393,10 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="nb">len</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
-        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">pauli_op_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">)]</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
+        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">pauli_op_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">)]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.set_pauli_fac"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.set_pauli_fac">[docs]</a>    <span class="k">def</span> <span class="nf">set_pauli_fac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">,</span> <span class="n">pauli_fac_str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        set pauli factor of generator (&#39;+1&#39;,&#39;-1&#39;,&#39;+i&#39;,&#39;-i&#39;).</span>
@@ -411,17 +411,17 @@
 <span class="sd">        self : instance of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">pauli_fac_str</span> <span class="o">==</span> <span class="s2">&quot;+1&quot;</span> <span class="ow">or</span> <span class="n">pauli_fac_str</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">REAL_PLUS</span>
+        <span class="k">if</span> <span class="n">pauli_fac_str</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;+1&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">):</span>
+            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">REAL_PLUS</span>
         <span class="k">elif</span> <span class="n">pauli_fac_str</span> <span class="o">==</span> <span class="s2">&quot;+i&quot;</span><span class="p">:</span>
-            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">IMAG_PLUS</span>
+            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">IMAG_PLUS</span>
         <span class="k">elif</span> <span class="n">pauli_fac_str</span> <span class="o">==</span> <span class="s2">&quot;-1&quot;</span><span class="p">:</span>
-            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">REAL_MINUS</span>
+            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">REAL_MINUS</span>
         <span class="k">elif</span> <span class="n">pauli_fac_str</span> <span class="o">==</span> <span class="s2">&quot;-i&quot;</span><span class="p">:</span>
-            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">IMAG_MINUS</span>
+            <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">IMAG_MINUS</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Stabilizer_Error_SetPauliFac</span><span class="p">()</span>
-            
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t set pauli factor.&quot;</span><span class="p">)</span>
+
         <span class="n">stabilizer_set_pauli_fac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">,</span> <span class="n">pauli_fac</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -443,16 +443,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pauli_fac</span> <span class="o">=</span> <span class="n">stabilizer_get_pauli_fac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">REAL_PLUS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">REAL_PLUS</span><span class="p">:</span>
             <span class="n">pauli_fac_complex</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="mi">0</span><span class="n">j</span>
-        <span class="k">elif</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">IMAG_PLUS</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">IMAG_PLUS</span><span class="p">:</span>
             <span class="n">pauli_fac_complex</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span>
-        <span class="k">elif</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">REAL_MINUS</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">REAL_MINUS</span><span class="p">:</span>
             <span class="n">pauli_fac_complex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">0</span><span class="n">j</span>
-        <span class="k">elif</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">IMAG_MINUS</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">pauli_fac</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">IMAG_MINUS</span><span class="p">:</span>
             <span class="n">pauli_fac_complex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Stabilizer_Error_GetPauliFac</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get pauli factor.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">pauli_fac_complex</span></div>
 
@@ -473,20 +473,20 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">pauli_op_str</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
-            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">PAULI_X</span>
+            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span>
         <span class="k">elif</span> <span class="n">pauli_op_str</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
-            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">PAULI_Y</span>
+            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Y</span>
         <span class="k">elif</span> <span class="n">pauli_op_str</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
-            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">PAULI_Z</span>
+            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Z</span>
         <span class="k">elif</span> <span class="n">pauli_op_str</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span>
-            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">IDENTITY</span>
+            <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">IDENTITY</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Stabilizer_Error_SetPauliOp</span><span class="p">()</span>
-            
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t set pauli operator.&quot;</span><span class="p">)</span>
+
         <span class="n">stabilizer_set_pauli_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">,</span> <span class="n">qubit_id</span><span class="p">,</span> <span class="n">pauli_op</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.get_pauli_op"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.get_pauli_op">[docs]</a>    <span class="k">def</span> <span class="nf">get_pauli_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">,</span> <span class="n">qubit_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get pauli operator (&#39;I&#39;,&#39;X&#39;,&#39;Y&#39;,&#39;Z&#39;).</span>
@@ -506,21 +506,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pauli_op</span> <span class="o">=</span> <span class="n">stabilizer_get_pauli_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">,</span> <span class="n">qubit_id</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">PAULI_X</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span><span class="p">:</span>
             <span class="n">pauli_op_str</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
-        <span class="k">elif</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">PAULI_Y</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Y</span><span class="p">:</span>
             <span class="n">pauli_op_str</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
-        <span class="k">elif</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">PAULI_Z</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Z</span><span class="p">:</span>
             <span class="n">pauli_op_str</span> <span class="o">=</span> <span class="s1">&#39;Z&#39;</span>
-        <span class="k">elif</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">IDENTITY</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">pauli_op</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">IDENTITY</span><span class="p">:</span>
             <span class="n">pauli_op_str</span> <span class="o">=</span> <span class="s1">&#39;I&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Stabilizer_Error_GetPauliOp</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get pauli operator.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">pauli_op_str</span></div>
 
     <span class="c1"># 1-qubit gate</span>
-    
+
 <div class="viewcode-block" id="Stabilizer.x"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.x">[docs]</a>    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate X gate.</span>
@@ -535,9 +535,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PAULI_X</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.y"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate Y gate.</span>
@@ -552,9 +552,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.z"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate Z gate.</span>
@@ -569,9 +569,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.h"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.h">[docs]</a>    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate H gate.</span>
@@ -586,9 +586,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">HADAMARD</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">HADAMARD</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.s"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.s">[docs]</a>    <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate S gate.</span>
@@ -603,9 +603,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.s_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.s_dg">[docs]</a>    <span class="k">def</span> <span class="nf">s_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate S dagger gate.</span>
@@ -620,9 +620,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
     <span class="c1"># 2-qubit gate</span>
 
 <div class="viewcode-block" id="Stabilizer.cx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.cx">[docs]</a>    <span class="k">def</span> <span class="nf">cx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -639,9 +639,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.cz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.cz">[docs]</a>    <span class="k">def</span> <span class="nf">cz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CZ gate.</span>
@@ -656,9 +656,9 @@
 <span class="sd">        self : instans of Stabilizer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">CONTROLLED_Z</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_Z</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="Stabilizer.cy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.cy">[docs]</a>    <span class="k">def</span> <span class="nf">cy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CY gate.</span>
@@ -707,8 +707,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">last</span>
         <span class="k">return</span> <span class="n">mval</span></div>
-    
-<div class="viewcode-block" id="Stabilizer.m"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.m">[docs]</a>    <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Stabilizer.m"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.m">[docs]</a>    <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        measurement in Z-direction.</span>
 
@@ -740,8 +740,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">md</span></div>
-    
-<div class="viewcode-block" id="Stabilizer.mx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.mx">[docs]</a>    <span class="k">def</span> <span class="nf">mx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Stabilizer.mx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.mx">[docs]</a>    <span class="k">def</span> <span class="nf">mx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        measurement in X-direction.</span>
 
@@ -762,8 +762,8 @@
         <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
         <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">md</span></div>
-    
-<div class="viewcode-block" id="Stabilizer.my"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.my">[docs]</a>    <span class="k">def</span> <span class="nf">my</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Stabilizer.my"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.my">[docs]</a>    <span class="k">def</span> <span class="nf">my</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        measurement in Y-direction.</span>
 
@@ -785,8 +785,8 @@
         <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
         <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">md</span></div>
-    
-<div class="viewcode-block" id="Stabilizer.mz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.mz">[docs]</a>    <span class="k">def</span> <span class="nf">mz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Stabilizer.mz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.mz">[docs]</a>    <span class="k">def</span> <span class="nf">mz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        measurement in Z-direction.</span>
 
@@ -822,15 +822,15 @@
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">shots</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">st</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="n">mval_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-                <span class="n">mval</span> <span class="o">=</span> <span class="n">stabilizer_measure</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+                <span class="n">mval</span> <span class="o">=</span> <span class="n">stabilizer_measure</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
                 <span class="n">mval_str</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
             <span class="n">frequency</span> <span class="o">+=</span> <span class="p">{</span><span class="n">mval_str</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
 
         <span class="c1"># last measurement</span>
         <span class="n">mval_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">stabilizer_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">stabilizer_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
             <span class="n">mval_str</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
         <span class="n">frequency</span> <span class="o">+=</span> <span class="p">{</span><span class="n">mval_str</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
         <span class="n">last</span> <span class="o">=</span> <span class="n">mval_str</span>
@@ -839,23 +839,6 @@
                              <span class="n">qubit_num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">md</span></div>
-
-<div class="viewcode-block" id="Stabilizer.free_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.free_all">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">free_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">stabs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        free memory of the all stabilizer.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        stabs : instance of Stabilizer,instance of Stabilizer,...</span>
-<span class="sd">            set of Stabilizer instances</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Stabilizer.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.del_all">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">del_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">stabs</span><span class="p">):</span>
@@ -873,12 +856,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">sb</span> <span class="ow">in</span> <span class="n">stabs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="o">*</span><span class="n">sb</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Stabilizer</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
                 <span class="k">del</span> <span class="n">sb</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Stabilizer_Error_FreeAll</span><span class="p">()</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t free stabilizer.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Stabilizer.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -899,7 +882,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
         <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
-    
+
         <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
@@ -913,7 +896,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;controll and target qubit id conflict&quot;</span><span class="p">)</span>
-        
+
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
@@ -923,30 +906,19 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">continue</span>
-    
+
         <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        free memory of stabilizer.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">stabilizer_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-        
+
 <span class="c1"># c-library for stabilizer</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.stabilizer_c</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.stabilizer_c</span> <span class="kn">import</span> <span class="p">(</span><span class="n">stabilizer_init</span><span class="p">,</span> <span class="n">stabilizer_copy</span><span class="p">,</span>
+                                    <span class="n">stabilizer_set_pauli_fac</span><span class="p">,</span> <span class="n">stabilizer_get_pauli_fac</span><span class="p">,</span>
+                                    <span class="n">stabilizer_set_pauli_op</span><span class="p">,</span> <span class="n">stabilizer_get_pauli_op</span><span class="p">,</span>
+                                    <span class="n">stabilizer_operate_qgate</span><span class="p">,</span> <span class="n">stabilizer_get_rank</span><span class="p">,</span>
+                                    <span class="n">stabilizer_measure</span><span class="p">,</span> <span class="n">stabilizer_free</span><span class="p">)</span>
 </pre></div>
 
            </div>

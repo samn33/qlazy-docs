@@ -155,23 +155,29 @@
             
   <h1>Source code for qlazy.lib.densop_c</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; wrapper functions for DensOp &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
 <span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
 
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">get_lib_ext</span><span class="p">,</span> <span class="n">densop_check_args</span>
 <span class="kn">from</span> <span class="nn">qlazy.QState</span> <span class="kn">import</span> <span class="n">QState</span>
 <span class="kn">from</span> <span class="nn">qlazy.DensOp</span> <span class="kn">import</span> <span class="n">DensOp</span>
 
-<span class="n">lib</span><span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
-<span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span><span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
+<span class="n">lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
+<span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
 
-<div class="viewcode-block" id="densop_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_init">[docs]</a><span class="k">def</span> <span class="nf">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="o">=</span><span class="p">[],</span> <span class="n">prob</span><span class="o">=</span><span class="p">[]):</span>
-        
+<div class="viewcode-block" id="densop_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_init">[docs]</a><span class="k">def</span> <span class="nf">densop_init</span><span class="p">(</span><span class="n">qstate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; initialize DensOp object &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">qstate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">qstate</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">prob</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
 
     <span class="n">densop</span> <span class="o">=</span> <span class="kc">None</span>
@@ -191,12 +197,13 @@
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_init</span><span class="p">(</span><span class="n">qstate_array</span><span class="p">,</span> <span class="n">prob_array</span><span class="p">,</span>
                           <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">c_densop</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Initialize</span><span class="p">()</span>
-            
+    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize DensOp object.&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">c_densop</span></div>
 
 <div class="viewcode-block" id="densop_init_with_matrix"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_init_with_matrix">[docs]</a><span class="k">def</span> <span class="nf">densop_init_with_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; initialize DensOp object with matrix &quot;&quot;&quot;</span>
 
     <span class="n">densop</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_densop</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">densop</span><span class="p">)</span>
@@ -211,11 +218,11 @@
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="n">mat_real</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_complex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
         <span class="n">mat_imag</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_complex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
-                
+
     <span class="n">DoubleArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span> <span class="o">*</span> <span class="n">size</span>
     <span class="n">c_mat_real</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_real</span><span class="p">)</span>
     <span class="n">c_mat_imag</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_imag</span><span class="p">)</span>
-            
+
     <span class="n">lib</span><span class="o">.</span><span class="n">densop_init_with_matrix</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">densop_init_with_matrix</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">DoubleArray</span><span class="p">,</span> <span class="n">DoubleArray</span><span class="p">,</span>
                                             <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
@@ -223,14 +230,15 @@
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_init_with_matrix</span><span class="p">(</span><span class="n">c_mat_real</span><span class="p">,</span> <span class="n">c_mat_imag</span><span class="p">,</span>
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">col</span><span class="p">),</span>
                                       <span class="n">c_densop</span><span class="p">)</span>
-        
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Initialize</span><span class="p">()</span>
-            
+
+    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize densop with matrix.&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">c_densop</span></div>
 
 
 <div class="viewcode-block" id="densop_get_elm"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_get_elm">[docs]</a><span class="k">def</span> <span class="nf">densop_get_elm</span><span class="p">(</span><span class="n">de</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get elements of density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">elm</span> <span class="o">=</span> <span class="kc">None</span>
@@ -238,18 +246,18 @@
 
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_get_elm</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_get_elm</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
-                                           <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
+                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_get_elm</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">c_elm</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_GetElm</span><span class="p">()</span>
-            
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get densop elements.&quot;</span><span class="p">)</span>
+
         <span class="n">o</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_elm</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">))</span>
 
         <span class="n">size</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">row</span> <span class="o">*</span> <span class="n">de</span><span class="o">.</span><span class="n">col</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
-            <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">],</span><span class="mi">8</span><span class="p">),</span><span class="nb">round</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="mi">8</span><span class="p">))</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">],</span> <span class="mi">8</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="mi">8</span><span class="p">))</span>
 
         <span class="n">libc</span><span class="o">.</span><span class="n">free</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)]</span>
         <span class="n">libc</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
@@ -257,100 +265,105 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">de</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">de</span><span class="o">.</span><span class="n">col</span><span class="p">])</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_GetElm</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get densop elements.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_reset"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_reset">[docs]</a><span class="k">def</span> <span class="nf">densop_reset</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; reset density operator &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="n">qnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
-        <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">)]</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">))</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
 
         <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
-            
-        <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">]</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Reset</span><span class="p">()</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">]</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_reset</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t reset.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Reset</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t reset.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_print"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_print">[docs]</a><span class="k">def</span> <span class="nf">densop_print</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">nonzero</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; print density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_print</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_print</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_print</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">nonzero</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Show</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t print densop.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Show</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t print densop.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_copy"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_copy">[docs]</a><span class="k">def</span> <span class="nf">densop_copy</span><span class="p">(</span><span class="n">de</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; copy density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">densop</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">c_densop</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">densop</span><span class="p">)</span>
-            
+
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_copy</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_copy</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
                                     <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_copy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">c_densop</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Clone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t copy densop.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">c_densop</span>
-        
+
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Clone</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t copy densop.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_add"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_add">[docs]</a><span class="k">def</span> <span class="nf">densop_add</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">densop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_add</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_add</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_add</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">densop</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Add</span><span class="p">()</span>
-        
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Add</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t add densop.&quot;</span><span class="p">)</span>
 
-    
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t add densop.&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="densop_mul"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_mul">[docs]</a><span class="k">def</span> <span class="nf">densop_mul</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; mul density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_mul</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_mul</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_mul</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">factor</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Mul</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t mul densop.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Mul</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t mul densop.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_trace"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_trace">[docs]</a><span class="k">def</span> <span class="nf">densop_trace</span><span class="p">(</span><span class="n">de</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; trace of density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">real</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">imag</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">c_real</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
         <span class="n">c_imag</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span>
-            
+
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_trace</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_trace</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
@@ -358,28 +371,29 @@
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_trace</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_real</span><span class="p">),</span>
                                <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_imag</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Trace</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get trace of densop.&quot;</span><span class="p">)</span>
 
         <span class="n">real</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">c_real</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
         <span class="n">imag</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">c_imag</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Trace</span><span class="p">()</span>
-                
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get trace of densop.&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">real</span>
-        
+
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Trace</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get trace of densop.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_sqtrace"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_sqtrace">[docs]</a><span class="k">def</span> <span class="nf">densop_sqtrace</span><span class="p">(</span><span class="n">de</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; square trace of density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">real</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">imag</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">c_real</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
         <span class="n">c_imag</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span>
-            
+
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_sqtrace</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_sqtrace</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
                                        <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
@@ -387,52 +401,54 @@
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_sqtrace</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_real</span><span class="p">),</span>
                                  <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_imag</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_SqTrace</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get square trace of densop.&quot;</span><span class="p">)</span>
 
         <span class="n">real</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">c_real</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
         <span class="n">imag</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">c_imag</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Trace</span><span class="p">()</span>
-                
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get square trace of densop.&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">real</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_SqTrace</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get square trace of densop.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_patrace"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_patrace">[docs]</a><span class="k">def</span> <span class="nf">densop_patrace</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; partial trace of density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">qid</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_PaTrace</span><span class="p">()</span>
-            
+        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qid must be set.&quot;</span><span class="p">)</span>
+
         <span class="n">densop</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">c_densop</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">densop</span><span class="p">)</span>
-            
+
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
         <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_patrace</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_patrace</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
-                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span><span class="n">IntArray</span><span class="p">,</span>
+                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
                                        <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_patrace</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span>
                                  <span class="n">qid_array</span><span class="p">,</span> <span class="n">c_densop</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_PaTrace</span><span class="p">()</span>
-            
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get partial trace of densop.&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">c_densop</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_PaTrace</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get partial trace of densop.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_tensor_product"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_tensor_product">[docs]</a><span class="k">def</span> <span class="nf">densop_tensor_product</span><span class="p">(</span><span class="n">de_0</span><span class="p">,</span> <span class="n">de_1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; tensor product of density operator &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">densop_out</span> <span class="o">=</span> <span class="kc">None</span>
@@ -442,40 +458,41 @@
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_tensor_product</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_tensor_product</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de_0</span><span class="p">),</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de_1</span><span class="p">),</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">densop_tensor_product</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de_0</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span> <span class="n">byref</span><span class="p">(</span><span class="n">de_1</span><span class="p">),</span>
                                         <span class="n">c_densop_out</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_TensorProduct</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get tensor product.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">c_densop_out</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_TensorProduct</span><span class="p">()</span></div>
-    
-<div class="viewcode-block" id="densop_apply_matrix"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_apply_matrix">[docs]</a><span class="k">def</span> <span class="nf">densop_apply_matrix</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get tensor product.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="densop_apply_matrix"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_apply_matrix">[docs]</a><span class="k">def</span> <span class="nf">densop_apply_matrix</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dire</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; operate matrix to the density operator &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Apply</span><span class="p">()</span>
-        
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;matrix must be set.&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="n">qnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
-        <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">)]</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">dire</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
-        <span class="n">adire</span> <span class="o">=</span> <span class="n">LEFT</span>
+        <span class="n">adire</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">LEFT</span>
     <span class="k">elif</span> <span class="n">dire</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
-        <span class="n">adire</span> <span class="o">=</span> <span class="n">RIGHT</span>
+        <span class="n">adire</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">RIGHT</span>
     <span class="k">elif</span> <span class="n">dire</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
-        <span class="n">adire</span> <span class="o">=</span> <span class="n">BOTH</span>
+        <span class="n">adire</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BOTH</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Apply</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown dire string (set &#39;left&#39;, &#39;right&#39; or &#39;both&#39;).&quot;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
         <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
@@ -488,17 +505,17 @@
         <span class="k">for</span> <span class="n">mat_row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">mat_elm</span> <span class="ow">in</span> <span class="n">mat_row</span><span class="p">:</span>
                 <span class="n">mat_complex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mat_elm</span><span class="p">)</span>
-        
+
         <span class="n">mat_real</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
         <span class="n">mat_imag</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
             <span class="n">mat_real</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_complex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
             <span class="n">mat_imag</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_complex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
-                
+
         <span class="n">DoubleArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span> <span class="o">*</span> <span class="n">size</span>
         <span class="n">c_mat_real</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_real</span><span class="p">)</span>
         <span class="n">c_mat_imag</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_imag</span><span class="p">)</span>
-            
+
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_apply_matrix</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">densop_apply_matrix</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">),</span>
                                             <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
@@ -510,35 +527,36 @@
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">adire</span><span class="p">),</span> <span class="n">c_mat_real</span><span class="p">,</span> <span class="n">c_mat_imag</span><span class="p">,</span>
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Apply</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t apply matrix.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Apply</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t apply matrix.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="densop_probability"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_probability">[docs]</a><span class="k">def</span> <span class="nf">densop_probability</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="n">matrix_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="densop_probability"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_probability">[docs]</a><span class="k">def</span> <span class="nf">densop_probability</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">matrix_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; probability of the observable (matrix repr.) for the density operator &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Probability</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;matrix must be set.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">de</span><span class="o">.</span><span class="n">row</span> <span class="ow">or</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">de</span><span class="o">.</span><span class="n">col</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Probability</span><span class="p">()</span>
-        
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;matrix size is too large.&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="n">qnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">row</span><span class="p">))</span>
-        <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">)]</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">matrix_type</span> <span class="o">==</span> <span class="s1">&#39;kraus&#39;</span><span class="p">:</span>
-        <span class="n">mtype</span> <span class="o">=</span> <span class="n">KRAUS</span>
+        <span class="n">mtype</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">KRAUS</span>
     <span class="k">elif</span> <span class="n">matrix_type</span> <span class="o">==</span> <span class="s1">&#39;povm&#39;</span><span class="p">:</span>
-        <span class="n">mtype</span> <span class="o">=</span> <span class="n">POVM</span>
+        <span class="n">mtype</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">POVM</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Probability</span><span class="p">()</span>
-            
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;matrix_type is unknown (set &#39;kraus&#39; or &#39;povm&#39;)&quot;</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
         <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
@@ -553,11 +571,11 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
             <span class="n">mat_real</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_complex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
             <span class="n">mat_imag</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_complex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
-                
+
         <span class="n">DoubleArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span> <span class="o">*</span> <span class="n">size</span>
         <span class="n">c_mat_real</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_real</span><span class="p">)</span>
         <span class="n">c_mat_imag</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_imag</span><span class="p">)</span>
-            
+
         <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">c_prob</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
 
@@ -573,26 +591,26 @@
                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">col</span><span class="p">),</span>
                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_prob</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DensOp_Error_Probability</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t calculate probability.&quot;</span><span class="p">)</span>
 
         <span class="n">prob</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">c_prob</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-            
+
         <span class="k">return</span> <span class="n">prob</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_Probability</span><span class="p">()</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t calculate probability.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="densop_operate_qgate"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_operate_qgate">[docs]</a><span class="k">def</span> <span class="nf">densop_operate_qgate</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="densop_operate_qgate"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_operate_qgate">[docs]</a><span class="k">def</span> <span class="nf">densop_operate_qgate</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span>
+                         <span class="n">phase1</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; operate quantum gate to the density operator &quot;&quot;&quot;</span>
 
     <span class="c1"># error check</span>
-    <span class="n">densop_check_args</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">phase1</span><span class="o">=</span><span class="n">phase1</span><span class="p">,</span> <span class="n">phase2</span><span class="o">=</span><span class="n">phase2</span><span class="p">)</span>
+    <span class="n">densop_check_args</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
 
     <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
-        <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+        <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
     <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
@@ -604,10 +622,11 @@
                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase1</span><span class="p">),</span>
                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase2</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DensOp_Error_OperateQGate</span><span class="p">()</span></div>
+    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t operate the quantum gate.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="densop_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_c.densop_free">[docs]</a><span class="k">def</span> <span class="nf">densop_free</span><span class="p">(</span><span class="n">de</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; free memory of the density operator &quot;&quot;&quot;</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">densop_free</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">DensOp</span><span class="p">)]</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">densop_free</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">de</span><span class="p">))</span></div>

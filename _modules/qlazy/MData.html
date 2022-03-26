@@ -155,17 +155,31 @@
             
   <h1>Source code for qlazy.MData</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Mesured data &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
-<span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="o">*</span>
-
 <div class="viewcode-block" id="MData"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MData.MData">[docs]</a><span class="k">class</span> <span class="nc">MData</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Measured data</span>
 
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qubit_num : int</span>
+<span class="sd">        number of qubits</span>
+<span class="sd">    shot_num : int</span>
+<span class="sd">        number of measureings</span>
+<span class="sd">    angle : float</span>
+<span class="sd">        angle</span>
+<span class="sd">    phase : float</span>
+<span class="sd">        phase</span>
+<span class="sd">    qubit_id : list of int</span>
+<span class="sd">        list of qubit ids</span>
+<span class="sd">    freq : list of float</span>
+<span class="sd">        list of frequencies</span>
+<span class="sd">    last_val : int</span>
+<span class="sd">        last measurement value</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;shot_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
@@ -176,7 +190,7 @@
         <span class="p">(</span><span class="s1">&#39;last_val&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -199,9 +213,9 @@
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;frequency: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;last state: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
-    
-<div class="viewcode-block" id="MData.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MData.MData.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
+<div class="viewcode-block" id="MData.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MData.MData.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; show the measured data&quot;&quot;&quot;</span>
         <span class="n">mdata_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
@@ -210,12 +224,12 @@
         <span class="n">mval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_val</span>
         <span class="n">digits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
         <span class="k">return</span> <span class="s1">&#39;{:0</span><span class="si">{digits}</span><span class="s1">b}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mval</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">)</span>
-            
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; last measured value (integer) &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_val</span>
-            
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; frequencies of measured value (Counter) &quot;&quot;&quot;</span>
@@ -223,9 +237,9 @@
         <span class="n">frq</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state_num</span><span class="p">)]</span>
         <span class="n">digits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;{:0</span><span class="si">{digits}</span><span class="s2">b}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">):</span><span class="n">v</span>
-               <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">frq</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">}</span>
+               <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">frq</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-            
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">frq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; frequencies of measured value (list) &quot;&quot;&quot;</span>
@@ -238,14 +252,15 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">state_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; number of states &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
-        
+
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">mdata_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-        
+
 <span class="c1"># c-library for qstate</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.mdata_c</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.mdata_c</span> <span class="kn">import</span> <span class="n">mdata_init</span><span class="p">,</span> <span class="n">mdata_print</span><span class="p">,</span> <span class="n">mdata_free</span>
 </pre></div>
 
            </div>

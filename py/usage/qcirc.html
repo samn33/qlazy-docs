@@ -186,21 +186,16 @@ qstate_simulator(状態ベクトルシミュレータ)というdeviceで計算�
 <p>のようにproductとdeviceを指定しない場合、qlazyのqstate_simulatorが指定
 されます。</p>
 <p>その他、現在のバージョンで対応しているバックエンドは、
-<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>と<a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum(IBMQ)</a>です。
+<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>と<a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum(IBMQ)</a>
+と<a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket(LocalSimulator,AWS,IonQ,Rigetti,OQC)</a>です。
 使用法などの詳細は「対応しているバックエンド」(後述)をご参照ください。</p>
 <p>対応しているproductは、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">products</span><span class="p">())</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_local&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_aws&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_ionq&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_oqc&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>とすれば確認できます。各々のpruductで使えるdeviceは、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;qulacs&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;qulacs&#39;</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;gpu_simulator&#39;</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;ibmq&#39;</span><span class="p">))</span>
+<p>とすれば確認できます。各々のproductで使えるdeviceは、例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;ibmq&#39;</span><span class="p">))</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;qasm_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;least_busy&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq_armonk&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq_bogota&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq_lima&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq_belem&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq_quito&#39;</span><span class="p">,</span> <span class="s1">&#39;ibmq_manila&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -324,7 +319,7 @@ qstate_simulator(状態ベクトルシミュレータ)というdeviceで計算�
 </div>
 <p>上記のようにrunメソッドの引数qcircに量子回路、引数shotsに測定回数を指
 定します。結果はresult(Resultクラスのインスタンス)に格納されます。
-resultにはcidとfrequencyという2つのプロパティが定義されていて、各々、</p>
+Resultにはcidとfrequencyという2つのプロパティが定義されていて、各々、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
@@ -341,18 +336,88 @@ resultにはcidとfrequencyという2つのプロパティが定義されてい�
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="mi">49</span><span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="mi">48</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>という結果を得ることができます(いわゆる周辺化ですね)。cidを省略した場
 合、全古典レジスタにわたり頻度が計算されます。</p>
+<p>その他、バックエンド情報、量子ビット数、古典ビット数、測定した回数、計
+算開始時刻、計算終了時刻、計算時間がResultのプロパティとして定義されていて、
+各々以下のように取得することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="s1">&#39;qstate_simulator&#39;</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cmem_num</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shots</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">05</span> <span class="mi">13</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">33.837965</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">end_time</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">05</span> <span class="mi">13</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">33.842534</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">0.004569</span>
+</pre></div>
+</div>
+<p>とりあえず測定値の頻度だけわかりやすく見たいという場合は、
+showメソッドを使って、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>とすれば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="mi">54</span> <span class="p">(</span><span class="mf">0.5400</span><span class="p">)</span> <span class="o">|+++++++++++++++++</span>
+<span class="n">freq</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="mi">46</span> <span class="p">(</span><span class="mf">0.4600</span><span class="p">)</span> <span class="o">|++++++++++++++</span>
+</pre></div>
+</div>
+<p>と棒グラフで頻度を可視化して見ることができます。
+棒グラフだけでなく、すべてを一度に表示したい場合は、
+verboseオプションをTrueにして、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>とすれば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">backend</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">product</span>      <span class="o">=</span> <span class="n">qlazy</span>
+<span class="o">-</span> <span class="n">device</span>       <span class="o">=</span> <span class="n">qstate_simulator</span>
+<span class="p">[</span><span class="n">qubit</span> <span class="o">&amp;</span> <span class="n">cmem</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">qubit_num</span>    <span class="o">=</span> <span class="mi">2</span>
+<span class="o">-</span> <span class="n">cmem_num</span>     <span class="o">=</span> <span class="mi">2</span>
+<span class="p">[</span><span class="n">measurement</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">cid</span>          <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">shots</span>        <span class="o">=</span> <span class="mi">100</span>
+<span class="p">[</span><span class="n">time</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">start_time</span>   <span class="o">=</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">15</span> <span class="mi">23</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mf">41.249034</span>
+<span class="o">-</span> <span class="n">end_time</span>     <span class="o">=</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">15</span> <span class="mi">23</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mf">41.254211</span>
+<span class="o">-</span> <span class="n">elassed</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">0.005177</span> <span class="p">[</span><span class="n">sec</span><span class="p">]</span>
+<span class="p">[</span><span class="n">histogram</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">freq</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="mi">54</span> <span class="p">(</span><span class="mf">0.5400</span><span class="p">)</span> <span class="o">|+++++++++++++++++</span>
+<span class="o">-</span> <span class="n">freq</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="mi">46</span> <span class="p">(</span><span class="mf">0.4600</span><span class="p">)</span> <span class="o">|++++++++++++++</span>
+</pre></div>
+</div>
+<p>のように表示させることができます。</p>
+<p>この実行結果をファイルとして保存したり、保存したものを読み出すこともできます。
+saveメソッドを使って、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;hoge.res&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>としてファイルhoge.resに保存しておいて、loadメソッド(classmethod)を使って、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Result</span>
+<span class="n">result_load</span> <span class="o">=</span> <span class="n">Result</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;hoge.res&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>とすれば、保存しておいた計算結果をロードして結果データを再度取得することができます。</p>
+<p>Pythonワンライナーで、以下のように結果データを見ることもできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -c &quot;from qlazy import Result; Result.load(&#39;hoge.res&#39;).show(verbose=True)&quot;
+</pre></div>
+</div>
 </div>
 <div class="section" id="qlazy">
 <h3>量子状態の取得(qlazyの場合のみ)<a class="headerlink" href="#qlazy" title="Permalink to this headline">¶</a></h3>
 <p>qlazyの状態ベクトルシミュレータまたはスタビライザーシミュレータで量子
 計算を実行した場合、resultのinfoプロパティとして格納されている辞書デー
 タから以下のようにして、量子状態またはスタビライザー状態を取り出すこと
-ができます。</p>
+ができます(複数回の測定があれば最後の測定後の状態が取り出せます)。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">qs_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">qs_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">)</span>
@@ -401,6 +466,7 @@ resultにはcidとfrequencyという2つのプロパティが定義されてい�
 <li><p>sw: swap gate</p></li>
 <li><p>cp: controlled P gate</p></li>
 <li><p>crx,cry,crz: controlled RX/RY/RZ gate</p></li>
+<li><p>rxx,ryy,rzz: Ising coupling gate</p></li>
 </ul>
 </div>
 <div class="section" id="id12">
@@ -563,7 +629,7 @@ get_statsメソッドを使えば、一気に取得することができます�
 <h3>量子回路の生成<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p>量子計算の性能評価とか量子回路最適化の研究等でランダムな量子回路を作り
 たくなることがあります。そんなときはget_random_gatesメソッド
-(staticmethod)が使えます。例えば、以下のようにします。</p>
+(classmethod)が使えます。例えば、以下のようにします。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">generate_random_gates</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">gate_num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
                                  <span class="n">prob</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;crz&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
 </pre></div>
@@ -580,7 +646,7 @@ get_statsメソッドを使えば、一気に取得することができます�
 x,z,h,s,s_dg,t,t_dg,rx,rz,cx,cz,ch,crzの13種類です。
 非ユニタリゲート(measure, reset)は指定できません。</p>
 <p>phaseは回転系のゲートがある場合に有効になります(回転系がない場合、指定は無視されます)。
-rxとかcrzなどの位相をどのようにバラけさせたいかをタプルで指定します。</p>
+rxとかcrzなどの位相をどのようにバラけさせたいかをタプルで指定します(何個指定しても良いです)。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">phase</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -605,13 +671,13 @@ rxとかcrzなどの位相をどのようにバラけさせたいかをタプル
 <div class="section" id="id22">
 <h3>量子回路の保存と読み込み<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p>作成した量子回路をファイルに書き出したり、書き出されたファイルを読み込むことができます。</p>
-<p>まず、書き出す場合はdumpメソッドを使って、</p>
+<p>まず、書き出す場合はsaveメソッドを使って、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">qc_A</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s2">&quot;hoge.qc&quot;</span><span class="p">)</span>
+<span class="n">qc_A</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;hoge.qc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>のようにします。これでhoge.qcというファイルにqcの内容が書き出されます(内部でpickle使ってます)。</p>
-<p>読み込む場合は、loadメソッド(staticmethod)を使って、</p>
+<p>読み込む場合は、loadメソッド(classmethod)を使って、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc_B</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;hoge.qc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -731,82 +797,8 @@ pyzxのCircuitを入出力する機能も用意しました。</p>
 </div>
 <p>でCircuitインスタンスをqlazyのQCircインスタンスに変換できます。</p>
 </div>
-</div>
 <div class="section" id="id25">
-<h2>少し高度な技<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id26">
-<h3>レジスタの設定<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<p>大規模な量子回路を相手に量子プログラミングしたい場合、レジスタ関連ツー
-ルを使うと便利です。</p>
-<p>まず、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy.tools.Register</span> <span class="kn">import</span> <span class="n">CreateRegister</span><span class="p">,</span><span class="n">InitRegister</span>
-</pre></div>
-</div>
-<p>という具合に、CreateRegister関数とInitRegister関数をインポートします。
-典型的な使い方は以下の通りです。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">anc</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">anc</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>これは、3つのデータ量子ビットと2つの補助量子ビットを用意する例です。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">anc</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="mi">5</span>
-</pre></div>
-</div>
-<p>という具合にdatやancに量子ビット番号が順番に重ならないようにリストとし
-て設定され、InitRegister関数の結果、合計のビット数がリターンされます。
-レジスタを1次元配列としてではなく、多次元配列にして管理したい場合もあ
-るかと思います。その場合は、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>とすると、3X3の2次元配列として、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="mi">9</span>
-</pre></div>
-</div>
-<p>のようにレジスタがセットされます。3次元以上の配列も同じように、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]],[[</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">],[</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">],[</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">]]]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="mi">24</span>
-</pre></div>
-</div>
-<p>とできます。量子レジスタと古典レジスタの両方をセットする場合は、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 量子レジスタ</span>
-<span class="n">qid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">qubit_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-
-<span class="c1"># 古典レジスタ</span>
-<span class="n">cid</span> <span class="o">=</span> <span class="n">CreateRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">cmem_num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span>
-
-<span class="c1"># 量子コンピュータ(バックエンド)の用意</span>
-<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="s1">&#39;qlazy_stabilizer_simulator&#39;</span><span class="p">)</span>
-
-<span class="c1"># 量子回路の設定と実行</span>
-<span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="o">...</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="o">...</span>
-</pre></div>
-</div>
-<p>とします。量子レジスタと古典レジスタの番号は別々に割り振りたいので、各々
-でCreateRegisterとInitRegisterを実行しています。</p>
-</div>
-<div class="section" id="id27">
-<h3>カスタムゲートの追加<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<h3>カスタムゲートの追加<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <p>QCircクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
 ることができます。ベル状態を作成する回路をbellメソッドとして、QCircを
 継承したMyQCircクラスに追加する例を示します。</p>
@@ -826,10 +818,11 @@ pyzxのCircuitを入出力する機能も用意しました。</p>
 な量子回路を繰り返し使いたい場合など、便利に使える場面は多いと思います。</p>
 </div>
 </div>
-<div class="section" id="id28">
-<h2>対応しているバックエンド<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id26">
+<h2>対応しているバックエンド<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
 <p>現在のバージョンで対応しているバックエンドは<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>と
-<a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum</a>です。
+<a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum</a>と
+<a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>です。
 各々の使い方について、以下で説明します。</p>
 <div class="section" id="qulacs">
 <h3>qulacs<a class="headerlink" href="#qulacs" title="Permalink to this headline">¶</a></h3>
@@ -838,14 +831,14 @@ QunaSys</a>が提供しているオープンソースの量子回路シ
 ミュレータで、GPUを利用して高速計算が実行できるという特徴があります。</p>
 <p><a class="reference external" href="https://quantum-computing.ibm.com/">qlazy</a>の簡単なインターフェースで
 GPUを利用した高速計算を実行したい場合、このバックエンドがおすすめです。</p>
-<div class="section" id="id29">
-<h4>準備<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id27">
+<h4>準備<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
 <p>まず、<a class="reference external" href="http://docs.qulacs.org/ja/latest/intro/1_install.html">Installation - Qulacs ドキュメント</a>
-あたりを参照しながらインストールしてください。</p>
+あたりを参照しながらインストールしてください（v0.3.0で動作確認しています）。</p>
 </div>
 </div>
-<div class="section" id="id30">
-<h3>使用法<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>使用法<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>GPUを利用しないシミュレータで計算させたい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">)</span>
 </pre></div>
@@ -867,14 +860,11 @@ GPUを利用した高速計算を実行したい場合、このバックエン�
 <p><a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum(IBMQ)</a>は、
 <a class="reference external" href="https://www.ibm.com/jp-ja">IBM</a>が開発した量子コンピュータ（およびシミュ
 レータ）を利用するためのクラウドサービスです。</p>
-<p><a class="reference external" href="https://quantum-computing.ibm.com/">qlazy</a>の簡単なインターフェースで
-本物の量子コンピュータを利用した計算を実行したい場合、このバックエンドが
-おすすめです。</p>
-<div class="section" id="id31">
-<h4>準備<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id29">
+<h4>準備<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
 <p>IBMQやローカルシミュレータをPythonから利用するためのライブラリである
 <a class="reference external" href="https://qiskit.org/">qiskit</a>をインストールして、量子計算を実行できる
-環境を整えてください。例えば、<a class="reference external" href="https://dojo.qulacs.org/ja/latest/">Quantum Native
+環境を整えてください（v0.34.2で動作確認しています）。例えば、<a class="reference external" href="https://dojo.qulacs.org/ja/latest/">Quantum Native
 Dojo!</a>の<a class="reference external" href="https://dojo.qulacs.org/ja/latest/notebooks/3.2_Qiskit_IBMQ.html">3-2. QiskitとIBM Q
 Experienceの使い
 方</a>
@@ -884,8 +874,8 @@ Experienceの使い
 <a class="reference external" href="https://quantum-computing.ibm.com/">https://quantum-computing.ibm.com/</a>
 です。</p>
 </div>
-<div class="section" id="id32">
-<h4>使用法<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id30">
+<h4>使用法<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
 <p>本物の量子コンピュータを利用しないでローカルなシミュレータで計算させたい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
 </pre></div>
@@ -908,6 +898,137 @@ Experienceの使い
 </pre></div>
 </div>
 <p>のようにすれば、IBMQを使った計算ができます。</p>
+</div>
+</div>
+<div class="section" id="amazon-braket">
+<h3>Amazon Braket<a class="headerlink" href="#amazon-braket" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>は、
+<a class="reference external" href="https://ionq.com/">IonQ</a>、<a class="reference external" href="https://www.rigetti.com/">Rigetti</a>、
+<a class="reference external" href="https://oxfordquantumcircuits.com/">Oxford Quantum Circuits</a>
+などの量子コンピュータ（およびシミュレータ）を利用するためのクラウドサービスです。</p>
+<div class="section" id="id31">
+<h4>準備<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://aws.amazon.com/jp/console/">AWS</a>のアカウントがまず必要です。
+その上で、</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/aws/amazon-braket-sdk-python">amazon-braket-sdk-python</a></p></li>
+</ul>
+<p>などを参考にしながら、<a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>
+が利用できるようにします。以下の日本語の記事も参考になります。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://qiita.com/snuffkin/items/29bc6ee24bc2bff55df3">Amazon Braketで量子コンピュータをはじめよう！</a></p></li>
+<li><p><a class="reference external" href="https://note.com/navitime_tech/n/n497cebbeccf3">Amazon Braket を利用して手軽に量子コンピュータを動かす</a></p></li>
+</ul>
+<p>以下のようなコードが問題なく動くようになったら<a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>
+の利用環境が整ったと思って良いです（多分）。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">from</span> <span class="nn">braket.aws</span> <span class="kn">import</span> <span class="n">AwsDevice</span>
+<span class="kn">from</span> <span class="nn">braket.circuits</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/quantum-simulator/amazon/sv1&quot;</span><span class="p">)</span>
+<span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;amazon-braket-xxxx&quot;</span><span class="p">,</span> <span class="s2">&quot;sv1&quot;</span><span class="p">)</span> <span class="c1"># Use the S3 bucket you created during onboarding</span>
+
+<span class="n">bell</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">bell</span><span class="p">,</span> <span class="n">s3_folder</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">measurement_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>さらに、qlazyから<a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>を利用できるようにするため、
+ホームディレクトリに”~/.qlazy/”というディレクトリを作成して、その配下にconfig.iniというファイルを作り、
+以下のように記述しておきます。’amazon-braket-xxxx’の部分はamazon braketを利用するために作成した
+S3のbacket nameを書いておきます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat ~/.qlazy/config.ini
+[backend_braket]
+backet_name = amazon-braket-xxxx
+</pre></div>
+</div>
+<p>また、poll_timeout_secondsをデフォルト値(5日)から変えたい場合、
+例えば1日にしたい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">backend_braket</span><span class="p">]</span>
+<span class="n">backet_name</span> <span class="o">=</span> <span class="n">amazon</span><span class="o">-</span><span class="n">braket</span><span class="o">-</span><span class="n">xxxx</span>
+<span class="n">poll_timeout_seconds</span> <span class="o">=</span> <span class="mi">86400</span>
+</pre></div>
+</div>
+<p>のように指定します。</p>
+<p>ちなみに動作確認している<a class="reference external" href="https://github.com/aws/amazon-braket-sdk-python">amazon-braket-sdk-python</a>
+のバージョンはv1.18.0です。</p>
+</div>
+<div class="section" id="id32">
+<h4>使用法<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<p>Backendのインスタンスを生成する際にproductとdeviceを指定します。
+braket関連のproductは、braket_local(ローカルシミュレータ)、
+braket_aws(AWS上で動作するシミュレータ)、braket_ionq(IonQの量子コンピュータ)、
+braket_rigetti(Rigettiの量子コンピュータ)、
+braket_oqc(Oxford Quantum Circuits)の5種類です。
+各々で利用できるdeviceは以下の通りです。</p>
+<ul class="simple">
+<li><p>braket_local</p>
+<ul>
+<li><p>braket_sv (状態ベクトルシミュレータ)</p></li>
+</ul>
+</li>
+<li><p>braket_aws</p>
+<ul>
+<li><p>sv1 (状態ベクトルシミュレータ)</p></li>
+<li><p>tn1 (テンソルネットワークシミュレータ)</p></li>
+<li><p>dm1 (密度行列シミュレータ)</p></li>
+</ul>
+</li>
+<li><p>braket_ionq</p>
+<ul>
+<li><p>ionq (IonQ)</p></li>
+</ul>
+</li>
+<li><p>braket_rigetti</p>
+<ul>
+<li><p>aspen_11 (Aspen-11)</p></li>
+<li><p>aspen_m_1 (Aspen-M-1)</p></li>
+</ul>
+</li>
+<li><p>braket_oqc</p>
+<ul>
+<li><p>lucy (Lucy)</p></li>
+</ul>
+</li>
+</ul>
+<p>例えば、ローカルな状態ベクトルシミュレータを使う場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_local&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;braket_sv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>AWSの状態ベクトルシミュレータを使う場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_aws&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;sv1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>IonQの量子コンピュータを使う場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_ionq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;ionq&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>RigettiのAspen-M-1を使う場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aspnen_m_1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>OQCのLucyを使う場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_oqc&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;lucy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のように指定します。あとは、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>のように量子回路を作成して、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにすれば、Amazon Braketを使った計算ができます。</p>
+</div>
+<div class="section" id="id33">
+<h4>注意事項<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<p>測定が最後にある量子回路しか受け付けません。
+したがって測定値に応じてオンオフするオプション(ctrl)も使えません。</p>
+<p>また、braket_local以外のproductは有料になります。
+以下のページに料金表がありますので参考にしてください。</p>
+<p><a class="reference external" href="https://aws.amazon.com/jp/braket/pricing/">Amazon Braket Pricing</a></p>
 <p>以上</p>
 </div>
 </div>

@@ -155,23 +155,24 @@
             
   <h1>Source code for qlazy.lib.densop_mcx</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="sd">&quot;&quot;&quot; multi-controlled cnot for density operator &quot;&quot;&quot;</span>
 
-<span class="c1"># multi-controlled X gate</span>
-
-<span class="k">def</span> <span class="nf">__gray_code</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">__gray_code</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; gray code generator &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">k</span><span class="o">^</span><span class="p">(</span><span class="n">k</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="densop_mcx"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_mcx.densop_mcx">[docs]</a><span class="k">def</span> <span class="nf">densop_mcx</span><span class="p">(</span><span class="n">de</span><span class="p">,</span><span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="densop_mcx"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.densop_mcx.densop_mcx">[docs]</a><span class="k">def</span> <span class="nf">densop_mcx</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; multi-controlled cnot &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qid must be set.&quot;</span><span class="p">)</span>
 
     <span class="c1"># controled and target register</span>
     <span class="n">qid_ctr</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">qid_tar</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        
+
     <span class="c1"># hadamard</span>
     <span class="n">de</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid_tar</span><span class="p">)</span>
 
@@ -179,7 +180,7 @@
     <span class="n">bitnum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid_ctr</span><span class="p">)</span>
     <span class="n">psi</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bitnum</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># unit=pi(radian)</span>
     <span class="n">gray_pre</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">gray</span> <span class="ow">in</span> <span class="n">__gray_code</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="n">bitnum</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">gray</span> <span class="ow">in</span> <span class="n">__gray_code</span><span class="p">(</span><span class="n">bitnum</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">gray</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">msb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">gray</span><span class="p">)))</span><span class="o">-</span><span class="mi">3</span>
@@ -191,7 +192,7 @@
         <span class="n">de</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">qid_ctr</span><span class="p">[</span><span class="n">msb</span><span class="p">],</span> <span class="n">qid_tar</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">psi</span><span class="p">)</span>
         <span class="n">psi</span> <span class="o">=</span> <span class="o">-</span><span class="n">psi</span>
         <span class="n">gray_pre</span> <span class="o">=</span> <span class="n">gray</span>
-    
+
     <span class="c1"># hadamard</span>
     <span class="n">de</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid_tar</span><span class="p">)</span></div>
 </pre></div>

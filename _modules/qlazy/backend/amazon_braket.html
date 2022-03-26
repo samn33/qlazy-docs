@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>qlazy.backend.amazon_braket &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>qlazy.backend.amazon_braket</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for qlazy.backend.amazon_braket</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; run function for AWS &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">braket.aws</span> <span class="kn">import</span> <span class="n">AwsDevice</span>
+<span class="kn">from</span> <span class="nn">braket.devices</span> <span class="kn">import</span> <span class="n">LocalSimulator</span>
+<span class="kn">from</span> <span class="nn">braket.circuits</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+<span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">from</span> <span class="nn">qlazy.Result</span> <span class="kn">import</span> <span class="n">Result</span>
+
+<span class="k">def</span> <span class="nf">__braket_add_qgate</span><span class="p">(</span><span class="n">qc_braket</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add gate to braket circuit &quot;&quot;&quot;</span>
+
+    <span class="c1"># 1-qubit, 0-parameter gate</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Z</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">HADAMARD</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S_</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">si</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_T</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_T_</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">ti</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+
+    <span class="c1"># 1-qubit, 1-parameter gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_X</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_Z</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">)</span>
+
+    <span class="c1"># 2-qubit, 0-parameters gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_X</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_Z</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_ionq&#39;</span><span class="p">:</span>
+            <span class="n">qc_braket</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qc_braket</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_H</span><span class="p">:</span>
+        <span class="n">pi_2</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">pi_4</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="n">pi_4</span><span class="p">)</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="n">pi_2</span><span class="p">)</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">pi_2</span><span class="p">)</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">pi_4</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_ionq&#39;</span><span class="p">:</span>
+            <span class="n">qc_braket</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">pi_2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qc_braket</span><span class="o">.</span><span class="n">phaseshift</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">pi_2</span><span class="p">)</span>
+
+    <span class="c1"># 2-qubit, 1-parameters gate</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_RZ</span><span class="p">:</span>
+        <span class="n">qc_braket</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="n">angle</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown gate&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__convert_to_braket_circuit</span><span class="p">(</span><span class="n">qc_qlazy</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; convert qlazy circuit to braket circuit &quot;&quot;&quot;</span>
+
+    <span class="c1"># not supported if any unitary gate exist after non-unitary gate (measure,rest)</span>
+    <span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qc_qlazy</span><span class="o">.</span><span class="n">qubit_num</span>
+    <span class="n">measured_info</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">qubit_num</span> <span class="c1"># all -1 means no qubits have measured</span>
+    <span class="n">qc_qlazy_tmp</span> <span class="o">=</span> <span class="n">qc_qlazy</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">qc_qlazy_tmp</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc_qlazy_tmp</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+
+        <span class="c1"># qid[0]th-qubit has measured and store c-th classical register</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">MEASURE</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">RESET</span><span class="p">):</span>
+            <span class="n">measured_info</span><span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="c1"># not allowed operating unitary gate on measured qubit (braket limitation?)</span>
+        <span class="k">elif</span> <span class="n">measured_info</span><span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>  <span class="ow">or</span> <span class="n">measured_info</span><span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;not allowed operating unitary gate on measured qubit.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;not allowed operating unitary gate on measured qubit.&quot;</span><span class="p">)</span>
+        <span class="c1"># ex) mesure(qid=[0,1,2], cid=[2,1,0]) -&gt; measured_flg = [2, 1, 0, -1, -1,...]</span>
+
+    <span class="c1"># qlazy gate -&gt; braket gate</span>
+    <span class="n">qc_braket</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+    <span class="n">qc_qlazy_tmp</span> <span class="o">=</span> <span class="n">qc_qlazy</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">qc_qlazy_tmp</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc_qlazy_tmp</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">MEASURE</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">RESET</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">__braket_add_qgate</span><span class="p">(</span><span class="n">qc_braket</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">product</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">qc_braket</span><span class="p">,</span> <span class="n">measured_info</span>
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.amazon_braket.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; run the quantum circuit on braket_sv &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">qcirc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;quantum circuit must be specified.&quot;</span><span class="p">)</span>
+
+    <span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">qubit_num</span>
+    <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">cmem_num</span>
+
+    <span class="n">qc</span><span class="p">,</span> <span class="n">measured_info</span> <span class="o">=</span> <span class="n">__convert_to_braket_circuit</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_local&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;braket_sv&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">LocalSimulator</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;braket_sv&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_aws&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;sv1&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/quantum-simulator/amazon/sv1&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;sv1&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;tn1&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/quantum-simulator/amazon/tn1&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;tn1&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;dm1&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/quantum-simulator/amazon/dm1&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;dm1&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">s3_folder</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_ionq&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;ionq&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/qpu/ionq/ionQdevice&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;ionq&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">s3_folder</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;aspen_11&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/qpu/rigetti/Aspen-11&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;aspen_11&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;aspen_m_1&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:us-west-1::device/qpu/rigetti/Aspen-M-1&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;aspen_m_1&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">s3_folder</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;braket_oqc&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;lucy&#39;</span><span class="p">:</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:eu-west-2::device/qpu/oqc/Lucy&quot;</span><span class="p">)</span>
+            <span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">config_braket</span><span class="p">[</span><span class="s1">&#39;backet_name&#39;</span><span class="p">],</span> <span class="s2">&quot;lucy&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">s3_folder</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+    <span class="n">frequency_org</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">measurement_counts</span>
+
+    <span class="c1"># redefine the measured info</span>
+    <span class="c1"># ex) mesure(qid=[0,1,2], cid=[2,1,0]) -&gt; measured_info = [2, 1, 0, -1, -1,...]</span>
+    <span class="c1">#     cid = [1,2] -&gt; measured_info = [1, 0, -1, -1,...]</span>
+    <span class="c1">#     cid = [2,0] -&gt; measured_info = [0, -1, 1, -1, -1,...]</span>
+    <span class="c1">#     cid = None -&gt; cid = [0,1,2] -&gt; measured_info = [2, 1, 0, -1, -1,...]</span>
+
+    <span class="k">if</span> <span class="n">cid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">cmem_num</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cid</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of cid must be less than classical resister size of qcirc&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">measured_info</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">cid</span><span class="p">:</span>
+            <span class="n">measured_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cid</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">measured_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># marginal frequency</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">measured_info</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}:</span>  <span class="c1"># no qubits is measured</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">mstr</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">frequency_org</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">mlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mstr</span><span class="p">)</span>
+            <span class="n">mlist_new</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">measured_info</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">mlist_new</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">mstr_new</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mlist_new</span><span class="p">)</span>
+            <span class="n">frequency</span><span class="p">[</span><span class="n">mstr_new</span><span class="p">]</span> <span class="o">+=</span> <span class="n">freq</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;braket&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">}</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">()</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem_num</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">cid</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="n">shots</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

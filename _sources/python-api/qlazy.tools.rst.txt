@@ -4,6 +4,14 @@ qlazy.tools package
 Submodules
 ----------
 
+qlazy.tools.Probability module
+------------------------------
+
+.. automodule:: qlazy.tools.Probability
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.tools.Register module
 ---------------------------
 

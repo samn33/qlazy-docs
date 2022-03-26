@@ -94,14 +94,6 @@ qlazy.Stabilizer module
    :undoc-members:
    :show-inheritance:
 
-qlazy.UnitaryOperator module
-----------------------------
-
-.. automodule:: qlazy.UnitaryOperator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 qlazy.config module
 -------------------
 

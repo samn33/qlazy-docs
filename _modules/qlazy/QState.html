@@ -155,18 +155,13 @@
             
   <h1>Source code for qlazy.QState</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Quantum State &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">ctypes</span>
 
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.MData</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.PauliProduct</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.qstate_mcx</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.qstate_mcx</span> <span class="kn">import</span> <span class="n">qstate_mcx</span>
 
 <div class="viewcode-block" id="QState"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState">[docs]</a><span class="k">class</span> <span class="nc">QState</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Quantum State</span>
@@ -209,18 +204,17 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000000</span><span class="p">)</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">qubit_num</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">&gt;</span> <span class="n">MAX_QUBIT_NUM</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;qubit number must be </span><span class="si">{0:d}</span><span class="s2"> or less.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MAX_QUBIT_NUM</span><span class="p">))</span>
-                <span class="k">raise</span> <span class="n">QState_Error_Initialize</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">&gt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">MAX_QUBIT_NUM</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit number must be </span><span class="si">{0:d}</span><span class="s2"> or less.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">MAX_QUBIT_NUM</span><span class="p">))</span>
 
             <span class="n">obj</span> <span class="o">=</span> <span class="n">qstate_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
-            
+
         <span class="bp">self</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -228,7 +222,7 @@
 
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_amp</span><span class="p">())</span>
 
-<div class="viewcode-block" id="QState.reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="QState.reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        reset to |00..0&gt; state.</span>
 
@@ -252,7 +246,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qstate_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-        
+
 <div class="viewcode-block" id="QState.add_method"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.add_method">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">add_method</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -273,10 +267,10 @@
 <span class="sd">        &gt;&gt;&gt; qs = QState(qubit_num=2)</span>
 <span class="sd">        &gt;&gt;&gt; qs.bell(0,1)</span>
 <span class="sd">        &gt;&gt;&gt; ...</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span></div>
-        
+
 <div class="viewcode-block" id="QState.add_methods"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.add_methods">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">add_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">methods</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -302,14 +296,14 @@
 <span class="sd">        &gt;&gt;&gt; qs.bell(0,1)</span>
 <span class="sd">        &gt;&gt;&gt; qs.flip(0,1)</span>
 <span class="sd">        &gt;&gt;&gt; ...</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QState_Error_AddMethods</span><span class="p">()</span></div>
-            
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t add method.&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="QState.create_register"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.create_register">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create_register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -325,7 +319,7 @@
 <span class="sd">        &gt;&gt;&gt; qid = QState.create_register(3)</span>
 <span class="sd">        &gt;&gt;&gt; print(qid)</span>
 <span class="sd">        [0,0,0]</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">num</span>
         <span class="k">return</span> <span class="n">qid</span></div>
@@ -354,31 +348,15 @@
 <span class="sd">        &gt;&gt;&gt; qnum = QState.init_register(qid_0, qid_1)</span>
 <span class="sd">        &gt;&gt;&gt; print(qnum, qid_0, qid_1)</span>
 <span class="sd">        5 [0,1,2] [3,4]</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)):</span>
                 <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">idx</span></div>
-    
-<div class="viewcode-block" id="QState.free_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.free_all">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">free_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">qstates</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        free memory of the all quantum states.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        qstates : instance of QState,instance of QState,...</span>
-<span class="sd">            set of QState instances</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free_all&#39; method because free automatically, or you can use class method &#39;del_all&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
-        
 <div class="viewcode-block" id="QState.del_all"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.del_all">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">del_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">qstates</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -395,18 +373,18 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">qs</span> <span class="ow">in</span> <span class="n">qstates</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="o">*</span><span class="n">qs</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span> <span class="ow">is</span> <span class="n">QState</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
                 <span class="k">del</span> <span class="n">qs</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QState_Error_FreeAll</span><span class="p">()</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t free qstate.&quot;</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">amp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">amp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; elements of quantum state vector. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_amp</span><span class="p">()</span>
-        
+
 <div class="viewcode-block" id="QState.get_amp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.get_amp">[docs]</a>    <span class="k">def</span> <span class="nf">get_amp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the elements of quantum state vector.</span>
@@ -418,7 +396,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ret : list of complex</span>
+<span class="sd">        ret : numpy.ndarray (complex)</span>
 <span class="sd">            elements of the quantum state vector.</span>
 
 <span class="sd">        Notes</span>
@@ -430,8 +408,34 @@
 <span class="sd">        elements of the quantum state.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ret</span> <span class="o">=</span>  <span class="n">qstate_get_camp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">qstate_get_camp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="QState.get_prob"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.get_prob">[docs]</a>    <span class="k">def</span> <span class="nf">get_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the probability list of quantum state vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qid : list of int, default - list of all of the qubit id</span>
+<span class="sd">            qubit id&#39;s list.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        prob : dict</span>
+<span class="sd">            key - bits string</span>
+<span class="sd">            value - probability</span>
+<span class="sd">            ex) {&#39;00&#39;: 0.52, &#39;11&#39;: 0.48}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">amp</span> <span class="o">=</span> <span class="n">qstate_get_camp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">digits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">digits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;{:0</span><span class="si">{digits}</span><span class="s2">b}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">):</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amp</span><span class="p">)</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">prob</span></div>
 
 <div class="viewcode-block" id="QState.partial"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.partial">[docs]</a>    <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -458,12 +462,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-        <span class="n">qs</span> <span class="o">=</span> <span class="vm">__class__</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">vec</span><span class="p">)</span>
+        <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">vec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">qs</span></div>
-        
+
 <div class="viewcode-block" id="QState.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nonzero</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        show the quantum state </span>
+<span class="sd">        show the quantum state</span>
 <span class="sd">        (elements of the state vector and probabilities).</span>
 
 <span class="sd">        Parameters</span>
@@ -546,10 +550,10 @@
 <span class="sd">        (radian).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">qstate_bloch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">qstate_bloch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span></div>
 
-<div class="viewcode-block" id="QState.inpro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.inpro">[docs]</a>    <span class="k">def</span> <span class="nf">inpro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="QState.inpro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.inpro">[docs]</a>    <span class="k">def</span> <span class="nf">inpro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the inner product with quantum state.</span>
 
@@ -573,14 +577,14 @@
 <span class="sd">        while original quantum states do not change.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="k">if</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">or</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">inp</span> <span class="o">=</span> <span class="n">qstate_inner_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">qs_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">qs_1</span> <span class="o">=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
             <span class="n">inp</span> <span class="o">=</span> <span class="n">qstate_inner_product</span><span class="p">(</span><span class="n">qs_0</span><span class="p">,</span> <span class="n">qs_1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inp</span></div>
-        
+
 <div class="viewcode-block" id="QState.tenspro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.tenspro">[docs]</a>    <span class="k">def</span> <span class="nf">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the tensor product with quantum state.</span>
@@ -600,7 +604,7 @@
         <span class="n">qs</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
         <span class="k">return</span> <span class="n">qs</span></div>
 
-<div class="viewcode-block" id="QState.fidelity"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.fidelity">[docs]</a>    <span class="k">def</span> <span class="nf">fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="QState.fidelity"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.fidelity">[docs]</a>    <span class="k">def</span> <span class="nf">fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the fidelity with quantum state.</span>
 
@@ -644,13 +648,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-                <span class="n">qs_tmp</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-                <span class="n">qs</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">qs</span></div>
-        
+
+        <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">qs_tmp</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">qs</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">qs</span></div>
+
 <div class="viewcode-block" id="QState.join"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qs_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get tensor product state of the quantum states&#39; list.</span>
@@ -672,7 +676,7 @@
             <span class="n">qs_out</span> <span class="o">=</span> <span class="n">qs_tmp</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">qs_out</span></div>
 
-<div class="viewcode-block" id="QState.evolve"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.evolve">[docs]</a>    <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.evolve"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.evolve">[docs]</a>    <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        evolve the quantum state.</span>
 
@@ -699,9 +703,9 @@
 <span class="sd">        Obserbable class (Observable.py)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">observable</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="nb">iter</span><span class="p">)</span>
+        <span class="n">qstate_evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">observable</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
 <div class="viewcode-block" id="QState.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the expectation value for observable under the quantum state.</span>
@@ -723,7 +727,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">expect</span> <span class="o">=</span> <span class="n">qstate_expect_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">observable</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">expect</span></div>
-    
+
 <div class="viewcode-block" id="QState.apply"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        apply matrix.</span>
@@ -748,25 +752,30 @@
         <span class="n">qstate_apply_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="n">matrix</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">__schmidt_decomp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="k">def</span> <span class="nf">__schmidt_decomp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid_1</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">qid_0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">qid_0</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">qid_1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">qid_1</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid_0</span><span class="o">+</span><span class="n">qid_1</span><span class="p">)</span>
 
         <span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="nb">len</span><span class="p">(</span><span class="n">qid_0</span><span class="p">)</span>
         <span class="n">col</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="nb">len</span><span class="p">(</span><span class="n">qid_1</span><span class="p">)</span>
         <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
             <span class="n">mat</span><span class="p">[</span><span class="n">idx</span><span class="o">//</span><span class="n">col</span><span class="p">][</span><span class="n">idx</span><span class="o">%</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span>
-    
-        <span class="n">U</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">D</span> <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">])</span>
-        
-        <span class="n">vec_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
-        <span class="n">vec_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
-    
+
+        <span class="n">U</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">D</span> <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">])</span>
+
+        <span class="n">vec_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
+        <span class="n">vec_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
+
         <span class="k">return</span> <span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">vec_0</span><span class="p">,</span> <span class="n">vec_1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="QState.schmidt_decomp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.schmidt_decomp">[docs]</a>    <span class="k">def</span> <span class="nf">schmidt_decomp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="QState.schmidt_decomp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.schmidt_decomp">[docs]</a>    <span class="k">def</span> <span class="nf">schmidt_decomp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid_1</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        schmidt decomposition.</span>
 
@@ -788,12 +797,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coef</span><span class="p">,</span> <span class="n">vec_0</span><span class="p">,</span> <span class="n">vec_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__schmidt_decomp</span><span class="p">(</span><span class="n">qid_0</span><span class="o">=</span><span class="n">qid_0</span><span class="p">,</span> <span class="n">qid_1</span><span class="o">=</span><span class="n">qid_1</span><span class="p">)</span>
-        <span class="n">qs_0</span> <span class="o">=</span> <span class="p">[</span><span class="vm">__class__</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec_0</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
-        <span class="n">qs_1</span> <span class="o">=</span> <span class="p">[</span><span class="vm">__class__</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec_1</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
-    
+        <span class="n">qs_0</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec_0</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
+        <span class="n">qs_1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec_1</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)]</span>
+
         <span class="k">return</span> <span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">qs_0</span><span class="p">,</span> <span class="n">qs_1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="QState.schmidt_coef"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.schmidt_coef">[docs]</a>    <span class="k">def</span> <span class="nf">schmidt_coef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="p">[],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="QState.schmidt_coef"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.schmidt_coef">[docs]</a>    <span class="k">def</span> <span class="nf">schmidt_coef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid_0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid_1</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get schmidt coefficients.</span>
 
@@ -810,7 +819,7 @@
 <span class="sd">            schmidt coefficients.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">coef</span><span class="p">,</span> <span class="n">vec_0</span><span class="p">,</span> <span class="n">vec_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__schmidt_decomp</span><span class="p">(</span><span class="n">qid_0</span><span class="o">=</span><span class="n">qid_0</span><span class="p">,</span> <span class="n">qid_1</span><span class="o">=</span><span class="n">qid_1</span><span class="p">)</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__schmidt_decomp</span><span class="p">(</span><span class="n">qid_0</span><span class="o">=</span><span class="n">qid_0</span><span class="p">,</span> <span class="n">qid_1</span><span class="o">=</span><span class="n">qid_1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">coef</span></div>
 
     <span class="c1"># 1-qubit gate</span>
@@ -829,7 +838,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.y"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -846,7 +855,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.z"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -863,7 +872,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.xr"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.xr">[docs]</a>    <span class="k">def</span> <span class="nf">xr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -880,12 +889,12 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROOT_PAULI_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROOT_PAULI_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.xr_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.xr_dg">[docs]</a>    <span class="k">def</span> <span class="nf">xr_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate root X dagger gate </span>
+<span class="sd">        operate root X dagger gate</span>
 <span class="sd">        (hermmitian conjugate of root X gate).</span>
 
 <span class="sd">        Parameters</span>
@@ -898,7 +907,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROOT_PAULI_X_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROOT_PAULI_X_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.h"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.h">[docs]</a>    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -915,7 +924,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">HADAMARD</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">HADAMARD</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.s"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.s">[docs]</a>    <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -932,7 +941,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.s_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.s_dg">[docs]</a>    <span class="k">def</span> <span class="nf">s_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -949,7 +958,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.t"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.t">[docs]</a>    <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -966,7 +975,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_T</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_T</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.t_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.t_dg">[docs]</a>    <span class="k">def</span> <span class="nf">t_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
@@ -983,10 +992,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT_T_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_T_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.rx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.rx">[docs]</a>    <span class="k">def</span> <span class="nf">rx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.rx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.rx">[docs]</a>    <span class="k">def</span> <span class="nf">rx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate RX gate (rotation around X-axis).</span>
 
@@ -1002,10 +1011,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.ry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ry">[docs]</a>    <span class="k">def</span> <span class="nf">ry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.ry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ry">[docs]</a>    <span class="k">def</span> <span class="nf">ry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate RY gate (rotation around Y-axis).</span>
 
@@ -1021,10 +1030,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.rz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.rz">[docs]</a>    <span class="k">def</span> <span class="nf">rz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.rz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.rz">[docs]</a>    <span class="k">def</span> <span class="nf">rz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate RZ gate (rotation around Z-axis).</span>
 
@@ -1040,10 +1049,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.p"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.p">[docs]</a>    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.p"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.p">[docs]</a>    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate P gate (phase shift gate).</span>
 
@@ -1065,89 +1074,8 @@
 <span class="sd">        | 0.0 exp(i*phase*PI) |</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">PHASE_SHIFT</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-
-    <span class="c1"># def u1(self, q0, alpha=DEF_PHASE):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     operate U1 gate (by IBM).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Parameters</span>
-    <span class="c1">#     ----------</span>
-    <span class="c1">#     q0 : int</span>
-    <span class="c1">#         qubit id.</span>
-    <span class="c1">#     alpha : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     self : instance of QState</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Notes</span>
-    <span class="c1">#     -----</span>
-    <span class="c1">#     this opration is equal to P gate (phase shift gate)</span>
-    <span class="c1"># </span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     qstate_operate_qgate(self, kind=ROTATION_U1, phase=alpha, qid=[q0])</span>
-    <span class="c1">#     return self</span>
-    <span class="c1"># </span>
-    <span class="c1"># def u2(self, q0, alpha=DEF_PHASE, beta=DEF_PHASE):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     operate U2 gate (by IBM).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Parameters</span>
-    <span class="c1">#     ----------</span>
-    <span class="c1">#     q0 : int</span>
-    <span class="c1">#         qubit id.</span>
-    <span class="c1">#     alpha : float</span>
-    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
-    <span class="c1">#     beta : float</span>
-    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     self : instance of QState</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Notes</span>
-    <span class="c1">#     -----</span>
-    <span class="c1">#     matrix experssion is following...</span>
-    <span class="c1">#     | 1/sqrt(2)              -exp(i*alpha*PI)/sqrt(2)       |</span>
-    <span class="c1">#     | exp(i*beta*PI)/sqrt(2) exp(i*(alpha+beta)*PI)/sqrt(2) |</span>
-    <span class="c1"># </span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     qstate_operate_qgate(self, kind=ROTATION_U2, phase=alpha, phase1=beta, qid=[q0])</span>
-    <span class="c1">#     return self</span>
-    <span class="c1"># </span>
-    <span class="c1"># def u3(self, q0, alpha=DEF_PHASE, beta=DEF_PHASE, gamma=DEF_PHASE):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     operate U3 gate (by IBM).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Parameters</span>
-    <span class="c1">#     ----------</span>
-    <span class="c1">#     q0 : int</span>
-    <span class="c1">#         qubit id.</span>
-    <span class="c1">#     alpha : float</span>
-    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
-    <span class="c1">#     beta : float</span>
-    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
-    <span class="c1">#     gamma : float</span>
-    <span class="c1">#         rotation angle (unit of angle is pi radian).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     self : instance of QState</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Notes</span>
-    <span class="c1">#     -----</span>
-    <span class="c1">#     matrix expression is following...</span>
-    <span class="c1">#     | cos(gamma/2)                -exp(i*alpha*PI)*sin(gamma/2)       |</span>
-    <span class="c1">#     | exp(i*beta*PI)*sin(gamma/2) exp(i*(alpha+beta)*PI)*cos(gamma/2) |</span>
-    <span class="c1"># </span>
-    <span class="c1"># </span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     qstate_operate_qgate(self, kind=ROTATION_U3, phase=alpha, phase1=beta,</span>
-    <span class="c1">#                          phase2=gamma, qid=[q0])</span>
-    <span class="c1">#     return self</span>
 
     <span class="c1"># 2-qubit gate</span>
 
@@ -1167,7 +1095,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.cy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cy">[docs]</a>    <span class="k">def</span> <span class="nf">cy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1186,7 +1114,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_Y</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.cz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cz">[docs]</a>    <span class="k">def</span> <span class="nf">cz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1205,7 +1133,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_Z</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.cxr"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cxr">[docs]</a>    <span class="k">def</span> <span class="nf">cxr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1224,7 +1152,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_XR</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_XR</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.cxr_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cxr_dg">[docs]</a>    <span class="k">def</span> <span class="nf">cxr_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1243,7 +1171,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_XR_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_XR_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.ch"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ch">[docs]</a>    <span class="k">def</span> <span class="nf">ch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1262,7 +1190,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_H</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.cs"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cs">[docs]</a>    <span class="k">def</span> <span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1281,7 +1209,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_S</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_S</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.cs_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cs_dg">[docs]</a>    <span class="k">def</span> <span class="nf">cs_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1300,7 +1228,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_S_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_S_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.ct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ct">[docs]</a>    <span class="k">def</span> <span class="nf">ct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1319,7 +1247,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_T</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_T</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.ct_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ct_dg">[docs]</a>    <span class="k">def</span> <span class="nf">ct_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1338,7 +1266,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_T_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_T_</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.sw"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.sw">[docs]</a>    <span class="k">def</span> <span class="nf">sw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
@@ -1357,10 +1285,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">SWAP_QUBITS</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">SWAP_QUBITS</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.cp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cp">[docs]</a>    <span class="k">def</span> <span class="nf">cp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.cp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cp">[docs]</a>    <span class="k">def</span> <span class="nf">cp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CP gate (controlled P gate).</span>
 
@@ -1376,10 +1304,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_P</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_P</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.crx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.crx">[docs]</a>    <span class="k">def</span> <span class="nf">crx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.crx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.crx">[docs]</a>    <span class="k">def</span> <span class="nf">crx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CRX gate (controlled RX gate).</span>
 
@@ -1397,10 +1325,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RX</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_RX</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.cry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cry">[docs]</a>    <span class="k">def</span> <span class="nf">cry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.cry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.cry">[docs]</a>    <span class="k">def</span> <span class="nf">cry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CRY gate (controlled RY gate).</span>
 
@@ -1418,10 +1346,10 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RY</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_RY</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="QState.crz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.crz">[docs]</a>    <span class="k">def</span> <span class="nf">crz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.crz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.crz">[docs]</a>    <span class="k">def</span> <span class="nf">crz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CRZ gate (controlled RZ gate).</span>
 
@@ -1439,82 +1367,74 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">])</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_RZ</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="c1"># def cu1(self, q0, q1, alpha=DEF_PHASE):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     operate CU1 gate (controlled U1 gate).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Parameters</span>
-    <span class="c1">#     ----------</span>
-    <span class="c1">#     q0 : int</span>
-    <span class="c1">#         qubit id (control qubit).</span>
-    <span class="c1">#     q1 : int</span>
-    <span class="c1">#         qubit id (target qubit).</span>
-    <span class="c1">#     alpha : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     self : instance of QState</span>
-    <span class="c1"># </span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     qstate_operate_qgate(self, kind=CONTROLLED_U1, phase=alpha, qid=[q0,q1])</span>
-    <span class="c1">#     return self</span>
-    <span class="c1"># </span>
-    <span class="c1"># def cu2(self, q0, q1, alpha=DEF_PHASE, beta=DEF_PHASE):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     operate CU2 gate (controlled U2 gate).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Parameters</span>
-    <span class="c1">#     ----------</span>
-    <span class="c1">#     q0 : int</span>
-    <span class="c1">#         qubit id (control qubit).</span>
-    <span class="c1">#     q1 : int</span>
-    <span class="c1">#         qubit id (target qubit).</span>
-    <span class="c1">#     alpha : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1">#     beta : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     self : instance of QState</span>
-    <span class="c1"># </span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     qstate_operate_qgate(self, kind=CONTROLLED_U2, phase=alpha, phase1=beta,</span>
-    <span class="c1">#                          qid=[q0,q1])</span>
-    <span class="c1">#     return self</span>
-    <span class="c1"># </span>
-    <span class="c1"># def cu3(self, q0, q1, alpha=DEF_PHASE, beta=DEF_PHASE, gamma=DEF_PHASE):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     operate CU3 gate (controlled U3 gate).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Parameters</span>
-    <span class="c1">#     ----------</span>
-    <span class="c1">#     q0 : int</span>
-    <span class="c1">#         qubit id (control qubit).</span>
-    <span class="c1">#     q1 : int</span>
-    <span class="c1">#         qubit id (target qubit).</span>
-    <span class="c1">#     alpha : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1">#     beta : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1">#     gamma : float</span>
-    <span class="c1">#         rotation angle (unit of angle is PI radian).</span>
-    <span class="c1"># </span>
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     self : instance of QState</span>
-    <span class="c1"># </span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     qstate_operate_qgate(self, kind=CONTROLLED_U3, phase=alpha, phase1=beta,</span>
-    <span class="c1">#                          phase2=gamma, qid=[q0,q1])</span>
-    <span class="c1">#     return self</span>
+<div class="viewcode-block" id="QState.rxx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.rxx">[docs]</a>    <span class="k">def</span> <span class="nf">rxx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate Rxx gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of QState</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_XX</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="QState.ryy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ryy">[docs]</a>    <span class="k">def</span> <span class="nf">ryy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate Ryy gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of QState</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_YY</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="QState.rzz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.rzz">[docs]</a>    <span class="k">def</span> <span class="nf">rzz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_PHASE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate Rxx gate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q0 : int</span>
+<span class="sd">            qubit id (control qubit).</span>
+<span class="sd">        q1 : int</span>
+<span class="sd">            qubit id (target qubit).</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            rotation angle (unit of angle is PI radian).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of QState</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qstate_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_ZZ</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># 3-qubit gate</span>
-    
+
 <div class="viewcode-block" id="QState.ccx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.ccx">[docs]</a>    <span class="k">def</span> <span class="nf">ccx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate CCX gate (toffoli gate, controlled controlled X gate).</span>
@@ -1533,7 +1453,7 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr_dg</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr_dg</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.csw"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.csw">[docs]</a>    <span class="k">def</span> <span class="nf">csw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
@@ -1554,28 +1474,28 @@
 <span class="sd">        self : instance of QState</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># other gate</span>
 
-<div class="viewcode-block" id="QState.mcx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mcx">[docs]</a>    <span class="k">def</span> <span class="nf">mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qid</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="QState.mcx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mcx">[docs]</a>    <span class="k">def</span> <span class="nf">mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate MCX gate (multi-controlled X gate).</span>
-<span class="sd">    </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        qid : list of int</span>
 <span class="sd">            qubit id list [control, control, ... , control, target]</span>
-<span class="sd">    </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : instance of QState</span>
-<span class="sd">    </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qstate_mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
     <span class="c1"># measurement</span>
 
 <div class="viewcode-block" id="QState.measure"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.measure">[docs]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1611,8 +1531,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mval</span> <span class="o">=</span> <span class="n">qstate_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mval</span></div>
-    
-<div class="viewcode-block" id="QState.m"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.m">[docs]</a>    <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="QState.m"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.m">[docs]</a>    <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        measurement in any direction (default: Z-axis).</span>
 
@@ -1650,8 +1570,8 @@
         <span class="n">md</span> <span class="o">=</span> <span class="n">qstate_measure_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
                                   <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">md</span></div>
-        
-<div class="viewcode-block" id="QState.mx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mx">[docs]</a>    <span class="k">def</span> <span class="nf">mx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="QState.mx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mx">[docs]</a>    <span class="k">def</span> <span class="nf">mx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        X-axis measurement.</span>
 
@@ -1675,8 +1595,8 @@
         <span class="n">md</span> <span class="o">=</span> <span class="n">qstate_measure_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
                                   <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">md</span></div>
-        
-<div class="viewcode-block" id="QState.my"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.my">[docs]</a>    <span class="k">def</span> <span class="nf">my</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="QState.my"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.my">[docs]</a>    <span class="k">def</span> <span class="nf">my</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Y-axis measurement.</span>
 
@@ -1697,11 +1617,11 @@
 <span class="sd">        MData class (MData.py)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">md</span> <span class="o">=</span>  <span class="n">qstate_measure_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
-                                   <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="n">qstate_measure_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
+                                  <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">md</span></div>
-        
-<div class="viewcode-block" id="QState.mz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mz">[docs]</a>    <span class="k">def</span> <span class="nf">mz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+
+<div class="viewcode-block" id="QState.mz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mz">[docs]</a>    <span class="k">def</span> <span class="nf">mz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Z-axis measurement.</span>
 
@@ -1722,13 +1642,14 @@
 <span class="sd">        MData class (MData.py)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">md</span> <span class="o">=</span>  <span class="n">qstate_measure_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
-                                   <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="n">qstate_measure_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
+                                  <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">md</span></div>
 
-<div class="viewcode-block" id="QState.mb"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mb">[docs]</a>    <span class="k">def</span> <span class="nf">mb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.mb"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.mb">[docs]</a>    <span class="k">def</span> <span class="nf">mb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; bell measurement &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">qstate_measure_bell_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span></div>
-        
+
 <div class="viewcode-block" id="QState.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate unitary operator to quantum state.</span>
@@ -1748,7 +1669,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
         <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
-    
+
         <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
@@ -1762,7 +1683,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;controll and target qubit id conflict&quot;</span><span class="p">)</span>
-        
+
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
@@ -1772,30 +1693,20 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">continue</span>
-    
+
         <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="QState.free"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        free memory of quantum state.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No need to call &#39;free&#39; method because free automatically, or you can use &#39;del&#39; to free memory explicitly.&quot;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">qstate_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <span class="c1"># c-library for qstate</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.qstate_c</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.qstate_c</span> <span class="kn">import</span> <span class="p">(</span><span class="n">qstate_init</span><span class="p">,</span> <span class="n">qstate_init_with_vector</span><span class="p">,</span> <span class="n">qstate_reset</span><span class="p">,</span>
+                                <span class="n">qstate_print</span><span class="p">,</span> <span class="n">qstate_copy</span><span class="p">,</span> <span class="n">qstate_bloch</span><span class="p">,</span>
+                                <span class="n">qstate_inner_product</span><span class="p">,</span> <span class="n">qstate_get_camp</span><span class="p">,</span>
+                                <span class="n">qstate_tensor_product</span><span class="p">,</span> <span class="n">qstate_evolve</span><span class="p">,</span> <span class="n">qstate_expect_value</span><span class="p">,</span>
+                                <span class="n">qstate_apply_matrix</span><span class="p">,</span> <span class="n">qstate_operate_qgate</span><span class="p">,</span> <span class="n">qstate_measure</span><span class="p">,</span>
+                                <span class="n">qstate_measure_stats</span><span class="p">,</span> <span class="n">qstate_measure_bell_stats</span><span class="p">,</span> <span class="n">qstate_free</span><span class="p">)</span>
 </pre></div>
 
            </div>

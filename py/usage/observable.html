@@ -180,15 +180,15 @@ Observableクラスをimportする必要があります。</p>
 使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">hm</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">(</span><span class="s2">&quot;-2.0+z_0*z_1+x_0+x_1&quot;</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">hm</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">hm</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>１行目で、２粒子を定義しています。量子状態は|00&gt;に初期化されます。２行
 目で、”-2.0<em>Z0</em>Z1+X0+X1”というパウリ行列で記述されるハミルトニアンを定
 義しています。３行目で、このハミルトニアンで規定される時間発展を量子状
-態qsに施しています。ここで、引数timeは時間です。iterは近似精度を上げる
-ために内部で処理される繰り返し数(整数値)です。timeよりも十分大きな値を
-指定してください。</p>
+態qsに施しています。ここで、引数timeは時間です。iterationは近似精度を
+上げるために内部で処理される繰り返し数(整数値)です。timeよりも十分大き
+な値を指定してください。</p>
 </div>
 <div class="section" id="id2">
 <h2>オブザーバブルの期待値<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>

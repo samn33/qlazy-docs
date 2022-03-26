@@ -155,10 +155,9 @@
             
   <h1>Source code for qlazy.PauliProduct</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;  Pauli Product &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">qlazy.UnitaryOperator</span> <span class="kn">import</span> <span class="n">UnitaryOperator</span>
-        
-<div class="viewcode-block" id="PauliProduct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct">[docs]</a><span class="k">class</span> <span class="nc">PauliProduct</span><span class="p">(</span><span class="n">UnitaryOperator</span><span class="p">):</span>
+<div class="viewcode-block" id="PauliProduct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct">[docs]</a><span class="k">class</span> <span class="nc">PauliProduct</span><span class="p">:</span>
 
     <span class="sd">&quot;&quot;&quot; Pauli Product</span>
 
@@ -183,7 +182,8 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        &#39;pauli_str&#39; must consist of &#39;X&#39;,&#39;Y&#39;,&#39;Z&#39;, and length of &#39;pauli_str&#39; must be equal to length of &#39;qid&#39;</span>
+<span class="sd">        &#39;pauli_str&#39; must consist of &#39;X&#39;,&#39;Y&#39;,&#39;Z&#39;, and length of &#39;pauli_str&#39;</span>
+<span class="sd">        must be equal to length of &#39;qid&#39;</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -196,13 +196,13 @@
         <span class="k">if</span> <span class="n">pauli_str</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pauli_str or qid is not specified&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">))]</span>
-    
+            <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">)))</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of &#39;pauli_str&#39; is not equal to length of &#39;qid&#39;&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;some elements of &#39;qid&#39; are duplicated&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">)])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">)])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;pauli_str&#39; must consist of &#39;X&#39;,&#39;Y&#39;,&#39;Z&#39;&quot;</span><span class="p">)</span>
 
         <span class="n">qid_sorted</span> <span class="o">=</span> <span class="p">[]</span>
@@ -213,17 +213,20 @@
             <span class="n">pauli_list_sorted</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">pauli_str</span><span class="p">))):</span>
-                <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="n">qid_sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
                 <span class="n">pauli_list_sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid_sorted</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qid</span> <span class="o">=</span> <span class="n">qid_sorted</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid_sorted</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pauli_list_sorted</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">pauli_product</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">)):</span>
             <span class="n">pauli_product</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{0:}</span><span class="s2">(</span><span class="si">{1:}</span><span class="s2">) &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
         <span class="n">pauli_product</span> <span class="o">=</span> <span class="n">pauli_product</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
@@ -254,8 +257,8 @@
             <span class="n">qubit_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
 
         <span class="k">if</span> <span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Valueerror</span><span class="p">(</span><span class="s2">&quot;qubit_num is smaller than the size required by pauli product&quot;</span><span class="p">)</span>
-            
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit_num is smaller than the size required by pauli product&quot;</span><span class="p">)</span>
+
         <span class="n">binary_rep</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">qubit_num</span> <span class="o">*</span> <span class="mi">2</span>
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">:</span>
@@ -296,11 +299,8 @@
             <span class="n">inner_prod</span> <span class="o">+=</span> <span class="p">(</span><span class="n">binary_rep_self</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">binary_rep_pp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
         <span class="n">inner_prod</span> <span class="o">=</span> <span class="n">inner_prod</span> <span class="o">%</span> <span class="mi">2</span>
 
-        <span class="k">if</span> <span class="n">inner_prod</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="kc">False</span>
-        
+        <span class="n">ans</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">inner_prod</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">ans</span></div>
 
 <div class="viewcode-block" id="PauliProduct.tenspro"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.PauliProduct.PauliProduct.tenspro">[docs]</a>    <span class="k">def</span> <span class="nf">tenspro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="p">):</span>
@@ -319,7 +319,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qid</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">qid</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-        
+
         <span class="n">binary_rep_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_binary_rep</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
         <span class="n">binary_rep_pp</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">get_binary_rep</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
 
@@ -340,7 +340,7 @@
 
         <span class="n">pauli_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pauli_list</span><span class="p">)</span>
 
-        <span class="n">pp_out</span> <span class="o">=</span> <span class="vm">__class__</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="n">pauli_str</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+        <span class="n">pp_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="n">pauli_str</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">pp_out</span></div></div>
 </pre></div>

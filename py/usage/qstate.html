@@ -331,6 +331,15 @@
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="ising-coupling-gate">
+<h3>イジング結合ゲート（Ising coupling gate） 翻訳適当？<a class="headerlink" href="#ising-coupling-gate" title="Permalink to this headline">¶</a></h3>
+<p>イオントラップ方式の量子コンピュータで基本となる2量子ビットゲートです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">rxx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># XX演算子に対するイジング結合ゲート</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">ryy</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># YY演算子に対するイジング結合ゲート</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">rzz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># ZZ演算子に対するイジング結合ゲート</span>
+</pre></div>
+</div>
 <div class="section" id="id12">
 <h4>交換ゲート（スワップゲート）<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">sw</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>  <span class="c1"># q0とq1を入れ替え</span>
@@ -517,7 +526,8 @@ C[00..0]が0の場合は、グローバル位相項を括りだすことはし�
 <div class="section" id="id22">
 <h3>量子状態のデータ取得<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p>get_ampメソッドで、特定の量子ビットに対応した確率振幅の複素係数をnumpy
-配列として取得できます。</p>
+配列として取得できます。
+qidを指定しない場合は、全量子ビットに対応した確率振幅となります。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -528,6 +538,17 @@ qs.get_amp()と同じ結果は、以下でも取得できます。</p>
 </div>
 <p>指定した量子ビットとそれ以外がエンタングルしている場合、実行のたびに結
 果が変わりますのでご注意ください（showメソッドと同様）。</p>
+<p>また、確率振幅でなく各々の絶対値の２乗、つまり各固有状態に対応した確率は、
+get_probメソッドを使って、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get_prob</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="o">...</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>で取得することができます。probは、ビット文字列をキー、
+確率値をバリューとした辞書データです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id23">
 <h3>部分系<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>

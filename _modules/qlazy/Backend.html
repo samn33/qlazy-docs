@@ -155,12 +155,21 @@
             
   <h1>Source code for qlazy.Backend</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="kn">from</span> <span class="nn">qlazy.config</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">qlazy.error</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="sd">&quot;&quot;&quot; Backend device of quantum computing &quot;&quot;&quot;</span>
 
-<span class="n">BACKEND_DEVICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">,</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">,</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;qasm_simulator&#39;</span><span class="p">]}</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">errno</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
+
+<span class="n">BACKEND_DEVICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;gpu_simulator&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_local&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;braket_sv&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_aws&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sv1&#39;</span><span class="p">,</span> <span class="s1">&#39;tn1&#39;</span><span class="p">,</span> <span class="s1">&#39;dm1&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_ionq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ionq&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">,</span> <span class="s1">&#39;aspen_m_1&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_oqc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lucy&#39;</span><span class="p">]}</span>
 
 <div class="viewcode-block" id="Backend"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend">[docs]</a><span class="k">class</span> <span class="nc">Backend</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Backend device of quantum computing</span>
@@ -173,129 +182,173 @@
 <span class="sd">    device : str</span>
 <span class="sd">        device name of the product</span>
 
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If you use amazon braket backend (braket_local, braket_aws,</span>
+<span class="sd">    braket_ionq, braket_rigetti, braket_oqc), you must have</span>
+<span class="sd">    config.ini file in your &#39;~/.qlazy&#39; directory,</span>
+<span class="sd">    and discribe like following example ...</span>
+
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;qlazy&#39;, device=&#39;stabilizer_simulator&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;qulacs&#39;, device=&#39;gpu_simulator&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;ibmq&#39;, device=&#39;least_busy&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; bk = Backend(product=&#39;braket_rigetti&#39;, device=&#39;aspen_11&#39;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    $ cat ~/.qlazy/config.ini</span>
+<span class="sd">    [backend_braket]</span>
+<span class="sd">    backet_name = amazon-braket-your-S3-baket-name</span>
+<span class="sd">    ...</span>
+<span class="sd">    $ cat ~/.qlazy/config.ini</span>
+<span class="sd">    [backend_braket]</span>
+<span class="sd">    backet_name = amazon-braket-your-S3-baket-name</span>
+<span class="sd">    poll_timeout_seconds = 86400  # set 1-day (default: 5-days)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># config</span>
+        <span class="c1">#</span>
+
+        <span class="n">config_ini</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+        <span class="n">config_ini_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/.qlazy/config.ini&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">config_ini_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">),</span> <span class="n">config_ini_path</span><span class="p">)</span>
+        <span class="n">config_ini</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">config_ini_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+        <span class="c1"># braket</span>
+        <span class="n">backend_braket</span> <span class="o">=</span> <span class="n">config_ini</span><span class="p">[</span><span class="s1">&#39;backend_braket&#39;</span><span class="p">]</span>
+        <span class="n">backet_name</span> <span class="o">=</span> <span class="n">backend_braket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;backet_name&#39;</span><span class="p">)</span>
+        <span class="n">poll_timeout_seconds</span> <span class="o">=</span> <span class="n">backend_braket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;poll_timeout_seconds&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_braket</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;backet_name&#39;</span><span class="p">:</span> <span class="n">backet_name</span><span class="p">,</span>
+                              <span class="s1">&#39;poll_timeout_seconds&#39;</span><span class="p">:</span> <span class="n">poll_timeout_seconds</span><span class="p">}</span>
 
         <span class="c1">#</span>
         <span class="c1"># set attributes (procuct, device)</span>
         <span class="c1">#</span>
-        
-        <span class="k">if</span> <span class="n">product</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;qlazy&#39;</span>
-                <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;qstate_simulator&#39;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Backend_Error_NameNotSpecified</span><span class="p">()</span>            
-        
-        <span class="k">if</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span>
 
+        <span class="k">if</span> <span class="n">product</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;qlazy&#39;</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;qstate_simulator&#39;</span>
+            <span class="k">elif</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">product</span>
             <span class="k">if</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
-            <span class="k">elif</span> <span class="n">device</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;product:</span><span class="si">{}</span><span class="s2"> is unknown.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">product</span><span class="p">))</span>
 
         <span class="c1">#</span>
         <span class="c1"># set method (__run)</span>
         <span class="c1">#</span>
-        
+
         <span class="c1"># qlazy</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qlazy&#39;</span><span class="p">:</span>
-    
+
             <span class="c1"># qstate simulator</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qstate_simulator&#39;</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_qstate_simulator</span> <span class="kn">import</span> <span class="n">run</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-        
+
             <span class="c1"># stabilizer simulator</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_stabilizer_simulator</span> <span class="kn">import</span> <span class="n">run</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-                
+
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
-            
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+
         <span class="c1"># qulacs</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span>
-    
+
             <span class="c1"># cpu_simulator</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;cpu_simulator&#39;</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qulacs_simulator</span> <span class="kn">import</span> <span class="n">run_cpu</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run_cpu</span>
-        
+
             <span class="c1"># gpu_simulator</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;gpu_simulator&#39;</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qulacs_simulator</span> <span class="kn">import</span> <span class="n">run_gpu</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run_gpu</span>
-                
+
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">Backend_Error_DeviceNotSupported</span><span class="p">()</span>
-        
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
+
         <span class="c1"># ibmq</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">qlazy.backend.ibmq</span> <span class="kn">import</span> <span class="n">run</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
-    
+
+        <span class="c1"># braket</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;braket_local&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_aws&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;braket_ionq&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_oqc&#39;</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">qlazy.backend.amazon_braket</span> <span class="kn">import</span> <span class="n">run</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
+
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">Backend_Error_NameNotSupported</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device:&#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown for product:&#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Backend.products"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.products">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">products</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-
+        <span class="sd">&quot;&quot;&quot; get products list &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">BACKEND_DEVICES</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Backend.qlazy_devices"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.qlazy_devices">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">qlazy_devices</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="s1">&#39;qlazy&#39;</span><span class="p">]</span></div>
-    
-<div class="viewcode-block" id="Backend.qulacs_devices"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.qulacs_devices">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">qulacs_devices</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="s1">&#39;qulacs&#39;</span><span class="p">]</span></div>
-    
 <div class="viewcode-block" id="Backend.ibmq_devices"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.ibmq_devices">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">ibmq_devices</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get ibmq&#39;s devices list &quot;&quot;&quot;</span>
         <span class="n">devices</span> <span class="o">=</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="s1">&#39;ibmq&#39;</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
             <span class="n">provider</span> <span class="o">=</span> <span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
             <span class="n">ibmq_backend_system_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span>
                                          <span class="n">provider</span><span class="o">.</span><span class="n">backends</span><span class="p">(</span><span class="n">simulator</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">devices</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;least_busy&#39;</span><span class="p">]</span>
             <span class="n">devices</span> <span class="o">+=</span> <span class="n">ibmq_backend_system_names</span>
-        
+
         <span class="k">return</span> <span class="n">devices</span></div>
 
 <div class="viewcode-block" id="Backend.devices"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.devices">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">devices</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get devices list for the product &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qlazy&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Backend</span><span class="o">.</span><span class="n">qlazy_devices</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Backend</span><span class="o">.</span><span class="n">qulacs_devices</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">product</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_local&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_aws&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;braket_ionq&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="s1">&#39;braket_oqc&#39;</span><span class="p">):</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">BACKEND_DEVICES</span><span class="p">[</span><span class="n">product</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Backend</span><span class="o">.</span><span class="n">ibmq_devices</span><span class="p">()</span>
+            <span class="n">device_list</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">ibmq_devices</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown product: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">product</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown product: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">product</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">return</span> <span class="n">device_list</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">backend_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">,</span> <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">}</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">backend_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        run the quantum circuit.</span>
 
@@ -326,13 +379,22 @@
 <span class="sd">        &gt;&gt;&gt; # control quantum gate by measured results</span>
 <span class="sd">        &gt;&gt;&gt; from qlazy import QCirc, Backend</span>
 <span class="sd">        &gt;&gt;&gt; bk = Backend(product=&#39;qlazy&#39;, device=&#39;qstate_simulator&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; qc = QCirc.h(0).cx(0,1).measure(qid=[0],cid=[0]).x(0, ctrl=0).x(1, ctrl=0).measure(qid=[0,1], cid=[0,1])</span>
+<span class="sd">        &gt;&gt;&gt; qc = QCirc.h(0)</span>
+<span class="sd">        &gt;&gt;&gt; qc.cx(0,1).measure(qid=[0],cid=[0])</span>
+<span class="sd">        &gt;&gt;&gt; qc.x(0, ctrl=0).x(1, ctrl=0).measure(qid=[0,1], cid=[0,1])</span>
 <span class="sd">        &gt;&gt;&gt; result = bk.run(qcirc=qc, shots=100)</span>
 <span class="sd">	&gt;&gt;&gt; print(result.frequency)</span>
 <span class="sd">        Counter({&#39;00&#39;: 100})</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="n">result</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">start_time</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">end_time</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">elapsed_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+
         <span class="k">return</span> <span class="n">result</span></div></div>
 </pre></div>
 
