@@ -97,6 +97,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.cmem_c">qlazy.lib.cmem_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.densop_c">qlazy.lib.densop_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.densop_mcx">qlazy.lib.densop_mcx module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.gpu_c">qlazy.lib.gpu_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.mdata_c">qlazy.lib.mdata_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.observable_c">qlazy.lib.observable_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qcirc_c">qlazy.lib.qcirc_c module</a></li>
@@ -123,6 +124,7 @@
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.config">qlazy.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.core">qlazy.core module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.error">qlazy.error module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.gpu">qlazy.gpu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.util">qlazy.util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy">Module contents</a></li>
 </ul>
@@ -226,6 +228,12 @@
 <dt id="qlazy.lib.cmem_c.cmem_init">
 <code class="sig-prename descclassname"><span class="pre">qlazy.lib.cmem_c.</span></code><code class="sig-name descname"><span class="pre">cmem_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/cmem_c.html#cmem_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.cmem_c.cmem_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize classical memory</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.cmem_c.cmem_set_bits">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.cmem_c.</span></code><code class="sig-name descname"><span class="pre">cmem_set_bits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/cmem_c.html#cmem_set_bits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.cmem_c.cmem_set_bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>get bits of the classical memory</p>
 </dd></dl>
 
 </div>
@@ -336,6 +344,28 @@
 <dt id="qlazy.lib.densop_mcx.densop_mcx">
 <code class="sig-prename descclassname"><span class="pre">qlazy.lib.densop_mcx.</span></code><code class="sig-name descname"><span class="pre">densop_mcx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">de</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/densop_mcx.html#densop_mcx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.densop_mcx.densop_mcx" title="Permalink to this definition">¶</a></dt>
 <dd><p>multi-controlled cnot</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-qlazy.lib.gpu_c">
+<span id="qlazy-lib-gpu-c-module"></span><h2>qlazy.lib.gpu_c module<a class="headerlink" href="#module-qlazy.lib.gpu_c" title="Permalink to this headline">¶</a></h2>
+<p>wrapper functions related to gpu</p>
+<dl class="py function">
+<dt id="qlazy.lib.gpu_c.wrap_gpu_preparation">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.gpu_c.</span></code><code class="sig-name descname"><span class="pre">wrap_gpu_preparation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/gpu_c.html#wrap_gpu_preparation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.gpu_c.wrap_gpu_preparation" title="Permalink to this definition">¶</a></dt>
+<dd><p>memory allocation and free (dummy)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.gpu_c.wrap_is_gpu_available">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.gpu_c.</span></code><code class="sig-name descname"><span class="pre">wrap_is_gpu_available</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/gpu_c.html#wrap_is_gpu_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.gpu_c.wrap_is_gpu_available" title="Permalink to this definition">¶</a></dt>
+<dd><p>cuda is available or not</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.lib.gpu_c.wrap_is_gpu_supported_lib">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.gpu_c.</span></code><code class="sig-name descname"><span class="pre">wrap_is_gpu_supported_lib</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/gpu_c.html#wrap_is_gpu_supported_lib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.gpu_c.wrap_is_gpu_supported_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>this qlazy library supports cuda executoin or not</p>
 </dd></dl>
 
 </div>
@@ -477,13 +507,13 @@ under the quantum state vector</p>
 
 <dl class="py function">
 <dt id="qlazy.lib.qstate_c.qstate_init">
-<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_init" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize QState object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="qlazy.lib.qstate_c.qstate_init_with_vector">
-<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_init_with_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_init_with_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_init_with_vector" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_init_with_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_init_with_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_init_with_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize QState object with vector</p>
 </dd></dl>
 
@@ -495,7 +525,7 @@ under the quantum state vector</p>
 
 <dl class="py function">
 <dt id="qlazy.lib.qstate_c.qstate_measure">
-<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_measure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_measure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_measure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_measure" title="Permalink to this definition">¶</a></dt>
 <dd><p>measurement of the qubits</p>
 </dd></dl>
 
@@ -513,7 +543,7 @@ under the quantum state vector</p>
 
 <dl class="py function">
 <dt id="qlazy.lib.qstate_c.qstate_operate_qcirc">
-<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_operate_qcirc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_operate_qcirc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_operate_qcirc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_operate_qcirc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qstate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_operate_qcirc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_operate_qcirc" title="Permalink to this definition">¶</a></dt>
 <dd><p>operate quantum circuit</p>
 </dd></dl>
 
@@ -538,7 +568,7 @@ under the quantum state vector</p>
 <dl class="py function">
 <dt id="qlazy.lib.qstate_c.qstate_tensor_product">
 <code class="sig-prename descclassname"><span class="pre">qlazy.lib.qstate_c.</span></code><code class="sig-name descname"><span class="pre">qstate_tensor_product</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qstate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qstate_c.html#qstate_tensor_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qstate_c.qstate_tensor_product" title="Permalink to this definition">¶</a></dt>
-<dd><p>get tensor procuct of 2 quantum state vectors</p>
+<dd><p>get tensor product of 2 quantum state vectors</p>
 </dd></dl>
 
 </div>

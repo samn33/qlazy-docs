@@ -110,6 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-qlazy.config">qlazy.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-qlazy.core">qlazy.core module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-qlazy.error">qlazy.error module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-qlazy.gpu">qlazy.gpu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-qlazy.util">qlazy.util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-qlazy">Module contents</a></li>
 </ul>
@@ -202,6 +203,7 @@
 <li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.cmem_c">qlazy.lib.cmem_c module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.densop_c">qlazy.lib.densop_c module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.densop_mcx">qlazy.lib.densop_mcx module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.gpu_c">qlazy.lib.gpu_c module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.mdata_c">qlazy.lib.mdata_c module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.observable_c">qlazy.lib.observable_c module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.lib.html#module-qlazy.lib.qcirc_c">qlazy.lib.qcirc_c module</a></li>
@@ -255,24 +257,36 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="qlazy.Backend.Backend.config_braket">
+<code class="sig-name descname"><span class="pre">config_braket</span></code><a class="headerlink" href="#qlazy.Backend.Backend.config_braket" title="Permalink to this definition">¶</a></dt>
+<dd><p>config for amazon braket backend
+{‘backet_name’: str, ‘poll_timeout_seconds’: int}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Notes</p>
 <p>If you use amazon braket backend (braket_local, braket_aws,
 braket_ionq, braket_rigetti, braket_oqc), you must have
-config.ini file in your ‘~/.qlazy’ directory,
+config.ini file in your ‘~/.qlazy/’ directory,
 and discribe like following example …</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;least_busy&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">)</span> <span class="c1"># read ~/.qlazy/config.ini</span>
 <span class="gp">...</span>
 <span class="go">$ cat ~/.qlazy/config.ini</span>
 <span class="go">[backend_braket]</span>
-<span class="go">backet_name = amazon-braket-your-S3-baket-name</span>
+<span class="go">backet_name = amazon-braket-xxxx # set your s3 backet name</span>
 <span class="gp">...</span>
 <span class="go">$ cat ~/.qlazy/config.ini</span>
 <span class="go">[backend_braket]</span>
-<span class="go">backet_name = amazon-braket-your-S3-baket-name</span>
+<span class="go">backet_name = amazon-braket-xxxx # set your s3 backet name</span>
 <span class="go">poll_timeout_seconds = 86400  # set 1-day (default: 5-days)</span>
 </pre></div>
 </div>
@@ -295,8 +309,20 @@ and discribe like following example …</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.Backend.Backend.qlazy_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qlazy_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qlazy_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.qlazy_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>get qlazy’s devices list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.Backend.qulacs_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qulacs_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qulacs_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.qulacs_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>get qulacs’s devices list</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.Backend.Backend.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.Backend.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>run the quantum circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -304,6 +330,8 @@ and discribe like following example …</p>
 <li><p><strong>qcirc</strong> (<em>instance of QCirc</em><em>, </em><em>default None</em>) – quantum circuit.</p></li>
 <li><p><strong>shots</strong> (<em>int</em><em>, </em><em>default 1</em>) – number of measurements.</p></li>
 <li><p><strong>cid</strong> (<em>list</em><em>, </em><em>default</em><em> [</em><em>]</em>) – classical register id list to count frequency.</p></li>
+<li><p><strong>out_state</strong> (<em>bool</em><em>, </em><em>default False</em>) – output classical and quantum information after execting circuit.
+(only for qlazy’s qstate and stabilizer simulator)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -416,6 +444,23 @@ and discribe like following example …</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray (int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.CMem.CMem.set_bits">
+<code class="sig-name descname"><span class="pre">set_bits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/CMem.html#CMem.set_bits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.CMem.CMem.set_bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bit list to the classical memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bits</strong> (<em>list</em>) – bits array of the classical memory</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1540,7 +1585,7 @@ original density operator.</p>
 <dl class="py method">
 <dt id="qlazy.DensOp.DensOp.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.DensOp.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id59"><span class="problematic" id="id60">|0&gt;&lt;0|</span></a> state.</p>
+<dd><p>reset to <a href="#id65"><span class="problematic" id="id66">|0&gt;&lt;0|</span></a> state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em>) – qubit id’s list to reset.</p>
@@ -3655,7 +3700,7 @@ includes non-unitary gate (measure or reset) first</p>
 <p>Quantum State</p>
 <dl class="py class">
 <dt id="qlazy.QState.QState">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.QState.</span></code><code class="sig-name descname"><span class="pre">QState</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.QState.</span></code><code class="sig-name descname"><span class="pre">QState</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ctypes.Structure</span></code></p>
 <p>Quantum State</p>
 <dl class="py attribute">
@@ -4648,6 +4693,18 @@ you get the copy of original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt id="qlazy.QState.QState.prob_array">
+<code class="sig-name descname"><span class="pre">prob_array</span></code><a class="headerlink" href="#qlazy.QState.QState.prob_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.QState.QState.prob_updated">
+<code class="sig-name descname"><span class="pre">prob_updated</span></code><a class="headerlink" href="#qlazy.QState.QState.prob_updated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt id="id18">
 <code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
@@ -4996,6 +5053,12 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="qlazy.QState.QState.use_gpu">
+<code class="sig-name descname"><span class="pre">use_gpu</span></code><a class="headerlink" href="#qlazy.QState.QState.use_gpu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
 <dl class="py method">
 <dt id="qlazy.QState.QState.x">
 <code class="sig-name descname"><span class="pre">x</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.x" title="Permalink to this definition">¶</a></dt>
@@ -5165,7 +5228,7 @@ the original quantum state.</p>
 <dd><p>start time to ececute the quantum circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>instance of datetime.datetime</p>
+<dd class="field-odd"><p>instance of datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5176,7 +5239,7 @@ the original quantum state.</p>
 <dd><p>end time to ececute the quantum circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>instance of datetime.datetime</p>
+<dd class="field-odd"><p>instance of datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5193,6 +5256,39 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt id="qlazy.Result.Result.qstate">
+<code class="sig-name descname"><span class="pre">qstate</span></code><a class="headerlink" href="#qlazy.Result.Result.qstate" title="Permalink to this definition">¶</a></dt>
+<dd><p>quantum state after executing circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>instance of QState</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.Result.Result.stabilizer">
+<code class="sig-name descname"><span class="pre">stabilizer</span></code><a class="headerlink" href="#qlazy.Result.Result.stabilizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>stabilizer state after executing circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>instance of Stabilizer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.Result.Result.cmem">
+<code class="sig-name descname"><span class="pre">cmem</span></code><a class="headerlink" href="#qlazy.Result.Result.cmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>classical memory after executing circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>instance of CMem</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt id="qlazy.Result.Result.info">
 <code class="sig-name descname"><span class="pre">info</span></code><a class="headerlink" href="#qlazy.Result.Result.info" title="Permalink to this definition">¶</a></dt>
 <dd><p>result informations relating to the backend device</p>
@@ -5203,48 +5299,45 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id22">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">backend</span></code><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of backend</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">backend</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.Backend.Backend" title="qlazy.Backend.Backend"><span class="pre">qlazy.Backend.Backend</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id23">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cid</span></code><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of cid</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">cid</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id24">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of cmem_num</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">cmem</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.CMem.CMem" title="qlazy.CMem.CMem"><span class="pre">qlazy.CMem.CMem</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id25">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">elapsed_time</span></code><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of elapsed_time</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id26">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">end_time</span></code><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of end_time</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">elapsed_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
-<dt id="qlazy.Result.Result.frequency">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">frequency</span></code><a class="headerlink" href="#qlazy.Result.Result.frequency" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of frequency</p>
-</dd></dl>
-
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id27">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">info</span></code><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of info
-(for device dependent informattion)</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">end_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">datetime.datetime</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.Result.Result.frequency">
+<code class="sig-name descname"><span class="pre">frequency</span></code><em class="property"><span class="pre">:</span> <span class="pre">collections.Counter</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#qlazy.Result.Result.frequency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id28">
+<code class="sig-name descname"><span class="pre">info</span></code><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Result.Result.load">
@@ -5263,11 +5356,15 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id28">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of qubit_num</p>
-</dd></dl>
+<dl class="py attribute">
+<dt id="id29">
+<code class="sig-name descname"><span class="pre">qstate</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.QState.QState" title="qlazy.QState.QState"><span class="pre">qlazy.QState.QState</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id30">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Result.Result.save">
@@ -5286,11 +5383,10 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id29">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">shots</span></code><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of shots</p>
-</dd></dl>
+<dl class="py attribute">
+<dt id="id31">
+<code class="sig-name descname"><span class="pre">shots</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Result.Result.show">
@@ -5312,11 +5408,15 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id30">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">start_time</span></code><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of start_time</p>
-</dd></dl>
+<dl class="py attribute">
+<dt id="id32">
+<code class="sig-name descname"><span class="pre">stabilizer</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.Stabilizer.Stabilizer" title="qlazy.Stabilizer.Stabilizer"><span class="pre">qlazy.Stabilizer.Stabilizer</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id33">
+<code class="sig-name descname"><span class="pre">start_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">datetime.datetime</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -5516,8 +5616,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id31">
-<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
+<dt id="id34">
+<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id34" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -5749,8 +5849,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id32">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
+<dt id="id35">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id35" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -6147,9 +6247,37 @@ the original quantum state.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-qlazy.gpu">
+<span id="qlazy-gpu-module"></span><h2>qlazy.gpu module<a class="headerlink" href="#module-qlazy.gpu" title="Permalink to this headline">¶</a></h2>
+<p>gpu related functions</p>
+<dl class="py function">
+<dt id="qlazy.gpu.gpu_preparation">
+<code class="sig-prename descclassname"><span class="pre">qlazy.gpu.</span></code><code class="sig-name descname"><span class="pre">gpu_preparation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/gpu.html#gpu_preparation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.gpu.gpu_preparation" title="Permalink to this definition">¶</a></dt>
+<dd><p>memory allocation and free (dummy)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.gpu.is_gpu_available">
+<code class="sig-prename descclassname"><span class="pre">qlazy.gpu.</span></code><code class="sig-name descname"><span class="pre">is_gpu_available</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/gpu.html#is_gpu_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.gpu.is_gpu_available" title="Permalink to this definition">¶</a></dt>
+<dd><p>cuda is available or not</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.gpu.is_gpu_supported_lib">
+<code class="sig-prename descclassname"><span class="pre">qlazy.gpu.</span></code><code class="sig-name descname"><span class="pre">is_gpu_supported_lib</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/gpu.html#is_gpu_supported_lib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.gpu.is_gpu_supported_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>this qlazy library supports cuda executoin or not</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-qlazy.util">
 <span id="qlazy-util-module"></span><h2>qlazy.util module<a class="headerlink" href="#module-qlazy.util" title="Permalink to this headline">¶</a></h2>
 <p>various kind of utilities</p>
+<dl class="py function">
+<dt id="qlazy.util.check_gpu">
+<code class="sig-prename descclassname"><span class="pre">qlazy.util.</span></code><code class="sig-name descname"><span class="pre">check_gpu</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/util.html#check_gpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.util.check_gpu" title="Permalink to this definition">¶</a></dt>
+<dd><p>NVIDIA GPU is available or not</p>
+</dd></dl>
+
 <dl class="py function">
 <dt id="qlazy.util.densop_check_args">
 <code class="sig-prename descclassname"><span class="pre">qlazy.util.</span></code><code class="sig-name descname"><span class="pre">densop_check_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">de</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/util.html#densop_check_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.util.densop_check_args" title="Permalink to this definition">¶</a></dt>
@@ -6205,6 +6333,12 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="qlazy.util.read_config_ini">
+<code class="sig-prename descclassname"><span class="pre">qlazy.util.</span></code><code class="sig-name descname"><span class="pre">read_config_ini</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_ini_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/util.html#read_config_ini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.util.read_config_ini" title="Permalink to this definition">¶</a></dt>
+<dd><p>read config.ini file</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="qlazy.util.reverse_bit_order">
 <code class="sig-prename descclassname"><span class="pre">qlazy.util.</span></code><code class="sig-name descname"><span class="pre">reverse_bit_order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/util.html#reverse_bit_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.util.reverse_bit_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>reverse bit order of the state vector</p>
@@ -6241,24 +6375,36 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="qlazy.Backend.config_braket">
+<code class="sig-name descname"><span class="pre">config_braket</span></code><a class="headerlink" href="#qlazy.Backend.config_braket" title="Permalink to this definition">¶</a></dt>
+<dd><p>config for amazon braket backend
+{‘backet_name’: str, ‘poll_timeout_seconds’: int}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Notes</p>
 <p>If you use amazon braket backend (braket_local, braket_aws,
 braket_ionq, braket_rigetti, braket_oqc), you must have
-config.ini file in your ‘~/.qlazy’ directory,
+config.ini file in your ‘~/.qlazy/’ directory,
 and discribe like following example …</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;least_busy&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">)</span> <span class="c1"># read ~/.qlazy/config.ini</span>
 <span class="gp">...</span>
 <span class="go">$ cat ~/.qlazy/config.ini</span>
 <span class="go">[backend_braket]</span>
-<span class="go">backet_name = amazon-braket-your-S3-baket-name</span>
+<span class="go">backet_name = amazon-braket-xxxx # set your s3 backet name</span>
 <span class="gp">...</span>
 <span class="go">$ cat ~/.qlazy/config.ini</span>
 <span class="go">[backend_braket]</span>
-<span class="go">backet_name = amazon-braket-your-S3-baket-name</span>
+<span class="go">backet_name = amazon-braket-xxxx # set your s3 backet name</span>
 <span class="go">poll_timeout_seconds = 86400  # set 1-day (default: 5-days)</span>
 </pre></div>
 </div>
@@ -6281,8 +6427,20 @@ and discribe like following example …</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.Backend.qlazy_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qlazy_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qlazy_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.qlazy_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>get qlazy’s devices list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.Backend.qulacs_devices">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">qulacs_devices</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.qulacs_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.qulacs_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>get qulacs’s devices list</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.Backend.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/Backend.html#Backend.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.Backend.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>run the quantum circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -6290,6 +6448,8 @@ and discribe like following example …</p>
 <li><p><strong>qcirc</strong> (<em>instance of QCirc</em><em>, </em><em>default None</em>) – quantum circuit.</p></li>
 <li><p><strong>shots</strong> (<em>int</em><em>, </em><em>default 1</em>) – number of measurements.</p></li>
 <li><p><strong>cid</strong> (<em>list</em><em>, </em><em>default</em><em> [</em><em>]</em>) – classical register id list to count frequency.</p></li>
+<li><p><strong>out_state</strong> (<em>bool</em><em>, </em><em>default False</em>) – output classical and quantum information after execting circuit.
+(only for qlazy’s qstate and stabilizer simulator)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -6351,8 +6511,8 @@ and discribe like following example …</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id33">
-<code class="sig-name descname"><span class="pre">bit_array</span></code><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<dt id="id36">
+<code class="sig-name descname"><span class="pre">bit_array</span></code><a class="headerlink" href="#id36" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -6380,8 +6540,8 @@ and discribe like following example …</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id34">
-<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id34" title="Permalink to this definition">¶</a></dt>
+<dt id="id37">
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id37" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -6398,6 +6558,23 @@ and discribe like following example …</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray (int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qlazy.CMem.set_bits">
+<code class="sig-name descname"><span class="pre">set_bits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/CMem.html#CMem.set_bits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.CMem.set_bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bit list to the classical memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bits</strong> (<em>list</em>) – bits array of the classical memory</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6668,8 +6845,8 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id35">
-<code class="sig-name descname"><span class="pre">col</span></code><a class="headerlink" href="#id35" title="Permalink to this definition">¶</a></dt>
+<dt id="id38">
+<code class="sig-name descname"><span class="pre">col</span></code><a class="headerlink" href="#id38" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -7075,8 +7252,8 @@ of the matrix must be equal to the 2 power of ‘qid’ length.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="id36">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">element</span></code><a class="headerlink" href="#id36" title="Permalink to this definition">¶</a></dt>
+<dt id="id39">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">element</span></code><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
 <dd><p>matrix elements of density operator.</p>
 </dd></dl>
 
@@ -7518,7 +7695,7 @@ original density operator.</p>
 <dl class="py method">
 <dt id="qlazy.DensOp.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/DensOp.html#DensOp.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.DensOp.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id61"><span class="problematic" id="id62">|0&gt;&lt;0|</span></a> state.</p>
+<dd><p>reset to <a href="#id67"><span class="problematic" id="id68">|0&gt;&lt;0|</span></a> state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em>) – qubit id’s list to reset.</p>
@@ -7535,8 +7712,8 @@ original density operator.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id37">
-<code class="sig-name descname"><span class="pre">row</span></code><a class="headerlink" href="#id37" title="Permalink to this definition">¶</a></dt>
+<dt id="id40">
+<code class="sig-name descname"><span class="pre">row</span></code><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8242,8 +8419,8 @@ gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘c
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id38">
-<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id38" title="Permalink to this definition">¶</a></dt>
+<dt id="id41">
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8582,8 +8759,8 @@ gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘c
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id39">
-<code class="sig-name descname"><span class="pre">first</span></code><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
+<dt id="id42">
+<code class="sig-name descname"><span class="pre">first</span></code><a class="headerlink" href="#id42" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8651,8 +8828,8 @@ gates are not supported. Supported gates are
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id40">
-<code class="sig-name descname"><span class="pre">gate_num</span></code><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
+<dt id="id43">
+<code class="sig-name descname"><span class="pre">gate_num</span></code><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8832,8 +9009,8 @@ gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘c
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id41">
-<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
+<dt id="id44">
+<code class="sig-name descname"><span class="pre">last</span></code><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -8978,8 +9155,8 @@ gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘c
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id42">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id42" title="Permalink to this definition">¶</a></dt>
+<dt id="id45">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id45" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -9445,7 +9622,7 @@ includes non-unitary gate (measure or reset) first</p>
 
 <dl class="py class">
 <dt id="qlazy.QState">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.</span></code><code class="sig-name descname"><span class="pre">QState</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">qlazy.</span></code><code class="sig-name descname"><span class="pre">QState</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ctypes.Structure</span></code></p>
 <p>Quantum State</p>
 <dl class="py attribute">
@@ -9531,8 +9708,8 @@ includes non-unitary gate (measure or reset) first</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="id43">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">amp</span></code><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
+<dt id="id46">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">amp</span></code><a class="headerlink" href="#id46" title="Permalink to this definition">¶</a></dt>
 <dd><p>elements of quantum state vector.</p>
 </dd></dl>
 
@@ -10438,15 +10615,27 @@ you get the copy of original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id44">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
+<dt id="qlazy.QState.prob_array">
+<code class="sig-name descname"><span class="pre">prob_array</span></code><a class="headerlink" href="#qlazy.QState.prob_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.QState.prob_updated">
+<code class="sig-name descname"><span class="pre">prob_updated</span></code><a class="headerlink" href="#qlazy.QState.prob_updated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="id47">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id47" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.QState.reset">
 <code class="sig-name descname"><span class="pre">reset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>reset to <a href="#id45"><span class="problematic" id="id46">|</span></a>00..0&gt; state.</p>
+<dd><p>reset to <a href="#id48"><span class="problematic" id="id49">|</span></a>00..0&gt; state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qid</strong> (<em>list</em><em>, </em><em>default - qubit id's list for all of the qubits</em>) – qubit id’s list to reset.</p>
@@ -10710,8 +10899,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id47">
-<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#id47" title="Permalink to this definition">¶</a></dt>
+<dt id="id50">
+<code class="sig-name descname"><span class="pre">state_num</span></code><a class="headerlink" href="#id50" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -10784,6 +10973,12 @@ the original quantum state.</p>
 <dd class="field-odd"><p>instance of QState</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.QState.use_gpu">
+<code class="sig-name descname"><span class="pre">use_gpu</span></code><a class="headerlink" href="#qlazy.QState.use_gpu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
 </dd></dl>
 
 <dl class="py method">
@@ -10951,7 +11146,7 @@ the original quantum state.</p>
 <dd><p>start time to ececute the quantum circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>instance of datetime.datetime</p>
+<dd class="field-odd"><p>instance of datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -10962,7 +11157,7 @@ the original quantum state.</p>
 <dd><p>end time to ececute the quantum circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>instance of datetime.datetime</p>
+<dd class="field-odd"><p>instance of datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -10979,6 +11174,39 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt id="qlazy.Result.qstate">
+<code class="sig-name descname"><span class="pre">qstate</span></code><a class="headerlink" href="#qlazy.Result.qstate" title="Permalink to this definition">¶</a></dt>
+<dd><p>quantum state after executing circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>instance of QState</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.Result.stabilizer">
+<code class="sig-name descname"><span class="pre">stabilizer</span></code><a class="headerlink" href="#qlazy.Result.stabilizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>stabilizer state after executing circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>instance of Stabilizer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.Result.cmem">
+<code class="sig-name descname"><span class="pre">cmem</span></code><a class="headerlink" href="#qlazy.Result.cmem" title="Permalink to this definition">¶</a></dt>
+<dd><p>classical memory after executing circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>instance of CMem</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt id="qlazy.Result.info">
 <code class="sig-name descname"><span class="pre">info</span></code><a class="headerlink" href="#qlazy.Result.info" title="Permalink to this definition">¶</a></dt>
 <dd><p>result informations relating to the backend device</p>
@@ -10989,48 +11217,45 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id48">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">backend</span></code><a class="headerlink" href="#id48" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of backend</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="id49">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cid</span></code><a class="headerlink" href="#id49" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of cid</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="id50">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cmem_num</span></code><a class="headerlink" href="#id50" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of cmem_num</p>
-</dd></dl>
-
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id51">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">elapsed_time</span></code><a class="headerlink" href="#id51" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of elapsed_time</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">backend</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.Backend.Backend" title="qlazy.Backend.Backend"><span class="pre">qlazy.Backend.Backend</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id51" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id52">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">end_time</span></code><a class="headerlink" href="#id52" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of end_time</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">cid</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id52" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py method">
-<dt id="qlazy.Result.frequency">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">frequency</span></code><a class="headerlink" href="#qlazy.Result.frequency" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of frequency</p>
-</dd></dl>
-
-<dl class="py method">
+<dl class="py attribute">
 <dt id="id53">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">info</span></code><a class="headerlink" href="#id53" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of info
-(for device dependent informattion)</p>
-</dd></dl>
+<code class="sig-name descname"><span class="pre">cmem</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.CMem.CMem" title="qlazy.CMem.CMem"><span class="pre">qlazy.CMem.CMem</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id53" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id54">
+<code class="sig-name descname"><span class="pre">cmem_num</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id55">
+<code class="sig-name descname"><span class="pre">elapsed_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id55" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id56">
+<code class="sig-name descname"><span class="pre">end_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">datetime.datetime</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id56" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="qlazy.Result.frequency">
+<code class="sig-name descname"><span class="pre">frequency</span></code><em class="property"><span class="pre">:</span> <span class="pre">collections.Counter</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#qlazy.Result.frequency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id57">
+<code class="sig-name descname"><span class="pre">info</span></code><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id57" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Result.load">
@@ -11049,11 +11274,15 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id54">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of qubit_num</p>
-</dd></dl>
+<dl class="py attribute">
+<dt id="id58">
+<code class="sig-name descname"><span class="pre">qstate</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.QState.QState" title="qlazy.QState.QState"><span class="pre">qlazy.QState.QState</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id58" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id59">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id59" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Result.save">
@@ -11072,11 +11301,10 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id55">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">shots</span></code><a class="headerlink" href="#id55" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of shots</p>
-</dd></dl>
+<dl class="py attribute">
+<dt id="id60">
+<code class="sig-name descname"><span class="pre">shots</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id60" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt id="qlazy.Result.show">
@@ -11098,11 +11326,15 @@ the original quantum state.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="id56">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">start_time</span></code><a class="headerlink" href="#id56" title="Permalink to this definition">¶</a></dt>
-<dd><p>getter of start_time</p>
-</dd></dl>
+<dl class="py attribute">
+<dt id="id61">
+<code class="sig-name descname"><span class="pre">stabilizer</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="#qlazy.Stabilizer.Stabilizer" title="qlazy.Stabilizer.Stabilizer"><span class="pre">qlazy.Stabilizer.Stabilizer</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id61" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id62">
+<code class="sig-name descname"><span class="pre">start_time</span></code><em class="property"><span class="pre">:</span> <span class="pre">datetime.datetime</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id62" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -11247,8 +11479,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id57">
-<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id57" title="Permalink to this definition">¶</a></dt>
+<dt id="id63">
+<code class="sig-name descname"><span class="pre">gene_num</span></code><a class="headerlink" href="#id63" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 
@@ -11480,8 +11712,8 @@ the original quantum state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="id58">
-<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id58" title="Permalink to this definition">¶</a></dt>
+<dt id="id64">
+<code class="sig-name descname"><span class="pre">qubit_num</span></code><a class="headerlink" href="#id64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure/Union member</p>
 </dd></dl>
 

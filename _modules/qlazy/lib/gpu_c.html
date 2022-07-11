@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>qlazy.lib.observable_c &mdash; qlazy  documentation</title>
+  <title>qlazy.lib.gpu_c &mdash; qlazy  documentation</title>
   
 
   
@@ -138,7 +138,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>qlazy.lib.observable_c</li>
+      <li>qlazy.lib.gpu_c</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -153,42 +153,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for qlazy.lib.observable_c</h1><div class="highlight"><pre>
+  <h1>Source code for qlazy.lib.gpu_c</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot; wrapper functions for Observable &quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot; wrapper functions related to gpu &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">ctypes</span>
-<span class="kn">from</span> <span class="nn">ctypes.util</span> <span class="kn">import</span> <span class="n">find_library</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 
 <span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">get_lib_ext</span>
-<span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="n">Observable</span>
 
 <span class="n">lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
-<span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
 
-<div class="viewcode-block" id="observable_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.observable_c.observable_init">[docs]</a><span class="k">def</span> <span class="nf">observable_init</span><span class="p">(</span><span class="n">ostr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; initialize Observable object &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="wrap_is_gpu_available"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.gpu_c.wrap_is_gpu_available">[docs]</a><span class="k">def</span> <span class="nf">wrap_is_gpu_available</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; cuda is available or not &quot;&quot;&quot;</span>
 
-    <span class="n">c_str</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">create_string_buffer</span><span class="p">(</span><span class="n">ostr</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">is_gpu_available</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">is_gpu_available</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ret</span></div>
 
-    <span class="n">observ</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">c_observ</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">observ</span><span class="p">)</span>
+<div class="viewcode-block" id="wrap_is_gpu_supported_lib"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.gpu_c.wrap_is_gpu_supported_lib">[docs]</a><span class="k">def</span> <span class="nf">wrap_is_gpu_supported_lib</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; this qlazy library supports cuda executoin or not &quot;&quot;&quot;</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">observable_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
-    <span class="n">lib</span><span class="o">.</span><span class="n">observable_init</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span><span class="p">),</span>
-                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">observable_init</span><span class="p">(</span><span class="n">c_str</span><span class="p">,</span> <span class="n">c_observ</span><span class="p">)</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">is_gpu_supported_lib</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">is_gpu_supported_lib</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ret</span></div>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize Observable object.&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="wrap_gpu_preparation"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.gpu_c.wrap_gpu_preparation">[docs]</a><span class="k">def</span> <span class="nf">wrap_gpu_preparation</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; memory allocation and free (dummy) &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">c_observ</span></div>
-
-<div class="viewcode-block" id="observable_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.observable_c.observable_free">[docs]</a><span class="k">def</span> <span class="nf">observable_free</span><span class="p">(</span><span class="n">ob</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; free memory of Observable object &quot;&quot;&quot;</span>
-
-    <span class="n">lib</span><span class="o">.</span><span class="n">observable_free</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">Observable</span><span class="p">)]</span>
-    <span class="n">lib</span><span class="o">.</span><span class="n">observable_free</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">ob</span><span class="p">))</span></div>
+    <span class="n">lib</span><span class="o">.</span><span class="n">gpu_preparation</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">gpu_preparation</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ret</span></div>
 </pre></div>
 
            </div>

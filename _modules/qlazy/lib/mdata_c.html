@@ -179,13 +179,13 @@
     <span class="n">mdata</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_mdata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">mdata</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
                                <span class="n">IntArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">mdata_init</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">shots</span><span class="p">),</span>
                          <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">,</span> <span class="n">c_mdata</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize MData object.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">c_mdata</span></div>
@@ -194,11 +194,11 @@
 <div class="viewcode-block" id="mdata_print"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.mdata_print">[docs]</a><span class="k">def</span> <span class="nf">mdata_print</span><span class="p">(</span><span class="n">md</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; print MData object &quot;&quot;&quot;</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">mdata_print</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">md</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t print MData object.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="mdata_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.mdata_c.mdata_free">[docs]</a><span class="k">def</span> <span class="nf">mdata_free</span><span class="p">(</span><span class="n">md</span><span class="p">):</span>

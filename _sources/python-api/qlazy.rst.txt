@@ -118,6 +118,14 @@ qlazy.error module
    :undoc-members:
    :show-inheritance:
 
+qlazy.gpu module
+----------------
+
+.. automodule:: qlazy.gpu
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.util module
 -----------------
 

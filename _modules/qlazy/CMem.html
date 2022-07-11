@@ -234,12 +234,29 @@
         <span class="n">bits</span> <span class="o">=</span> <span class="n">cmem_get_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">bits</span></div>
 
+<div class="viewcode-block" id="CMem.set_bits"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.CMem.CMem.set_bits">[docs]</a>    <span class="k">def</span> <span class="nf">set_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bits</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        set bit list to the classical memory.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bits : list</span>
+<span class="sd">            bits array of the classical memory</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cmem_set_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">cmem_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <span class="c1"># c-library for qstate</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.cmem_c</span> <span class="kn">import</span> <span class="n">cmem_init</span><span class="p">,</span> <span class="n">cmem_copy</span><span class="p">,</span> <span class="n">cmem_get_bits</span><span class="p">,</span> <span class="n">cmem_free</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.cmem_c</span> <span class="kn">import</span> <span class="p">(</span><span class="n">cmem_init</span><span class="p">,</span> <span class="n">cmem_copy</span><span class="p">,</span> <span class="n">cmem_get_bits</span><span class="p">,</span> <span class="n">cmem_set_bits</span><span class="p">,</span>
+                              <span class="n">cmem_free</span><span class="p">)</span>
 </pre></div>
 
            </div>

@@ -173,7 +173,7 @@
 <span class="n">lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
 <span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
 
-<div class="viewcode-block" id="qstate_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_init">[docs]</a><span class="k">def</span> <span class="nf">qstate_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="qstate_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_init">[docs]</a><span class="k">def</span> <span class="nf">qstate_init</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; initialize QState object &quot;&quot;&quot;</span>
 
     <span class="n">libc</span><span class="o">.</span><span class="n">srand</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
@@ -181,16 +181,16 @@
     <span class="n">qstate</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_qstate</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">c_qstate</span><span class="p">)</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">c_qstate</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">use_gpu</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize QState object.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">c_qstate</span></div>
 
-<div class="viewcode-block" id="qstate_init_with_vector"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_init_with_vector">[docs]</a><span class="k">def</span> <span class="nf">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="qstate_init_with_vector"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_init_with_vector">[docs]</a><span class="k">def</span> <span class="nf">qstate_init_with_vector</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; initialize QState object with vector &quot;&quot;&quot;</span>
 
     <span class="n">libc</span><span class="o">.</span><span class="n">srand</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
@@ -209,13 +209,13 @@
     <span class="n">c_vec_real</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">vec_real</span><span class="p">)</span>
     <span class="n">c_vec_imag</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">vec_imag</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init_with_vector</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init_with_vector</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init_with_vector</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">DoubleArray</span><span class="p">,</span> <span class="n">DoubleArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
-                                            <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
+                                            <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_init_with_vector</span><span class="p">(</span><span class="n">c_vec_real</span><span class="p">,</span> <span class="n">c_vec_imag</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span>
-                                      <span class="n">c_qstate</span><span class="p">)</span>
+                                      <span class="n">c_qstate</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">use_gpu</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize QState object.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">c_qstate</span></div>
@@ -238,11 +238,11 @@
         <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_reset</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_reset</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_reset</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_reset</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t reset quantum state vector.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -266,12 +266,12 @@
         <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
         <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_print</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_print</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_print</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_print</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span>
                                <span class="n">qid_array</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">nonzero</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t print quantum state vector.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -285,12 +285,12 @@
         <span class="n">qstate</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">c_qstate</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_copy</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_copy</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_copy</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                     <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_copy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">c_qstate</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t copy quantum state vector.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">c_qstate</span>
@@ -311,14 +311,14 @@
         <span class="n">c_theta</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
         <span class="n">c_phi</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_bloch</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_bloch</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_bloch</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_bloch</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">q</span><span class="p">),</span>
                                <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_theta</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_phi</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get bloch angle.&quot;</span><span class="p">)</span>
 
         <span class="n">theta</span> <span class="o">=</span> <span class="n">c_theta</span><span class="o">.</span><span class="n">value</span>
@@ -339,7 +339,7 @@
         <span class="n">c_real</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
         <span class="n">c_imag</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">imag</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_inner_product</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_inner_product</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_inner_product</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                              <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                              <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
@@ -347,7 +347,7 @@
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_inner_product</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs_0</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs_1</span><span class="p">),</span>
                                        <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_real</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_imag</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get inner product of 2 quantum state vectors.&quot;</span><span class="p">)</span>
 
         <span class="n">real</span> <span class="o">=</span> <span class="n">c_real</span><span class="o">.</span><span class="n">value</span>
@@ -384,13 +384,13 @@
 
         <span class="n">camp</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">c_camp</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">camp</span><span class="p">)</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_get_camp</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_get_camp</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_get_camp</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
                                         <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_get_camp</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span>
                                   <span class="n">qid_array</span><span class="p">,</span> <span class="n">c_camp</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get element of the quantum state vector.&quot;</span><span class="p">)</span>
 
         <span class="n">o</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_camp</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">))</span>
@@ -410,20 +410,20 @@
 
 
 <div class="viewcode-block" id="qstate_tensor_product"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_tensor_product">[docs]</a><span class="k">def</span> <span class="nf">qstate_tensor_product</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">qstate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; get tensor procuct of 2 quantum state vectors &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; get tensor product of 2 quantum state vectors &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">qstate_out</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">c_qstate_out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">qstate_out</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_tensor_product</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_tensor_product</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_tensor_product</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_tensor_product</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qstate</span><span class="p">),</span>
                                         <span class="n">c_qstate_out</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get tensor product of the 2 quantum state vectors.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">c_qstate_out</span>
@@ -442,13 +442,13 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;observable must be set.&quot;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_evolve</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_evolve</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_evolve</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">Observable</span><span class="p">),</span>
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_evolve</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">observable</span><span class="p">),</span>
                                 <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">time</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">iteration</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get the quantum state vectors after time evolution.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -465,7 +465,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">c_val</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_expect_value</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_expect_value</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_expect_value</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                             <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">Observable</span><span class="p">),</span>
                                             <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)]</span>
@@ -473,7 +473,7 @@
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">observable</span><span class="p">),</span>
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_val</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get expect value of the observable&quot;</span>
                              <span class="s2">&quot; under the quantum state vector.&quot;</span><span class="p">)</span>
 
@@ -524,7 +524,7 @@
         <span class="n">c_mat_real</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_real</span><span class="p">)</span>
         <span class="n">c_mat_imag</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">mat_imag</span><span class="p">)</span>
 
-        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_apply_matrix</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">qstate_apply_matrix</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">qstate_apply_matrix</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
                                             <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
                                             <span class="n">DoubleArray</span><span class="p">,</span> <span class="n">DoubleArray</span><span class="p">,</span>
@@ -534,7 +534,7 @@
                                       <span class="n">c_mat_real</span><span class="p">,</span> <span class="n">c_mat_imag</span><span class="p">,</span>
                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t apply the matrix to the quantum state vector.&quot;</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -554,7 +554,7 @@
     <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qgate</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qgate</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qgate</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
                                          <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
                                          <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">]</span>
@@ -562,42 +562,48 @@
                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase1</span><span class="p">),</span>
                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase2</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t operate quantum gate to the quantum state vector.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="qstate_measure"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure">[docs]</a><span class="k">def</span> <span class="nf">qstate_measure</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<div class="viewcode-block" id="qstate_measure"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure">[docs]</a><span class="k">def</span> <span class="nf">qstate_measure</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; measurement of the qubits &quot;&quot;&quot;</span>
 
+    <span class="c1"># qnum, mnum</span>
+    <span class="n">qnum</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">qubit_num</span>
     <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
-        <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">))</span>
+        <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">))</span>
+    <span class="n">mnum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
 
-    <span class="c1"># operate</span>
-    <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
+    <span class="c1"># qid_array</span>
+    <span class="n">qubit_id</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
         <span class="n">qubit_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
-    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qubit_num</span>
+    <span class="n">IntArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span> <span class="o">*</span> <span class="n">qnum</span>
     <span class="n">qid_array</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qubit_id</span><span class="p">)</span>
 
-    <span class="n">mval</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">c_mval</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
+    <span class="c1"># mstr_all_array, mstr_qid_array</span>
+    <span class="n">mstr</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="n">qnum</span>
+    <span class="n">mstr_array</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">create_string_buffer</span><span class="p">(</span><span class="n">mstr</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
-                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
-                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span>
-                             <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">),</span>
-                             <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_mval</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+
+    <span class="n">mchar_bytes</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">([</span><span class="mh">0x00</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qnum</span><span class="p">)])</span>
+    <span class="n">CharArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span> <span class="o">*</span> <span class="n">qnum</span>
+    <span class="n">mchar_array</span> <span class="o">=</span> <span class="n">CharArray</span><span class="p">(</span><span class="o">*</span><span class="n">mchar_bytes</span><span class="p">)</span>
+    
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+                                   <span class="n">IntArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">mnum</span><span class="p">),</span>
+                             <span class="n">qid_array</span><span class="p">,</span> <span class="n">mchar_array</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t measure the qubits.&quot;</span><span class="p">)</span>
 
-    <span class="n">mval</span> <span class="o">=</span> <span class="n">c_mval</span><span class="o">.</span><span class="n">value</span>
-    <span class="n">digits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
-    <span class="n">mval</span> <span class="o">=</span> <span class="s1">&#39;{:0</span><span class="si">{digits}</span><span class="s1">b}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mval</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">)</span>
+    <span class="n">measured_str</span> <span class="o">=</span> <span class="n">mstr_array</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">measured_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">mchar_array</span><span class="p">]))</span>
 
-    <span class="k">return</span> <span class="n">mval</span></div>
+    <span class="k">return</span> <span class="n">measured_str</span></div>
 
 <div class="viewcode-block" id="qstate_measure_stats"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_measure_stats">[docs]</a><span class="k">def</span> <span class="nf">qstate_measure_stats</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DEF_SHOTS</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; measurement of the qubits and get stats &quot;&quot;&quot;</span>
@@ -619,7 +625,7 @@
     <span class="n">mdata</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_mdata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">mdata</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_stats</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_stats</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_stats</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
                                          <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
                                          <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
@@ -628,7 +634,7 @@
                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">),</span>
                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">,</span> <span class="n">c_mdata</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t measure the qubits.&quot;</span><span class="p">)</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_mdata</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">))</span>
@@ -655,63 +661,57 @@
     <span class="n">mdata</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_mdata</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">mdata</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_bell_stats</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_bell_stats</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_bell_stats</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
-
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_measure_bell_stats</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">shots</span><span class="p">),</span>
                                         <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">),</span> <span class="n">qid_array</span><span class="p">,</span> <span class="n">c_mdata</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t measure the qubits.&quot;</span><span class="p">)</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_mdata</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">MData</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">contents</span></div>
 
-<div class="viewcode-block" id="qstate_operate_qcirc"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_operate_qcirc">[docs]</a><span class="k">def</span> <span class="nf">qstate_operate_qcirc</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">cmem</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="p">):</span>
+<div class="viewcode-block" id="qstate_operate_qcirc"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_operate_qcirc">[docs]</a><span class="k">def</span> <span class="nf">qstate_operate_qcirc</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">cmem</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="p">,</span> <span class="n">out_state</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; operate quantum circuit &quot;&quot;&quot;</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="k">if</span> <span class="n">cmem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem</span><span class="o">.</span><span class="n">cmem_num</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cmem_num</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">buf_size</span> <span class="o">=</span> <span class="n">cmem_num</span> <span class="o">*</span> <span class="n">shots</span>
+    <span class="n">mchar_array</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">([</span><span class="mh">0x00</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">buf_size</span><span class="p">)])</span>
+    <span class="n">CharArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span> <span class="o">*</span> <span class="n">buf_size</span>
+    <span class="n">mchar_shots</span> <span class="o">=</span> <span class="n">CharArray</span><span class="p">(</span><span class="o">*</span><span class="n">mchar_array</span><span class="p">)</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QState</span><span class="p">),</span>
-                                         <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">)]</span>
+                                         <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span>
+                                         <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">CharArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">cmem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-
-        <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem</span><span class="o">.</span><span class="n">cmem_num</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qstate</span><span class="p">),</span>
+                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span>
+                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">shots</span><span class="p">),</span> <span class="n">mchar_shots</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">out_state</span><span class="p">))</span>
         <span class="n">frequency</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">shots</span><span class="p">):</span>
-
-            <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">shots</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">qstate_tmp</span> <span class="o">=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-                <span class="n">cmem_tmp</span> <span class="o">=</span> <span class="n">cmem</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-                <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qstate_tmp</span><span class="p">),</span>
-                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem_tmp</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
-                <span class="n">bit_array</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">cmem_tmp</span><span class="o">.</span><span class="n">bit_array</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span><span class="o">*</span><span class="n">cmem_num</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qstate</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem</span><span class="p">),</span>
-                                               <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
-                <span class="n">bit_array</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">cmem</span><span class="o">.</span><span class="n">bit_array</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span><span class="o">*</span><span class="n">cmem_num</span><span class="p">))</span>
-
-            <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t operate the quantum circuit.&quot;</span><span class="p">)</span>
-
-            <span class="n">cmem_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_array</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mchar_shots</span><span class="p">),</span> <span class="n">cmem_num</span><span class="p">):</span>
+            <span class="n">cmem_list</span> <span class="o">=</span> <span class="n">mchar_shots</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">cmem_num</span><span class="p">]</span>
             <span class="n">cmem_list_part</span> <span class="o">=</span> <span class="p">[</span><span class="n">cmem_list</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cid</span><span class="p">]</span>
-            <span class="n">mval</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">cmem_list_part</span><span class="p">))</span>
+            <span class="n">mchar</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">cmem_list_part</span><span class="p">))</span>
+            <span class="n">frequency</span><span class="p">[</span><span class="n">mchar</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-            <span class="n">frequency</span><span class="p">[</span><span class="n">mval</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># unitary only</span>
+        <span class="n">c_cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">)()</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qstate</span><span class="p">),</span> <span class="n">c_cmem</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span>
+                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">shots</span><span class="p">),</span> <span class="n">mchar_shots</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">out_state</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">frequency</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">c_cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">)()</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qstate_operate_qcirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qstate</span><span class="p">),</span> <span class="n">c_cmem</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t operate the quantum circuit.&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">frequency</span></div>
 
 <div class="viewcode-block" id="qstate_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qstate_c.qstate_free">[docs]</a><span class="k">def</span> <span class="nf">qstate_free</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; free memory of the QState object &quot;&quot;&quot;</span>

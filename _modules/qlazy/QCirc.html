@@ -380,7 +380,6 @@
         <span class="c1"># line #2 (#3)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">string_to_args</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="n">line_count</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;qreg&#39;</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span>
-            <span class="c1"># qubit_num = int(re.sub(r&quot;q\[|\];&quot;, &quot;&quot;, args[1]))</span>
             <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;line #2 must be &#39;qreg q[&lt;int&gt;];&quot;&#39; &quot;&quot;&quot;</span><span class="p">)</span>
@@ -526,7 +525,6 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-        <span class="c1"># qcirc = __class__.from_qasm(s)</span>
         <span class="n">qcirc</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">qcirc</span></div>
 
@@ -950,12 +948,10 @@
 <span class="sd">        * Phase parameters of rotation gates are selected randomly in the element of &#39;phase&#39;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># if type(qubit_num) != int or type(gate_num) != int or qubit_num &lt; 1 or gate_num &lt; 1:</span>
         <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">or</span>
              <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate_num</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">or</span> <span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">gate_num</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit_num and/or gate_num must be positive integer.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># if type(phase) != float and type(phase) != int and type(phase) != tuple:</span>
             <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">and</span>
                  <span class="nb">isinstance</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">and</span>
                  <span class="nb">isinstance</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">)):</span>
@@ -983,7 +979,6 @@
         <span class="n">qcirc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
 
         <span class="n">TRY_MAX</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># for random generation</span>
-        <span class="c1"># for n in range(gate_num):</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gate_num</span><span class="p">):</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
             <span class="n">kind</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1001,7 +996,6 @@
                 <span class="n">q0</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="c1"># elif type(phase) == float or type(phase) == int:</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                     <span class="n">p</span> <span class="o">=</span> <span class="n">phase</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1030,7 +1024,6 @@
                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">])))</span>
                 <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="c1"># elif type(phase) == float or type(phase) == int:</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                     <span class="n">p</span> <span class="o">=</span> <span class="n">phase</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1060,7 +1053,6 @@
 <span class="sd">        Non-unitary gates: measure, reset are not supported.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># import pyzx as zx</span>
         <span class="kn">from</span> <span class="nn">pyzx</span> <span class="kn">import</span> <span class="n">Circuit</span>
 
         <span class="n">zxqc</span> <span class="o">=</span> <span class="n">Circuit</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">())</span>
@@ -2197,9 +2189,9 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">append_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span></div>
 
 <span class="c1"># c-library for qstate</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.qcirc_c</span> <span class="kn">import</span> <span class="p">(</span><span class="n">qcirc_init</span><span class="p">,</span> <span class="n">qcirc_copy</span><span class="p">,</span> <span class="n">qcirc_merge</span><span class="p">,</span>
-                               <span class="n">qcirc_is_equal</span><span class="p">,</span> <span class="n">qcirc_append_gate</span><span class="p">,</span>
-                               <span class="n">qcirc_kind_first</span><span class="p">,</span> <span class="n">qcirc_pop_gate</span><span class="p">,</span> <span class="n">qcirc_free</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.qcirc_c</span> <span class="kn">import</span> <span class="p">(</span><span class="n">qcirc_init</span><span class="p">,</span> <span class="n">qcirc_copy</span><span class="p">,</span> <span class="n">qcirc_merge</span><span class="p">,</span> <span class="n">qcirc_is_equal</span><span class="p">,</span>
+                               <span class="n">qcirc_append_gate</span><span class="p">,</span> <span class="n">qcirc_kind_first</span><span class="p">,</span> <span class="n">qcirc_pop_gate</span><span class="p">,</span>
+                               <span class="n">qcirc_free</span><span class="p">)</span>
 </pre></div>
 
            </div>

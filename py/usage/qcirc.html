@@ -208,7 +208,8 @@ qstate_simulator(状態ベクトルシミュレータ)というdeviceで計算�
 <p>量子コンピュータが用意できたら、次に量子回路を作成します。QStateクラス
 やDensopクラスと同じ記法でQCircクラスのインスタンスにゲートを追加して
 いきます。例えば、Bell状態を作成する回路を作成したい場合は、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
 <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -412,16 +413,18 @@ saveメソッドを使って、</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="qlazy">
-<h3>量子状態の取得(qlazyの場合のみ)<a class="headerlink" href="#qlazy" title="Permalink to this headline">¶</a></h3>
-<p>qlazyの状態ベクトルシミュレータまたはスタビライザーシミュレータで量子
-計算を実行した場合、resultのinfoプロパティとして格納されている辞書デー
-タから以下のようにして、量子状態またはスタビライザー状態を取り出すこと
-ができます(複数回の測定があれば最後の測定後の状態が取り出せます)。</p>
+<div class="section" id="qlazyqulacs">
+<h3>量子状態の取得(qlazyおよびqulacsのみ)<a class="headerlink" href="#qlazyqulacs" title="Permalink to this headline">¶</a></h3>
+<p>qlazyの状態ベクトルシミュレータ(qstate_simulator)またはスタビライザー
+シミュレータ(stabilizer_simulator)で量子回路を実行した場合、以下のよう
+にして、最後の量子状態またはスタビライザー状態を取得することができます。
+runを実行するときにout_stateオプションをTrueにセットすると、Resultのプ
+ロパティqstateまたはstabilizerに状態がセットされます(複数回の測定があ
+れば最後の測定後の状態が取り出せます)。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">qs_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">qs_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">)</span>
-<span class="n">qs</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;qstate&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qs_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">qstate</span>
 <span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
@@ -430,11 +433,24 @@ saveメソッドを使って、</p>
 
 <span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sb_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">sb_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">)</span>
-<span class="n">sb</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;stabilizer&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sb_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="p">)</span>
+<span class="n">sb</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stabilizer</span>
 <span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="n">XX</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="n">ZZ</span>
+</pre></div>
+</div>
+<p>また、qulacsの状態ベクトルシミュレータ(cpu_simulator, gpu_simulator)で
+も同様にして、qlazyの状態ベクトルを取得することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qs_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qs_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">qstate</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
 </pre></div>
 </div>
 </div>
@@ -1029,9 +1045,53 @@ braket_oqc(Oxford Quantum Circuits)の5種類です。
 <p>また、braket_local以外のproductは有料になります。
 以下のページに料金表がありますので参考にしてください。</p>
 <p><a class="reference external" href="https://aws.amazon.com/jp/braket/pricing/">Amazon Braket Pricing</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="gpu">
+<h2>GPU版の利用<a class="headerlink" href="#gpu" title="Permalink to this headline">¶</a></h2>
+<p>GPUを利用した高速な量子回路実行が可能です(v0.3.0より)。ただし、以下の
+ようにGPU対応版をインストールする必要があります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/samn33/qlazy.git
+$ cd qlazy
+$ python setup_gpu.py install --user
+</pre></div>
+</div>
+<p>インストールにあたりNVIDIA CUDA11の環境が整っていることが前提です。GPU
+版がインストールされたかどうかは、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlazy -v
+</pre></div>
+</div>
+<p>を実行して、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">0.3</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">cuda</span>
+</pre></div>
+</div>
+<p>と表示されたら、とりあえずインストールされたのだと思って良いです。もし、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">0.3</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>と表示されたとすると、あなたがお持ちのqlazyはCPU版です。</p>
+<p>さて、無事GPU版がインストールされたとして、どうやって使うかを説明します。
+CPU版の場合は、例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span><span class="p">,</span> <span class="n">Backend</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>でした。GPU版を使う場合は、Backendのインスタンス生成の時に、
+deviceを’qstate_gpu_simulator’にするだけです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span><span class="p">,</span> <span class="n">Backend</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_gpu_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>これでOKです。GPU対応のモジュールをimportするようなことは必要ありません。</p>
+<p>いまのところGPU対応版で計算できるのは、状態ベクトルシミュレータを利用
+した量子回路計算だけです。QStateやDensOpやStabilizerクラスのGPU版はあ
+りません（そのうち作るかどうかは未定です）。</p>
 <p>以上</p>
-</div>
-</div>
 </div>
 </div>
 

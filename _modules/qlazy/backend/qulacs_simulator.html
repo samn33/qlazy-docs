@@ -157,6 +157,7 @@
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot; run function for qulacs&#39;s cpu/gpu simulator &quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">import</span> <span class="nn">cmath</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -173,8 +174,10 @@
 <span class="kn">from</span> <span class="nn">qulacs.gate</span> <span class="kn">import</span> <span class="n">to_matrix_gate</span>
 
 <span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
-<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">get_qgate_qubit_num</span><span class="p">,</span> <span class="n">get_qgate_param_num</span>
+<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">get_qgate_qubit_num</span><span class="p">,</span> <span class="n">get_qgate_param_num</span><span class="p">,</span> <span class="n">reverse_bit_order</span>
 <span class="kn">from</span> <span class="nn">qlazy.Result</span> <span class="kn">import</span> <span class="n">Result</span>
+<span class="kn">from</span> <span class="nn">qlazy.QState</span> <span class="kn">import</span> <span class="n">QState</span>
+<span class="kn">from</span> <span class="nn">qlazy.CMem</span> <span class="kn">import</span> <span class="n">CMem</span>
 
 <span class="n">GateFunctionName</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1"># 1-qubit, 0-parameter gate</span>
@@ -223,17 +226,19 @@
     <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_U3</span><span class="p">:</span><span class="s1">&#39;__get_CU3&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<div class="viewcode-block" id="run_cpu"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.qulacs_simulator.run_cpu">[docs]</a><span class="k">def</span> <span class="nf">run_cpu</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="run_cpu"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.qulacs_simulator.run_cpu">[docs]</a><span class="k">def</span> <span class="nf">run_cpu</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; run the quantum circuit (CPU) &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">__run_all</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">proc</span><span class="o">=</span><span class="s1">&#39;CPU&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">__run_all</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">proc</span><span class="o">=</span><span class="s1">&#39;CPU&#39;</span><span class="p">,</span>
+                     <span class="n">out_state</span><span class="o">=</span><span class="n">out_state</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="run_gpu"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.qulacs_simulator.run_gpu">[docs]</a><span class="k">def</span> <span class="nf">run_gpu</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="run_gpu"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.qulacs_simulator.run_gpu">[docs]</a><span class="k">def</span> <span class="nf">run_gpu</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; run the quantum circuit (GPU) &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">__run_all</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">proc</span><span class="o">=</span><span class="s1">&#39;GPU&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">__run_all</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">proc</span><span class="o">=</span><span class="s1">&#39;GPU&#39;</span><span class="p">,</span>
+                     <span class="n">out_state</span><span class="o">=</span><span class="n">out_state</span><span class="p">)</span></div>
 
-<span class="k">def</span> <span class="nf">__run_all</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proc</span><span class="o">=</span><span class="s1">&#39;CPU&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">__run_all</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proc</span><span class="o">=</span><span class="s1">&#39;CPU&#39;</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">qcirc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;quantum circuit must be specified.&quot;</span><span class="p">)</span>
@@ -273,7 +278,6 @@
                                    <span class="n">phase</span><span class="o">=</span><span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">phase1</span><span class="o">=</span><span class="n">para</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">phase2</span><span class="o">=</span><span class="n">para</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quantumstate&#39;</span><span class="p">:</span> <span class="n">qstate</span><span class="p">,</span> <span class="s1">&#39;cmem&#39;</span><span class="p">:</span> <span class="n">cmem</span><span class="p">}</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">()</span>
         <span class="n">result</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
@@ -282,13 +286,39 @@
         <span class="n">result</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="n">shots</span>
         <span class="n">result</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">result</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
+        <span class="k">if</span> <span class="n">out_state</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">qstate</span> <span class="o">=</span> <span class="n">__transform_qlazy_qstate</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">cmem</span> <span class="o">=</span> <span class="n">__transform_qlazy_cmem</span><span class="p">(</span><span class="n">cmem</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="c1">#</span>
     <span class="c1"># after measurement gate</span>
     <span class="c1">#</span>
 
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">qcirc</span><span class="o">.</span><span class="n">kind_list</span><span class="p">())</span> <span class="o">==</span> <span class="p">{</span><span class="n">cfg</span><span class="o">.</span><span class="n">MEASURE</span><span class="p">}:</span>
+        <span class="n">q_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span><span class="n">qcirc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+            <span class="n">q_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">frequency</span><span class="p">,</span> <span class="n">qstate</span> <span class="o">=</span> <span class="n">__qulacs_measure_shots</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">q_list</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+            
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">()</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem_num</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">cid</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="n">shots</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+        <span class="k">if</span> <span class="n">out_state</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">qstate</span> <span class="o">=</span> <span class="n">__transform_qlazy_qstate</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">cmem</span> <span class="o">=</span> <span class="n">__transform_qlazy_cmem</span><span class="p">(</span><span class="n">cmem</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+    
     <span class="n">frequency</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
     <span class="n">qstate_tmp</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">shots</span><span class="p">):</span>
@@ -302,7 +332,6 @@
             <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">break</span>
 
-            <span class="c1"># elif kind == cfg.MEASURE:</span>
             <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">MEASURE</span><span class="p">:</span>
                 <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
                 <span class="n">mval</span> <span class="o">=</span> <span class="n">__qulacs_measure</span><span class="p">(</span><span class="n">qstate_tmp</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -329,18 +358,33 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">frequency</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quantumstate&#39;</span><span class="p">:</span> <span class="n">qstate</span><span class="p">,</span> <span class="s1">&#39;cmem&#39;</span><span class="p">:</span> <span class="n">cmem</span><span class="p">}</span>
-
     <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">()</span>
-    <span class="n">result</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
     <span class="n">result</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span>
     <span class="n">result</span><span class="o">.</span><span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem_num</span>
     <span class="n">result</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">cid</span>
     <span class="n">result</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="n">shots</span>
     <span class="n">result</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
-    <span class="n">result</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+    <span class="k">if</span> <span class="n">out_state</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">qstate</span> <span class="o">=</span> <span class="n">__transform_qlazy_qstate</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">cmem</span> <span class="o">=</span> <span class="n">__transform_qlazy_cmem</span><span class="p">(</span><span class="n">cmem</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">def</span> <span class="nf">__transform_qlazy_qstate</span><span class="p">(</span><span class="n">qs_qulacs</span><span class="p">):</span>
+
+    <span class="n">vector</span> <span class="o">=</span> <span class="n">reverse_bit_order</span><span class="p">(</span><span class="n">qs_qulacs</span><span class="o">.</span><span class="n">get_vector</span><span class="p">())</span>
+    <span class="n">qs_qlazy</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">vector</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qs_qlazy</span>
+
+<span class="k">def</span> <span class="nf">__transform_qlazy_cmem</span><span class="p">(</span><span class="n">cmem_qulacs</span><span class="p">):</span>
+
+    <span class="n">cmem_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmem_qulacs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cmem_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">cmem_qlazy</span> <span class="o">=</span> <span class="n">CMem</span><span class="p">(</span><span class="n">cmem_num</span><span class="o">=</span><span class="n">cmem_num</span><span class="p">)</span>
+    <span class="n">cmem_qlazy</span><span class="o">.</span><span class="n">set_bits</span><span class="p">(</span><span class="n">cmem_qulacs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmem_qlazy</span>
 
 <span class="k">def</span> <span class="nf">__is_supported_qgate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
 
@@ -518,6 +562,64 @@
     <span class="n">mval</span> <span class="o">=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">get_classical_value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mval</span>
+
+<span class="k">def</span> <span class="nf">__qulacs_measure_shots</span><span class="p">(</span><span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+    <span class="c1"># error check</span>
+    <span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">get_qubit_count</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">qubit_num</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+
+    <span class="c1"># list of binary vectors for len(qid) bit integers</span>
+    <span class="n">qid_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+    <span class="n">mbits_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)):</span>
+        <span class="c1"># ex)</span>
+        <span class="c1"># qid = [5,0,2] -&gt; qid_sorted = [0,2,5]</span>
+        <span class="c1"># i = (0,1,2), idx = (2,0,1)</span>
+        <span class="c1"># bits = [q0,q1,q2] -&gt; mbits = [q1,q2,q0]</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;0</span><span class="si">{}</span><span class="s1">b&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">))))))</span>
+        <span class="n">mbits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">qid_sorted</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">mbits</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">bits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">mbits_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mbits</span><span class="p">)</span>
+
+    <span class="c1"># list of probabilities</span>
+    <span class="n">prob_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">mbits</span> <span class="ow">in</span> <span class="n">mbits_list</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">qubit_num</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+            <span class="n">args</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbits</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">qstate</span><span class="o">.</span><span class="n">get_marginal_probability</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">prob_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">prob_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="n">prob_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c1"># frequency</span>
+    <span class="n">mval_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">shots</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">shots</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">rand</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">mbits</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mbits_list</span><span class="p">,</span> <span class="n">prob_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">rand</span> <span class="o">&lt;=</span> <span class="n">prob</span><span class="p">:</span>
+                    <span class="n">mval</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">mbits</span><span class="p">))</span>
+                    <span class="n">mval_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+    <span class="c1"># last quantum state</span>
+    <span class="n">circ</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qid</span><span class="p">):</span>
+        <span class="n">circ</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">Measurement</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+    <span class="n">circ</span><span class="o">.</span><span class="n">update_quantum_state</span><span class="p">(</span><span class="n">qstate</span><span class="p">)</span>
+    
+    <span class="n">last</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">qstate</span><span class="o">.</span><span class="n">get_classical_value</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">))]))</span>
+    <span class="n">mval_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last</span><span class="p">)</span>
+
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">mval_data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">qstate</span>
 </pre></div>
 
            </div>

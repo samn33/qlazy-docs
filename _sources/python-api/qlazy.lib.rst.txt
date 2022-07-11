@@ -28,6 +28,14 @@ qlazy.lib.densop\_mcx module
    :undoc-members:
    :show-inheritance:
 
+qlazy.lib.gpu\_c module
+-----------------------
+
+.. automodule:: qlazy.lib.gpu_c
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.lib.mdata\_c module
 -------------------------
 

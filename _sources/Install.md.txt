@@ -1,24 +1,26 @@
 Install
 =======
 
-## Quick install
+## Install
+
+### Quick install
 
     $ pip install qlazy
 
-## Build from source code
+### Build from source code
 
     $ git clone https://github.com/samn33/qlazy.git
     $ cd qlazy
-    $ python setup.py install --user	
+    $ python setup.py install --user
 
 You may also need to install 'libreadline-dev'
 
     $ sudo apt install libreadline-dev
 
-## Uninstall
+If you want to use GPU version
+
+    $ python setup_gpu.py install --user
+
+### Uninstall
 
     $ pip uninstall qlazy
-
-## Uninstall (old version <= 0.1.5)
-
-    $ rm ~/bin/qlazy ~/lib/libqlz.so

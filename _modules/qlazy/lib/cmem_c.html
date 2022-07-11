@@ -161,7 +161,6 @@
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
 <span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">get_lib_ext</span>
 <span class="kn">from</span> <span class="nn">qlazy.CMem</span> <span class="kn">import</span> <span class="n">CMem</span>
 
@@ -177,11 +176,11 @@
     <span class="n">cmem</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">cmem</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_init</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">cmem_init</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">cmem_init</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">),</span> <span class="n">c_cmem</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t initialize cmem.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">c_cmem</span></div>
@@ -192,12 +191,12 @@
     <span class="n">cmem</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_cmem</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">cmem</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_copy</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_copy</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">cmem_copy</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">),</span>
                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">cmem_copy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cm</span><span class="p">),</span> <span class="n">c_cmem</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t copy cmem.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">c_cmem</span></div>
@@ -212,12 +211,12 @@
     <span class="n">bits</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">c_bits</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
 
-    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_get_bits</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_get_bits</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">cmem_get_bits</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">cmem_get_bits</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem</span><span class="p">),</span> <span class="n">c_bits</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">FALSE</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get element of the quantum state vector.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get element of the classical memory.&quot;</span><span class="p">)</span>
 
     <span class="n">o</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">c_bits</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span><span class="p">))</span>
 
@@ -227,6 +226,26 @@
     <span class="n">libc</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cmem_set_bits"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.cmem_c.cmem_set_bits">[docs]</a><span class="k">def</span> <span class="nf">cmem_set_bits</span><span class="p">(</span><span class="n">cmem</span><span class="p">,</span> <span class="n">bits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get bits of the classical memory &quot;&quot;&quot;</span>
+
+    <span class="c1"># bool cmem_set_bits(CMem* cmem, BYTE* bits, int num)</span>
+    <span class="k">if</span> <span class="n">cmem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Valueerror</span><span class="p">(</span><span class="s2">&quot;cmem must be set.&quot;</span><span class="p">)</span>
+
+    <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">cmem</span><span class="o">.</span><span class="n">cmem_num</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
+
+    <span class="n">ByteArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span> <span class="o">*</span> <span class="n">cmem_num</span>
+    <span class="n">c_bits</span> <span class="o">=</span> <span class="n">ByteArray</span><span class="p">(</span><span class="o">*</span><span class="n">bits</span><span class="p">)</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_set_bits</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">cmem_set_bits</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">CMem</span><span class="p">),</span> <span class="n">ByteArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">cmem_set_bits</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">cmem</span><span class="p">),</span> <span class="n">c_bits</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t set element of the classical memory.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="cmem_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.cmem_c.cmem_free">[docs]</a><span class="k">def</span> <span class="nf">cmem_free</span><span class="p">(</span><span class="n">cmem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; free classical memory &quot;&quot;&quot;</span>

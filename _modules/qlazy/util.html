@@ -156,7 +156,11 @@
   <h1>Source code for qlazy.util</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot; various kind of utilities &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
@@ -345,17 +349,63 @@
     <span class="sd">&quot;&quot;&quot; reverse bit order of the state vector &quot;&quot;&quot;</span>
 
     <span class="n">vec_out</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec_in</span><span class="p">)</span>
-    <span class="n">digits</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec_in</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">digits</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of vector must be power of two&quot;</span><span class="p">)</span>
+    <span class="n">digits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec_in</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
 
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vec_in</span><span class="p">):</span>
-        <span class="n">idx_binstr</span> <span class="o">=</span> <span class="s1">&#39;{:0</span><span class="si">{digits}</span><span class="s1">b}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">digits</span><span class="p">))</span>
+        <span class="n">idx_binstr</span> <span class="o">=</span> <span class="s1">&#39;{:0</span><span class="si">{digits}</span><span class="s1">b}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">)</span>
         <span class="n">idx_binstr_rev</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">idx_binstr</span><span class="p">)))</span>
         <span class="n">idx_rev</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx_binstr_rev</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">vec_out</span><span class="p">[</span><span class="n">idx_rev</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="k">return</span> <span class="n">vec_out</span></div>
+
+<div class="viewcode-block" id="read_config_ini"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.read_config_ini">[docs]</a><span class="k">def</span> <span class="nf">read_config_ini</span><span class="p">(</span><span class="n">config_ini_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; read config.ini file &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">config_ini_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">config_ini_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/.qlazy/config.ini&#39;</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">config_ini_path</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;config.ini is not found.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># read config.ini</span>
+    <span class="n">config_ini</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+    <span class="n">config_ini</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">config_ini_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+    <span class="c1"># check sections of config_ini</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">,</span> <span class="s1">&#39;backend_braket&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">config_ini</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;config.ini&gt; [</span><span class="si">{}</span><span class="s2">] is not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cs</span><span class="p">))</span>
+
+    <span class="c1"># check keys of backend_braket</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;backet_name&#39;</span><span class="p">,</span> <span class="s1">&#39;poll_timeout_seconds&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">config_ini</span><span class="p">[</span><span class="s1">&#39;backend_braket&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1"># raise exception if invalid keys are defined.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;config.ini&gt; [backend_braket]&gt; </span><span class="si">{}</span><span class="s2"> is not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;poll_timeout_seconds&#39;</span> <span class="ow">and</span>
+             <span class="n">config_ini</span><span class="p">[</span><span class="s1">&#39;backend_braket&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;poll_timeout_seconds&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;config.ini&gt; [backend_braket]&gt; poll_timeout_seconds(</span><span class="si">{}</span><span class="s2">) &quot;</span>
+                              <span class="s2">&quot;must be decimal number.&quot;</span>
+                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config_ini</span><span class="p">[</span><span class="s1">&#39;backend_braket&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;poll_timeout_seconds&#39;</span><span class="p">))))</span>
+
+    <span class="n">keys_required</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;backet_name&#39;</span><span class="p">,)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_required</span><span class="p">:</span> <span class="c1"># raise exception if required keys are not defined.</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config_ini</span><span class="p">[</span><span class="s1">&#39;backend_braket&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;config.ini&gt; [backend_braket]&gt; </span><span class="si">{}</span><span class="s2"> is not defined.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">config_ini</span></div>
+
+<div class="viewcode-block" id="check_gpu"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.util.check_gpu">[docs]</a><span class="k">def</span> <span class="nf">check_gpu</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; NVIDIA GPU is available or not &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s1">&#39;nvidia-smi&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;nvidia-smi&quot;</span><span class="p">],</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 </pre></div>
 
            </div>
