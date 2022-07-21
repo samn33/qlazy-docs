@@ -532,7 +532,14 @@ runを実行するときにout_stateオプションをTrueにセットすると�
 <span class="n">measure</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span>
 </pre></div>
 </div>
-<p>のように表示されます。</p>
+<p>のように表示されます。また、showメソッドを使ってもう少しビジュアルに表
+示することもできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span><span class="n">H</span><span class="o">-*-</span><span class="n">M</span><span class="o">-</span><span class="n">X</span><span class="o">---</span><span class="n">M</span><span class="o">---</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">---</span><span class="n">X</span><span class="o">-|-|-</span><span class="n">X</span><span class="o">-|-</span><span class="n">M</span><span class="o">-</span>
+<span class="n">c</span>  <span class="o">=/=====</span><span class="n">v</span><span class="o">=^=^=</span><span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="o">=</span>
+    <span class="mi">2</span>     <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>
+</pre></div>
+</div>
 <div class="section" id="id18">
 <h4>量子回路の同等性<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <p>2つの量子回路が全く同じものかどうか（同等性と呼ぶことにします）は

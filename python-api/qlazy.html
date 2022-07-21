@@ -3437,6 +3437,23 @@ gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘c
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.QCirc.QCirc.show">
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>show the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.QCirc.QCirc.split_unitary_non_unitary">
 <code class="sig-name descname"><span class="pre">split_unitary_non_unitary</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.split_unitary_non_unitary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.QCirc.split_unitary_non_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>split two part of the gate.</p>
@@ -3687,6 +3704,16 @@ includes non-unitary gate (measure or reset) first</p>
 </dd></dl>
 
 </dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.QCirc.append_qc_canvas">
+<code class="sig-prename descclassname"><span class="pre">qlazy.QCirc.</span></code><code class="sig-name descname"><span class="pre">append_qc_canvas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_canvas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#append_qc_canvas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.append_qc_canvas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="qlazy.QCirc.init_qc_canvas">
+<code class="sig-prename descclassname"><span class="pre">qlazy.QCirc.</span></code><code class="sig-name descname"><span class="pre">init_qc_canvas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmem_num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#init_qc_canvas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.init_qc_canvas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt id="qlazy.QCirc.string_to_args">
@@ -4933,7 +4960,7 @@ qubits are set, all qubits are zero reset.</p>
 
 <dl class="py method">
 <dt id="qlazy.QState.QState.show">
-<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonzero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.show" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonzero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.QState.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>show the quantum state
 (elements of the state vector and probabilities).</p>
 <dl class="field-list simple">
@@ -4941,6 +4968,8 @@ qubits are set, all qubits are zero reset.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>qid</strong> (<em>list of int</em><em>, </em><em>default - list of all of the qubit id</em>) – qubit id’s list to show.</p></li>
 <li><p><strong>nonzero</strong> (<em>bool</em><em>, </em><em>default False</em>) – if True, only non-zero amplitudes are printed.</p></li>
+<li><p><strong>preal</strong> (<em>int</em><em>, </em><em>default 0</em>) – state id to make positive real amplitude.
+(if -1 is set, do not go out the global phase factor)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -9369,6 +9398,23 @@ gates = [{‘kind’:kind, ‘qid’:qid, ‘phase’:phase, ‘cid’:cid, ‘c
 </dd></dl>
 
 <dl class="py method">
+<dt id="qlazy.QCirc.show">
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>show the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qlazy.QCirc.split_unitary_non_unitary">
 <code class="sig-name descname"><span class="pre">split_unitary_non_unitary</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QCirc.html#QCirc.split_unitary_non_unitary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QCirc.split_unitary_non_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>split two part of the gate.</p>
@@ -10855,7 +10901,7 @@ qubits are set, all qubits are zero reset.</p>
 
 <dl class="py method">
 <dt id="qlazy.QState.show">
-<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonzero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.show" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonzero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/QState.html#QState.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.QState.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>show the quantum state
 (elements of the state vector and probabilities).</p>
 <dl class="field-list simple">
@@ -10863,6 +10909,8 @@ qubits are set, all qubits are zero reset.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>qid</strong> (<em>list of int</em><em>, </em><em>default - list of all of the qubit id</em>) – qubit id’s list to show.</p></li>
 <li><p><strong>nonzero</strong> (<em>bool</em><em>, </em><em>default False</em>) – if True, only non-zero amplitudes are printed.</p></li>
+<li><p><strong>preal</strong> (<em>int</em><em>, </em><em>default 0</em>) – state id to make positive real amplitude.
+(if -1 is set, do not go out the global phase factor)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

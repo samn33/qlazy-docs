@@ -522,6 +522,19 @@ qlazyでは、数が不定の量子ビット番号を指定する必要がある
 相項）を括り出して、これを無視して表示するようにしています。グローバル
 位相項を括り出す際には、C[00..0]の係数が正の実数になるようにしています。
 C[00..0]が0の場合は、グローバル位相項を括りだすことはしません。</p>
+<p>通常はこれで問題なく状態表示ができますが、グローバル位相項を括りだす際
+にc[00..0]以外の係数を正の実数にしたい場合があります(c[00..0]が0だった
+場合など)。その場合、showメソッドのprealオプションに何番目の係数を正の
+実数にしたいかを指定します。2番目の係数を正の実数に正規化して表示した
+い場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">preal</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにします。また、グローバル位相を括りだしたくない場合は、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">preal</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにprealに-1を指定します。</p>
 </div>
 <div class="section" id="id22">
 <h3>量子状態のデータ取得<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>

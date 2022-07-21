@@ -174,7 +174,7 @@
 <span class="n">BACKEND_DEVICES_GPU</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_gpu_simulator&#39;</span><span class="p">],</span>
                        <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">]}</span>
 
-<span class="k">if</span> <span class="n">is_gpu_available</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">is_gpu_available</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">is_gpu_supported_lib</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
     <span class="n">gpu_preparation</span><span class="p">()</span>
     <span class="n">USE_GPU</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">else</span><span class="p">:</span>

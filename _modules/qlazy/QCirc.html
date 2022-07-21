@@ -180,6 +180,74 @@
 
     <span class="k">return</span> <span class="n">args</span></div>
 
+<div class="viewcode-block" id="init_qc_canvas"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.init_qc_canvas">[docs]</a><span class="k">def</span> <span class="nf">init_qc_canvas</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">):</span> <span class="c1"># for show method</span>
+
+    <span class="n">qlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">qubit_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">clen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">))</span>
+    <span class="n">qc_canvas</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;q[{:0</span><span class="si">{digits}</span><span class="s2">d}] -&quot;</span>
+                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">qlen</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">clen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">cmem_num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">qc_canvas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;c&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">qlen</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;=/=&#39;</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">clen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">qc_canvas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">qlen</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">qc_canvas</span></div>
+    
+<div class="viewcode-block" id="append_qc_canvas"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.append_qc_canvas">[docs]</a><span class="k">def</span> <span class="nf">append_qc_canvas</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">):</span> <span class="c1"># for show method</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># append single gate</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">g_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">GATE_LABEL</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">g_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">GATE_LABEL</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;para&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;)-&#39;</span>
+            
+        <span class="k">if</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">is_reset_gate</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]):</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">g_label</span>
+            <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">):</span>
+                    <span class="n">qc_canvas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;|&#39;</span>
+                <span class="n">qc_canvas</span><span class="p">[</span><span class="n">qubit_num</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;^&#39;</span>
+                <span class="n">qc_canvas</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="s1">&#39;*&#39;</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">g_label</span>
+            <span class="n">qid_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">qid_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qid_min</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">qid_max</span><span class="p">):</span>
+                <span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;|&#39;</span>
+            <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qid_max</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">):</span>
+                    <span class="n">qc_canvas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;|&#39;</span>
+                <span class="n">qc_canvas</span><span class="p">[</span><span class="n">qubit_num</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;^&#39;</span>
+                <span class="n">qc_canvas</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_measurement_gate</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]):</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">g_label</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">qubit_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">):</span>
+                <span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;|&#39;</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">qubit_num</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;v&#39;</span>
+            
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># append group of 1-qubit gates</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">get_qgate_param_num</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">g_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">GATE_LABEL</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">g_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">GATE_LABEL</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;para&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;)-&#39;</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;qid&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">g_label</span>
+
+    <span class="c1"># padding</span>
+    <span class="n">canvas_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">qc_canvas</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qubit_num</span><span class="p">:</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">canvas_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">qubit_num</span><span class="p">:</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">canvas_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">canvas_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span></div>
+
 <div class="viewcode-block" id="QCirc"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc">[docs]</a><span class="k">class</span> <span class="nc">QCirc</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Quantum Circuit</span>
 
@@ -628,6 +696,59 @@
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">()</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QCirc.show"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        show the circuit</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span>
+        <span class="n">cmem_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmem_num</span>
+        <span class="n">gate_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_num</span>
+
+        <span class="n">qc_canvas</span> <span class="o">=</span> <span class="n">init_qc_canvas</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">)</span>
+        
+        <span class="n">gates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">qids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">kind_first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+            <span class="n">gate</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="n">kind</span><span class="p">,</span> <span class="s1">&#39;qid&#39;</span><span class="p">:</span> <span class="n">qid</span><span class="p">,</span> <span class="s1">&#39;para&#39;</span><span class="p">:</span> <span class="n">para</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">:</span> <span class="n">ctrl</span><span class="p">}</span>
+            <span class="c1"># debug</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">is_reset_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">))</span> <span class="ow">and</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">qids</span><span class="p">:</span>
+                    <span class="n">append_qc_canvas</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">)</span>
+                    <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span><span class="n">gate</span><span class="p">]</span>
+                    <span class="n">qids</span> <span class="o">=</span> <span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span>
+                    <span class="n">qids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">gates</span> <span class="o">!=</span> <span class="p">[]:</span>
+                    <span class="n">append_qc_canvas</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">)</span>
+                    <span class="n">gates</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">qids</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">append_qc_canvas</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">,</span> <span class="p">[</span><span class="n">gate</span><span class="p">],</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">gates</span> <span class="o">!=</span> <span class="p">[]:</span>
+            <span class="n">append_qc_canvas</span><span class="p">(</span><span class="n">qc_canvas</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">qubit_num</span><span class="p">,</span> <span class="n">cmem_num</span><span class="p">)</span>
+            
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">qc_canvas</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="QCirc.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QCirc.QCirc.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
