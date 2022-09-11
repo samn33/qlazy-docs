@@ -20,6 +20,14 @@ qlazy.backend.ibmq module
    :undoc-members:
    :show-inheritance:
 
+qlazy.backend.qlazy\_mps\_simulator module
+------------------------------------------
+
+.. automodule:: qlazy.backend.qlazy_mps_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.backend.qlazy\_qstate\_simulator module
 ---------------------------------------------
 

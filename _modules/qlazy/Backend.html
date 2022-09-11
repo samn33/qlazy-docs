@@ -162,13 +162,20 @@
 <span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">read_config_ini</span>
 <span class="kn">from</span> <span class="nn">qlazy.gpu</span> <span class="kn">import</span> <span class="n">is_gpu_available</span><span class="p">,</span> <span class="n">is_gpu_supported_lib</span><span class="p">,</span> <span class="n">gpu_preparation</span>
 
-<span class="n">BACKEND_DEVICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">],</span>
+<span class="n">BACKEND_DEVICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;mps_simulator&#39;</span><span class="p">],</span>
                    <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;ibmq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;aer_simulator_statevector&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;aer_simulator_matrix_product_state&#39;</span><span class="p">],</span>
                    <span class="s1">&#39;braket_local&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;braket_sv&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;braket_aws&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sv1&#39;</span><span class="p">,</span> <span class="s1">&#39;tn1&#39;</span><span class="p">,</span> <span class="s1">&#39;dm1&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_aws&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sv1&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;tn1&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;dm1&#39;</span><span class="p">],</span>
                    <span class="s1">&#39;braket_ionq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ionq&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">,</span> <span class="s1">&#39;aspen_m_1&#39;</span><span class="p">],</span>
+                   <span class="s1">&#39;braket_rigetti&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aspen_11&#39;</span><span class="p">,</span>
+                                      <span class="s1">&#39;aspen_m_1&#39;</span><span class="p">],</span>
                    <span class="s1">&#39;braket_oqc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lucy&#39;</span><span class="p">]}</span>
 
 <span class="n">BACKEND_DEVICES_GPU</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qlazy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;qstate_gpu_simulator&#39;</span><span class="p">],</span>
@@ -253,7 +260,7 @@
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_qstate_simulator</span> <span class="kn">import</span> <span class="n">run_cpu</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run_cpu</span>
 
-            <span class="c1"># qstate simulator</span>
+            <span class="c1"># qstate simulator (GPU)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qstate_gpu_simulator&#39;</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_qstate_simulator</span> <span class="kn">import</span> <span class="n">run_gpu</span>
                 <span class="k">if</span> <span class="n">USE_GPU</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -263,6 +270,11 @@
             <span class="c1"># stabilizer simulator</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_stabilizer_simulator</span> <span class="kn">import</span> <span class="n">run</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
+
+            <span class="c1"># mps simulator</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;mps_simulator&#39;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">qlazy.backend.qlazy_mps_simulator</span> <span class="kn">import</span> <span class="n">run</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__run</span> <span class="o">=</span> <span class="n">run</span>
 
             <span class="k">else</span><span class="p">:</span>
@@ -375,7 +387,7 @@
         <span class="n">backend_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">,</span> <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">}</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">backend_dict</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        run the quantum circuit.</span>
 
@@ -418,7 +430,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="n">out_state</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                            <span class="n">out_state</span><span class="o">=</span><span class="n">out_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">end_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
         <span class="n">result</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">start_time</span>
@@ -437,7 +450,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Sam.N.
+        &#169; Copyright 2021-2022, Sam.N.
 
     </p>
   </div>

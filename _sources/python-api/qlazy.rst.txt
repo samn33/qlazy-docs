@@ -46,10 +46,26 @@ qlazy.MData module
    :undoc-members:
    :show-inheritance:
 
+qlazy.MPState module
+--------------------
+
+.. automodule:: qlazy.MPState
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.Observable module
 -----------------------
 
 .. automodule:: qlazy.Observable
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qlazy.ObservableBase module
+---------------------------
+
+.. automodule:: qlazy.ObservableBase
    :members:
    :undoc-members:
    :show-inheritance:

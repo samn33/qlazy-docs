@@ -99,7 +99,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.densop_mcx">qlazy.lib.densop_mcx module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.gpu_c">qlazy.lib.gpu_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.mdata_c">qlazy.lib.mdata_c module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.observable_c">qlazy.lib.observable_c module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.observable_base_c">qlazy.lib.observable_base_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qcirc_c">qlazy.lib.qcirc_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qstate_c">qlazy.lib.qstate_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qstate_mcx">qlazy.lib.qstate_mcx module</a></li>
@@ -115,7 +115,9 @@
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.CMem">qlazy.CMem module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.DensOp">qlazy.DensOp module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MData">qlazy.MData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MPState">qlazy.MPState module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Observable">qlazy.Observable module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.ObservableBase">qlazy.ObservableBase module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a></li>
@@ -391,19 +393,19 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-qlazy.lib.observable_c">
-<span id="qlazy-lib-observable-c-module"></span><h2>qlazy.lib.observable_c module<a class="headerlink" href="#module-qlazy.lib.observable_c" title="Permalink to this headline">¶</a></h2>
-<p>wrapper functions for Observable</p>
+<div class="section" id="module-qlazy.lib.observable_base_c">
+<span id="qlazy-lib-observable-base-c-module"></span><h2>qlazy.lib.observable_base_c module<a class="headerlink" href="#module-qlazy.lib.observable_base_c" title="Permalink to this headline">¶</a></h2>
+<p>wrapper functions for ObservableBase</p>
 <dl class="py function">
-<dt id="qlazy.lib.observable_c.observable_free">
-<code class="sig-prename descclassname"><span class="pre">qlazy.lib.observable_c.</span></code><code class="sig-name descname"><span class="pre">observable_free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/observable_c.html#observable_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.observable_c.observable_free" title="Permalink to this definition">¶</a></dt>
-<dd><p>free memory of Observable object</p>
+<dt id="qlazy.lib.observable_base_c.observable_base_free">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.observable_base_c.</span></code><code class="sig-name descname"><span class="pre">observable_base_free</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/observable_base_c.html#observable_base_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.observable_base_c.observable_base_free" title="Permalink to this definition">¶</a></dt>
+<dd><p>free memory of ObservableBase object</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="qlazy.lib.observable_c.observable_init">
-<code class="sig-prename descclassname"><span class="pre">qlazy.lib.observable_c.</span></code><code class="sig-name descname"><span class="pre">observable_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ostr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/observable_c.html#observable_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.observable_c.observable_init" title="Permalink to this definition">¶</a></dt>
-<dd><p>initialize Observable object</p>
+<dt id="qlazy.lib.observable_base_c.observable_base_init">
+<code class="sig-prename descclassname"><span class="pre">qlazy.lib.observable_base_c.</span></code><code class="sig-name descname"><span class="pre">observable_base_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ostr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/observable_base_c.html#observable_base_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.observable_base_c.observable_base_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize ObservableBase object</p>
 </dd></dl>
 
 </div>
@@ -671,7 +673,7 @@ under the quantum state vector</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Sam.N.
+        &#169; Copyright 2021-2022, Sam.N.
 
     </p>
   </div>

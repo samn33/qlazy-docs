@@ -44,10 +44,10 @@ qlazy.lib.mdata\_c module
    :undoc-members:
    :show-inheritance:
 
-qlazy.lib.observable\_c module
-------------------------------
+qlazy.lib.observable\_base\_c module
+------------------------------------
 
-.. automodule:: qlazy.lib.observable_c
+.. automodule:: qlazy.lib.observable_base_c
    :members:
    :undoc-members:
    :show-inheritance:

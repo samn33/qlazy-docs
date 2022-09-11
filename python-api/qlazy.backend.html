@@ -95,6 +95,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.backend.amazon_braket">qlazy.backend.amazon_braket module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.backend.ibmq">qlazy.backend.ibmq module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.backend.qlazy_mps_simulator">qlazy.backend.qlazy_mps_simulator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.backend.qlazy_qstate_simulator">qlazy.backend.qlazy_qstate_simulator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.backend.qlazy_stabilizer_simulator">qlazy.backend.qlazy_stabilizer_simulator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.backend.qulacs_simulator">qlazy.backend.qulacs_simulator module</a></li>
@@ -110,7 +111,9 @@
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.CMem">qlazy.CMem module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.DensOp">qlazy.DensOp module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MData">qlazy.MData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MPState">qlazy.MPState module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Observable">qlazy.Observable module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.ObservableBase">qlazy.ObservableBase module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a></li>
@@ -218,6 +221,16 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-qlazy.backend.qlazy_mps_simulator">
+<span id="qlazy-backend-qlazy-mps-simulator-module"></span><h2>qlazy.backend.qlazy_mps_simulator module<a class="headerlink" href="#module-qlazy.backend.qlazy_mps_simulator" title="Permalink to this headline">¶</a></h2>
+<p>run function for qlazy’s matrix product state simulator</p>
+<dl class="py function">
+<dt id="qlazy.backend.qlazy_mps_simulator.run">
+<code class="sig-prename descclassname"><span class="pre">qlazy.backend.qlazy_mps_simulator.</span></code><code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_truncation_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/backend/qlazy_mps_simulator.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.backend.qlazy_mps_simulator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>run the quantum circuit</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-qlazy.backend.qlazy_qstate_simulator">
 <span id="qlazy-backend-qlazy-qstate-simulator-module"></span><h2>qlazy.backend.qlazy_qstate_simulator module<a class="headerlink" href="#module-qlazy.backend.qlazy_qstate_simulator" title="Permalink to this headline">¶</a></h2>
 <p>run function for qlazy’s qstate simulator</p>
@@ -279,7 +292,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Sam.N.
+        &#169; Copyright 2021-2022, Sam.N.
 
     </p>
   </div>

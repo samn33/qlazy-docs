@@ -156,48 +156,682 @@
   <h1>Source code for qlazy.Observable</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot; Obserbavle for quantum many-body spin system. &quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">ctypes</span>
 
-<div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable">[docs]</a><span class="k">class</span> <span class="nc">Observable</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Obserbavle for quantum many-body spin system. &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">is_num</span>
+<span class="kn">from</span> <span class="nn">qlazy.ObservableBase</span> <span class="kn">import</span> <span class="n">ObservableBase</span>
+<span class="kn">from</span> <span class="nn">qlazy.PauliProduct</span> <span class="kn">import</span> <span class="n">PauliProduct</span>
 
-    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;spin_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;array_num&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;spro_array&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
-    <span class="p">]</span>
+<div class="viewcode-block" id="X"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.X">[docs]</a><span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : int</span>
+<span class="sd">        qubit id</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ob : instance of Observable</span>
+<span class="sd">        obserbable X(q)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">ob</span></div>
+
+<div class="viewcode-block" id="Y"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Y">[docs]</a><span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : int</span>
+<span class="sd">        qubit id</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ob : instance of Observable</span>
+<span class="sd">        obserbable Y(q)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">ob</span></div>
+
+<div class="viewcode-block" id="Z"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Z">[docs]</a><span class="k">def</span> <span class="nf">Z</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : int</span>
+<span class="sd">        qubit id</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ob : instance of Observable</span>
+<span class="sd">        obserbable X(q)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">ob</span></div>
+
+<div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable">[docs]</a><span class="k">class</span> <span class="nc">Observable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Observable for quantum many-body spin system.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    base : instance of ObservableBase</span>
+<span class="sd">        observable</span>
+<span class="sd">    string : str</span>
+<span class="sd">        string of observable description</span>
+<span class="sd">        ex) &quot;-2.0+Z_0*Z_1+X_0+X_1&quot; for 2-qubit system</span>
+<span class="sd">    weighted_pp_list : list of dict ({&#39;weight&#39;:weight, &#39;pp&#39;:pauli_product})</span>
+<span class="sd">        weighted pauli product list</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        string : str</span>
-<span class="sd">            expression for the observable.</span>
+<span class="sd">            string of observable description</span>
+<span class="sd">            ex) &quot;-2.0+Z_0*Z_1+X_0+X_1&quot; for 2-qubit system</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">string</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_weighted_pp_list</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ob</span><span class="o">.</span><span class="n">recalc_weight</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Observable is not hermitian.&quot;</span><span class="p">)</span>
+            
+        <span class="n">term_str_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">weighted_pp</span> <span class="ow">in</span> <span class="n">ob</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;+ &#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;- &#39;</span>
+
+            <span class="n">p_str_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">p_str</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">p_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_str</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">p_str_list</span> <span class="o">==</span> <span class="p">[]:</span>
+                    <span class="n">weight_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">weight_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">weight_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]))</span>
+
+            <span class="k">if</span> <span class="n">p_str_list</span> <span class="o">==</span> <span class="p">[]:</span>
+                <span class="n">pp_str</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">weight_str</span>
+            <span class="k">elif</span> <span class="n">weight_str</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">pp_str</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">weight_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p_str_list</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pp_str</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">weight_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p_str_list</span><span class="p">)</span>
+
+            <span class="n">term_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pp_str</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">term_str_list</span><span class="p">)</span>
+        
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ob</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ob : instance of Observable</span>
+<span class="sd">            obervable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ans : bool</span>
+<span class="sd">            True if equal</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ob_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">ob_1</span><span class="o">.</span><span class="n">recalc_weight</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Observable is not hermitian.&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">ob_2</span><span class="o">.</span><span class="n">recalc_weight</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Observable is not hermitian.&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ob_1</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ob_2</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">):</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">ans</span>
+
+        <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="n">ob_1</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="n">pp</span> <span class="o">=</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">ob_2</span><span class="o">.</span><span class="n">get_idx_weight</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ob</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ob : instance of Observable</span>
+<span class="sd">            obervable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ans : bool</span>
+<span class="sd">            True if not equal</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">ob</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="fm">__pos__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable</span>
+<span class="sd">            observable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">other</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t add a Observable with </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span>
+                
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="fm">__radd__</span> <span class="o">=</span> <span class="fm">__add__</span>
+
+    <span class="k">def</span> <span class="fm">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable</span>
+<span class="sd">            observable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[:]</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable</span>
+<span class="sd">            observable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=-</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">other</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=-</span><span class="n">other</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t sub a Observable with </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span>
+                
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__sub__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable</span>
+<span class="sd">            observable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__sub__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[:]</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable / int / float</span>
+<span class="sd">            observable / number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">wpp_1</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">wpp_2</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+                    <span class="n">pp</span> <span class="o">=</span> <span class="n">wpp_1</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">wpp_2</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span>
+                    <span class="n">weight</span> <span class="o">=</span> <span class="n">wpp_1</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">wpp_2</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">weight</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                        <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">other</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">other</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t mul a Observable with </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span>
+        
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
+        
+    <span class="k">def</span> <span class="fm">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable / int / float</span>
+<span class="sd">            observable / number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[:]</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : instance of Observable / int / float</span>
+<span class="sd">            observable / number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">other</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t execute </span><span class="si">{}</span><span class="s2">-th power&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">other</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">*</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t pow a Observable with </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : int / float</span>
+<span class="sd">            number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">other</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t div a Observable with </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span>
+                
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__itruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : int / float</span>
+<span class="sd">            number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : instance of Observable</span>
+<span class="sd">            observable (result)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__truediv__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[:]</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="Observable.is_hermitian"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.is_hermitian">[docs]</a>    <span class="k">def</span> <span class="nf">is_hermitian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; hermitian or not</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ans : bool</span>
+<span class="sd">            is the observable hermitian or not</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">factor</span>
+            <span class="k">if</span> <span class="n">weight</span><span class="o">.</span><span class="n">imag</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+<div class="viewcode-block" id="Observable.recalc_weight"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.recalc_weight">[docs]</a>    <span class="k">def</span> <span class="nf">recalc_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; recalculate the weights of weighted_pp_list</span>
+<span class="sd">            (weight &lt;= weight * pp.factor, pp.factor &lt;= 1.0)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ans : bool</span>
+<span class="sd">            is the observable hermitian or not</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">factor</span>
+            <span class="k">if</span> <span class="n">weight</span><span class="o">.</span><span class="n">imag</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+            <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">base</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_observable_base</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="Observable.get_observable_base"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.get_observable_base">[docs]</a>    <span class="k">def</span> <span class="nf">get_observable_base</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get ObservableBase instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ob_base : instance of ObservableBase</span>
+<span class="sd">            observable</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ob_base</span> <span class="o">=</span> <span class="n">ObservableBase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ob_base</span></div>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_string</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Observable.get_string"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.get_string">[docs]</a>    <span class="k">def</span> <span class="nf">get_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get string of observable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            string of observable</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ob</span><span class="o">.</span><span class="n">recalc_weight</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Observable is not hermitian.&quot;</span><span class="p">)</span>
+
+        <span class="n">term_str_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">weighted_pp</span> <span class="ow">in</span> <span class="n">ob</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
+
+            <span class="n">p_str_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pauli_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">p_str</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">qid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">p_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_str</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">p_str_list</span> <span class="o">==</span> <span class="p">[]:</span>
+                    <span class="n">weight_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">weight_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">weight_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weighted_pp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]))</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span>
+
+            <span class="k">if</span> <span class="n">p_str_list</span> <span class="o">==</span> <span class="p">[]:</span>
+                <span class="n">pp_str</span> <span class="o">=</span> <span class="p">(</span><span class="n">sign</span> <span class="o">+</span> <span class="n">weight_str</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pp_str</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">weight_str</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p_str_list</span><span class="p">)</span>
+
+            <span class="n">term_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pp_str</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">term_str_list</span><span class="p">)</span>
+        
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+<div class="viewcode-block" id="Observable.get_weighted_pp_list"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.get_weighted_pp_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_weighted_pp_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get weighted pauli product list.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        string : str</span>
+<span class="sd">            string of observable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weighted_pp_list : list of dict (weight:pauli_product)</span>
+<span class="sd">            weighted pauli product list</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">terms_list</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+1.0*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;+-1.0*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">term</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">items_list</span> <span class="o">=</span> <span class="n">term</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">spin_product</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items_list</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="n">kind_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span>  <span class="c1"># ex) kind_idx = [&#39;X&#39;, &#39;1&#39;]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kind_idx</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">kind_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">)</span> <span class="ow">or</span>
+                    <span class="n">kind_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;invalid string of observable&quot;</span><span class="p">)</span>
+                <span class="n">spin_product</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kind_idx</span><span class="p">)</span>
+
+            <span class="c1"># spin_product to pauli_product</span>
+            <span class="c1"># ex) spin_product = [[&#39;X&#39;, &#39;1&#39;], [&#39;Z&#39;, 0], ..]</span>
+            <span class="n">pauli_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">qid</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spin_product</span><span class="p">:</span>
+                <span class="n">pauli_str</span> <span class="o">+=</span> <span class="n">spin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="n">qid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">spin</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">spin_product</span> <span class="o">==</span> <span class="p">[]:</span>
+                <span class="n">pauli_str</span> <span class="o">=</span> <span class="s1">&#39;I&#39;</span>
+                <span class="n">qid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="n">pauli_str</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">weight</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">weighted_pp_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span> <span class="n">pp</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">weighted_pp_list</span></div>
+
+<div class="viewcode-block" id="Observable.get_idx_weight"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.get_idx_weight">[docs]</a>    <span class="k">def</span> <span class="nf">get_idx_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get index and weight value correspond to the pauli product.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        idx : int</span>
+<span class="sd">           index number of the list (self.weighted_pp_list) correspond to the pauli product</span>
+<span class="sd">        weight : float</span>
+<span class="sd">           weight value correspond to the pauli product</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pp_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">))]</span>
+        <span class="n">weight_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">))]</span>
+        <span class="k">if</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">pp_list</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">pp_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="n">weight</span></div>
+
+<div class="viewcode-block" id="Observable.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        clone observable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ob : instance of Observable</span>
-<span class="sd">            observable corresponding to the string expression.</span>
-
-<span class="sd">        Examles</span>
-<span class="sd">        -------</span>
-<span class="sd">        Hamiltonian for 2-body spin system : -2.0 + Z0 X1 + X0 X1</span>
-<span class="sd">        &gt;&gt;&gt; ob = Observable(&quot;-2.0+z_0*z_1+x_0+x_1&quot;)</span>
+<span class="sd">            observable</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">spin_num</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">array_num</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">spro_array</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">observable_init</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-        <span class="n">ob</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span><span class="o">.</span><span class="n">contents</span>
-        <span class="k">return</span> <span class="n">ob</span>
+        <span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+        <span class="n">ob</span><span class="o">.</span><span class="n">weighted_pp_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[:]</span>
+        <span class="k">return</span> <span class="n">ob</span></div>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Observable.add_wpp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.add_wpp">[docs]</a>    <span class="k">def</span> <span class="nf">add_wpp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add the weighted pauli product to the list (self.weighted_pp_list).</span>
 
-        <span class="n">observable_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        weight : float</span>
+<span class="sd">           weight value correspond to the pauli product</span>
+<span class="sd">        pp : instance of PauliProduct</span>
+<span class="sd">            pauli product</span>
 
-<span class="c1"># c-library for observable</span>
-<span class="kn">from</span> <span class="nn">qlazy.lib.observable_c</span> <span class="kn">import</span> <span class="n">observable_init</span><span class="p">,</span> <span class="n">observable_free</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of Ovservable</span>
+<span class="sd">            observable after adding weighted pauli product</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">if</span> <span class="n">pp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># constant term, not include pauli product</span>
+            <span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_idx_weight</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">weight</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="n">w</span><span class="p">,</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span> <span class="n">pp</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">+=</span> <span class="n">weight</span>
+            <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div></div>
 </pre></div>
 
            </div>
@@ -209,7 +843,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Sam.N.
+        &#169; Copyright 2021-2022, Sam.N.
 
     </p>
   </div>

@@ -665,12 +665,12 @@
 
 <div class="viewcode-block" id="QState.fidelity"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.fidelity">[docs]</a>    <span class="k">def</span> <span class="nf">fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qstate</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        get the fidelity with quantum state.</span>
+<span class="sd">        get fidelity with the quantum state.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        qstate : instance of QState</span>
-<span class="sd">            one of the two quantum state.</span>
+<span class="sd">            one of the two quantum states.</span>
 <span class="sd">        qid : list of int</span>
 <span class="sd">            qubit id&#39;s list.</span>
 
@@ -762,7 +762,11 @@
 <span class="sd">        Obserbable class (Observable.py)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qstate_evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">observable</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+        <span class="n">ob</span> <span class="o">=</span> <span class="n">observable</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ob</span><span class="o">.</span><span class="n">recalc_weight</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Observable is not hermitian.&quot;</span><span class="p">)</span>
+
+        <span class="n">qstate_evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="o">.</span><span class="n">base</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="QState.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -784,7 +788,11 @@
 <span class="sd">        Obserbable class (Observable.py)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">expect</span> <span class="o">=</span> <span class="n">qstate_expect_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">observable</span><span class="p">)</span>
+        <span class="n">ob</span> <span class="o">=</span> <span class="n">observable</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ob</span><span class="o">.</span><span class="n">recalc_weight</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Observable is not hermitian.&quot;</span><span class="p">)</span>
+
+        <span class="n">expect</span> <span class="o">=</span> <span class="n">qstate_expect_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">expect</span></div>
 
 <div class="viewcode-block" id="QState.apply"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.QState.QState.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1728,6 +1736,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
         <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">factor</span>
 
         <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
@@ -1753,6 +1762,13 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">continue</span>
 
+            <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">factor</span> <span class="o">==</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">1.</span><span class="n">j</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">factor</span> <span class="o">==</span> <span class="mf">0.</span><span class="o">-</span><span class="mf">1.</span><span class="n">j</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">s_dg</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1777,7 +1793,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Sam.N.
+        &#169; Copyright 2021-2022, Sam.N.
 
     </p>
   </div>
