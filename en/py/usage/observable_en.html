@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Observable (Obserbable class) &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Observable (Obserbable class)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/en/py/usage/observable_en.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="observable-obserbable-class">
+<h1>Observable (Obserbable class)<a class="headerlink" href="#observable-obserbable-class" title="Permalink to this heading">¶</a></h1>
+<p>In the context of quantum mechanics, physical values including
+Hamiltonian etc are called ‘observable’.  Unlike classical mechanics,
+the observalble is expressed by an operator mapping complex vector to
+complex vector (or a complex matrix), and an observed physical value
+in the actual measuring device is regarded to an eigenvalue of the
+operator.  Since this eigenvalue must be a real number (It is strange
+that the measured value is complex number, isn’t it?), the observable
+operator must be a ‘Hermitian operator’ (see the standard textbook of
+quantum mechanics for details).</p>
+<p>Observalbles often seen in quantum mechanics and quantum information
+theory are expressed in linear sum of products of pauli operators X,
+Y and Z.</p>
+<p>Qlazy allows you to perform some calculations related to the
+observables that are represented by the linear sum of the pauli
+operators.  The following calculation can be made for the quantum
+state of the ‘Qstate’ class.</p>
+<ul class="simple">
+<li><p>Expectation value of the observable</p></li>
+<li><p>Time development of quantum state of the system with Hamiltonian
+expressed by the observable</p></li>
+</ul>
+<p>In addtion, the following calculations can be made for the quantum
+state of the ‘MPState’ class.</p>
+<ul class="simple">
+<li><p>Expectation value of observable</p></li>
+</ul>
+<p>However, this document does not mention these details.  Please refer
+to the ‘Qstate’ class and the ‘MPState’ class documentation for it.
+This document describes the method of creating an observable and
+calculating between the obserbables created like this.</p>
+<div class="section" id="create-observalble">
+<h2>Create observalble<a class="headerlink" href="#create-observalble" title="Permalink to this heading">¶</a></h2>
+<p>First, for creating observable, import the ‘Observable’ class and the
+‘Observable’ related functions X, Y, Z.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Observable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span>
+</pre></div>
+</div>
+<p>There are three ways to create an observable.</p>
+<ul class="simple">
+<li><p>Method by specifying a string</p></li>
+<li><p>Method by adding weighted pauli products sequentially</p></li>
+<li><p>Method by specifing a linear sum of pauli products</p></li>
+</ul>
+<div class="section" id="method-by-specifying-a-string">
+<h3>Method by specifying a string<a class="headerlink" href="#method-by-specifying-a-string" title="Permalink to this heading">¶</a></h3>
+<p>For example, observable “3.0 Z(0) Z(1) + 4.0 X(2) X(3) 5 Y(4) - 2.0”
+can be created as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">(</span><span class="s2">&quot;3.0*Z_0*Z_1+4.0*X_2*X_3+5*Y_4-2.0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It allowed that there is space before and after ‘+’, ‘-‘ and ‘*’,
+X, Y, Z can be lowercase letters.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">(</span><span class="s2">&quot;3.0 * z_0 * z_1 + 4.0 * x_2 * x_3 + 5 * y_4 - 2.0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can check the observable using print statements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="p">)</span>
+<span class="go">3.0 Z(0) Z(1) + 4.0 X(2) X(3) + 5.0 Y(4) - 2.0</span>
+</pre></div>
+</div>
+<p>Here, there is an important point to describe.  Last term of the above
+example ‘-2.0’ means ‘-2.0 * I’ (‘I’ is an identity operator).  In qlazy, a term
+including identity operator is specified without explicitly describing
+the identity operator ‘I’, only specified constant real number.  Of
+course, it performs calculations including identity operators.</p>
+</div>
+<div class="section" id="method-by-adding-weighted-pauli-products-sequentially">
+<h3>Method by adding weighted pauli products sequentially<a class="headerlink" href="#method-by-adding-weighted-pauli-products-sequentially" title="Permalink to this heading">¶</a></h3>
+<p>The same observable as the previous section can be created as follows.
+First, create an empty observable instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then, add pauli product and the coefficient (weight) for it by
+applying the ‘ad_wpp’ method (means add weighted pauli product method)
+to the created instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="s1">&#39;ZZ&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="s1">&#39;XX&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliProduct</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=-</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="p">)</span>
+<span class="go">3.0 Z(0) Z(1) + 4.0 X(2) X(3) + 5.0 Y(4) - 2.0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-by-specifing-a-linear-sum-of-pauli-products">
+<h3>Method by specifing a linear sum of pauli products<a class="headerlink" href="#method-by-specifing-a-linear-sum-of-pauli-products" title="Permalink to this heading">¶</a></h3>
+<p>When creating in this method, the X, Y and Z function must be imported.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy.Qbservable</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span>
+</pre></div>
+</div>
+<p>Then, the observable of the previous section can be created as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="p">)</span>
+<span class="go">3.0 Z(0) Z(1) + 4.0 X(2) X(3) + 5.0 Y(4) - 2.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="operation-related-to-observable">
+<h2>Operation related to observable<a class="headerlink" href="#operation-related-to-observable" title="Permalink to this heading">¶</a></h2>
+<p>You can execute the four arithmetical operation (+, -, *, /) and
+comparison operation (=, !=) for observable instances created as
+described above.</p>
+<div class="section" id="addition">
+<h3>Addition<a class="headerlink" href="#addition" title="Permalink to this heading">¶</a></h3>
+<p>You can execute the addition of two observables using the ‘+’ operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_3</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">+</span> <span class="n">ob_2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_3</span><span class="p">)</span>
+<span class="go">2.0 X(2) X(3) + 5.0 Y(4) + X(1) X(2)</span>
+</pre></div>
+</div>
+<p>In addition, you can use the ‘+=’ operator to perform incremental additions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">+=</span> <span class="n">ob_2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>
+<span class="go">2.0 X(2) X(3) + 5.0 Y(4) + X(1) X(2)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subtraction">
+<h3>Subtraction<a class="headerlink" href="#subtraction" title="Permalink to this heading">¶</a></h3>
+<p>You can use the ‘-‘ operator to subtract the two observables.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_3</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">-</span> <span class="n">ob_2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_3</span><span class="p">)</span>
+<span class="go">6.0 Z(0) Z(1) + 6.0 X(2) X(3) + 5.0 Y(4) - 4.0 - X(1) X(2)</span>
+</pre></div>
+</div>
+<p>In addition, you can use the ‘-=’ operator to perform incremental subtractions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ob_1</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+<span class="n">ob_2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
+<span class="n">ob_1</span> <span class="o">-=</span> <span class="n">ob_2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>
+<span class="mf">6.0</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">6.0</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">4.0</span> <span class="o">-</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiplication">
+<h3>Multiplication<a class="headerlink" href="#multiplication" title="Permalink to this heading">¶</a></h3>
+<p>You can use the ‘*’ operator to multiply an observable by a real number.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">*</span> <span class="mf">3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_2</span><span class="p">)</span>
+<span class="go">3.0 Z(0) + 6.0 Z(1)</span>
+</pre></div>
+</div>
+<p>You can also multiply the two observables.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_3</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">*</span> <span class="n">ob_2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_3</span><span class="p">)</span>
+<span class="go">11.0 + 10.0 Z(0) Z(1)</span>
+</pre></div>
+</div>
+<p>In addtion, you can use ‘*=’ operators to perform incremental multiplication.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">*=</span> <span class="mf">3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>
+<span class="go">3.0 Z(0) + 6.0 Z(1)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">*=</span> <span class="n">ob_2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>
+<span class="go">11.0 + 10.0 Z(0) Z(1)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="division">
+<h3>Division<a class="headerlink" href="#division" title="Permalink to this heading">¶</a></h3>
+<p>You can use the ‘/’ operator to divide an observable with a real number.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">/</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_2</span><span class="p">)</span>
+<span class="go">0.5 Z(0) + Z(1)</span>
+</pre></div>
+</div>
+<p>In addition, you can use the ‘/=’ operator to perform incremental division.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">/=</span> <span class="mf">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>
+<span class="go">0.5 Z(0) + Z(1)</span>
+</pre></div>
+</div>
+<p>The division of the observable with an observable is not supported.</p>
+</div>
+<div class="section" id="exponentiation">
+<h3>Exponentiation<a class="headerlink" href="#exponentiation" title="Permalink to this heading">¶</a></h3>
+<p>You can use the ‘**’ operator to perform the observable to the power of interger.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_2</span><span class="p">)</span>
+<span class="go">5.0 + 4.0 Z(0) Z(1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_3</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">**</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_3</span><span class="p">)</span>
+<span class="go">13.0 Z(0) + 14.0 Z(1)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="comparison">
+<h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this heading">¶</a></h3>
+<p>You can check whether the two observables are equal by ‘==’, ‘!=’ operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span> <span class="o">==</span> <span class="n">ob_2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span> <span class="o">!=</span> <span class="n">ob_2</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="note-non-hermitian-observables">
+<h3>Note: non-Hermitian observables<a class="headerlink" href="#note-non-hermitian-observables" title="Permalink to this heading">¶</a></h3>
+<p>As a result of executing the calculation shown above, a non-Hermitian
+observable may be created.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since ZX = iY, ob_1 is no longer Hermitian. Any meaningful observalbes
+corenpond to real pysical quantity must be Hermitian, but this is
+allowed in qlazy specifications.  However, if this observable is
+displayed by print statement or calculating expectation value in some
+quantum state, an error occurs that means “not Hermitian”.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>  <span class="c1"># --&gt; error</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expect_value</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">ob_1</span><span class="p">)</span>  <span class="c1"># --&gt; error</span>
+</pre></div>
+</div>
+<p>This is not allowed, but you can do some calculation to the above ob_1.
+For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This operation can be executed without any problems.
+As a result, you can get an Hermitian observable because it is ZXX = Z.
+So this can be displayed without any problems in print statement.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_2</span><span class="p">)</span>
+<span class="go">Z(0)</span>
+</pre></div>
+</div>
+<p>In addition, expectation value can be calculated without any problems.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">ob_2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Whether the observable is Hermitian or not can be obtained by the
+‘is_hermitian’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="o">.</span><span class="n">is_hermitian</span><span class="p">())</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_2</span><span class="o">.</span><span class="n">is_hermitian</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021-2022, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

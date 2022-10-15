@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -82,10 +87,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
 </ul>
@@ -156,7 +162,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="obserbable">
-<h1>オブザーバブル(Obserbableクラス)<a class="headerlink" href="#obserbable" title="Permalink to this headline">¶</a></h1>
+<h1>オブザーバブル(Obserbableクラス)<a class="headerlink" href="#obserbable" title="Permalink to this heading">¶</a></h1>
 <p>ハミルトニアンをはじめとする観測可能な物理量のことを「オブザーバブル
 (observable)」と言います。量子力学や量子情報理論でよくお目にかかるオブ
 ザーバブルはパウリ演算子X,Y,Zの積和で表現されたものです。スピンの集ま
@@ -179,7 +185,7 @@ Observableクラスを使って、どのようにオブザーバブルを作成�
 ます。また、作成したオブザーバブルに対して実行できる演算がいくつかある
 ので、それについても説明します。</p>
 <div class="section" id="id1">
-<h2>オブザーバブルの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>オブザーバブルの作成<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>まず、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Observable</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span>
@@ -194,7 +200,7 @@ Observableクラスを使って、どのようにオブザーバブルを作成�
 </div>
 <p>以下の節で順に説明します。</p>
 <div class="section" id="id2">
-<h3>文字列指定による方法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>文字列指定による方法<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>例えば、3.0 Z(0) Z(1) + 4.0 X(2) X(3) - 2.0というオブザーバブルは、以
 下のようにして作成できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">(</span><span class="s2">&quot;3.0*Z_0*Z_1+4.0*X_2*X_3+5*Y_4-2.0&quot;</span><span class="p">)</span>
@@ -215,7 +221,7 @@ Observableクラスを使って、どのようにオブザーバブルを作成�
 ろん、内部的には恒等演算子が存在するものとして各種処理がなされます。</p>
 </div>
 <div class="section" id="id3">
-<h3>重み付きパウリ積を順次追加する方法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>重み付きパウリ積を順次追加する方法<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>前節と同じオブザーバブルは、以下のようにして作成することも可能です。
 まず、空のオブザーバブルを作成します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
@@ -234,7 +240,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="x-y-z">
-<h3>X,Y,Zの加減乗除で指定する方法<a class="headerlink" href="#x-y-z" title="Permalink to this headline">¶</a></h3>
+<h3>X,Y,Zの加減乗除で指定する方法<a class="headerlink" href="#x-y-z" title="Permalink to this heading">¶</a></h3>
 <p>この方法で作成する場合、X,Y,Z関数がimportされている必要があります。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy.Qbservable</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span>
 </pre></div>
@@ -248,11 +254,11 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="id4">
-<h2>オブザーバブルに関する演算<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>オブザーバブルに関する演算<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p>上記のように作成された複数のオブザーバブルのインスタンスに対して、加減
 乗除やべき乗および比較演算を実行することができます。</p>
 <div class="section" id="id5">
-<h3>加算<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3>加算<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
 <p>‘+’演算子を使って、２つのオブザーバブルの加算を実行することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
@@ -271,7 +277,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="id6">
-<h3>減算<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>減算<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
 <p>‘-‘演算子を使って、２つのオブザーバブルの減算を実行することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">Y</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span>
@@ -290,7 +296,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="id7">
-<h3>乗算<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>乗算<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <p>‘*’演算子を使って、オブザーバブルの実数倍を得ることができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">*</span> <span class="mf">3.0</span>
@@ -321,7 +327,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="id8">
-<h3>除算<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>除算<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
 <p>‘/’演算子を使って、オブザーバブルを実数値で割る除算を実行すること
 ができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -340,7 +346,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 <p>オブザーバブルをオブザーバブルで割る除算はサポートされていません。</p>
 </div>
 <div class="section" id="id9">
-<h3>べき乗<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>べき乗<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
 <p>‘**’演算子を使って、オブザーバブルのべき乗を実行することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="n">ob_1</span> <span class="o">**</span> <span class="mi">2</span>
@@ -353,7 +359,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="id10">
-<h3>比較<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>比較<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
 <p>２つのオブザーバブルが等しいかどうかを”==”,”!=”演算子で確認することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_2</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -365,7 +371,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 </div>
 </div>
 <div class="section" id="id11">
-<h3>非エルミートなオブザーバブルに関する注意事項<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>非エルミートなオブザーバブルに関する注意事項<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
 <p>上記の演算を行うと結果としてエルミートでないオブザーバブルが出来上がる
 ことがあります。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>

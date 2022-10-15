@@ -12,6 +12,7 @@ Welcome to qlazy's documentation!
 
    Introduction
    Install
+   Tutorial_en
    Tutorial_jp
    python-api/qlazy
 

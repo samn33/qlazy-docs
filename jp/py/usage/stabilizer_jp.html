@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -82,10 +87,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
 </ul>
@@ -156,9 +162,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stabilizer">
-<h1>スタビライザー(Stabilizerクラス)<a class="headerlink" href="#stabilizer" title="Permalink to this headline">¶</a></h1>
+<h1>スタビライザー(Stabilizerクラス)<a class="headerlink" href="#stabilizer" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="id1">
-<h2>スタビライザーの操作<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>スタビライザーの操作<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>パウリ群の部分群S=&lt;g_1,g_2,..,g_n&gt;の要素g_iを作用させてもある状態が不
 変になるとき、Sをスタビライザー群と言い、不変になる状態をスタビライザー
 状態と言います。通常、状態の変化はヒルベルト空間上のベクトルに施される
@@ -170,7 +176,7 @@ Uをクリフォード演算(X,Y,Z,H,S,S+,CX,CY,CZ)に限定すれば、スタ�
 <p>qlazyには、スタビライザーを作成してクリフォード演算による状態変化や測
 定をシミュレートする機能があります。</p>
 <div class="section" id="id2">
-<h3>生成・初期化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>生成・初期化<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>Stabilizerクラスがスタビライザーを表します。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Stabilizer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
@@ -254,7 +260,7 @@ set_pauli_facメソッドを使います。例えば、</p>
 </div>
 </div>
 <div class="section" id="id3">
-<h3>ゲート演算<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>ゲート演算<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>スタビライザーに対してゲート演算を実行することができます。ただし、クリ
 フォード演算に限定されます。つまり、対応しているゲート演算は
 X,Y,Z,H,S,S+,CX,CY,CZのみです。Tゲートや回転ゲートは非クリフォード演算
@@ -265,11 +271,11 @@ X,Y,Z,H,S,S+,CX,CY,CZのみです。Tゲートや回転ゲートは非クリフ�
 </div>
 <p>という具合に実行します。</p>
 <div class="section" id="id4">
-<h4>量子ビット数の制限<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<h4>量子ビット数の制限<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
 <p>制限はありません。メモリが許す限り量子ビット数を設定できます。</p>
 </div>
 <div class="section" id="id5">
-<h4>量子ビット数と生成元の数が異なる場合<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<h4>量子ビット数と生成元の数が異なる場合<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
 <p>以下のようにスタビライザーを生成してゲート演算を実行することができます。
 独立な生成元の個数が量子ビット数と同じであれば測定もできます（状態がユ
 ニークに決まるので）。が、そうでない場合測定はできません（エラーを返し
@@ -282,7 +288,7 @@ X,Y,Z,H,S,S+,CX,CY,CZのみです。Tゲートや回転ゲートは非クリフ�
 </div>
 </div>
 <div class="section" id="id6">
-<h4>カスタム・ゲートの追加<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<h4>カスタム・ゲートの追加<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
 <p>Stabilizerクラスを継承することで、自分専用の量子ゲートを簡単に作成・追
 加することができます。ベル状態を作成する回路をbellメソッドとして、
 Stabilizerを継承したMyStabilizerクラスに追加する例を示します。</p>
@@ -301,7 +307,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id7">
-<h3>パウリ積の演算<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>パウリ積の演算<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <p>パウリ演算子X,Y,Zのテンソル積を定義してスタビライザー状態に演算することができま
 す。パウリ積を扱うために、まず、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Stabilizer</span><span class="p">,</span> <span class="n">PauliProduct</span>
@@ -322,7 +328,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id8">
-<h3>測定<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>測定<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
 <p>QStateクラスと同様にmメソッドで測定データ(MDataStabilizerクラス)を取得
 して適当な変数に格納します。頻度や最後の測定結果はfrequencyプロパティ
 (pythonのCounter形式)とlastプロパティ(文字列)で取得することができます。</p>
@@ -335,7 +341,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id9">
-<h3>一回限りの測定（もう一つの方法）<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>一回限りの測定（もう一つの方法）<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
 <p>計算基底で単純に１回だけ測定してその測定値を得たい場合、measureメソッ
 ドを使うこともできます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">set_all</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -353,7 +359,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id10">
-<h3>メモリ解放<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>メモリ解放<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
 <p>スタビライザーインスタンスのメモリは使用されなくなったら自動的に解放されますが、
 明示的に解放したい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">sb</span>
@@ -377,7 +383,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 <p>という指定の仕方でも大丈夫です。</p>
 </div>
 <div class="section" id="id11">
-<h3>複製<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>複製<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
 <p>スタビライザーを複製することができます。以下のようにcloneメソッドを呼
 び出します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sb_clone</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
@@ -385,7 +391,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id12">
-<h3>リセット<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>リセット<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
 <p>すでに生成済みのスタビライザーを破棄することなく、再度初期化して使いた
 い場合は、reset()メソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -394,7 +400,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 <p>とすれば、すべての演算子を恒等演算子Iにリセットすることができます。</p>
 </div>
 <div class="section" id="id13">
-<h3>スタビライザーの表示<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<h3>スタビライザーの表示<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
 <p>Stabilizerクラスのshowメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -407,7 +413,7 @@ Stabilizerを継承したMyStabilizerクラスに追加する例を示します�
 </div>
 </div>
 <div class="section" id="id14">
-<h3>要素の取得<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h3>要素の取得<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h3>
 <p>get_pauli_opメソッドget_pauli_facメソッドで取得できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="go">g[0]:  XXI</span>

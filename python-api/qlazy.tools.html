@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -83,10 +88,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="qlazy.html">qlazy package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="qlazy.html#subpackages">Subpackages</a><ul class="current">
@@ -106,7 +112,9 @@
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.CMem">qlazy.CMem module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.DensOp">qlazy.DensOp module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MData">qlazy.MData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MPState">qlazy.MPState module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Observable">qlazy.Observable module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.ObservableBase">qlazy.ObservableBase module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a></li>
@@ -190,16 +198,16 @@
            <div itemprop="articleBody">
             
   <div class="section" id="qlazy-tools-package">
-<h1>qlazy.tools package<a class="headerlink" href="#qlazy-tools-package" title="Permalink to this headline">¶</a></h1>
+<h1>qlazy.tools package<a class="headerlink" href="#qlazy-tools-package" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </div>
 <div class="section" id="module-qlazy.tools.Probability">
-<span id="qlazy-tools-probability-module"></span><h2>qlazy.tools.Probability module<a class="headerlink" href="#module-qlazy.tools.Probability" title="Permalink to this headline">¶</a></h2>
+<span id="qlazy-tools-probability-module"></span><h2>qlazy.tools.Probability module<a class="headerlink" href="#module-qlazy.tools.Probability" title="Permalink to this heading">¶</a></h2>
 <p>functions related to probability</p>
 <dl class="py function">
-<dt id="qlazy.tools.Probability.cross_entropy">
-<code class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></code><code class="sig-name descname"><span class="pre">cross_entropy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#cross_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.cross_entropy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.tools.Probability.cross_entropy">
+<span class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></span><span class="sig-name descname"><span class="pre">cross_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#cross_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.cross_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>cross entropy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -220,8 +228,8 @@ ex) {‘00’: 0.51, ‘11’: 0.49}</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="qlazy.tools.Probability.entropy">
-<code class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></code><code class="sig-name descname"><span class="pre">entropy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.entropy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.tools.Probability.entropy">
+<span class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></span><span class="sig-name descname"><span class="pre">entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.entropy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>prob</strong> (<em>dict</em>) – probability data
@@ -237,12 +245,12 @@ ex) {‘00’: 0.53, ‘11’: 0.47}</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="qlazy.tools.Probability.freq2prob">
-<code class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></code><code class="sig-name descname"><span class="pre">freq2prob</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#freq2prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.freq2prob" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.tools.Probability.freq2prob">
+<span class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></span><span class="sig-name descname"><span class="pre">freq2prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#freq2prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.freq2prob" title="Permalink to this definition">¶</a></dt>
 <dd><p>frequency to probability</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>freq</strong> (<em>instance of Counter</em>) – frequency data
+<dd class="field-odd"><p><strong>freq</strong> (<em>instance</em><em> of </em><em>Counter</em>) – frequency data
 ex) Counter({‘00’: 53, ‘11’: 47})</p>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -256,8 +264,8 @@ ex) {‘00’: 0.53, ‘11’: 0.47}</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="qlazy.tools.Probability.kl_divergence">
-<code class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></code><code class="sig-name descname"><span class="pre">kl_divergence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#kl_divergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.kl_divergence" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.tools.Probability.kl_divergence">
+<span class="sig-prename descclassname"><span class="pre">qlazy.tools.Probability.</span></span><span class="sig-name descname"><span class="pre">kl_divergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Probability.html#kl_divergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Probability.kl_divergence" title="Permalink to this definition">¶</a></dt>
 <dd><p>KL divergence</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -279,15 +287,15 @@ ex) {‘00’: 0.51, ‘11’: 0.49}</p></li>
 
 </div>
 <div class="section" id="module-qlazy.tools.Register">
-<span id="qlazy-tools-register-module"></span><h2>qlazy.tools.Register module<a class="headerlink" href="#module-qlazy.tools.Register" title="Permalink to this headline">¶</a></h2>
+<span id="qlazy-tools-register-module"></span><h2>qlazy.tools.Register module<a class="headerlink" href="#module-qlazy.tools.Register" title="Permalink to this heading">¶</a></h2>
 <p>functions to create and initialize registers</p>
 <dl class="py function">
-<dt id="qlazy.tools.Register.CreateRegister">
-<code class="sig-prename descclassname"><span class="pre">qlazy.tools.Register.</span></code><code class="sig-name descname"><span class="pre">CreateRegister</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Register.html#CreateRegister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Register.CreateRegister" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.tools.Register.CreateRegister">
+<span class="sig-prename descclassname"><span class="pre">qlazy.tools.Register.</span></span><span class="sig-name descname"><span class="pre">CreateRegister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Register.html#CreateRegister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Register.CreateRegister" title="Permalink to this definition">¶</a></dt>
 <dd><p>create multi-dimensional register id and initialize zero.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>args</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>..</em><em>)</em>) – size of register id.</p>
+<dd class="field-odd"><p><strong>args</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>...</em><em>)</em>) – size of register id.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>reg</strong> – register id list.</p>
@@ -308,12 +316,12 @@ ex) {‘00’: 0.51, ‘11’: 0.49}</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="qlazy.tools.Register.InitRegister">
-<code class="sig-prename descclassname"><span class="pre">qlazy.tools.Register.</span></code><code class="sig-name descname"><span class="pre">InitRegister</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Register.html#InitRegister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Register.InitRegister" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.tools.Register.InitRegister">
+<span class="sig-prename descclassname"><span class="pre">qlazy.tools.Register.</span></span><span class="sig-name descname"><span class="pre">InitRegister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/tools/Register.html#InitRegister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.tools.Register.InitRegister" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize register id</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>args</strong> (<em>list</em><em>, </em><em>list</em><em>,</em><em>..</em>) – arguments of register id</p>
+<dd class="field-odd"><p><strong>args</strong> (<em>list</em><em>, </em><em>list</em><em>,</em><em>...</em>) – arguments of register id</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>total_num</strong> – total number of registers</p>
@@ -336,7 +344,7 @@ ex) {‘00’: 0.51, ‘11’: 0.49}</p></li>
 
 </div>
 <div class="section" id="module-qlazy.tools">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qlazy.tools" title="Permalink to this headline">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qlazy.tools" title="Permalink to this heading">¶</a></h2>
 </div>
 </div>
 

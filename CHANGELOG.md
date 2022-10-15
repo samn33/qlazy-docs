@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.0] - 2022-10-15
+### Add
+- English Tutorial
+
 ## [0.0.11] - 2022-09-11
 ### Changed
 - qlazyバージョンアップ(v0.3.2)に伴う変更

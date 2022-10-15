@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Quantum state vector (QState class) &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Quantum state vector (QState class)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/en/py/usage/qstate_en.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quantum-state-vector-qstate-class">
+<h1>Quantum state vector (QState class)<a class="headerlink" href="#quantum-state-vector-qstate-class" title="Permalink to this heading">¶</a></h1>
+<div class="section" id="operation-of-quantum-state-vector">
+<h2>Operation of quantum state vector<a class="headerlink" href="#operation-of-quantum-state-vector" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="initialization">
+<h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this heading">¶</a></h3>
+<p>First of all, you need to prepare an initial quantum state before
+starting your quantum calculation.  In order to do it, call ‘QState’
+class constructor to set the qubit number required for the
+calculation.  In the case of preparing a 2-qubit initial quantum state
+|00&gt;, do as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since result of the quantum calculation is probabilistic, it changes
+every time.  Qlazy simulates these situation by generating random
+number internally.  However, if you want to get a fixed result
+regarding to your calculation, you can set a seed number of random
+generation using ‘seed’ option as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>About this initialization, there are 2 important points you should
+know.</p>
+<ol class="simple">
+<li><p>The quantum state is always |00..&gt;.  There is no initialization
+option to make any qubit to be |1&gt;.  If you want to do that, use Pauli
+X gate to reverse qubit after initialization.</p></li>
+<li><p>The maximum number of qubits that can be specified is 30, If you
+exceed 30, you will get an error (But before that, your PC memory
+will be run out, maybe).</p></li>
+</ol>
+<p>In addtion, you can prepare the initial quantum state by specifing a
+ndarray (numpy array) as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">vec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, the dimention of the vector must be a power of 2 (2, 4, 8, ..).</p>
+</div>
+<div class="section" id="copy">
+<h3>Copy<a class="headerlink" href="#copy" title="Permalink to this heading">¶</a></h3>
+<p>If you want to copy the quantum state vector, use the ‘clone’ method,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_clone</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reset">
+<h3>Reset<a class="headerlink" href="#reset" title="Permalink to this heading">¶</a></h3>
+<p>If you want to initialize and use it again without discarding the
+already generated quantum state vector, use the reset method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The quantum state vector becomes |00…0&gt;.  If you give a qubit id
+list with arguments, you can forcibly make the qubit corresponding to
+the id list |0&gt;.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>When you reset some specific qubits, the qubits are internally measured
+and then reset. So if the qubits and the remained qubits are
+entangled, the effect of the reset (measureing) extends the remaining
+qubits.  In other words, the result is probable.  Please note that the
+results may change each time you execute.</p>
+</div>
+<div class="section" id="memory-release">
+<h3>Memory release<a class="headerlink" href="#memory-release" title="Permalink to this heading">¶</a></h3>
+<p>If the memory of the quantum state vector instance is no longer used,
+it will be released automatically, but if you want to clearly release
+it, do as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">qs</span>
+</pre></div>
+</div>
+<p>Using the class method ‘del_all’ allows you to release multiple
+quantum state vector instances at once.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_0</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_2</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QState</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">qs_0</span><span class="p">,</span> <span class="n">qs_1</span><span class="p">,</span> <span class="n">qs_2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, you can specify quantum state vectors list, tuples or
+nest of those as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_A</span> <span class="o">=</span> <span class="p">[</span><span class="n">qs_1</span><span class="p">,</span> <span class="n">qs_2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QState</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">qs_0</span><span class="p">,</span> <span class="n">qs_A</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_B</span> <span class="o">=</span> <span class="p">[</span><span class="n">qs_3</span><span class="p">,</span> <span class="p">[</span><span class="n">qs_4</span><span class="p">,</span> <span class="n">qs_5</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QState</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">qs_B</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gate-operation">
+<h3>Gate operation<a class="headerlink" href="#gate-operation" title="Permalink to this heading">¶</a></h3>
+<p>After preparing the initial quantum state vector, you can perform
+various kind of gate operations to the state.  The gate operations
+that are supported by qlazy are listed bellow.</p>
+<div class="section" id="pauli-x-y-z-gate">
+<h4>Pauli X,Y,Z gate<a class="headerlink" href="#pauli-x-y-z-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The argument ‘q’ is the qubit id to operate the single-qubit gate,
+same applies hereafter.</p>
+</div>
+<div class="section" id="root-pauli-x-gate">
+<h4>root Pauli X gate<a class="headerlink" href="#root-pauli-x-gate" title="Permalink to this heading">¶</a></h4>
+<p>This is the gate that square becomes X gate.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">xr</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">xr_dg</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># Hermitian conjugate of &#39;xr&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hadamard-gate">
+<h4>Hadamard gate<a class="headerlink" href="#hadamard-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="phase-shift-gate">
+<h4>Phase shift gate<a class="headerlink" href="#phase-shift-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># PI/2 phase shift</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># PI/4 phase shift</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">s_dg</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># Hermitian conjugate of &#39;s&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">t_dg</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># Hermitian conjugate of &#39;t&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rotation-gate">
+<h4>Rotation gate<a class="headerlink" href="#rotation-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># rotaion around the X-axis</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># rotaion around the Y-axis</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># rotaion around the Z-axis</span>
+</pre></div>
+</div>
+<p>If ‘phase’ is not specified, it means 0 radian rotation (in other
+words, do nothing).  The unit of the value specified in ‘phase’ option
+is PI radian. So “phase=0.5” means 0.5*PI radian rotation.</p>
+</div>
+<div class="section" id="controlled-unitary-gate">
+<h4>Controlled unitary gate<a class="headerlink" href="#controlled-unitary-gate" title="Permalink to this heading">¶</a></h4>
+<p>These are controlled unitary gate for Pauli X,Y,Z gate, root Pauli X
+gate, Hadamard gate, phase shift gate, and rotation gate.  The
+arguments ‘q0’ and ‘q1’ are the qubit id to operate the 2-qubit gate;
+same applies hereafter.  Here, the ‘q0’ is the control qubit, the ‘q1’
+is the target qubit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>              <span class="c1"># controlled X gate (Controlled-NOT,CNOT)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>              <span class="c1"># controlled X gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>              <span class="c1"># controlled Z gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>             <span class="c1"># controlled XR (root Pauli X) gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cxr_dg</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>          <span class="c1"># controlled XR+ (rot Pauli X) gate (Hermitian conjugate)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ch</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>              <span class="c1"># controlled H gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>              <span class="c1"># controlled S gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cs_dg</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>           <span class="c1"># controlled S+ gate (Hermitian conjugate)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ct</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>              <span class="c1"># controlled T gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ct_dg</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>           <span class="c1"># controlled T+ gate (Hermitian conjugate)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>   <span class="c1"># controlled phase shift gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># controlled X-axis rotation gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">cry</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># controlled Y-axis rotation gate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># controlled Z-axis rotation gate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ising-coupling-gate">
+<h3>Ising coupling gate<a class="headerlink" href="#ising-coupling-gate" title="Permalink to this heading">¶</a></h3>
+<p>There are 2-qubit gates that are the basics of ion trap quantum
+computer.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rxx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># for XX operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ryy</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># for YY operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rzz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># for ZZ operator</span>
+</pre></div>
+</div>
+<div class="section" id="swap-gate">
+<h4>Swap gate<a class="headerlink" href="#swap-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">sw</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>  <span class="c1"># swap q0 and q1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="toffoli-gate">
+<h4>Toffoli gate<a class="headerlink" href="#toffoli-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>  <span class="c1"># q0,q1: control qubits, q2: target qubit</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="controlled-swap-gate-fredkin-gate">
+<h4>Controlled swap gate (Fredkin gate)<a class="headerlink" href="#controlled-swap-gate-fredkin-gate" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">csw</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>  <span class="c1"># q0: control qubit, q1,q2: swapped qubits </span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multi-controlled-x-gate">
+<h4>Multi controlled X gate<a class="headerlink" href="#multi-controlled-x-gate" title="Permalink to this heading">¶</a></h4>
+<p>This is a controlled X gate with 3 or more control qubits.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">mcx</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="o">..</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The last element of the ‘qid’ list is interpreted as a target qubit
+id, and the other elements are interpreted as the list of control
+qubits id.  Please note that the argument is the “list” of the qubit
+id.  In qlazy, if it is necessary to specify an indefinite number of
+qubit id, give a “list” of the qubit id to the method or function.</p>
+</div>
+<div class="section" id="custom-gate">
+<h4>Custom gate<a class="headerlink" href="#custom-gate" title="Permalink to this heading">¶</a></h4>
+<p>By inheriting the ‘QState’ class, you can easily create and add your
+own quantum gate as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyQState</span><span class="p">(</span><span class="n">QState</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">MyQState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
+<p>This is a very simple example, so you may not feel much profit, but
+there are many situations where you can use it, such as when you want
+to create a large quantum circuit.</p>
+</div>
+</div>
+<div class="section" id="pauli-product-operation">
+<h3>Pauli product operation<a class="headerlink" href="#pauli-product-operation" title="Permalink to this heading">¶</a></h3>
+<p>You can perform to operate a Pauli product (tensor product of pauli
+operator X, Y and Z) to the quantum state vector.  In order to handle
+pauli product, you must import the ‘PauliProduct’ class as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QState</span><span class="p">,</span> <span class="n">PauliProduct</span>
+</pre></div>
+</div>
+<p>For example, if you want to operate the pauli product “X2 Y0 Z1” for
+the 3-qubit quantum state vector ‘qs’, create the instance of
+‘PauliProduct’ as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>then perform ‘operate’ method with ‘pp’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Controlled pauli product can be operated by specifying the control
+qubit id in the ‘ctrl’ option of the ‘operate’ method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="display-of-quantum-state-vector">
+<h2>Display of quantum state vector<a class="headerlink" href="#display-of-quantum-state-vector" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="display-the-whole-qubits-state">
+<h3>Display the whole qubits state<a class="headerlink" href="#display-the-whole-qubits-state" title="Permalink to this heading">¶</a></h3>
+<p>You can display the quantum state vector by using ‘show’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-the-partial-qubits-state">
+<h3>Display the partial qubits state<a class="headerlink" href="#display-the-partial-qubits-state" title="Permalink to this heading">¶</a></h3>
+<p>You can also display the quantum state vector for specific qubits.  In
+the case of displaying a quantum state vector for 0th and 2nd qubit,
+do as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The result is this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+</pre></div>
+</div>
+<p>If you specify the other qubit as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>the result is this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+</pre></div>
+</div>
+<p>If the qubits you want to display and the other qubits are entangled,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+<p>the result is probable.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>then,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+</pre></div>
+</div>
+<p>or,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-only-non-zero-components">
+<h3>Display only non-zero components<a class="headerlink" href="#display-only-non-zero-components" title="Permalink to this heading">¶</a></h3>
+<p>If you want to display only components with non-zero probability
+amplitude, use the ‘nonzero’ option as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nonzero</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+</pre></div>
+</div>
+<p>Use it if you want to display the quantum state vector that most of
+the components are zero amplitude.</p>
+</div>
+<div class="section" id="notes-on-normalization">
+<h3>Notes on normalization<a class="headerlink" href="#notes-on-normalization" title="Permalink to this heading">¶</a></h3>
+<p>When you display the quantum state vector with the ‘show’ method,
+normalization is performed to be norm is 1.  In addition, a global
+phase factor of the state is taken out, so that the coefficient of
+C[00..0] becomes positive number.  In the case that C[00..0] of the
+original state is 0, the global phase will not be taken out (we can’t
+do it).  If you want to take out the global phase so that coefficient
+of some specific qubit to become positive number, use ‘preal’ option
+as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">preal</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you do not want to take out the global phase, specify -1 to the
+‘preal’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">preal</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="probability-amplitude">
+<h3>Probability amplitude<a class="headerlink" href="#probability-amplitude" title="Permalink to this heading">¶</a></h3>
+<p>You can get an array (ndarray) of probability amplitudes using
+‘get_amp’ method.  If you set a list of qubit id in ‘qid’ option, you
+will get probability amplitudes corresponding to the list of qubit id.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get_amp</span><span class="p">()</span>  <span class="c1"># probability amplitudes for the whole qubits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># probability amplitudes for the specified qubits</span>
+</pre></div>
+</div>
+<p>Please note that if the specified qubits and the rest are entangled,
+the results will change each time you execute (like the show method).</p>
+<p>Since the ‘get_amp’ method without the argument is defined as ‘amp’
+property, the same result as “qs.get_amp()” can be obtained as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">amp</span>
+</pre></div>
+</div>
+<p>In addition, you can get an absolute value of each probability
+amplitude (‘probability’) using ‘get_prob’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get_prob</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The return value is a dictionary that the key is qubit id and the value is probability.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="go">{&#39;00&#39;: 0.5, &#39;11&#39;: 0.5}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="partial-system">
+<h3>Partial system<a class="headerlink" href="#partial-system" title="Permalink to this heading">¶</a></h3>
+<p>You can get the quantum state vector of partial system using ‘partial’ method.
+The usage examples are shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_partial</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Please note that if the specified qubits and the rest are entangled,
+the results will change each time you execute (like the show method).</p>
+</div>
+<div class="section" id="coodinates-on-bloch-sphere">
+<h3>Coodinates on Bloch sphere<a class="headerlink" href="#coodinates-on-bloch-sphere" title="Permalink to this heading">¶</a></h3>
+<p>You can get coordinates on Bloch sphere for a single qubit state using
+‘bloch’ method.  The return values are the angle of Z-axis and the
+angle around Z-axis.  The unit of the each value is PI radian, so 0.5
+means 0.5*PI radian.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">bloch</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, multiple qubits cannot be specified at the same time.  If the
+argument is not specified, 0 is considerd specified.  Please note that
+if the specified qubits and the rest are entangled, the results will
+change each time you execute (like the show method).</p>
+</div>
+</div>
+<div class="section" id="measurement-of-quantum-state-vector">
+<h2>Measurement of quantum state vector<a class="headerlink" href="#measurement-of-quantum-state-vector" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="execution-of-measurement">
+<h3>Execution of measurement<a class="headerlink" href="#execution-of-measurement" title="Permalink to this heading">¶</a></h3>
+<p>You can perform Z-axial direction measurement (measurement at the
+computational basis) with ‘m’ method.  Set the following arguments
+and execute.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you do not specify ‘qid’, ‘shots’, ‘angle’ and ‘phase’, perform a
+measurement of Z-axial direction once.  In the ‘qid’, specify the list
+of qubit id you want to measure.  In the ‘shots’, specify the number
+of measurement.  The ‘angle’ and ‘phase’ indecate the derection of
+measurement.  In the ‘angle’, specify the angle of the Z-axis in a
+unit PI radian.  In the ‘phase’, specify the angle around the Z-axis
+in a unit PI radian.  This measurement method returns a instance of
+MData class.</p>
+<p>In addition, qlazy has ‘mx’,’my’ and ‘mz’ methods to measure of
+X-axis, Y-axis and Z-axis.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mx</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">my</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mz</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ‘mz’ method is exactly the same as the ‘m’ method.</p>
+<p>Qlazy also has ‘mb’ method to execute bell-measurement.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mb</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Please note that the measurement method returns the MData class
+instannce, so it is not possible to connect the gate method after the
+measurement method.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">shots</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>cannot be executed.  If you want to do this calculation, divide it
+into two lines as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">shosts</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-of-measurement-result">
+<h3>Display of measurement result<a class="headerlink" href="#display-of-measurement-result" title="Permalink to this heading">¶</a></h3>
+<p>You can display the measurement result using ‘show’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: z-axis</span>
+<span class="go">frq[0] = 48</span>
+<span class="go">frq[1] = 52</span>
+<span class="go">last state =&gt; 00</span>
+</pre></div>
+</div>
+<p>This example is the result for Z-axial direction.
+The following examples are the measurement results other than the Z-axial direction.
+The measurement result in the Z-axial direction is |0&gt;, |1&gt;,
+but the other direction is not |0&gt;, |1&gt;, so qlazy represent that |u&gt;, |d&gt; instead.</p>
+<p>X-axial measurement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: x-axis</span>
+<span class="go">frq[u] = 49</span>
+<span class="go">frq[d] = 51</span>
+<span class="go">last state =&gt; u</span>
+</pre></div>
+</div>
+<p>Y-axial measurement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: y-axis</span>
+<span class="go">frq[u] = 51</span>
+<span class="go">frq[d] = 49</span>
+<span class="go">last state =&gt; d</span>
+</pre></div>
+</div>
+<p>Arbitrary direction measurement (in the case of angle=0.2 and phase=0.3):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: theta=0.200*PI, phi=0.300*PI</span>
+<span class="go">frq[u] = 90</span>
+<span class="go">frq[d] = 10</span>
+<span class="go">last state =&gt; u</span>
+</pre></div>
+</div>
+<p>Bell measurement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bell</span><span class="o">-</span><span class="n">measurement</span>
+<span class="n">frq</span><span class="p">[</span><span class="n">phi</span><span class="o">+</span><span class="p">]</span> <span class="o">=</span> <span class="mi">47</span>
+<span class="n">frq</span><span class="p">[</span><span class="n">phi</span><span class="o">-</span><span class="p">]</span> <span class="o">=</span> <span class="mi">53</span>
+<span class="n">last</span> <span class="n">state</span> <span class="o">=&gt;</span> <span class="n">phi</span><span class="o">+</span>  <span class="c1"># phi+,phi-,psi+,psi-のどれか</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-measurement-data">
+<h3>Getting measurement data<a class="headerlink" href="#getting-measurement-data" title="Permalink to this heading">¶</a></h3>
+<p>You can get the frequency list using ‘frq’ property and the last
+measured value using ‘lst’ property.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">frq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">lst</span>
+</pre></div>
+</div>
+<p>The frequency list is a list in which the frequency is stored in the
+descending order when the measured value is expressed in decimal
+number.  For example, in the case that the frequency |00&gt; is 48 times
+while the frequency of |11&gt; is 52 times and others are all 0 times,
+‘frq’ property holds the following values.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frq</span><span class="p">)</span>
+<span class="go">[48,0,0,52]</span>
+</pre></div>
+</div>
+<p>The ‘lst’ property holds the measured value converted as a decimal
+number.  In the case of measurement other than the Z-axial direction,
+it is replaced as u =&gt; 0, d =&gt; 1.  In the case of Bell measurement, it
+is replaces as phi+ =&gt; 0, phi- =&gt; 3, psi+ =&gt; 1, psi- =&gt; 2.</p>
+<p>However, the output value of the ‘frq’ and ‘lst’ properties is
+honestly difficult to understand. Recommendations are as follows.</p>
+<p>You can get a frequency list in a python standard container data
+subclass ‘Counter’ format using ‘frequency’ property, and you can get
+the last measured value in a binary string using ‘last’ property.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>  <span class="c1"># frequency list (dictionary)</span>
+<span class="go">Counter({&#39;00&#39;:53,&#39;11&#39;:47})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>       <span class="c1"># last measurement result</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="one-time-measurement">
+<h3>One-time measurement<a class="headerlink" href="#one-time-measurement" title="Permalink to this heading">¶</a></h3>
+<p>If you simply measure it once and get the measured value at the
+computational basis, use ‘measure’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mval</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+<p>As a result, the quantum state vector becomes the state after
+measurement as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +1.0000+0.0000*i : 1.0000 |+++++++++++</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calculation-regarding-quantum-state-vector">
+<h2>Calculation regarding quantum state vector<a class="headerlink" href="#calculation-regarding-quantum-state-vector" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="inner-product-of-two-quantum-state-vectors">
+<h3>Inner product of two quantum state vectors<a class="headerlink" href="#inner-product-of-two-quantum-state-vectors" title="Permalink to this heading">¶</a></h3>
+<p>If you want to get an inner product of two quantum state vectors,
+use the ‘inpro’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_0</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># |00&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># |11&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">qs_0</span><span class="o">.</span><span class="n">inpro</span><span class="p">(</span><span class="n">qs_1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, &lt;00|11&gt; value is calculated.</p>
+</div>
+<div class="section" id="fidelity-of-two-quantum-state-vectors">
+<h3>Fidelity of two quantum state vectors<a class="headerlink" href="#fidelity-of-two-quantum-state-vectors" title="Permalink to this heading">¶</a></h3>
+<p>If you want to get a fidelity of two quantum state vectors,
+use the ‘fidelity’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_0</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">qs_0</span><span class="o">.</span><span class="n">fidelity</span><span class="p">(</span><span class="n">qs_1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, an absolute value of &lt;00|11&gt;, that is |&lt;00|11&gt;|
+is calculated.</p>
+</div>
+<div class="section" id="tensor-product-of-two-quantum-state-vectors">
+<h3>Tensor product of two quantum state vectors<a class="headerlink" href="#tensor-product-of-two-quantum-state-vectors" title="Permalink to this heading">¶</a></h3>
+<p>You can get a tensor product of two quantum state vectors using
+‘tenspro’ method.  The usage examples are shown below,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_2</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_3</span> <span class="o">=</span> <span class="n">qs_1</span><span class="o">.</span><span class="n">tenspro</span><span class="p">(</span><span class="n">qs_2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where tensor product of |1&gt; and (|00&gt;+|11&gt;)/sqrt(2) is stored the variable ‘qs_3’</p>
+</div>
+<div class="section" id="composite-states">
+<h3>Composite states<a class="headerlink" href="#composite-states" title="Permalink to this heading">¶</a></h3>
+<p>You can use ‘composite’ method to create a composit state of exactly
+same quantum state vectors.  The usage examples are shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_com</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conversion-by-matrix">
+<h3>Conversion by matrix<a class="headerlink" href="#conversion-by-matrix" title="Permalink to this heading">¶</a></h3>
+<p>You can get a result of applying a matrix to the quantum state vector
+using ‘apply’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>	
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The above example illustrates that the matrix ‘M’ is applied to the
+2nd qubit of 5-qubit state |00000&gt;.  Here, the size of the matrix must
+be smaller than the size of the quantum state vector.  In addition to
+that, when the length of the list specified in the ‘qid’ is n, the
+number of rows and columns in the matrix must be 2^n.  Note that the
+‘apply’ method changes the the original instance.</p>
+</div>
+<div class="section" id="schmidt-decomposition">
+<h3>Schmidt decomposition<a class="headerlink" href="#schmidt-decomposition" title="Permalink to this heading">¶</a></h3>
+<p>You can get the Schmidt coefficients and the bases as a result of the
+Schmidt decomposition.  For example, suppose you have a 5-qubit state
+‘qs’, and you want to decompose into [0,1]-system and [2,3,4]-system
+in the sense of Schmidt decomposition.  Use ‘schmidt_decomp’ method as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coef</span><span class="p">,</span><span class="n">qs_0</span><span class="p">,</span><span class="n">qs_1</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">schmidt_decomp</span><span class="p">(</span><span class="n">qid_0</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>As a result of this calculation, suppose ‘Shmidt rank’ was 4.  The
+‘coef’ is a list of four Schmidt coefficient (four real numbers).  The
+‘qs_0’ is a list of four bases (four quantum state vectors) for the
+[0,1]-system, and ‘qs_1’ is a list of four bases (four quantum state
+vectors) for the [2,3,4]-system.  If you want to get only the Schmidt
+coefficients, use the Schmidt_coef method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coef</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">schmidt_coef</span><span class="p">(</span><span class="n">qid_0</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">qid_1</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Since both methods ignore the 0 Schmidt coefficient, ‘len(coef)’ will
+be same as the Schmidt rank.  If the Schmit rank is 1, the [0,1]
+system and the [2,3,4] system can be decomposed by tensor, that is,
+they are not entangled each other.  So the Schmit decomposition can be
+used as an entanglement discriminator.</p>
+</div>
+<div class="section" id="expectation-value-for-observable">
+<h3>Expectation value for observable<a class="headerlink" href="#expectation-value-for-observable" title="Permalink to this heading">¶</a></h3>
+<p>You can calculate an expectation value of observable for the quantum
+state vector.  In order to do it, first, you should create an instance
+of ‘Observable’ class you are considering.  For example, you can
+create the observable expressed by “z0 + 2.0 z1” as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">(</span><span class="s2">&quot;z_0 + 2.0 * z_1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliPruduct</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliPruduct</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Or,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See ‘Observable’ documentation for more details about how to create.
+If the current quantum state vector is given as ‘qs’, the expectation
+value ‘exp’ can be calculated as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="time-development-of-quantum-state">
+<h3>Time development of quantum state<a class="headerlink" href="#time-development-of-quantum-state" title="Permalink to this heading">¶</a></h3>
+<p>If a Hamiltonian of the system is given, the time development of the
+quantum state can be described using a unitary operator that depends
+on the Hamiltonian.  This unitary operator is called “time development
+operator”.  In particular, in the case of a many body system of
+two-level quantum particle such as electron with spin freedom, it is
+known that the operator can be expressed by a quantum circuits
+approximately.  Qlazy implements this calculation.  Use ‘evolve’
+method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hm</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">hm</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the first line, the 2-qubit state is defined.  The quantum state is
+inistialized to |00&gt;.  In the second line, the Hamiltonian described
+in the Pauli matrix “-2.0<em>Z0</em>Z1+X0+X1” is defined.  In the third line,
+the time development prescribed in this Hamiltonian is applied to
+quantum state ‘qs’.  Here, the ‘time’ option is time to develop the
+quantum state.  The ‘iteration’ option is a repetition number of times
+that is processed internally to improve the approximate accuracy.
+Specify a larger value than ‘time’.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021-2022, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

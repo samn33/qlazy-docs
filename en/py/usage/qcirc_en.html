@@ -1,0 +1,1179 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Quantum circuit execution (QCirc class, Backend class) &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Quantum circuit execution (QCirc class, Backend class)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/en/py/usage/qcirc_en.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quantum-circuit-execution-qcirc-class-backend-class">
+<h1>Quantum circuit execution (QCirc class, Backend class)<a class="headerlink" href="#quantum-circuit-execution-qcirc-class-backend-class" title="Permalink to this heading">¶</a></h1>
+<div class="section" id="basics-of-quantum-circuit-execution">
+<h2>Basics of quantum circuit execution<a class="headerlink" href="#basics-of-quantum-circuit-execution" title="Permalink to this heading">¶</a></h2>
+<p>Performing quantum calculation on a quantum computer means that you
+put a quantum circuit into a quantum computer and obtain a measurement
+result.  In qlazy, prepare a quantum computer (or simulator) as a
+‘Backend’ class instance and a quantum circuit as a ‘QCirc’ class
+instance, obtain a measurement result by performing the quantum
+circuit on the quantum computer.</p>
+<div class="section" id="prepare-quantum-computer">
+<h3>Prepare quantum computer<a class="headerlink" href="#prepare-quantum-computer" title="Permalink to this heading">¶</a></h3>
+<p>You can set a quantum computer (or simulator) by specifying ‘product’
+option and ‘device’ option in the ‘Backend’ class constructor.  For
+example, if you want to calculate with ‘qstate_simulator’ device of
+‘qstate’ product, set as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Backend</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of ‘stabilizer_simulator’ of ‘qlazy’ product:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>‘mps_simulator’ of ‘qlazy’ product:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;mps_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Nothing to specified as follows, set ‘qstate_simulator’ device of ‘qlazy’ product.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In addition, the supported backend in the current version of qlazy are
+<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>, <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum(IBMQ)</a>,
+and <a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket(LocalSimulator,AWS,IonQ,Rigetti,OQC)</a>.</p>
+<p>You can get the supporting products list as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">products</span><span class="p">())</span>
+<span class="go">[&#39;qlazy&#39;, &#39;qulacs&#39;, &#39;ibmq&#39;, &#39;braket_local&#39;, &#39;braket_aws&#39;, &#39;braket_ionq&#39;, &#39;braket_rigetti&#39;, &#39;braket_oqc&#39;]</span>
+</pre></div>
+</div>
+<p>You can get the devices list that can be used in each product as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;ibmq&#39;</span><span class="p">))</span>
+<span class="go">[&#39;aer_simulator&#39;, &#39;qasm_simulator&#39;, &#39;least_busy&#39;, &#39;ibmq_armonk&#39;, &#39;ibmq_bogota&#39;, &#39;ibmq_lima&#39;, &#39;ibmq_belem&#39;, &#39;ibmq_quito&#39;, &#39;ibmq_manila&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-quantum-circuit">
+<h3>Creating quantum circuit<a class="headerlink" href="#creating-quantum-circuit" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="unitary-gate">
+<h4>Unitary gate<a class="headerlink" href="#unitary-gate" title="Permalink to this heading">¶</a></h4>
+<p>Once you have a quantum computer, then create a quantum circuit.  In
+order to do it, add the gate to the ‘QCirc’ class instance in the same
+notation as the ‘Qstate’ class.  For example, if you want to create a
+circuit to create a Bell state,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where ‘h’ represent Hadamard gate and ‘cx’ represent CNOT gate.
+The following description is also allowed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This circuit can be expressed as follows visually,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">H</span><span class="o">--*---</span>
+          <span class="o">|</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-----</span><span class="n">X</span><span class="o">---</span>
+</pre></div>
+</div>
+<p>where q[0], q[1] represent the qubit id (quantum register number).</p>
+</div>
+</div>
+<div class="section" id="pauli-product-gate">
+<h3>Pauli product gate<a class="headerlink" href="#pauli-product-gate" title="Permalink to this heading">¶</a></h3>
+<p>You can add a Pauli product (tensor product of pauli operator X, Y and
+Z) to the quantum circuit.  In order to handle pauli product, you must
+import the ‘PauliProduct’ class as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span><span class="p">,</span> <span class="n">PauliProduct</span>
+</pre></div>
+</div>
+<p>For example, if you want to add the pauli product “X2 Y0 Z1” to the
+quantum circuit ‘qc’, create the instance of ‘PauliProduct’ as
+follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>then perform ‘operate’ method with ‘pp’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Controlled pauli product can be added by specifying the control
+qubit id in the ‘ctrl’ option of the ‘operate’ method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="measuring-gate">
+<h4>Measuring gate<a class="headerlink" href="#measuring-gate" title="Permalink to this heading">¶</a></h4>
+<p>If you want to measure, specify the list of the qubit id in ‘qid’
+option and the list of the classical bit id (classical memory number
+or classical register number) in ‘cid’ optoin.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The above circuit can be expressed visually as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">H</span><span class="o">--*---</span><span class="n">M</span>
+          <span class="o">|</span>   <span class="o">|</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-----</span><span class="n">X</span><span class="o">---|--</span><span class="n">M</span>
+              <span class="o">|</span>  <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">---------*--|--</span>
+                 <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">------------*--</span>
+</pre></div>
+</div>
+<p>where c[0] and c[1] represent the classical bit id.</p>
+<p>If you want to turn the gate operation ‘on’ or ‘off’ according to the
+measurement results stored the classical bit, use ‘ctrl’ option of
+each unitary gate method.  Such an example is shown below,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>where, by adding “h(0).cx(0,1)” and “measure(qid=[0],cid=[0])”, the
+measured value of the 0th qubit are stored in the 0th classic
+register.  Next gate is “x(0, ctrl=0)”.  The ‘x’ represents Pauli X
+gate, and the 1st argument is the qubit id to apply the gate.  In the
+‘QCirc’ class, you can also specify the argument called ‘ctrl’ in each
+unitary gate method.  This is to indicate whether or not this gate is
+applied according to the measured value stored in the classic bit id
+specified in the ‘ctrl’ option.  In the current example, the ‘measure’
+in the previous stage stored the measured value of 0th qubit in the
+0th classic register, so the Pauli X gate would be executed depending
+on whether the value stored classical register was 0 or 1.  If it is
+1, the Pauli X gate will be executed.  The following “x(1, ctrl=0)” is
+a Pauli X gate where execution is controlled with the same manner.
+Finally, it is ‘measure’ again.  Measured value of the 0th and the 1st
+qubit are stored in the 0th and 1st classical registers.  The above
+circuit can be expressed as follows visually.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">H</span><span class="o">--*---</span><span class="n">M</span><span class="o">---------</span><span class="n">X</span><span class="o">-------</span><span class="n">M</span>
+          <span class="o">|</span>   <span class="o">|</span>         <span class="o">|</span>       <span class="o">|</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-----</span><span class="n">X</span><span class="o">---|--</span><span class="n">M</span><span class="o">------|---</span><span class="n">X</span><span class="o">---|--</span><span class="n">M</span>
+              <span class="o">|</span>  <span class="o">|</span>      <span class="o">|</span>   <span class="o">|</span>   <span class="o">|</span>  <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">---------*--|------*---*---*--|--</span>
+                 <span class="o">|</span>                 <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">------------*-----------------*--</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reset-gate">
+<h4>Reset gate<a class="headerlink" href="#reset-gate" title="Permalink to this heading">¶</a></h4>
+<p>You can force a specific qubit to be |0&gt; using ‘reset’ method as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Specify the qubit id you want to be |0&gt; in the ‘qid’ option.</p>
+</div>
+</div>
+<div class="section" id="execution-of-quantum-calculation">
+<h3>Execution of quantum calculation<a class="headerlink" href="#execution-of-quantum-calculation" title="Permalink to this heading">¶</a></h3>
+<p>To execute quantum calculation, use ‘run’ method of the ‘Backend’
+class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>  <span class="c1"># qlazy&#39;s quantum state vector simulator (defalut)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As described above, specify the quantum circuit in ‘qcirc’ option and
+number of measurements in ‘shots’ option.  The ‘run’ method returns an
+instance of ‘Result’ class.  The ‘cid’ property of the ‘Result’ class
+store the list of the classical register, and the ‘frequency’ property
+of the ‘Result’ class store the frequencies of measurement as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
+<span class="go">[0,1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
+<span class="go">Counter({&#39;00&#39;: 52, &#39;11&#39;: 48})</span>
+</pre></div>
+</div>
+<p>You can also specify the list of classical register id you want to
+get.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>then you can get the only frequencies regarding to the 0th classical
+register as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
+<span class="go">[0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
+<span class="go">Counter({&#39;0&#39;: 52, &#39;1&#39;: 48})</span>
+</pre></div>
+</div>
+<p>In other words, you can get a marginalized frequencies list.  If ‘cid’
+is omitted, the frequencies list is calculated over the all classical
+regsters.  In addition, backend information, qubit number, classical
+bit number, measured number of times, calculation start time,
+calculation end time, and calculation time can be obtained as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
+<span class="go">{&#39;product&#39;: &#39;qlazy&#39;, &#39;device&#39;: &#39;qstate_simulator&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cmem_num</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shots</span><span class="p">)</span>
+<span class="go">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
+<span class="go">2022-03-05 13:32:33.837965</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">end_time</span><span class="p">)</span>
+<span class="go">2022-03-05 13:32:33.842534</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">)</span>
+<span class="go">0.004569</span>
+</pre></div>
+</div>
+<p>If you want to see only the list of frequencies visually, use ‘show’
+method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">freq[00] = 54 (0.5400) |+++++++++++++++++</span>
+<span class="go">freq[11] = 46 (0.4600) |++++++++++++++</span>
+</pre></div>
+</div>
+<p>If you want to see all at once, set the ‘verbose’ option to be True as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[backend]</span>
+<span class="go">- product      = qlazy</span>
+<span class="go">- device       = qstate_simulator</span>
+<span class="go">[qubit &amp; cmem]</span>
+<span class="go">- qubit_num    = 2</span>
+<span class="go">- cmem_num     = 2</span>
+<span class="go">[measurement]</span>
+<span class="go">- cid          = [0, 1]</span>
+<span class="go">- shots        = 100</span>
+<span class="go">[time]</span>
+<span class="go">- start_time   = 2022-03-15 23:05:41.249034</span>
+<span class="go">- end_time     = 2022-03-15 23:05:41.254211</span>
+<span class="go">- elassed time = 0.005177 [sec]</span>
+<span class="go">[histogram]</span>
+<span class="go">- freq[00] = 54 (0.5400) |+++++++++++++++++</span>
+<span class="go">- freq[11] = 46 (0.4600) |++++++++++++++</span>
+</pre></div>
+</div>
+<p>You can save this execution result as a file or read the saved ones.</p>
+<p>Save file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;hoge.res&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Load file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">Result</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_load</span> <span class="o">=</span> <span class="n">Result</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;hoge.res&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also see the result data as follows in the Python one-liner.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -c &quot;from qlazy import Result; Result.load(&#39;hoge.res&#39;).show(verbose=True)&quot;
+</pre></div>
+</div>
+<div class="section" id="notes-measurement-in-the-matrix-status-simulator">
+<h4>Notes: measurement in the matrix status simulator<a class="headerlink" href="#notes-measurement-in-the-matrix-status-simulator" title="Permalink to this heading">¶</a></h4>
+<p>Even if the quantum circuit of several tens to hundreds of quantum
+bits is not so deep and not so much entanglements, the calculation of
+the quantum circuit can be executed without difficulty.  However, if
+it has measurements for many qubits in a large number of shots, it may
+take a tremendous time to get the measurement result.  The main
+purpose of using the matrix product state simulation is considered to
+be a simulation for quantum machine learning, quantum chemical
+calculations, and optimization issues on NISC devices, so we recommend
+that you try it with the expectation value calculation instead of
+obtaining the measurement values in large number of shots.</p>
+</div>
+</div>
+<div class="section" id="getting-quantum-state-qlazy-and-qulacs-only">
+<h3>Getting quantum state (qlazy and qulacs only)<a class="headerlink" href="#getting-quantum-state-qlazy-and-qulacs-only" title="Permalink to this heading">¶</a></h3>
+<p>When you execute the ‘run’ method using qlazy’s ‘qstate_simulator’,
+‘stabilizer_simulator’, or ‘mps_simulator’, by specifing ‘out_state’
+option to be ‘True’, quantum state after executing the quantum circuit
+is set to property of ‘qstate’, ‘stabilizer’, or ‘mpstate’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">qs_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">qstate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sb_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;stabilizer_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">sb_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stabilizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">g[0]:  XX</span>
+<span class="go">g[1]:  ZZ</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;mps_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">mps_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">mpstate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+<p>Based on the quantum state obtained in this way, various calculation
+defined in ‘QState’, ‘Stabilizer’, and ‘MPState’ can be executed (for
+example, expectation value calculation for observaable, etc).  See the
+documentation for each class for details.</p>
+<p>You can also get a qlazy’s quantum state vector from ‘cpu_simulator’
+or ‘gpu_simulator’ of ‘qulacs’ as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs_sim</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">qs_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">qstate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="supported-quantum-gate">
+<h3>Supported quantum gate<a class="headerlink" href="#supported-quantum-gate" title="Permalink to this heading">¶</a></h3>
+<p>The available quantum gates are shown below.  The arguments that can
+be specified are the same as those of the ‘Qstate’ class, etc, and
+‘ctrl’ option described above can also be specified in all unitary gates
+(However, it cannot be specified in non-unitary gates like measurement
+gate).</p>
+<div class="section" id="single-qubit-gate-unitary-gate">
+<h4>Single-qubit gate (unitary gate)<a class="headerlink" href="#single-qubit-gate-unitary-gate" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>x,y,z: Pauli X/Y/Z gate</p></li>
+<li><p>h: Hadamard gate</p></li>
+<li><p>xr,xr_dg: root X and root X dagger gate</p></li>
+<li><p>s,s_dg: S and S dagger gate</p></li>
+<li><p>t,t_dg: T and T dagger gate</p></li>
+<li><p>p: phase shift gate</p></li>
+<li><p>rx,ry,rz: RX/RY/RZ (rotation around X/Y/Z-axis) gate</p></li>
+</ul>
+</div>
+<div class="section" id="qubit-gate-unitary-gate">
+<h4>2-qubit gate (unitary gate)<a class="headerlink" href="#qubit-gate-unitary-gate" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>cx,cy,cz: controlled X/Y/Z gate</p></li>
+<li><p>cxr,cxr_dg: controlled XR and XR dagger gate</p></li>
+<li><p>ch: controlled Hadamard gate</p></li>
+<li><p>cs,cs_dg: controlled S and S dagger gate</p></li>
+<li><p>ct,ct_dg: controlled T and T dagger gate</p></li>
+<li><p>sw: swap gate</p></li>
+<li><p>cp: controlled P gate</p></li>
+<li><p>crx,cry,crz: controlled RX/RY/RZ gate</p></li>
+<li><p>rxx,ryy,rzz: Ising coupling gate</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h4>3-qubit gate (unitary gate)<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>ccx: toffoli gate (or CCX gate, controlled controlled X gate)</p></li>
+<li><p>csw: fredkin gate (or controlled swap gate)</p></li>
+</ul>
+</div>
+<div class="section" id="measurement-gate-non-unitary-gate">
+<h4>Measurement gate (non-unitary gate)<a class="headerlink" href="#measurement-gate-non-unitary-gate" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>measure: measurement gate (computational basis)</p></li>
+</ul>
+</div>
+<div class="section" id="reset-gate-non-unitary-gate">
+<h4>Reset gate (non-unitary gate)<a class="headerlink" href="#reset-gate-non-unitary-gate" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>reset: reset gate (computational basis)</p></li>
+</ul>
+</div>
+<div class="section" id="note-in-the-case-of-stabilizer-simulator">
+<h4>Note: in the case of stabilizer simulator<a class="headerlink" href="#note-in-the-case-of-stabilizer-simulator" title="Permalink to this heading">¶</a></h4>
+<p>In the case of sutabilizer simullator, only Clifford gates
+(‘x’,’y’,’z’,’h’,’s’,’s_dg’,’cx’,’cy’,’cz’) can be supported.</p>
+</div>
+</div>
+</div>
+<div class="section" id="operation-of-quantum-circuit">
+<h2>Operation of quantum circuit<a class="headerlink" href="#operation-of-quantum-circuit" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="display-of-quantum-circuit">
+<h3>Display of quantum circuit<a class="headerlink" href="#display-of-quantum-circuit" title="Permalink to this heading">¶</a></h3>
+<p>You can display your quantum circuit using ‘print’ function as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+<span class="go">h 0</span>
+<span class="go">cx 0 1</span>
+<span class="go">measure 0 -&gt; 0</span>
+<span class="go">x 0 , ctrl = 0</span>
+<span class="go">x 1 , ctrl = 0</span>
+<span class="go">measure 0 -&gt; 0</span>
+<span class="go">measure 1 -&gt; 1</span>
+</pre></div>
+</div>
+<p>You can also display it more visually using ‘show’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -H-*-M-X---M---</span>
+<span class="go">q[1] ---X-|-|-X-|-M-</span>
+<span class="go">c  =/=====v=^=^=v=v=</span>
+<span class="go">    2     0 0 0 0 1</span>
+</pre></div>
+</div>
+<div class="section" id="identicality-of-quantum-circuits">
+<h4>Identicality of quantum circuits<a class="headerlink" href="#identicality-of-quantum-circuits" title="Permalink to this heading">¶</a></h4>
+<p>Whether the two quantum circuits are exactly the same can be
+determined by the logical operator ‘==’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_B</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_C</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc_A</span> <span class="o">==</span> <span class="n">qc_B</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc_A</span> <span class="o">==</span> <span class="n">qc_C</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Equivalence of the quantum circuits will be described later.</p>
+</div>
+<div class="section" id="concatenate-of-quantum-circuits">
+<h4>Concatenate of quantum circuits<a class="headerlink" href="#concatenate-of-quantum-circuits" title="Permalink to this heading">¶</a></h4>
+<p>You can concatenate two quantum circuits by ‘+’ operator.</p>
+<p>For 3 quantum circuits,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_B</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_C</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>you can concatenate those as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">qc_A</span> <span class="o">+</span> <span class="n">qc_B</span> <span class="o">+</span> <span class="n">qc_C</span>
+</pre></div>
+</div>
+<p>then you will get a following circuit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">H</span><span class="o">---*------</span>
+           <span class="o">|</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">------</span><span class="n">X</span><span class="o">---</span><span class="n">M</span>
+               <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">----------*--</span>
+</pre></div>
+</div>
+<p>In addition, it is also possible to concatenate using an increment
+operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">qc_A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">+=</span> <span class="n">qc_B</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">+=</span> <span class="n">qc_C</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="statistical-information-of-quantum-circuit">
+<h3>Statistical information of quantum circuit<a class="headerlink" href="#statistical-information-of-quantum-circuit" title="Permalink to this heading">¶</a></h3>
+<p>As you may have noticed in the explanation so far, it is not necessary
+to explicitly specify the qubit number and classical bits number at
+the first quantum circuit generation as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You don’t need to specily nothing.  It is automatically renewed and
+retained from the added quantum gate information each time.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">qubit_num</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmem_num</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">cmem_num</span>
+</pre></div>
+</div>
+<p>You can get number of qubits and number of classical bits by the
+‘qubit_num’ property and ‘cmem_num’ property.  In addition, you can
+get the number of quantum gates contained in your circuit by the
+‘gate_num’ property.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gate_num</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">gate_num</span>
+</pre></div>
+</div>
+<p>For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">cmem_num</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">gate_num</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>Here, it is important to know that the quantum gate that is internally
+handled is limited to 15 types of gates –
+‘x’,’z’,’h’,’s’,’s_dg’,’t’,’t_dg’,’rx’,’rz’,’cx’,’cz’,’ch’,’crz’,’measure’,
+and ‘reset’, although the quantum gates available in ‘QCirc’ are more
+than 15 types as described above.  Quantum gates other than 15 types
+are expressed in those combinations internally.</p>
+<p>For example, the ‘sw’ (swap) gate is expressed in the form of three
+gate operations as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ‘crx’ (controlled rotation-X) gate is expressed as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, the ‘measure’ and the ‘reset’ are expressed in the
+operation of each qubit.  That is,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>is expressed internaly as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>So, the value of “qc.gate_num” is larger than you intended value, and
+you may say “a little strange?”. It is because of the such reason.
+You can check how it was expressed internally by ‘print’ function.</p>
+<p>If you want to know the number of qubits, classical bits, quantum
+gates, and the frequency of quantum gates, you can get it as a
+dictionary data by using the ‘get_stats’ method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">get_stats</span><span class="p">())</span>
+<span class="go">{&#39;qubit_num&#39;: 2, &#39;cmem_num&#39;: 2, &#39;gate_num&#39;: 5, &#39;gate_freq&#39;: Counter({&#39;measure&#39;: 2, &#39;h&#39;: 1, &#39;cx&#39;: 1, &#39;t&#39;: 1}), &#39;gatetype_freq&#39;: Counter({&#39;unitary&#39;: 3, &#39;clifford&#39;: 2, &#39;non-unitary&#39;: 2, &#39;non-clifford&#39;: 1})}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generation-of-quantum-circuits">
+<h3>Generation of quantum circuits<a class="headerlink" href="#generation-of-quantum-circuits" title="Permalink to this heading">¶</a></h3>
+<p>You may want to make a random quantum circuit for the purpose of
+quantum calculation performance evaluation or quantum circuit
+optimization, etc.  In such case, you can use ‘get_random_gate’ method
+(class method).</p>
+<p>For example, as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">generate_random_gates</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">gate_num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">prob</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;crz&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>where the ‘qubit_num’ option and the ‘gate_num’ option are the number
+of quantum bits and quantum gates of quantum circuits you want to
+generate.  The ‘prob’ option is the probabilities of the quantum gates
+in a dictionary data.  In the above example, ‘h’, ‘cx’, ‘rx’ and ‘crx’
+appear in 7: 5: 3: 3.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="mf">0.7</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">:</span><span class="mf">0.3</span><span class="p">,</span> <span class="s1">&#39;crz&#39;</span><span class="p">:</span><span class="mf">0.3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>It may be specified by a decimal in this way (it will process it
+internally even if you don’t make those sum to be 1.0).  Supported
+gates are only unitary gates –
+‘x’,’z’,’h’,’s’,’s_dg’,’t’,’t_dg’,’rx’,’rz’,’cx’,’cz’,’ch’,’crz’.
+Non-unitary gates cannot be specified.  The ‘phase’ option is valid
+when there is a rotating gate (if there is no rotation system, the
+specification is ignored).  By the ‘phase’ option, specify how you
+want to set phases such as ‘rx’ or ‘crz’, etc.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">phase</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, if a rotating gate appears, 0.0<em>PI, 0.25</em>PI or 0.5*PI
+phase will be set with equal probability.</p>
+<p>By “print(qc)”, you can see that the following circuit is generated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+<span class="go">h 3</span>
+<span class="go">h 4</span>
+<span class="go">rx(0.25) 3</span>
+<span class="go">h 2</span>
+<span class="go">cx 2 4</span>
+<span class="go">h 2</span>
+<span class="go">h 2</span>
+<span class="go">crz(0.0) 0 1</span>
+<span class="go">cx 3 4</span>
+<span class="go">h 4</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="save-and-load-quantum-circuit">
+<h3>Save and load quantum circuit<a class="headerlink" href="#save-and-load-quantum-circuit" title="Permalink to this heading">¶</a></h3>
+<p>You can save the created quantum circuit to the file or load the
+saved file.  To save, use ‘save’ method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;hoge.qc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This describes the contents of ‘qc’ is saved to the file
+‘hoge.qc’ (using “pickle” internally).  To load, use the ‘load’ method
+(class method) as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_B</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;hoge.qc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="openqasm-export-and-import">
+<h3>OpenQASM export and import<a class="headerlink" href="#openqasm-export-and-import" title="Permalink to this heading">¶</a></h3>
+<p>You can export quantum circuits created in qlazy to OpenQASM 2.0
+format strings and file, or import them.  Use ‘to_qasm’ method to
+output a QpenQASM format strings as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qasm</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">to_qasm</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qasm</span><span class="p">)</span>
+<span class="go">OPENQASM 2.0;</span>
+<span class="go">include &quot;qelib1.inc&quot;;</span>
+<span class="go">qreg q[2];</span>
+<span class="go">h q[0];</span>
+<span class="go">cx q[0],q[1];</span>
+</pre></div>
+</div>
+<p>You can use ‘to_qasm_file’ method to output a file in OpenQASM format
+as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">to_qasm_file</span><span class="p">(</span><span class="s2">&quot;foo.qasm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also create a quantum circuit of qlazy from OpenQASM string
+and file using the ‘from_qasm’ method and the ‘from_qasm_file’ method
+as shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">from_qasm</span><span class="p">(</span><span class="n">qasm</span><span class="p">)</span>  <span class="c1"># qasm: OpenQASM string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">from_qasm_file</span><span class="p">(</span><span class="s2">&quot;foo.qasm&quot;</span><span class="p">)</span>  <span class="c1"># foo.qasm: OpenQASM file</span>
+</pre></div>
+</div>
+<p>However, it does not supported to non-unitary gates or user customized
+gate.  The 14 types of gates are supported –
+‘x’,’y’,’z’,’h’,’s’,’sdg’,’t’,’tdg’,’cx’,’cz’,’ch’,’rx’,’rz’,’crz’.</p>
+</div>
+<div class="section" id="equivalent-of-quantum-circuits-using-pyzx">
+<h3>Equivalent of quantum circuits (using “PyZX”)<a class="headerlink" href="#equivalent-of-quantum-circuits-using-pyzx" title="Permalink to this heading">¶</a></h3>
+<p>The two quantum circuits may represent a unitary gate that has the
+same effect, even if the appearance is different.  Here, we will call
+it “equivalence” in contrast the above-mentioned “identicality”.  In
+qlazy, you can determine whether they are equivalent using the
+‘equivalent’ method (but non-unitary gates are not supported).  Qlazy
+uses a python package <a class="reference external" href="https://github.com/Quantomatic/pyzx">“PyZX”</a>
+that can calculate ZX-Calculus, so when using this function, the
+“PyZX” must be installed.</p>
+<p>Here is a simple example.  Let’s make sure that</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">H</span><span class="o">--*--</span><span class="n">H</span><span class="o">--</span>
+     <span class="o">|</span>
+<span class="o">--</span><span class="n">H</span><span class="o">--</span><span class="n">X</span><span class="o">--</span><span class="n">H</span><span class="o">--</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span><span class="n">X</span><span class="o">---</span>
+   <span class="o">|</span>
+<span class="o">---*---</span>
+</pre></div>
+</div>
+<p>is equivalent (This is a useful formula to know).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_B</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc_A</span> <span class="o">==</span> <span class="n">qc_B</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc_A</span><span class="o">.</span><span class="n">equivalent</span><span class="p">(</span><span class="n">qc_B</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Certainly it is not identical because it looks different, but it was
+confirmed that the value (effectiveness) was the same (equivalent).</p>
+</div>
+<div class="section" id="optimization-of-quantum-circuit">
+<h3>Optimization of quantum circuit<a class="headerlink" href="#optimization-of-quantum-circuit" title="Permalink to this heading">¶</a></h3>
+<p>The non-clifford, T Gate, play an important roll in many quantum
+algorithms, but it is a difficult gate in terms of hardware
+implementation, so it is desirable that the T gate is excluded as much
+as possible from the quantum circuit.  However, simply eliminating the
+T gates will be a meaningless circuit, so it is necessary to reduce
+the number of T gates such that the circuit is equivalent to the
+original.  In this sense, many researches on quantum circuit
+optimization has been done in various ways so far.  PyZX has
+implemented circuit optimization methods using ZX-Calculus.  Qlazy can
+perform the optimization using this PyZX ‘full_optimize’ function as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_opt</span> <span class="o">=</span> <span class="n">qc_ori</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>As a trial, let us generate a circuit randomly containing ‘h’, ‘cx’,
+and ‘t’, and see the effect of optimization by using the ‘get_stats’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">generate_random_gates</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gate_num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_opt</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;== before ==&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">get_stats</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;== after ==&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc_opt</span><span class="o">.</span><span class="n">get_stats</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Then you get the following results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">==</span> <span class="n">before</span> <span class="o">==</span>
+<span class="p">{</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;cmem_num&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;gate_num&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;gate_freq&#39;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;cx&#39;</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="mi">26</span><span class="p">}),</span> <span class="s1">&#39;gatetype_freq&#39;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;unitary&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;clifford&#39;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span> <span class="s1">&#39;non-clifford&#39;</span><span class="p">:</span> <span class="mi">26</span><span class="p">})}</span>
+<span class="o">==</span> <span class="n">after</span> <span class="o">==</span>
+<span class="p">{</span><span class="s1">&#39;qubit_num&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;cmem_num&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;gate_num&#39;</span><span class="p">:</span> <span class="mi">107</span><span class="p">,</span> <span class="s1">&#39;gate_freq&#39;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;cx&#39;</span><span class="p">:</span> <span class="mi">55</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;s_dg&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}),</span> <span class="s1">&#39;gatetype_freq&#39;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;unitary&#39;</span><span class="p">:</span> <span class="mi">107</span><span class="p">,</span> <span class="s1">&#39;clifford&#39;</span><span class="p">:</span> <span class="mi">97</span><span class="p">,</span> <span class="s1">&#39;non-clifford&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})}</span>
+</pre></div>
+</div>
+<p>The non-clifford gate is reduced from 26 to 10 (T: 3, RZ: 7).
+Instead, another clifford gate is added. But it is more desirable that
+the non-clifford gate is decreased.</p>
+</div>
+<div class="section" id="interface-with-pyzx">
+<h3>Interface with PyZX<a class="headerlink" href="#interface-with-pyzx" title="Permalink to this heading">¶</a></h3>
+<p>PyZX has various quantum circuit optimization functions.  It also have
+some functions to display and edit a ZX-calculus graph.  For those who
+want to play with ZX-calculus, qlazy has functions to input and output
+PyZX circuit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zxqc</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">to_pyzx</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This allows you to get a PyZX ‘Circuit’ class instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="o">.</span><span class="n">from_pyzx</span><span class="p">(</span><span class="n">zxqc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This allows you to convert PyZX’s ‘Circuit’ class instances to qlazy’s
+‘QCirc’ class instances.</p>
+<div class="section" id="custom-gate">
+<h4>Custom gate<a class="headerlink" href="#custom-gate" title="Permalink to this heading">¶</a></h4>
+<p>By inheriting the ‘QCirc’ class, you can easily create and add your
+own quantum gate as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyQCirc</span><span class="p">(</span><span class="n">QCirc</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">MyQCirc</span><span class="p">()</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
+<p>This is a very simple example, so you may not feel much profit, but
+there are many situations where you can use it, such as when you want
+to create a large quantum circuit.</p>
+</div>
+</div>
+</div>
+<div class="section" id="supported-backend">
+<h2>Supported backend<a class="headerlink" href="#supported-backend" title="Permalink to this heading">¶</a></h2>
+<p>Supported backends in the current version of qlazy are
+<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>,
+<a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum</a>
+and <a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>
+Usage of each backend is described following.</p>
+<div class="section" id="qulacs">
+<h3>qulacs<a class="headerlink" href="#qulacs" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a> is an open source quantum
+circuit simulator provided by <a class="reference external" href="https://qunasys.com/">Qunasys</a>.  It has
+the feature that high-speed calculations can be performed using GPU.
+If you want to execute a high-speed calculation using GPU with a
+simple interface of qlazy, we recommend using this backend.</p>
+<div class="section" id="install">
+<h4>Install<a class="headerlink" href="#install" title="Permalink to this heading">¶</a></h4>
+<p>First, install qulacs referring to
+<a class="reference external" href="http://docs.qulacs.org/en/latest/intro/1_install.html">Installation - Qulacs documentation</a>.</p>
+</div>
+<div class="section" id="usage">
+<h4>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h4>
+<p>In the case of using CPU simulator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using GPU simulator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;gpu_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, add quantum gates and ‘run’ as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ibm-quantum">
+<h3>IBM Quantum<a class="headerlink" href="#ibm-quantum" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum (IBMQ)</a> is a cloud
+service to use quantum computer (and simulator) developed by
+<a class="reference external" href="https://www.ibm.com/">IBM</a>.</p>
+<div class="section" id="id2">
+<h4>Install<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h4>
+<p>Install <a class="reference external" href="https://qiskit.org/">qiskit</a>, a library for using IBMQ and
+local simulators from Python, and execute quantum calculations.
+Please prepare the environment.</p>
+</div>
+<div class="section" id="id3">
+<h4>Usage<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h4>
+<p>In the case of using local simulator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using real quantum computer (least busy):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;least_busy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ‘least_busy’ is to automatically select and execute the most
+vacant systems in the quantum computer system available in your
+account.  You can also explicitly specify the executable system.  In
+the case of using real quantum computer, ‘ibmq_athens’:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;ibmq_athens&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can check the device that can be used in IBMQ as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;ibmq&#39;</span><span class="p">))</span>
+<span class="go">[&#39;aer_simulator&#39;, &#39;qasm_simulator&#39;, &#39;least_busy&#39;, &#39;ibmq_armonk&#39;, &#39;ibmq_bogota&#39;, &#39;ibmq_lima&#39;, &#39;ibmq_belem&#39;, &#39;ibmq_quito&#39;, &#39;ibmq_manila&#39;]</span>
+</pre></div>
+</div>
+<p>Then, add quantum gates and ‘run’ as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="amazon-braket">
+<h3>Amazon Braket<a class="headerlink" href="#amazon-braket" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a> is a cloud
+service to use quantum computer of <a class="reference external" href="https://ionq.com/">IonQ</a>,
+<a class="reference external" href="https://www.rigetti.com/">Rigetti</a>, <a class="reference external" href="https://oxfordquantumcircuits.com/">Oxford Quantum
+Circuits</a>, etc.  It also have some
+simulators developed by <a class="reference external" href="https://aws.amazon.com/">AWS</a>.</p>
+<div class="section" id="id4">
+<h4>Install<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
+<p><a class="reference external" href="https://aws.amazon.com/jp/console/">AWS</a> account is required. Please
+get your account first.  Then, make your local PC possible to use
+<a class="reference external" href="https://aws.amazon.com/braket/">Amazon Braket</a> with reference to the
+following.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/aws/amazon-braket-sdk-python">amazon-braket-sdk-python</a></p></li>
+</ul>
+<p>If the following code work without any problems, you can think that
+the usage environment of <a class="reference external" href="https://aws.amazon.com/brashet/?nc1=h_ls">Amazon Braket</a> is set (maybe).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">boto3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">braket.aws</span> <span class="kn">import</span> <span class="n">AwsDevice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">braket.circuits</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">AwsDevice</span><span class="p">(</span><span class="s2">&quot;arn:aws:braket:::device/quantum-simulator/amazon/sv1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3_folder</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;amazon-braket-xxxx&quot;</span><span class="p">,</span> <span class="s2">&quot;sv1&quot;</span><span class="p">)</span> <span class="c1"># Use the S3 bucket you created during onboarding</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bell</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">task</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">bell</span><span class="p">,</span> <span class="n">s3_folder</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">measurement_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, create a directory called “~/.qlazy/” in your home
+directory and set ‘config.ini’ under this directory as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat ~/.qlazy/config.ini
+[backend_braket]
+backet_name = amazon-braket-xxxx
+</pre></div>
+</div>
+<p>For the ‘amazon-braket-xxxx’, write the S3 backet name created to use
+Amazon Braket.  If you want to change ‘poll_timeout_seconds’ from the
+default value (5 days), specify as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">backend_braket</span><span class="p">]</span>
+<span class="n">backet_name</span> <span class="o">=</span> <span class="n">amazon</span><span class="o">-</span><span class="n">braket</span><span class="o">-</span><span class="n">xxxx</span>
+<span class="n">poll_timeout_seconds</span> <span class="o">=</span> <span class="mi">86400</span>
+</pre></div>
+</div>
+<p>The above example is to set 1 day (= 86400 sec).</p>
+</div>
+<div class="section" id="id5">
+<h4>Usage<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
+<p>Specify ‘product’ and ‘device’ options when generating a backend
+instance.  Available products are ‘braket_local’(local simulator),
+‘braket_aws’(simulator working on AWS), ‘braket_ionq’(quantum computer
+of IonQ), ‘braket_rigetti’(quantum computer of Rigetti),
+‘braket_oqc’(quantum computer of Oxford Quantum Circuits).  The
+‘device’ that can be used for each ‘product’ is as follows.</p>
+<ul class="simple">
+<li><p>braket_local</p>
+<ul>
+<li><p>braket_sv (state vector simulator)</p></li>
+</ul>
+</li>
+<li><p>braket_aws</p>
+<ul>
+<li><p>sv1 (state vector simulator)</p></li>
+<li><p>tn1 (tensor network simulator)</p></li>
+<li><p>dm1 (density matrix simulator)</p></li>
+</ul>
+</li>
+<li><p>braket_ionq</p>
+<ul>
+<li><p>ionq (IonQ)</p></li>
+</ul>
+</li>
+<li><p>braket_rigetti</p>
+<ul>
+<li><p>aspen_11 (Aspen-11)</p></li>
+<li><p>aspen_m_1 (Aspen-M-1)</p></li>
+</ul>
+</li>
+<li><p>braket_oqc</p>
+<ul>
+<li><p>lucy (Lucy)</p></li>
+</ul>
+</li>
+</ul>
+<p>In the case of using local state vector simulator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_local&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;braket_sv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using state vector simulator on AWS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_aws&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;sv1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using quantum computer of IonQ:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_ionq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;ionq&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using quantum computer, Aspen-M-1 of Rigetti:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_rigetti&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aspnen_m_1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using quantum computer, Lucy of OQC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;braket_oqc&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;lucy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, add quantum gates and ‘run’ as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes">
+<h4>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h4>
+<p>It seems that Amazon Braket only accepts quantum circuits where the
+measurement is last.  Therefore, the ‘ctrl’ option that is turned on
+or off according to the measured value cannot be used.  In addition,
+‘product’ other than ‘braket_local’ is charged.  Please refer to the
+following page.</p>
+<p><a class="reference external" href="https://aws.amazon.com/jp/braket/pricing/">Amazon Braket Pricing</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-use-gpu-version">
+<h2>How to use GPU version<a class="headerlink" href="#how-to-use-gpu-version" title="Permalink to this heading">¶</a></h2>
+<p>High-speed quantum circuit execution using GPU is possible without
+‘qulacs’ (from V0.3.0).  To use it, you need to install a GPU version
+of qlazy from the source code as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/samn33/qlazy.git
+$ cd qlazy
+$ python setup_gpu.py install --user
+</pre></div>
+</div>
+<p>It is assumed that the NVIDIA CUDA11 environment is in place for installation.</p>
+<p>To see if the GPU version was installed, execute the folloing command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlazy -v
+</pre></div>
+</div>
+<p>If the installation is successful, it will display as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">0.3.0</span><span class="o">-</span><span class="n">cuda</span>
+</pre></div>
+</div>
+<p>If displayed as follows, your qlazy is CPU version, sorry.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">0.3.0</span>
+</pre></div>
+</div>
+<p>Now, if the GPU version is installed, it can be used very easily.</p>
+<p>In the case of using the CPU version, the backend was set and the
+quantum circuit was executed as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span><span class="p">,</span> <span class="n">Backend</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of using the GPU version, just set the device to
+‘qstate_gpu_simulator’ when creating a backend instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span><span class="p">,</span> <span class="n">Backend</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_gpu_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcic</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is no need to import like ‘qlazy-gpu’.  We don’t have such
+package, only have ‘qlazy’.  However, in the current version, only the
+quantum circuit calculation using the state vector simulator is
+available in the GPU version.  GPU version of QState, DensOp,
+Stabilizer, MPState class is not available.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021-2022, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

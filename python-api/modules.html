@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -82,10 +87,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qlazy.html">qlazy package</a></li>
 </ul>
@@ -156,7 +162,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="qlazy">
-<h1>qlazy<a class="headerlink" href="#qlazy" title="Permalink to this headline">¶</a></h1>
+<h1>qlazy<a class="headerlink" href="#qlazy" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="qlazy.html">qlazy package</a><ul>
@@ -197,24 +203,1005 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Backend">qlazy.Backend module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.CMem">qlazy.CMem module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.DensOp">qlazy.DensOp module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MData">qlazy.MData module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MPState">qlazy.MPState module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Observable">qlazy.Observable module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.ObservableBase">qlazy.ObservableBase module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Result">qlazy.Result module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Stabilizer">qlazy.Stabilizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Backend">qlazy.Backend module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend"><code class="docutils literal notranslate"><span class="pre">Backend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.product"><code class="docutils literal notranslate"><span class="pre">Backend.product</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.device"><code class="docutils literal notranslate"><span class="pre">Backend.device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.config_braket"><code class="docutils literal notranslate"><span class="pre">Backend.config_braket</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.devices"><code class="docutils literal notranslate"><span class="pre">Backend.devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.ibmq_devices"><code class="docutils literal notranslate"><span class="pre">Backend.ibmq_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.products"><code class="docutils literal notranslate"><span class="pre">Backend.products()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.qlazy_devices"><code class="docutils literal notranslate"><span class="pre">Backend.qlazy_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.qulacs_devices"><code class="docutils literal notranslate"><span class="pre">Backend.qulacs_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.Backend.run"><code class="docutils literal notranslate"><span class="pre">Backend.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.CMem">qlazy.CMem module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem"><code class="docutils literal notranslate"><span class="pre">CMem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem.cmem_num"><code class="docutils literal notranslate"><span class="pre">CMem.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem.bit_array"><code class="docutils literal notranslate"><span class="pre">CMem.bit_array</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id0"><code class="docutils literal notranslate"><span class="pre">CMem.bit_array</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem.bits"><code class="docutils literal notranslate"><span class="pre">CMem.bits</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem.clone"><code class="docutils literal notranslate"><span class="pre">CMem.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id1"><code class="docutils literal notranslate"><span class="pre">CMem.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem.get_bits"><code class="docutils literal notranslate"><span class="pre">CMem.get_bits()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.CMem.set_bits"><code class="docutils literal notranslate"><span class="pre">CMem.set_bits()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.DensOp">qlazy.DensOp module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp"><code class="docutils literal notranslate"><span class="pre">DensOp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.row"><code class="docutils literal notranslate"><span class="pre">DensOp.row</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.col"><code class="docutils literal notranslate"><span class="pre">DensOp.col</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.element"><code class="docutils literal notranslate"><span class="pre">DensOp.element</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.add"><code class="docutils literal notranslate"><span class="pre">DensOp.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.add_method"><code class="docutils literal notranslate"><span class="pre">DensOp.add_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.add_methods"><code class="docutils literal notranslate"><span class="pre">DensOp.add_methods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.amp_dump"><code class="docutils literal notranslate"><span class="pre">DensOp.amp_dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.apply"><code class="docutils literal notranslate"><span class="pre">DensOp.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.bit_flip"><code class="docutils literal notranslate"><span class="pre">DensOp.bit_flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.bit_phase_flip"><code class="docutils literal notranslate"><span class="pre">DensOp.bit_phase_flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.buf_id"><code class="docutils literal notranslate"><span class="pre">DensOp.buf_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.buffer_0"><code class="docutils literal notranslate"><span class="pre">DensOp.buffer_0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.buffer_1"><code class="docutils literal notranslate"><span class="pre">DensOp.buffer_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.ccx"><code class="docutils literal notranslate"><span class="pre">DensOp.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.ch"><code class="docutils literal notranslate"><span class="pre">DensOp.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.clone"><code class="docutils literal notranslate"><span class="pre">DensOp.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id2"><code class="docutils literal notranslate"><span class="pre">DensOp.col</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.composite"><code class="docutils literal notranslate"><span class="pre">DensOp.composite()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cond_entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.cond_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cp"><code class="docutils literal notranslate"><span class="pre">DensOp.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.create_register"><code class="docutils literal notranslate"><span class="pre">DensOp.create_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.crx"><code class="docutils literal notranslate"><span class="pre">DensOp.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cry"><code class="docutils literal notranslate"><span class="pre">DensOp.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.crz"><code class="docutils literal notranslate"><span class="pre">DensOp.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cs"><code class="docutils literal notranslate"><span class="pre">DensOp.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cs_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.csw"><code class="docutils literal notranslate"><span class="pre">DensOp.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.ct"><code class="docutils literal notranslate"><span class="pre">DensOp.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.ct_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cx"><code class="docutils literal notranslate"><span class="pre">DensOp.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cxr"><code class="docutils literal notranslate"><span class="pre">DensOp.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cxr_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cy"><code class="docutils literal notranslate"><span class="pre">DensOp.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.cz"><code class="docutils literal notranslate"><span class="pre">DensOp.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.del_all"><code class="docutils literal notranslate"><span class="pre">DensOp.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.depolarize"><code class="docutils literal notranslate"><span class="pre">DensOp.depolarize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.distance"><code class="docutils literal notranslate"><span class="pre">DensOp.distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id3"><code class="docutils literal notranslate"><span class="pre">DensOp.element</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.elm"><code class="docutils literal notranslate"><span class="pre">DensOp.elm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.expect"><code class="docutils literal notranslate"><span class="pre">DensOp.expect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.fidelity"><code class="docutils literal notranslate"><span class="pre">DensOp.fidelity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.gbank"><code class="docutils literal notranslate"><span class="pre">DensOp.gbank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.get_elm"><code class="docutils literal notranslate"><span class="pre">DensOp.get_elm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.h"><code class="docutils literal notranslate"><span class="pre">DensOp.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.init_register"><code class="docutils literal notranslate"><span class="pre">DensOp.init_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.instrument"><code class="docutils literal notranslate"><span class="pre">DensOp.instrument()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.join"><code class="docutils literal notranslate"><span class="pre">DensOp.join()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mat_norm"><code class="docutils literal notranslate"><span class="pre">DensOp.mat_norm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mat_spectrum"><code class="docutils literal notranslate"><span class="pre">DensOp.mat_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mat_sqrt"><code class="docutils literal notranslate"><span class="pre">DensOp.mat_sqrt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mcx"><code class="docutils literal notranslate"><span class="pre">DensOp.mcx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mix"><code class="docutils literal notranslate"><span class="pre">DensOp.mix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mul"><code class="docutils literal notranslate"><span class="pre">DensOp.mul()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.mutual_info"><code class="docutils literal notranslate"><span class="pre">DensOp.mutual_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.operate"><code class="docutils literal notranslate"><span class="pre">DensOp.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.p"><code class="docutils literal notranslate"><span class="pre">DensOp.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.partial"><code class="docutils literal notranslate"><span class="pre">DensOp.partial()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.patrace"><code class="docutils literal notranslate"><span class="pre">DensOp.patrace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.phase_dump"><code class="docutils literal notranslate"><span class="pre">DensOp.phase_dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.phase_flip"><code class="docutils literal notranslate"><span class="pre">DensOp.phase_flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.probability"><code class="docutils literal notranslate"><span class="pre">DensOp.probability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.relative_entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.relative_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.reset"><code class="docutils literal notranslate"><span class="pre">DensOp.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id4"><code class="docutils literal notranslate"><span class="pre">DensOp.row</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.rx"><code class="docutils literal notranslate"><span class="pre">DensOp.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.rxx"><code class="docutils literal notranslate"><span class="pre">DensOp.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.ry"><code class="docutils literal notranslate"><span class="pre">DensOp.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.ryy"><code class="docutils literal notranslate"><span class="pre">DensOp.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.rz"><code class="docutils literal notranslate"><span class="pre">DensOp.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.rzz"><code class="docutils literal notranslate"><span class="pre">DensOp.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.s"><code class="docutils literal notranslate"><span class="pre">DensOp.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.s_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.show"><code class="docutils literal notranslate"><span class="pre">DensOp.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.spectrum"><code class="docutils literal notranslate"><span class="pre">DensOp.spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.sqtrace"><code class="docutils literal notranslate"><span class="pre">DensOp.sqtrace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.sw"><code class="docutils literal notranslate"><span class="pre">DensOp.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.t"><code class="docutils literal notranslate"><span class="pre">DensOp.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.t_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.tenspro"><code class="docutils literal notranslate"><span class="pre">DensOp.tenspro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.trace"><code class="docutils literal notranslate"><span class="pre">DensOp.trace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.von_neumann_entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.von_neumann_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.x"><code class="docutils literal notranslate"><span class="pre">DensOp.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.xr"><code class="docutils literal notranslate"><span class="pre">DensOp.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.xr_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.y"><code class="docutils literal notranslate"><span class="pre">DensOp.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.DensOp.z"><code class="docutils literal notranslate"><span class="pre">DensOp.z()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MData">qlazy.MData module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.MData.MData"><code class="docutils literal notranslate"><span class="pre">MData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.qubit_num"><code class="docutils literal notranslate"><span class="pre">MData.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.shot_num"><code class="docutils literal notranslate"><span class="pre">MData.shot_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.angle"><code class="docutils literal notranslate"><span class="pre">MData.angle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.phase"><code class="docutils literal notranslate"><span class="pre">MData.phase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.qubit_id"><code class="docutils literal notranslate"><span class="pre">MData.qubit_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.freq"><code class="docutils literal notranslate"><span class="pre">MData.freq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.last_val"><code class="docutils literal notranslate"><span class="pre">MData.last_val</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id5"><code class="docutils literal notranslate"><span class="pre">MData.angle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id6"><code class="docutils literal notranslate"><span class="pre">MData.freq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.frequency"><code class="docutils literal notranslate"><span class="pre">MData.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.frq"><code class="docutils literal notranslate"><span class="pre">MData.frq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.last"><code class="docutils literal notranslate"><span class="pre">MData.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id7"><code class="docutils literal notranslate"><span class="pre">MData.last_val</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.lst"><code class="docutils literal notranslate"><span class="pre">MData.lst</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id8"><code class="docutils literal notranslate"><span class="pre">MData.phase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id9"><code class="docutils literal notranslate"><span class="pre">MData.qubit_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id10"><code class="docutils literal notranslate"><span class="pre">MData.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id11"><code class="docutils literal notranslate"><span class="pre">MData.shot_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.show"><code class="docutils literal notranslate"><span class="pre">MData.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MData.MData.state_num"><code class="docutils literal notranslate"><span class="pre">MData.state_num</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.MPState">qlazy.MPState module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.MPState.MDataMPState"><code class="docutils literal notranslate"><span class="pre">MDataMPState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MDataMPState.frequency"><code class="docutils literal notranslate"><span class="pre">MDataMPState.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MDataMPState.last"><code class="docutils literal notranslate"><span class="pre">MDataMPState.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MDataMPState.qid"><code class="docutils literal notranslate"><span class="pre">MDataMPState.qid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MDataMPState.qubit_num"><code class="docutils literal notranslate"><span class="pre">MDataMPState.qubit_num</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState"><code class="docutils literal notranslate"><span class="pre">MPState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.qubit_num"><code class="docutils literal notranslate"><span class="pre">MPState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.bond_dimensions"><code class="docutils literal notranslate"><span class="pre">MPState.bond_dimensions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.max_truncation_err"><code class="docutils literal notranslate"><span class="pre">MPState.max_truncation_err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.tensors"><code class="docutils literal notranslate"><span class="pre">MPState.tensors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.amp"><code class="docutils literal notranslate"><span class="pre">MPState.amp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.ccx"><code class="docutils literal notranslate"><span class="pre">MPState.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.ch"><code class="docutils literal notranslate"><span class="pre">MPState.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.clone"><code class="docutils literal notranslate"><span class="pre">MPState.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cp"><code class="docutils literal notranslate"><span class="pre">MPState.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.crx"><code class="docutils literal notranslate"><span class="pre">MPState.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cry"><code class="docutils literal notranslate"><span class="pre">MPState.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.crz"><code class="docutils literal notranslate"><span class="pre">MPState.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cs"><code class="docutils literal notranslate"><span class="pre">MPState.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cs_dg"><code class="docutils literal notranslate"><span class="pre">MPState.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.csw"><code class="docutils literal notranslate"><span class="pre">MPState.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.ct"><code class="docutils literal notranslate"><span class="pre">MPState.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.ct_dg"><code class="docutils literal notranslate"><span class="pre">MPState.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cx"><code class="docutils literal notranslate"><span class="pre">MPState.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cxr"><code class="docutils literal notranslate"><span class="pre">MPState.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cxr_dg"><code class="docutils literal notranslate"><span class="pre">MPState.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cy"><code class="docutils literal notranslate"><span class="pre">MPState.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.cz"><code class="docutils literal notranslate"><span class="pre">MPState.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.del_all"><code class="docutils literal notranslate"><span class="pre">MPState.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.expect"><code class="docutils literal notranslate"><span class="pre">MPState.expect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.fidelity"><code class="docutils literal notranslate"><span class="pre">MPState.fidelity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.get_amp"><code class="docutils literal notranslate"><span class="pre">MPState.get_amp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.h"><code class="docutils literal notranslate"><span class="pre">MPState.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.inpro"><code class="docutils literal notranslate"><span class="pre">MPState.inpro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.m"><code class="docutils literal notranslate"><span class="pre">MPState.m()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id12"><code class="docutils literal notranslate"><span class="pre">MPState.max_truncation_err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.mcx"><code class="docutils literal notranslate"><span class="pre">MPState.mcx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.measure"><code class="docutils literal notranslate"><span class="pre">MPState.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.operate"><code class="docutils literal notranslate"><span class="pre">MPState.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.operate_1qubit_gate"><code class="docutils literal notranslate"><span class="pre">MPState.operate_1qubit_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.operate_2qubit_gate"><code class="docutils literal notranslate"><span class="pre">MPState.operate_2qubit_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.p"><code class="docutils literal notranslate"><span class="pre">MPState.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id13"><code class="docutils literal notranslate"><span class="pre">MPState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.reset"><code class="docutils literal notranslate"><span class="pre">MPState.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.rx"><code class="docutils literal notranslate"><span class="pre">MPState.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.rxx"><code class="docutils literal notranslate"><span class="pre">MPState.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.ry"><code class="docutils literal notranslate"><span class="pre">MPState.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.ryy"><code class="docutils literal notranslate"><span class="pre">MPState.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.rz"><code class="docutils literal notranslate"><span class="pre">MPState.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.rzz"><code class="docutils literal notranslate"><span class="pre">MPState.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.s"><code class="docutils literal notranslate"><span class="pre">MPState.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.s_dg"><code class="docutils literal notranslate"><span class="pre">MPState.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.show"><code class="docutils literal notranslate"><span class="pre">MPState.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.sw"><code class="docutils literal notranslate"><span class="pre">MPState.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.t"><code class="docutils literal notranslate"><span class="pre">MPState.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.t_dg"><code class="docutils literal notranslate"><span class="pre">MPState.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.x"><code class="docutils literal notranslate"><span class="pre">MPState.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.xr"><code class="docutils literal notranslate"><span class="pre">MPState.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.xr_dg"><code class="docutils literal notranslate"><span class="pre">MPState.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.y"><code class="docutils literal notranslate"><span class="pre">MPState.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.MPState.z"><code class="docutils literal notranslate"><span class="pre">MPState.z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.MPState.gray_code"><code class="docutils literal notranslate"><span class="pre">gray_code()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Observable">qlazy.Observable module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable"><code class="docutils literal notranslate"><span class="pre">Observable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.base"><code class="docutils literal notranslate"><span class="pre">Observable.base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.string"><code class="docutils literal notranslate"><span class="pre">Observable.string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.weighted_pp_list"><code class="docutils literal notranslate"><span class="pre">Observable.weighted_pp_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.add_wpp"><code class="docutils literal notranslate"><span class="pre">Observable.add_wpp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id16"><code class="docutils literal notranslate"><span class="pre">Observable.base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.clone"><code class="docutils literal notranslate"><span class="pre">Observable.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.get_idx_weight"><code class="docutils literal notranslate"><span class="pre">Observable.get_idx_weight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.get_observable_base"><code class="docutils literal notranslate"><span class="pre">Observable.get_observable_base()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.get_string"><code class="docutils literal notranslate"><span class="pre">Observable.get_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.get_weighted_pp_list"><code class="docutils literal notranslate"><span class="pre">Observable.get_weighted_pp_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.is_hermitian"><code class="docutils literal notranslate"><span class="pre">Observable.is_hermitian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.Observable.recalc_weight"><code class="docutils literal notranslate"><span class="pre">Observable.recalc_weight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id17"><code class="docutils literal notranslate"><span class="pre">Observable.string</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Observable.X"><code class="docutils literal notranslate"><span class="pre">X()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Observable.Y"><code class="docutils literal notranslate"><span class="pre">Y()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Observable.Z"><code class="docutils literal notranslate"><span class="pre">Z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.ObservableBase">qlazy.ObservableBase module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.ObservableBase"><code class="docutils literal notranslate"><span class="pre">ObservableBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.ObservableBase.array_num"><code class="docutils literal notranslate"><span class="pre">ObservableBase.array_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.ObservableBase.spin_num"><code class="docutils literal notranslate"><span class="pre">ObservableBase.spin_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.ObservableBase.spro_array"><code class="docutils literal notranslate"><span class="pre">ObservableBase.spro_array</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.PauliProduct"><code class="docutils literal notranslate"><span class="pre">PauliProduct</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.PauliProduct.qid"><code class="docutils literal notranslate"><span class="pre">PauliProduct.qid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.PauliProduct.pauli_list"><code class="docutils literal notranslate"><span class="pre">PauliProduct.pauli_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.PauliProduct.get_binary_rep"><code class="docutils literal notranslate"><span class="pre">PauliProduct.get_binary_rep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.PauliProduct.is_commute"><code class="docutils literal notranslate"><span class="pre">PauliProduct.is_commute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.PauliProduct.tenspro"><code class="docutils literal notranslate"><span class="pre">PauliProduct.tenspro()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc"><code class="docutils literal notranslate"><span class="pre">QCirc</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.qubit_num"><code class="docutils literal notranslate"><span class="pre">QCirc.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cmem_num"><code class="docutils literal notranslate"><span class="pre">QCirc.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.gate_num"><code class="docutils literal notranslate"><span class="pre">QCirc.gate_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.first"><code class="docutils literal notranslate"><span class="pre">QCirc.first</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.last"><code class="docutils literal notranslate"><span class="pre">QCirc.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.add_gates"><code class="docutils literal notranslate"><span class="pre">QCirc.add_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.all_gates_measurement"><code class="docutils literal notranslate"><span class="pre">QCirc.all_gates_measurement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.append_gate"><code class="docutils literal notranslate"><span class="pre">QCirc.append_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.ccx"><code class="docutils literal notranslate"><span class="pre">QCirc.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.ch"><code class="docutils literal notranslate"><span class="pre">QCirc.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.clone"><code class="docutils literal notranslate"><span class="pre">QCirc.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id18"><code class="docutils literal notranslate"><span class="pre">QCirc.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cp"><code class="docutils literal notranslate"><span class="pre">QCirc.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.crx"><code class="docutils literal notranslate"><span class="pre">QCirc.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cry"><code class="docutils literal notranslate"><span class="pre">QCirc.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.crz"><code class="docutils literal notranslate"><span class="pre">QCirc.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cs"><code class="docutils literal notranslate"><span class="pre">QCirc.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cs_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.csw"><code class="docutils literal notranslate"><span class="pre">QCirc.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.ct"><code class="docutils literal notranslate"><span class="pre">QCirc.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.ct_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cx"><code class="docutils literal notranslate"><span class="pre">QCirc.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cxr"><code class="docutils literal notranslate"><span class="pre">QCirc.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cxr_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cy"><code class="docutils literal notranslate"><span class="pre">QCirc.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.cz"><code class="docutils literal notranslate"><span class="pre">QCirc.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.dump"><code class="docutils literal notranslate"><span class="pre">QCirc.dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.equivalent"><code class="docutils literal notranslate"><span class="pre">QCirc.equivalent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id19"><code class="docutils literal notranslate"><span class="pre">QCirc.first</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.from_pyzx"><code class="docutils literal notranslate"><span class="pre">QCirc.from_pyzx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.from_qasm"><code class="docutils literal notranslate"><span class="pre">QCirc.from_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.from_qasm_file"><code class="docutils literal notranslate"><span class="pre">QCirc.from_qasm_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id20"><code class="docutils literal notranslate"><span class="pre">QCirc.gate_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.generate_random_gates"><code class="docutils literal notranslate"><span class="pre">QCirc.generate_random_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.get_gates"><code class="docutils literal notranslate"><span class="pre">QCirc.get_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.get_stats"><code class="docutils literal notranslate"><span class="pre">QCirc.get_stats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.h"><code class="docutils literal notranslate"><span class="pre">QCirc.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.is_equal"><code class="docutils literal notranslate"><span class="pre">QCirc.is_equal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.kind_first"><code class="docutils literal notranslate"><span class="pre">QCirc.kind_first()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.kind_list"><code class="docutils literal notranslate"><span class="pre">QCirc.kind_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id21"><code class="docutils literal notranslate"><span class="pre">QCirc.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.load"><code class="docutils literal notranslate"><span class="pre">QCirc.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.measure"><code class="docutils literal notranslate"><span class="pre">QCirc.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.merge"><code class="docutils literal notranslate"><span class="pre">QCirc.merge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.operate"><code class="docutils literal notranslate"><span class="pre">QCirc.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.optimize"><code class="docutils literal notranslate"><span class="pre">QCirc.optimize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.p"><code class="docutils literal notranslate"><span class="pre">QCirc.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.pop_gate"><code class="docutils literal notranslate"><span class="pre">QCirc.pop_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id22"><code class="docutils literal notranslate"><span class="pre">QCirc.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.reset"><code class="docutils literal notranslate"><span class="pre">QCirc.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.rx"><code class="docutils literal notranslate"><span class="pre">QCirc.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.rxx"><code class="docutils literal notranslate"><span class="pre">QCirc.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.ry"><code class="docutils literal notranslate"><span class="pre">QCirc.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.ryy"><code class="docutils literal notranslate"><span class="pre">QCirc.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.rz"><code class="docutils literal notranslate"><span class="pre">QCirc.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.rzz"><code class="docutils literal notranslate"><span class="pre">QCirc.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.s"><code class="docutils literal notranslate"><span class="pre">QCirc.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.s_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.save"><code class="docutils literal notranslate"><span class="pre">QCirc.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.show"><code class="docutils literal notranslate"><span class="pre">QCirc.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.split_unitary_non_unitary"><code class="docutils literal notranslate"><span class="pre">QCirc.split_unitary_non_unitary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.sw"><code class="docutils literal notranslate"><span class="pre">QCirc.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.t"><code class="docutils literal notranslate"><span class="pre">QCirc.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.t_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.to_pyzx"><code class="docutils literal notranslate"><span class="pre">QCirc.to_pyzx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.to_qasm"><code class="docutils literal notranslate"><span class="pre">QCirc.to_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.to_qasm_file"><code class="docutils literal notranslate"><span class="pre">QCirc.to_qasm_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.to_string"><code class="docutils literal notranslate"><span class="pre">QCirc.to_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.x"><code class="docutils literal notranslate"><span class="pre">QCirc.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.xr"><code class="docutils literal notranslate"><span class="pre">QCirc.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.xr_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.y"><code class="docutils literal notranslate"><span class="pre">QCirc.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.QCirc.z"><code class="docutils literal notranslate"><span class="pre">QCirc.z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QCirc.append_qc_canvas"><code class="docutils literal notranslate"><span class="pre">append_qc_canvas()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QCirc.init_qc_canvas"><code class="docutils literal notranslate"><span class="pre">init_qc_canvas()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QCirc.string_to_args"><code class="docutils literal notranslate"><span class="pre">string_to_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QState.QState"><code class="docutils literal notranslate"><span class="pre">QState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.qubit_num"><code class="docutils literal notranslate"><span class="pre">QState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.state_num"><code class="docutils literal notranslate"><span class="pre">QState.state_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.amp"><code class="docutils literal notranslate"><span class="pre">QState.amp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.add_method"><code class="docutils literal notranslate"><span class="pre">QState.add_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.add_methods"><code class="docutils literal notranslate"><span class="pre">QState.add_methods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id23"><code class="docutils literal notranslate"><span class="pre">QState.amp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.apply"><code class="docutils literal notranslate"><span class="pre">QState.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.bloch"><code class="docutils literal notranslate"><span class="pre">QState.bloch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.buf_id"><code class="docutils literal notranslate"><span class="pre">QState.buf_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.buffer_0"><code class="docutils literal notranslate"><span class="pre">QState.buffer_0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.buffer_1"><code class="docutils literal notranslate"><span class="pre">QState.buffer_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.camp"><code class="docutils literal notranslate"><span class="pre">QState.camp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.ccx"><code class="docutils literal notranslate"><span class="pre">QState.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.ch"><code class="docutils literal notranslate"><span class="pre">QState.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.clone"><code class="docutils literal notranslate"><span class="pre">QState.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.composite"><code class="docutils literal notranslate"><span class="pre">QState.composite()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cp"><code class="docutils literal notranslate"><span class="pre">QState.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.create_register"><code class="docutils literal notranslate"><span class="pre">QState.create_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.crx"><code class="docutils literal notranslate"><span class="pre">QState.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cry"><code class="docutils literal notranslate"><span class="pre">QState.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.crz"><code class="docutils literal notranslate"><span class="pre">QState.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cs"><code class="docutils literal notranslate"><span class="pre">QState.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cs_dg"><code class="docutils literal notranslate"><span class="pre">QState.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.csw"><code class="docutils literal notranslate"><span class="pre">QState.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.ct"><code class="docutils literal notranslate"><span class="pre">QState.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.ct_dg"><code class="docutils literal notranslate"><span class="pre">QState.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cx"><code class="docutils literal notranslate"><span class="pre">QState.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cxr"><code class="docutils literal notranslate"><span class="pre">QState.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cxr_dg"><code class="docutils literal notranslate"><span class="pre">QState.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cy"><code class="docutils literal notranslate"><span class="pre">QState.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.cz"><code class="docutils literal notranslate"><span class="pre">QState.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.del_all"><code class="docutils literal notranslate"><span class="pre">QState.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.evolve"><code class="docutils literal notranslate"><span class="pre">QState.evolve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.expect"><code class="docutils literal notranslate"><span class="pre">QState.expect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.fidelity"><code class="docutils literal notranslate"><span class="pre">QState.fidelity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.gbank"><code class="docutils literal notranslate"><span class="pre">QState.gbank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.get_amp"><code class="docutils literal notranslate"><span class="pre">QState.get_amp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.get_prob"><code class="docutils literal notranslate"><span class="pre">QState.get_prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.h"><code class="docutils literal notranslate"><span class="pre">QState.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.init_register"><code class="docutils literal notranslate"><span class="pre">QState.init_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.inpro"><code class="docutils literal notranslate"><span class="pre">QState.inpro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.join"><code class="docutils literal notranslate"><span class="pre">QState.join()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.m"><code class="docutils literal notranslate"><span class="pre">QState.m()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.mb"><code class="docutils literal notranslate"><span class="pre">QState.mb()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.mcx"><code class="docutils literal notranslate"><span class="pre">QState.mcx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.measure"><code class="docutils literal notranslate"><span class="pre">QState.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.mx"><code class="docutils literal notranslate"><span class="pre">QState.mx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.my"><code class="docutils literal notranslate"><span class="pre">QState.my()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.mz"><code class="docutils literal notranslate"><span class="pre">QState.mz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.operate"><code class="docutils literal notranslate"><span class="pre">QState.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.p"><code class="docutils literal notranslate"><span class="pre">QState.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.partial"><code class="docutils literal notranslate"><span class="pre">QState.partial()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.prob_array"><code class="docutils literal notranslate"><span class="pre">QState.prob_array</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.prob_updated"><code class="docutils literal notranslate"><span class="pre">QState.prob_updated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id24"><code class="docutils literal notranslate"><span class="pre">QState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.reset"><code class="docutils literal notranslate"><span class="pre">QState.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.rx"><code class="docutils literal notranslate"><span class="pre">QState.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.rxx"><code class="docutils literal notranslate"><span class="pre">QState.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.ry"><code class="docutils literal notranslate"><span class="pre">QState.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.ryy"><code class="docutils literal notranslate"><span class="pre">QState.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.rz"><code class="docutils literal notranslate"><span class="pre">QState.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.rzz"><code class="docutils literal notranslate"><span class="pre">QState.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.s"><code class="docutils literal notranslate"><span class="pre">QState.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.s_dg"><code class="docutils literal notranslate"><span class="pre">QState.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.schmidt_coef"><code class="docutils literal notranslate"><span class="pre">QState.schmidt_coef()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.schmidt_decomp"><code class="docutils literal notranslate"><span class="pre">QState.schmidt_decomp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.show"><code class="docutils literal notranslate"><span class="pre">QState.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id27"><code class="docutils literal notranslate"><span class="pre">QState.state_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.sw"><code class="docutils literal notranslate"><span class="pre">QState.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.t"><code class="docutils literal notranslate"><span class="pre">QState.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.t_dg"><code class="docutils literal notranslate"><span class="pre">QState.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.tenspro"><code class="docutils literal notranslate"><span class="pre">QState.tenspro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.use_gpu"><code class="docutils literal notranslate"><span class="pre">QState.use_gpu</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.x"><code class="docutils literal notranslate"><span class="pre">QState.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.xr"><code class="docutils literal notranslate"><span class="pre">QState.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.xr_dg"><code class="docutils literal notranslate"><span class="pre">QState.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.y"><code class="docutils literal notranslate"><span class="pre">QState.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.QState.z"><code class="docutils literal notranslate"><span class="pre">QState.z()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Result">qlazy.Result module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Result.Result"><code class="docutils literal notranslate"><span class="pre">Result</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.backend"><code class="docutils literal notranslate"><span class="pre">Result.backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.qubit_num"><code class="docutils literal notranslate"><span class="pre">Result.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.cmem_num"><code class="docutils literal notranslate"><span class="pre">Result.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.cid"><code class="docutils literal notranslate"><span class="pre">Result.cid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.shots"><code class="docutils literal notranslate"><span class="pre">Result.shots</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.freqency"><code class="docutils literal notranslate"><span class="pre">Result.freqency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.start_time"><code class="docutils literal notranslate"><span class="pre">Result.start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.end_time"><code class="docutils literal notranslate"><span class="pre">Result.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.elapsed_time"><code class="docutils literal notranslate"><span class="pre">Result.elapsed_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.qstate"><code class="docutils literal notranslate"><span class="pre">Result.qstate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.stabilizer"><code class="docutils literal notranslate"><span class="pre">Result.stabilizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.cmem"><code class="docutils literal notranslate"><span class="pre">Result.cmem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.info"><code class="docutils literal notranslate"><span class="pre">Result.info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id28"><code class="docutils literal notranslate"><span class="pre">Result.backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id29"><code class="docutils literal notranslate"><span class="pre">Result.cid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id30"><code class="docutils literal notranslate"><span class="pre">Result.cmem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id31"><code class="docutils literal notranslate"><span class="pre">Result.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id32"><code class="docutils literal notranslate"><span class="pre">Result.elapsed_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id33"><code class="docutils literal notranslate"><span class="pre">Result.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.frequency"><code class="docutils literal notranslate"><span class="pre">Result.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id34"><code class="docutils literal notranslate"><span class="pre">Result.info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.load"><code class="docutils literal notranslate"><span class="pre">Result.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id35"><code class="docutils literal notranslate"><span class="pre">Result.qstate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id36"><code class="docutils literal notranslate"><span class="pre">Result.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.save"><code class="docutils literal notranslate"><span class="pre">Result.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id37"><code class="docutils literal notranslate"><span class="pre">Result.shots</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.Result.show"><code class="docutils literal notranslate"><span class="pre">Result.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id38"><code class="docutils literal notranslate"><span class="pre">Result.stabilizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id39"><code class="docutils literal notranslate"><span class="pre">Result.start_time</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Stabilizer">qlazy.Stabilizer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.MDataStabilizer"><code class="docutils literal notranslate"><span class="pre">MDataStabilizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.MDataStabilizer.frequency"><code class="docutils literal notranslate"><span class="pre">MDataStabilizer.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.MDataStabilizer.last"><code class="docutils literal notranslate"><span class="pre">MDataStabilizer.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.MDataStabilizer.qid"><code class="docutils literal notranslate"><span class="pre">MDataStabilizer.qid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.MDataStabilizer.qubit_num"><code class="docutils literal notranslate"><span class="pre">MDataStabilizer.qubit_num</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer"><code class="docutils literal notranslate"><span class="pre">Stabilizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.qubit_num"><code class="docutils literal notranslate"><span class="pre">Stabilizer.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.gene_num"><code class="docutils literal notranslate"><span class="pre">Stabilizer.gene_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.add_method"><code class="docutils literal notranslate"><span class="pre">Stabilizer.add_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.add_methods"><code class="docutils literal notranslate"><span class="pre">Stabilizer.add_methods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.check_matrix"><code class="docutils literal notranslate"><span class="pre">Stabilizer.check_matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.clone"><code class="docutils literal notranslate"><span class="pre">Stabilizer.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.cx"><code class="docutils literal notranslate"><span class="pre">Stabilizer.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.cy"><code class="docutils literal notranslate"><span class="pre">Stabilizer.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.cz"><code class="docutils literal notranslate"><span class="pre">Stabilizer.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.del_all"><code class="docutils literal notranslate"><span class="pre">Stabilizer.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id40"><code class="docutils literal notranslate"><span class="pre">Stabilizer.gene_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.get_pauli_fac"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_pauli_fac()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.get_pauli_op"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_pauli_op()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.get_rank"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_rank()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.get_str"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.h"><code class="docutils literal notranslate"><span class="pre">Stabilizer.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.m"><code class="docutils literal notranslate"><span class="pre">Stabilizer.m()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.measure"><code class="docutils literal notranslate"><span class="pre">Stabilizer.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.mx"><code class="docutils literal notranslate"><span class="pre">Stabilizer.mx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.my"><code class="docutils literal notranslate"><span class="pre">Stabilizer.my()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.mz"><code class="docutils literal notranslate"><span class="pre">Stabilizer.mz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.operate"><code class="docutils literal notranslate"><span class="pre">Stabilizer.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.pauli_factor"><code class="docutils literal notranslate"><span class="pre">Stabilizer.pauli_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id41"><code class="docutils literal notranslate"><span class="pre">Stabilizer.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.reset"><code class="docutils literal notranslate"><span class="pre">Stabilizer.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.s"><code class="docutils literal notranslate"><span class="pre">Stabilizer.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.s_dg"><code class="docutils literal notranslate"><span class="pre">Stabilizer.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.set_all"><code class="docutils literal notranslate"><span class="pre">Stabilizer.set_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.set_pauli_fac"><code class="docutils literal notranslate"><span class="pre">Stabilizer.set_pauli_fac()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.set_pauli_op"><code class="docutils literal notranslate"><span class="pre">Stabilizer.set_pauli_op()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.show"><code class="docutils literal notranslate"><span class="pre">Stabilizer.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.x"><code class="docutils literal notranslate"><span class="pre">Stabilizer.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.y"><code class="docutils literal notranslate"><span class="pre">Stabilizer.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.Stabilizer.z"><code class="docutils literal notranslate"><span class="pre">Stabilizer.z()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.config">qlazy.config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.core">qlazy.core module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.error">qlazy.error module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.gpu">qlazy.gpu module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.util">qlazy.util module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.core">qlazy.core module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.core.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.error">qlazy.error module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_AddMethods"><code class="docutils literal notranslate"><span class="pre">QState_Error_AddMethods</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Apply"><code class="docutils literal notranslate"><span class="pre">QState_Error_Apply</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Bloch"><code class="docutils literal notranslate"><span class="pre">QState_Error_Bloch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Clone"><code class="docutils literal notranslate"><span class="pre">QState_Error_Clone</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Evolve"><code class="docutils literal notranslate"><span class="pre">QState_Error_Evolve</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Expect"><code class="docutils literal notranslate"><span class="pre">QState_Error_Expect</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_FreeAll"><code class="docutils literal notranslate"><span class="pre">QState_Error_FreeAll</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_GetCmp"><code class="docutils literal notranslate"><span class="pre">QState_Error_GetCmp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Initialize"><code class="docutils literal notranslate"><span class="pre">QState_Error_Initialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_InnerProduct"><code class="docutils literal notranslate"><span class="pre">QState_Error_InnerProduct</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_OperateQcirc"><code class="docutils literal notranslate"><span class="pre">QState_Error_OperateQcirc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_OperateQgate"><code class="docutils literal notranslate"><span class="pre">QState_Error_OperateQgate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Reset"><code class="docutils literal notranslate"><span class="pre">QState_Error_Reset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_Show"><code class="docutils literal notranslate"><span class="pre">QState_Error_Show</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_Error_TensorProduct"><code class="docutils literal notranslate"><span class="pre">QState_Error_TensorProduct</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_NeedMoreArguments"><code class="docutils literal notranslate"><span class="pre">QState_NeedMoreArguments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_OutOfBound"><code class="docutils literal notranslate"><span class="pre">QState_OutOfBound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_SameQubitID"><code class="docutils literal notranslate"><span class="pre">QState_SameQubitID</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_TooManyArguments"><code class="docutils literal notranslate"><span class="pre">QState_TooManyArguments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.QState_UnknownQgateKind"><code class="docutils literal notranslate"><span class="pre">QState_UnknownQgateKind</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_AddMethos"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_AddMethos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_Clone"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_Clone</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_FreeAll"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_FreeAll</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_GetPauliFac"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_GetPauliFac</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_GetPauliOp"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_GetPauliOp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_GetRank"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_GetRank</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_Initialize"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_Initialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_Measure"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_Measure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_OperateQcirc"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_OperateQcirc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_OperateQgate"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_OperateQgate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_SetPauliFac"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_SetPauliFac</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.error.Stabilizer_Error_SetPauliOp"><code class="docutils literal notranslate"><span class="pre">Stabilizer_Error_SetPauliOp</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.gpu">qlazy.gpu module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.gpu.gpu_preparation"><code class="docutils literal notranslate"><span class="pre">gpu_preparation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.gpu.is_gpu_available"><code class="docutils literal notranslate"><span class="pre">is_gpu_available()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.gpu.is_gpu_supported_lib"><code class="docutils literal notranslate"><span class="pre">is_gpu_supported_lib()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.util">qlazy.util module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.check_gpu"><code class="docutils literal notranslate"><span class="pre">check_gpu()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.densop_check_args"><code class="docutils literal notranslate"><span class="pre">densop_check_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.get_lib_ext"><code class="docutils literal notranslate"><span class="pre">get_lib_ext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.get_qgate_param_num"><code class="docutils literal notranslate"><span class="pre">get_qgate_param_num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.get_qgate_qubit_num"><code class="docutils literal notranslate"><span class="pre">get_qgate_qubit_num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.is_clifford_gate"><code class="docutils literal notranslate"><span class="pre">is_clifford_gate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.is_measurement_gate"><code class="docutils literal notranslate"><span class="pre">is_measurement_gate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.is_non_clifford_gate"><code class="docutils literal notranslate"><span class="pre">is_non_clifford_gate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.is_num"><code class="docutils literal notranslate"><span class="pre">is_num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.is_reset_gate"><code class="docutils literal notranslate"><span class="pre">is_reset_gate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.qstate_check_args"><code class="docutils literal notranslate"><span class="pre">qstate_check_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.read_config_ini"><code class="docutils literal notranslate"><span class="pre">read_config_ini()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.util.reverse_bit_order"><code class="docutils literal notranslate"><span class="pre">reverse_bit_order()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Backend"><code class="docutils literal notranslate"><span class="pre">Backend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.product"><code class="docutils literal notranslate"><span class="pre">Backend.product</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.device"><code class="docutils literal notranslate"><span class="pre">Backend.device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.config_braket"><code class="docutils literal notranslate"><span class="pre">Backend.config_braket</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.devices"><code class="docutils literal notranslate"><span class="pre">Backend.devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.ibmq_devices"><code class="docutils literal notranslate"><span class="pre">Backend.ibmq_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.products"><code class="docutils literal notranslate"><span class="pre">Backend.products()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.qlazy_devices"><code class="docutils literal notranslate"><span class="pre">Backend.qlazy_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.qulacs_devices"><code class="docutils literal notranslate"><span class="pre">Backend.qulacs_devices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Backend.run"><code class="docutils literal notranslate"><span class="pre">Backend.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.CMem"><code class="docutils literal notranslate"><span class="pre">CMem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.cmem_num"><code class="docutils literal notranslate"><span class="pre">CMem.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.bit_array"><code class="docutils literal notranslate"><span class="pre">CMem.bit_array</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id42"><code class="docutils literal notranslate"><span class="pre">CMem.bit_array</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.bits"><code class="docutils literal notranslate"><span class="pre">CMem.bits</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.clone"><code class="docutils literal notranslate"><span class="pre">CMem.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id43"><code class="docutils literal notranslate"><span class="pre">CMem.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.get_bits"><code class="docutils literal notranslate"><span class="pre">CMem.get_bits()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.CMem.set_bits"><code class="docutils literal notranslate"><span class="pre">CMem.set_bits()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.DensOp"><code class="docutils literal notranslate"><span class="pre">DensOp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.row"><code class="docutils literal notranslate"><span class="pre">DensOp.row</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.col"><code class="docutils literal notranslate"><span class="pre">DensOp.col</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.element"><code class="docutils literal notranslate"><span class="pre">DensOp.element</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.add"><code class="docutils literal notranslate"><span class="pre">DensOp.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.add_method"><code class="docutils literal notranslate"><span class="pre">DensOp.add_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.add_methods"><code class="docutils literal notranslate"><span class="pre">DensOp.add_methods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.amp_dump"><code class="docutils literal notranslate"><span class="pre">DensOp.amp_dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.apply"><code class="docutils literal notranslate"><span class="pre">DensOp.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.bit_flip"><code class="docutils literal notranslate"><span class="pre">DensOp.bit_flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.bit_phase_flip"><code class="docutils literal notranslate"><span class="pre">DensOp.bit_phase_flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.buf_id"><code class="docutils literal notranslate"><span class="pre">DensOp.buf_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.buffer_0"><code class="docutils literal notranslate"><span class="pre">DensOp.buffer_0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.buffer_1"><code class="docutils literal notranslate"><span class="pre">DensOp.buffer_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.ccx"><code class="docutils literal notranslate"><span class="pre">DensOp.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.ch"><code class="docutils literal notranslate"><span class="pre">DensOp.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.clone"><code class="docutils literal notranslate"><span class="pre">DensOp.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id44"><code class="docutils literal notranslate"><span class="pre">DensOp.col</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.composite"><code class="docutils literal notranslate"><span class="pre">DensOp.composite()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cond_entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.cond_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cp"><code class="docutils literal notranslate"><span class="pre">DensOp.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.create_register"><code class="docutils literal notranslate"><span class="pre">DensOp.create_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.crx"><code class="docutils literal notranslate"><span class="pre">DensOp.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cry"><code class="docutils literal notranslate"><span class="pre">DensOp.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.crz"><code class="docutils literal notranslate"><span class="pre">DensOp.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cs"><code class="docutils literal notranslate"><span class="pre">DensOp.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cs_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.csw"><code class="docutils literal notranslate"><span class="pre">DensOp.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.ct"><code class="docutils literal notranslate"><span class="pre">DensOp.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.ct_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cx"><code class="docutils literal notranslate"><span class="pre">DensOp.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cxr"><code class="docutils literal notranslate"><span class="pre">DensOp.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cxr_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cy"><code class="docutils literal notranslate"><span class="pre">DensOp.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.cz"><code class="docutils literal notranslate"><span class="pre">DensOp.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.del_all"><code class="docutils literal notranslate"><span class="pre">DensOp.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.depolarize"><code class="docutils literal notranslate"><span class="pre">DensOp.depolarize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.distance"><code class="docutils literal notranslate"><span class="pre">DensOp.distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id45"><code class="docutils literal notranslate"><span class="pre">DensOp.element</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.elm"><code class="docutils literal notranslate"><span class="pre">DensOp.elm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.expect"><code class="docutils literal notranslate"><span class="pre">DensOp.expect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.fidelity"><code class="docutils literal notranslate"><span class="pre">DensOp.fidelity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.gbank"><code class="docutils literal notranslate"><span class="pre">DensOp.gbank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.get_elm"><code class="docutils literal notranslate"><span class="pre">DensOp.get_elm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.h"><code class="docutils literal notranslate"><span class="pre">DensOp.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.init_register"><code class="docutils literal notranslate"><span class="pre">DensOp.init_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.instrument"><code class="docutils literal notranslate"><span class="pre">DensOp.instrument()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.join"><code class="docutils literal notranslate"><span class="pre">DensOp.join()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mat_norm"><code class="docutils literal notranslate"><span class="pre">DensOp.mat_norm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mat_spectrum"><code class="docutils literal notranslate"><span class="pre">DensOp.mat_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mat_sqrt"><code class="docutils literal notranslate"><span class="pre">DensOp.mat_sqrt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mcx"><code class="docutils literal notranslate"><span class="pre">DensOp.mcx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mix"><code class="docutils literal notranslate"><span class="pre">DensOp.mix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mul"><code class="docutils literal notranslate"><span class="pre">DensOp.mul()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.mutual_info"><code class="docutils literal notranslate"><span class="pre">DensOp.mutual_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.operate"><code class="docutils literal notranslate"><span class="pre">DensOp.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.p"><code class="docutils literal notranslate"><span class="pre">DensOp.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.partial"><code class="docutils literal notranslate"><span class="pre">DensOp.partial()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.patrace"><code class="docutils literal notranslate"><span class="pre">DensOp.patrace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.phase_dump"><code class="docutils literal notranslate"><span class="pre">DensOp.phase_dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.phase_flip"><code class="docutils literal notranslate"><span class="pre">DensOp.phase_flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.probability"><code class="docutils literal notranslate"><span class="pre">DensOp.probability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.relative_entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.relative_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.reset"><code class="docutils literal notranslate"><span class="pre">DensOp.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id46"><code class="docutils literal notranslate"><span class="pre">DensOp.row</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.rx"><code class="docutils literal notranslate"><span class="pre">DensOp.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.rxx"><code class="docutils literal notranslate"><span class="pre">DensOp.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.ry"><code class="docutils literal notranslate"><span class="pre">DensOp.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.ryy"><code class="docutils literal notranslate"><span class="pre">DensOp.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.rz"><code class="docutils literal notranslate"><span class="pre">DensOp.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.rzz"><code class="docutils literal notranslate"><span class="pre">DensOp.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.s"><code class="docutils literal notranslate"><span class="pre">DensOp.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.s_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.show"><code class="docutils literal notranslate"><span class="pre">DensOp.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.spectrum"><code class="docutils literal notranslate"><span class="pre">DensOp.spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.sqtrace"><code class="docutils literal notranslate"><span class="pre">DensOp.sqtrace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.sw"><code class="docutils literal notranslate"><span class="pre">DensOp.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.t"><code class="docutils literal notranslate"><span class="pre">DensOp.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.t_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.tenspro"><code class="docutils literal notranslate"><span class="pre">DensOp.tenspro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.trace"><code class="docutils literal notranslate"><span class="pre">DensOp.trace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.von_neumann_entropy"><code class="docutils literal notranslate"><span class="pre">DensOp.von_neumann_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.x"><code class="docutils literal notranslate"><span class="pre">DensOp.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.xr"><code class="docutils literal notranslate"><span class="pre">DensOp.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.xr_dg"><code class="docutils literal notranslate"><span class="pre">DensOp.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.y"><code class="docutils literal notranslate"><span class="pre">DensOp.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.DensOp.z"><code class="docutils literal notranslate"><span class="pre">DensOp.z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.MPState"><code class="docutils literal notranslate"><span class="pre">MPState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.qubit_num"><code class="docutils literal notranslate"><span class="pre">MPState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.bond_dimensions"><code class="docutils literal notranslate"><span class="pre">MPState.bond_dimensions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.max_truncation_err"><code class="docutils literal notranslate"><span class="pre">MPState.max_truncation_err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.tensors"><code class="docutils literal notranslate"><span class="pre">MPState.tensors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.amp"><code class="docutils literal notranslate"><span class="pre">MPState.amp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.ccx"><code class="docutils literal notranslate"><span class="pre">MPState.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.ch"><code class="docutils literal notranslate"><span class="pre">MPState.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.clone"><code class="docutils literal notranslate"><span class="pre">MPState.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cp"><code class="docutils literal notranslate"><span class="pre">MPState.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.crx"><code class="docutils literal notranslate"><span class="pre">MPState.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cry"><code class="docutils literal notranslate"><span class="pre">MPState.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.crz"><code class="docutils literal notranslate"><span class="pre">MPState.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cs"><code class="docutils literal notranslate"><span class="pre">MPState.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cs_dg"><code class="docutils literal notranslate"><span class="pre">MPState.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.csw"><code class="docutils literal notranslate"><span class="pre">MPState.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.ct"><code class="docutils literal notranslate"><span class="pre">MPState.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.ct_dg"><code class="docutils literal notranslate"><span class="pre">MPState.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cx"><code class="docutils literal notranslate"><span class="pre">MPState.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cxr"><code class="docutils literal notranslate"><span class="pre">MPState.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cxr_dg"><code class="docutils literal notranslate"><span class="pre">MPState.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cy"><code class="docutils literal notranslate"><span class="pre">MPState.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.cz"><code class="docutils literal notranslate"><span class="pre">MPState.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.del_all"><code class="docutils literal notranslate"><span class="pre">MPState.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.expect"><code class="docutils literal notranslate"><span class="pre">MPState.expect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.fidelity"><code class="docutils literal notranslate"><span class="pre">MPState.fidelity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.get_amp"><code class="docutils literal notranslate"><span class="pre">MPState.get_amp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.h"><code class="docutils literal notranslate"><span class="pre">MPState.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.inpro"><code class="docutils literal notranslate"><span class="pre">MPState.inpro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.m"><code class="docutils literal notranslate"><span class="pre">MPState.m()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id47"><code class="docutils literal notranslate"><span class="pre">MPState.max_truncation_err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.mcx"><code class="docutils literal notranslate"><span class="pre">MPState.mcx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.measure"><code class="docutils literal notranslate"><span class="pre">MPState.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.operate"><code class="docutils literal notranslate"><span class="pre">MPState.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.operate_1qubit_gate"><code class="docutils literal notranslate"><span class="pre">MPState.operate_1qubit_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.operate_2qubit_gate"><code class="docutils literal notranslate"><span class="pre">MPState.operate_2qubit_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.p"><code class="docutils literal notranslate"><span class="pre">MPState.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id48"><code class="docutils literal notranslate"><span class="pre">MPState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.reset"><code class="docutils literal notranslate"><span class="pre">MPState.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.rx"><code class="docutils literal notranslate"><span class="pre">MPState.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.rxx"><code class="docutils literal notranslate"><span class="pre">MPState.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.ry"><code class="docutils literal notranslate"><span class="pre">MPState.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.ryy"><code class="docutils literal notranslate"><span class="pre">MPState.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.rz"><code class="docutils literal notranslate"><span class="pre">MPState.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.rzz"><code class="docutils literal notranslate"><span class="pre">MPState.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.s"><code class="docutils literal notranslate"><span class="pre">MPState.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.s_dg"><code class="docutils literal notranslate"><span class="pre">MPState.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.show"><code class="docutils literal notranslate"><span class="pre">MPState.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.sw"><code class="docutils literal notranslate"><span class="pre">MPState.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.t"><code class="docutils literal notranslate"><span class="pre">MPState.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.t_dg"><code class="docutils literal notranslate"><span class="pre">MPState.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.x"><code class="docutils literal notranslate"><span class="pre">MPState.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.xr"><code class="docutils literal notranslate"><span class="pre">MPState.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.xr_dg"><code class="docutils literal notranslate"><span class="pre">MPState.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.y"><code class="docutils literal notranslate"><span class="pre">MPState.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.MPState.z"><code class="docutils literal notranslate"><span class="pre">MPState.z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Observable"><code class="docutils literal notranslate"><span class="pre">Observable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.base"><code class="docutils literal notranslate"><span class="pre">Observable.base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.string"><code class="docutils literal notranslate"><span class="pre">Observable.string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.weighted_pp_list"><code class="docutils literal notranslate"><span class="pre">Observable.weighted_pp_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.add_wpp"><code class="docutils literal notranslate"><span class="pre">Observable.add_wpp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id51"><code class="docutils literal notranslate"><span class="pre">Observable.base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.clone"><code class="docutils literal notranslate"><span class="pre">Observable.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.get_idx_weight"><code class="docutils literal notranslate"><span class="pre">Observable.get_idx_weight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.get_observable_base"><code class="docutils literal notranslate"><span class="pre">Observable.get_observable_base()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.get_string"><code class="docutils literal notranslate"><span class="pre">Observable.get_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.get_weighted_pp_list"><code class="docutils literal notranslate"><span class="pre">Observable.get_weighted_pp_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.is_hermitian"><code class="docutils literal notranslate"><span class="pre">Observable.is_hermitian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Observable.recalc_weight"><code class="docutils literal notranslate"><span class="pre">Observable.recalc_weight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id52"><code class="docutils literal notranslate"><span class="pre">Observable.string</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase"><code class="docutils literal notranslate"><span class="pre">ObservableBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.array_num"><code class="docutils literal notranslate"><span class="pre">ObservableBase.array_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.spin_num"><code class="docutils literal notranslate"><span class="pre">ObservableBase.spin_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.ObservableBase.spro_array"><code class="docutils literal notranslate"><span class="pre">ObservableBase.spro_array</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct"><code class="docutils literal notranslate"><span class="pre">PauliProduct</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.qid"><code class="docutils literal notranslate"><span class="pre">PauliProduct.qid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.pauli_list"><code class="docutils literal notranslate"><span class="pre">PauliProduct.pauli_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.get_binary_rep"><code class="docutils literal notranslate"><span class="pre">PauliProduct.get_binary_rep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.is_commute"><code class="docutils literal notranslate"><span class="pre">PauliProduct.is_commute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.PauliProduct.tenspro"><code class="docutils literal notranslate"><span class="pre">PauliProduct.tenspro()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QCirc"><code class="docutils literal notranslate"><span class="pre">QCirc</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.qubit_num"><code class="docutils literal notranslate"><span class="pre">QCirc.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cmem_num"><code class="docutils literal notranslate"><span class="pre">QCirc.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.gate_num"><code class="docutils literal notranslate"><span class="pre">QCirc.gate_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.first"><code class="docutils literal notranslate"><span class="pre">QCirc.first</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.last"><code class="docutils literal notranslate"><span class="pre">QCirc.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.add_gates"><code class="docutils literal notranslate"><span class="pre">QCirc.add_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.all_gates_measurement"><code class="docutils literal notranslate"><span class="pre">QCirc.all_gates_measurement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.append_gate"><code class="docutils literal notranslate"><span class="pre">QCirc.append_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.ccx"><code class="docutils literal notranslate"><span class="pre">QCirc.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.ch"><code class="docutils literal notranslate"><span class="pre">QCirc.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.clone"><code class="docutils literal notranslate"><span class="pre">QCirc.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id53"><code class="docutils literal notranslate"><span class="pre">QCirc.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cp"><code class="docutils literal notranslate"><span class="pre">QCirc.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.crx"><code class="docutils literal notranslate"><span class="pre">QCirc.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cry"><code class="docutils literal notranslate"><span class="pre">QCirc.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.crz"><code class="docutils literal notranslate"><span class="pre">QCirc.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cs"><code class="docutils literal notranslate"><span class="pre">QCirc.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cs_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.csw"><code class="docutils literal notranslate"><span class="pre">QCirc.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.ct"><code class="docutils literal notranslate"><span class="pre">QCirc.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.ct_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cx"><code class="docutils literal notranslate"><span class="pre">QCirc.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cxr"><code class="docutils literal notranslate"><span class="pre">QCirc.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cxr_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cy"><code class="docutils literal notranslate"><span class="pre">QCirc.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.cz"><code class="docutils literal notranslate"><span class="pre">QCirc.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.dump"><code class="docutils literal notranslate"><span class="pre">QCirc.dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.equivalent"><code class="docutils literal notranslate"><span class="pre">QCirc.equivalent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id54"><code class="docutils literal notranslate"><span class="pre">QCirc.first</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.from_pyzx"><code class="docutils literal notranslate"><span class="pre">QCirc.from_pyzx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.from_qasm"><code class="docutils literal notranslate"><span class="pre">QCirc.from_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.from_qasm_file"><code class="docutils literal notranslate"><span class="pre">QCirc.from_qasm_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id55"><code class="docutils literal notranslate"><span class="pre">QCirc.gate_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.generate_random_gates"><code class="docutils literal notranslate"><span class="pre">QCirc.generate_random_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.get_gates"><code class="docutils literal notranslate"><span class="pre">QCirc.get_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.get_stats"><code class="docutils literal notranslate"><span class="pre">QCirc.get_stats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.h"><code class="docutils literal notranslate"><span class="pre">QCirc.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.is_equal"><code class="docutils literal notranslate"><span class="pre">QCirc.is_equal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.kind_first"><code class="docutils literal notranslate"><span class="pre">QCirc.kind_first()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.kind_list"><code class="docutils literal notranslate"><span class="pre">QCirc.kind_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id56"><code class="docutils literal notranslate"><span class="pre">QCirc.last</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.load"><code class="docutils literal notranslate"><span class="pre">QCirc.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.measure"><code class="docutils literal notranslate"><span class="pre">QCirc.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.merge"><code class="docutils literal notranslate"><span class="pre">QCirc.merge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.operate"><code class="docutils literal notranslate"><span class="pre">QCirc.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.optimize"><code class="docutils literal notranslate"><span class="pre">QCirc.optimize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.p"><code class="docutils literal notranslate"><span class="pre">QCirc.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.pop_gate"><code class="docutils literal notranslate"><span class="pre">QCirc.pop_gate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id57"><code class="docutils literal notranslate"><span class="pre">QCirc.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.reset"><code class="docutils literal notranslate"><span class="pre">QCirc.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.rx"><code class="docutils literal notranslate"><span class="pre">QCirc.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.rxx"><code class="docutils literal notranslate"><span class="pre">QCirc.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.ry"><code class="docutils literal notranslate"><span class="pre">QCirc.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.ryy"><code class="docutils literal notranslate"><span class="pre">QCirc.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.rz"><code class="docutils literal notranslate"><span class="pre">QCirc.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.rzz"><code class="docutils literal notranslate"><span class="pre">QCirc.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.s"><code class="docutils literal notranslate"><span class="pre">QCirc.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.s_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.save"><code class="docutils literal notranslate"><span class="pre">QCirc.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.show"><code class="docutils literal notranslate"><span class="pre">QCirc.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.split_unitary_non_unitary"><code class="docutils literal notranslate"><span class="pre">QCirc.split_unitary_non_unitary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.sw"><code class="docutils literal notranslate"><span class="pre">QCirc.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.t"><code class="docutils literal notranslate"><span class="pre">QCirc.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.t_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.to_pyzx"><code class="docutils literal notranslate"><span class="pre">QCirc.to_pyzx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.to_qasm"><code class="docutils literal notranslate"><span class="pre">QCirc.to_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.to_qasm_file"><code class="docutils literal notranslate"><span class="pre">QCirc.to_qasm_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.to_string"><code class="docutils literal notranslate"><span class="pre">QCirc.to_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.x"><code class="docutils literal notranslate"><span class="pre">QCirc.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.xr"><code class="docutils literal notranslate"><span class="pre">QCirc.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.xr_dg"><code class="docutils literal notranslate"><span class="pre">QCirc.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.y"><code class="docutils literal notranslate"><span class="pre">QCirc.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QCirc.z"><code class="docutils literal notranslate"><span class="pre">QCirc.z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.QState"><code class="docutils literal notranslate"><span class="pre">QState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.qubit_num"><code class="docutils literal notranslate"><span class="pre">QState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.state_num"><code class="docutils literal notranslate"><span class="pre">QState.state_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.amp"><code class="docutils literal notranslate"><span class="pre">QState.amp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.add_method"><code class="docutils literal notranslate"><span class="pre">QState.add_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.add_methods"><code class="docutils literal notranslate"><span class="pre">QState.add_methods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id58"><code class="docutils literal notranslate"><span class="pre">QState.amp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.apply"><code class="docutils literal notranslate"><span class="pre">QState.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.bloch"><code class="docutils literal notranslate"><span class="pre">QState.bloch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.buf_id"><code class="docutils literal notranslate"><span class="pre">QState.buf_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.buffer_0"><code class="docutils literal notranslate"><span class="pre">QState.buffer_0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.buffer_1"><code class="docutils literal notranslate"><span class="pre">QState.buffer_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.camp"><code class="docutils literal notranslate"><span class="pre">QState.camp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.ccx"><code class="docutils literal notranslate"><span class="pre">QState.ccx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.ch"><code class="docutils literal notranslate"><span class="pre">QState.ch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.clone"><code class="docutils literal notranslate"><span class="pre">QState.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.composite"><code class="docutils literal notranslate"><span class="pre">QState.composite()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cp"><code class="docutils literal notranslate"><span class="pre">QState.cp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.create_register"><code class="docutils literal notranslate"><span class="pre">QState.create_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.crx"><code class="docutils literal notranslate"><span class="pre">QState.crx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cry"><code class="docutils literal notranslate"><span class="pre">QState.cry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.crz"><code class="docutils literal notranslate"><span class="pre">QState.crz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cs"><code class="docutils literal notranslate"><span class="pre">QState.cs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cs_dg"><code class="docutils literal notranslate"><span class="pre">QState.cs_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.csw"><code class="docutils literal notranslate"><span class="pre">QState.csw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.ct"><code class="docutils literal notranslate"><span class="pre">QState.ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.ct_dg"><code class="docutils literal notranslate"><span class="pre">QState.ct_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cx"><code class="docutils literal notranslate"><span class="pre">QState.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cxr"><code class="docutils literal notranslate"><span class="pre">QState.cxr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cxr_dg"><code class="docutils literal notranslate"><span class="pre">QState.cxr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cy"><code class="docutils literal notranslate"><span class="pre">QState.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.cz"><code class="docutils literal notranslate"><span class="pre">QState.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.del_all"><code class="docutils literal notranslate"><span class="pre">QState.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.evolve"><code class="docutils literal notranslate"><span class="pre">QState.evolve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.expect"><code class="docutils literal notranslate"><span class="pre">QState.expect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.fidelity"><code class="docutils literal notranslate"><span class="pre">QState.fidelity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.gbank"><code class="docutils literal notranslate"><span class="pre">QState.gbank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.get_amp"><code class="docutils literal notranslate"><span class="pre">QState.get_amp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.get_prob"><code class="docutils literal notranslate"><span class="pre">QState.get_prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.h"><code class="docutils literal notranslate"><span class="pre">QState.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.init_register"><code class="docutils literal notranslate"><span class="pre">QState.init_register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.inpro"><code class="docutils literal notranslate"><span class="pre">QState.inpro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.join"><code class="docutils literal notranslate"><span class="pre">QState.join()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.m"><code class="docutils literal notranslate"><span class="pre">QState.m()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.mb"><code class="docutils literal notranslate"><span class="pre">QState.mb()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.mcx"><code class="docutils literal notranslate"><span class="pre">QState.mcx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.measure"><code class="docutils literal notranslate"><span class="pre">QState.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.mx"><code class="docutils literal notranslate"><span class="pre">QState.mx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.my"><code class="docutils literal notranslate"><span class="pre">QState.my()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.mz"><code class="docutils literal notranslate"><span class="pre">QState.mz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.operate"><code class="docutils literal notranslate"><span class="pre">QState.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.p"><code class="docutils literal notranslate"><span class="pre">QState.p()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.partial"><code class="docutils literal notranslate"><span class="pre">QState.partial()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.prob_array"><code class="docutils literal notranslate"><span class="pre">QState.prob_array</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.prob_updated"><code class="docutils literal notranslate"><span class="pre">QState.prob_updated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id59"><code class="docutils literal notranslate"><span class="pre">QState.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.reset"><code class="docutils literal notranslate"><span class="pre">QState.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.rx"><code class="docutils literal notranslate"><span class="pre">QState.rx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.rxx"><code class="docutils literal notranslate"><span class="pre">QState.rxx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.ry"><code class="docutils literal notranslate"><span class="pre">QState.ry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.ryy"><code class="docutils literal notranslate"><span class="pre">QState.ryy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.rz"><code class="docutils literal notranslate"><span class="pre">QState.rz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.rzz"><code class="docutils literal notranslate"><span class="pre">QState.rzz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.s"><code class="docutils literal notranslate"><span class="pre">QState.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.s_dg"><code class="docutils literal notranslate"><span class="pre">QState.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.schmidt_coef"><code class="docutils literal notranslate"><span class="pre">QState.schmidt_coef()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.schmidt_decomp"><code class="docutils literal notranslate"><span class="pre">QState.schmidt_decomp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.show"><code class="docutils literal notranslate"><span class="pre">QState.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id62"><code class="docutils literal notranslate"><span class="pre">QState.state_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.sw"><code class="docutils literal notranslate"><span class="pre">QState.sw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.t"><code class="docutils literal notranslate"><span class="pre">QState.t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.t_dg"><code class="docutils literal notranslate"><span class="pre">QState.t_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.tenspro"><code class="docutils literal notranslate"><span class="pre">QState.tenspro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.use_gpu"><code class="docutils literal notranslate"><span class="pre">QState.use_gpu</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.x"><code class="docutils literal notranslate"><span class="pre">QState.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.xr"><code class="docutils literal notranslate"><span class="pre">QState.xr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.xr_dg"><code class="docutils literal notranslate"><span class="pre">QState.xr_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.y"><code class="docutils literal notranslate"><span class="pre">QState.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.QState.z"><code class="docutils literal notranslate"><span class="pre">QState.z()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Result"><code class="docutils literal notranslate"><span class="pre">Result</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.backend"><code class="docutils literal notranslate"><span class="pre">Result.backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.qubit_num"><code class="docutils literal notranslate"><span class="pre">Result.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.cmem_num"><code class="docutils literal notranslate"><span class="pre">Result.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.cid"><code class="docutils literal notranslate"><span class="pre">Result.cid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.shots"><code class="docutils literal notranslate"><span class="pre">Result.shots</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.freqency"><code class="docutils literal notranslate"><span class="pre">Result.freqency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.start_time"><code class="docutils literal notranslate"><span class="pre">Result.start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.end_time"><code class="docutils literal notranslate"><span class="pre">Result.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.elapsed_time"><code class="docutils literal notranslate"><span class="pre">Result.elapsed_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.qstate"><code class="docutils literal notranslate"><span class="pre">Result.qstate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.stabilizer"><code class="docutils literal notranslate"><span class="pre">Result.stabilizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.cmem"><code class="docutils literal notranslate"><span class="pre">Result.cmem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.info"><code class="docutils literal notranslate"><span class="pre">Result.info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id63"><code class="docutils literal notranslate"><span class="pre">Result.backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id64"><code class="docutils literal notranslate"><span class="pre">Result.cid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id65"><code class="docutils literal notranslate"><span class="pre">Result.cmem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id66"><code class="docutils literal notranslate"><span class="pre">Result.cmem_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id67"><code class="docutils literal notranslate"><span class="pre">Result.elapsed_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id68"><code class="docutils literal notranslate"><span class="pre">Result.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.frequency"><code class="docutils literal notranslate"><span class="pre">Result.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id69"><code class="docutils literal notranslate"><span class="pre">Result.info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.load"><code class="docutils literal notranslate"><span class="pre">Result.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id70"><code class="docutils literal notranslate"><span class="pre">Result.qstate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id71"><code class="docutils literal notranslate"><span class="pre">Result.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.save"><code class="docutils literal notranslate"><span class="pre">Result.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id72"><code class="docutils literal notranslate"><span class="pre">Result.shots</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Result.show"><code class="docutils literal notranslate"><span class="pre">Result.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id73"><code class="docutils literal notranslate"><span class="pre">Result.stabilizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id74"><code class="docutils literal notranslate"><span class="pre">Result.start_time</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer"><code class="docutils literal notranslate"><span class="pre">Stabilizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.qubit_num"><code class="docutils literal notranslate"><span class="pre">Stabilizer.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.gene_num"><code class="docutils literal notranslate"><span class="pre">Stabilizer.gene_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.add_method"><code class="docutils literal notranslate"><span class="pre">Stabilizer.add_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.add_methods"><code class="docutils literal notranslate"><span class="pre">Stabilizer.add_methods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.check_matrix"><code class="docutils literal notranslate"><span class="pre">Stabilizer.check_matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.clone"><code class="docutils literal notranslate"><span class="pre">Stabilizer.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.cx"><code class="docutils literal notranslate"><span class="pre">Stabilizer.cx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.cy"><code class="docutils literal notranslate"><span class="pre">Stabilizer.cy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.cz"><code class="docutils literal notranslate"><span class="pre">Stabilizer.cz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.del_all"><code class="docutils literal notranslate"><span class="pre">Stabilizer.del_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id75"><code class="docutils literal notranslate"><span class="pre">Stabilizer.gene_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.get_pauli_fac"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_pauli_fac()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.get_pauli_op"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_pauli_op()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.get_rank"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_rank()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.get_str"><code class="docutils literal notranslate"><span class="pre">Stabilizer.get_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.h"><code class="docutils literal notranslate"><span class="pre">Stabilizer.h()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.m"><code class="docutils literal notranslate"><span class="pre">Stabilizer.m()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.measure"><code class="docutils literal notranslate"><span class="pre">Stabilizer.measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.mx"><code class="docutils literal notranslate"><span class="pre">Stabilizer.mx()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.my"><code class="docutils literal notranslate"><span class="pre">Stabilizer.my()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.mz"><code class="docutils literal notranslate"><span class="pre">Stabilizer.mz()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.operate"><code class="docutils literal notranslate"><span class="pre">Stabilizer.operate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.pauli_factor"><code class="docutils literal notranslate"><span class="pre">Stabilizer.pauli_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#id76"><code class="docutils literal notranslate"><span class="pre">Stabilizer.qubit_num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.reset"><code class="docutils literal notranslate"><span class="pre">Stabilizer.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.s"><code class="docutils literal notranslate"><span class="pre">Stabilizer.s()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.s_dg"><code class="docutils literal notranslate"><span class="pre">Stabilizer.s_dg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.set_all"><code class="docutils literal notranslate"><span class="pre">Stabilizer.set_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.set_pauli_fac"><code class="docutils literal notranslate"><span class="pre">Stabilizer.set_pauli_fac()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.set_pauli_op"><code class="docutils literal notranslate"><span class="pre">Stabilizer.set_pauli_op()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.show"><code class="docutils literal notranslate"><span class="pre">Stabilizer.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.x"><code class="docutils literal notranslate"><span class="pre">Stabilizer.x()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.y"><code class="docutils literal notranslate"><span class="pre">Stabilizer.y()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qlazy.html#qlazy.Stabilizer.z"><code class="docutils literal notranslate"><span class="pre">Stabilizer.z()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

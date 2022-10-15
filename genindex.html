@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -82,10 +87,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python-api/qlazy.html">qlazy package</a></li>
 </ul>
@@ -241,18 +247,16 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.html#qlazy.QState.amp">amp (qlazy.QState attribute)</a>
-
-      <ul>
-        <li><a href="python-api/qlazy.html#qlazy.QState.QState.amp">(qlazy.QState.QState attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.MPState.amp">amp() (qlazy.MPState property)</a>
+      <li><a href="python-api/qlazy.html#qlazy.MPState.amp">amp (qlazy.MPState property)</a>
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.MPState.MPState.amp">(qlazy.MPState.MPState property)</a>
 </li>
+        <li><a href="python-api/qlazy.html#qlazy.QState.amp">(qlazy.QState attribute)</a>
+</li>
         <li><a href="python-api/qlazy.html#id58">(qlazy.QState property)</a>
+</li>
+        <li><a href="python-api/qlazy.html#qlazy.QState.QState.amp">(qlazy.QState.QState attribute)</a>
 </li>
         <li><a href="python-api/qlazy.html#id23">(qlazy.QState.QState property)</a>
 </li>
@@ -310,12 +314,10 @@
       <li><a href="python-api/qlazy.html#qlazy.Observable.base">base (qlazy.Observable attribute)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#id51">(qlazy.Observable property)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.Observable.Observable.base">(qlazy.Observable.Observable attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#id51">base() (qlazy.Observable property)</a>
-
-      <ul>
         <li><a href="python-api/qlazy.html#id16">(qlazy.Observable.Observable property)</a>
 </li>
       </ul></li>
@@ -337,7 +339,7 @@
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.bit_phase_flip">(qlazy.DensOp.DensOp method)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.CMem.bits">bits() (qlazy.CMem property)</a>
+      <li><a href="python-api/qlazy.html#qlazy.CMem.bits">bits (qlazy.CMem property)</a>
 
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.CMem.CMem.bits">(qlazy.CMem.CMem property)</a>
@@ -936,12 +938,10 @@
       <li><a href="python-api/qlazy.html#qlazy.DensOp.element">element (qlazy.DensOp attribute)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#id45">(qlazy.DensOp property)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.DensOp.DensOp.element">(qlazy.DensOp.DensOp attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#id45">element() (qlazy.DensOp property)</a>
-
-      <ul>
         <li><a href="python-api/qlazy.html#id3">(qlazy.DensOp.DensOp property)</a>
 </li>
       </ul></li>
@@ -1031,9 +1031,11 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.html#qlazy.MPState.MDataMPState.frequency">frequency (qlazy.MPState.MDataMPState attribute)</a>
+      <li><a href="python-api/qlazy.html#qlazy.MData.MData.frequency">frequency (qlazy.MData.MData property)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#qlazy.MPState.MDataMPState.frequency">(qlazy.MPState.MDataMPState attribute)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.Result.frequency">(qlazy.Result attribute)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.Result.Result.frequency">(qlazy.Result.Result attribute)</a>
@@ -1041,8 +1043,6 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.MDataStabilizer.frequency">(qlazy.Stabilizer.MDataStabilizer attribute)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.MData.MData.frequency">frequency() (qlazy.MData.MData property)</a>
-</li>
       <li><a href="python-api/qlazy.html#qlazy.QCirc.from_pyzx">from_pyzx() (qlazy.QCirc class method)</a>
 
       <ul>
@@ -1061,7 +1061,7 @@
         <li><a href="python-api/qlazy.html#qlazy.QCirc.QCirc.from_qasm_file">(qlazy.QCirc.QCirc class method)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.MData.MData.frq">frq() (qlazy.MData.MData property)</a>
+      <li><a href="python-api/qlazy.html#qlazy.MData.MData.frq">frq (qlazy.MData.MData property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1357,9 +1357,11 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python-api/qlazy.html#qlazy.MPState.MDataMPState.last">last (qlazy.MPState.MDataMPState attribute)</a>
+      <li><a href="python-api/qlazy.html#qlazy.MData.MData.last">last (qlazy.MData.MData property)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#qlazy.MPState.MDataMPState.last">(qlazy.MPState.MDataMPState attribute)</a>
+</li>
         <li><a href="python-api/qlazy.html#id56">(qlazy.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.last">[1]</a>
 </li>
         <li><a href="python-api/qlazy.html#id21">(qlazy.QCirc.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.QCirc.last">[1]</a>
@@ -1367,8 +1369,6 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.MDataStabilizer.last">(qlazy.Stabilizer.MDataStabilizer attribute)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.MData.MData.last">last() (qlazy.MData.MData property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api/qlazy.html#id7">last_val (qlazy.MData.MData attribute)</a>, <a href="python-api/qlazy.html#qlazy.MData.MData.last_val">[1]</a>
@@ -1383,7 +1383,7 @@
         <li><a href="python-api/qlazy.html#qlazy.Result.Result.load">(qlazy.Result.Result class method)</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.MData.MData.lst">lst() (qlazy.MData.MData property)</a>
+      <li><a href="python-api/qlazy.html#qlazy.MData.MData.lst">lst (qlazy.MData.MData property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1428,12 +1428,10 @@
       <li><a href="python-api/qlazy.html#qlazy.MPState.max_truncation_err">max_truncation_err (qlazy.MPState attribute)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#id47">(qlazy.MPState property)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.MPState.MPState.max_truncation_err">(qlazy.MPState.MPState attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#id47">max_truncation_err() (qlazy.MPState property)</a>
-
-      <ul>
         <li><a href="python-api/qlazy.html#id12">(qlazy.MPState.MPState property)</a>
 </li>
       </ul></li>
@@ -2224,9 +2222,13 @@
       <ul>
         <li><a href="python-api/qlazy.html#qlazy.MPState.qubit_num">(qlazy.MPState attribute)</a>
 </li>
+        <li><a href="python-api/qlazy.html#id48">(qlazy.MPState property)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.MPState.MDataMPState.qubit_num">(qlazy.MPState.MDataMPState attribute)</a>
 </li>
         <li><a href="python-api/qlazy.html#qlazy.MPState.MPState.qubit_num">(qlazy.MPState.MPState attribute)</a>
+</li>
+        <li><a href="python-api/qlazy.html#id13">(qlazy.MPState.MPState property)</a>
 </li>
         <li><a href="python-api/qlazy.html#id57">(qlazy.QCirc attribute)</a>, <a href="python-api/qlazy.html#qlazy.QCirc.qubit_num">[1]</a>
 </li>
@@ -2245,12 +2247,6 @@
         <li><a href="python-api/qlazy.html#qlazy.Stabilizer.MDataStabilizer.qubit_num">(qlazy.Stabilizer.MDataStabilizer attribute)</a>
 </li>
         <li><a href="python-api/qlazy.html#id41">(qlazy.Stabilizer.Stabilizer attribute)</a>, <a href="python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.qubit_num">[1]</a>
-</li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#id48">qubit_num() (qlazy.MPState property)</a>
-
-      <ul>
-        <li><a href="python-api/qlazy.html#id13">(qlazy.MPState.MPState property)</a>
 </li>
       </ul></li>
       <li><a href="python-api/qlazy.html#qlazy.Backend.qulacs_devices">qulacs_devices() (qlazy.Backend class method)</a>
@@ -2679,23 +2675,21 @@
         <li><a href="python-api/qlazy.html#id39">(qlazy.Result.Result attribute)</a>, <a href="python-api/qlazy.html#qlazy.Result.Result.start_time">[1]</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#id62">state_num (qlazy.QState attribute)</a>, <a href="python-api/qlazy.html#qlazy.QState.state_num">[1]</a>
+      <li><a href="python-api/qlazy.html#qlazy.MData.MData.state_num">state_num (qlazy.MData.MData property)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#id62">(qlazy.QState attribute)</a>, <a href="python-api/qlazy.html#qlazy.QState.state_num">[1]</a>
+</li>
         <li><a href="python-api/qlazy.html#id27">(qlazy.QState.QState attribute)</a>, <a href="python-api/qlazy.html#qlazy.QState.QState.state_num">[1]</a>
 </li>
       </ul></li>
-      <li><a href="python-api/qlazy.html#qlazy.MData.MData.state_num">state_num() (qlazy.MData.MData property)</a>
-</li>
       <li><a href="python-api/qlazy.html#qlazy.Observable.string">string (qlazy.Observable attribute)</a>
 
       <ul>
+        <li><a href="python-api/qlazy.html#id52">(qlazy.Observable property)</a>
+</li>
         <li><a href="python-api/qlazy.html#qlazy.Observable.Observable.string">(qlazy.Observable.Observable attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="python-api/qlazy.html#id52">string() (qlazy.Observable property)</a>
-
-      <ul>
         <li><a href="python-api/qlazy.html#id17">(qlazy.Observable.Observable property)</a>
 </li>
       </ul></li>

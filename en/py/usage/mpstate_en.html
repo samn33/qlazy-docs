@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Matrix product state (MPState class) &mdash; qlazy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> qlazy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">qlazy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Matrix product state (MPState class)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/en/py/usage/mpstate_en.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="matrix-product-state-mpstate-class">
+<h1>Matrix product state (MPState class)<a class="headerlink" href="#matrix-product-state-mpstate-class" title="Permalink to this heading">¶</a></h1>
+<div class="section" id="operation-of-matrix-product-state">
+<h2>Operation of matrix product state<a class="headerlink" href="#operation-of-matrix-product-state" title="Permalink to this heading">¶</a></h2>
+<p>The quantum computing simulation can mainly be performed using the
+quantum state vector, but as the number of qubits N increases, a
+memory of O(2^N) will be required.  So too large size quantum
+computation cannot be performed.  The limit is about 25 to 30 qubits
+in generally popular PC.  However, considering the realistic quantum
+state, it is not always necessary to use the freedom of O(2^n) fully.
+As a method of compressing the quantum state according to the degree
+of freedom, it is known that the method utilizing the matrix product
+state using a tensor network.  Qlazy allows you to simulate the matrix
+product state using the ‘MPState’ class.  It uses Google’s
+<a class="reference external" href="https://github.com/google/TensorNetwork">tensornetwork</a> internally.</p>
+<div class="section" id="simple-example">
+<h3>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this heading">¶</a></h3>
+<p>We will get started to show a simple example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">MPState</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">mps</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
+<span class="go">Counter({&#39;0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&#39;: 55, &#39;1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111&#39;: 45})</span>
+</pre></div>
+</div>
+<p>You can apply quantum gates one after another and finally get the
+measurement value by the ‘m’ method like ‘QState’ class.  The major
+difference from ‘QState’ is that it can be calculated even in quantum
+state exceeding 30 quantum bits (but it is difficult to calculate a
+large amount of entangles …).</p>
+<p>We will explain how to use the ‘MPstate’ class in detail below.</p>
+</div>
+<div class="section" id="initialization">
+<h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this heading">¶</a></h3>
+<p>You can create the matrix product state as an instance of the
+‘MPState’ as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">MPState</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gate-operation">
+<h3>Gate operation<a class="headerlink" href="#gate-operation" title="Permalink to this heading">¶</a></h3>
+<p>You can perform a gate operation to the matrix product state.
+The format is the same as in the ‘Qstate’ class as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
+<div class="section" id="custom-gate">
+<h4>Custom gate<a class="headerlink" href="#custom-gate" title="Permalink to this heading">¶</a></h4>
+<p>By inheriting the ‘MPState’ class, you can easily create and add your
+own quantum gate as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyMPState</span><span class="p">(</span><span class="n">MPState</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">bell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MyMPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">bell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+</pre></div>
+</div>
+<p>This is a very simple example, so you may not feel much profit, but
+there are many situations where you can use it, such as when you want
+to create a large quantum circuit.</p>
+</div>
+</div>
+<div class="section" id="pauli-product-operation">
+<h3>Pauli product operation<a class="headerlink" href="#pauli-product-operation" title="Permalink to this heading">¶</a></h3>
+<p>You can perform to operate a Pauli product (tensor product of pauli
+operator X, Y and Z) to the matrix product state.  In order to handle
+pauli product, you must import the ‘PauliProduct’ class as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">MPState</span><span class="p">,</span> <span class="n">PauliProduct</span>
+</pre></div>
+</div>
+<p>For example, if you want to operate the pauli product “X2 Y0 Z1” for
+the 3-qubit matrix product state ‘mps’, create the instance of
+‘PauliProduct’ as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>then perform ‘operate’ method with ‘pp’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Controlled pauli product can be operated by specifying the control
+qubit id in the ‘ctrl’ option of the ‘operate’ method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memory-release">
+<h3>Memory release<a class="headerlink" href="#memory-release" title="Permalink to this heading">¶</a></h3>
+<p>If the memory of the ‘MPState’ instance is no longer used, it will be
+released automatically, but if you want to clearly release it, you can
+release it at any time as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">mps</span>
+</pre></div>
+</div>
+<p>Using the class method ‘del_all’ allows you to release multiple
+stabilizer instances at once.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_0</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps_1</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps_2</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MPState</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">mps_0</span><span class="p">,</span> <span class="n">mps_1</span><span class="p">,</span> <span class="n">mps_2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, you can specify matrix product states list, tuples or
+nest of those as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_A</span> <span class="o">=</span> <span class="p">[</span><span class="n">mps_1</span><span class="p">,</span> <span class="n">mps_2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MPState</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">mps_0</span><span class="p">,</span> <span class="n">mps_A</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps_B</span> <span class="o">=</span> <span class="p">[</span><span class="n">mps_3</span><span class="p">,</span> <span class="p">[</span><span class="n">mps_4</span><span class="p">,</span> <span class="n">mps_5</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MPState</span><span class="o">.</span><span class="n">del_all</span><span class="p">(</span><span class="n">de_B</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy">
+<h3>Copy<a class="headerlink" href="#copy" title="Permalink to this heading">¶</a></h3>
+<p>If you want to copy the matrix product state, use the ‘clone’ method,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_clone</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reset">
+<h3>Reset<a class="headerlink" href="#reset" title="Permalink to this heading">¶</a></h3>
+<p>If you want to initialize and use it again without discarding the
+already generated matrix product state, use the reset method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The matrix product state becomes |00…0&gt;.  If you give a qubit id
+list with arguments, you can forcibly make the qubit corresponding to
+the id list |0&gt;.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>When you reset some specific qubits, the qubits are internally measured
+and then reset. So if the qubits and the remained qubits are
+entangled, the effect of the reset (measureing) extends the remaining
+qubits.  In other words, the result is probable.  Please note that the
+results may change each time you execute.</p>
+</div>
+</div>
+<div class="section" id="display-of-matrix-product-state">
+<h2>Display of matrix product state<a class="headerlink" href="#display-of-matrix-product-state" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="display-the-whole-qubits-state">
+<h3>Display the whole qubits state<a class="headerlink" href="#display-the-whole-qubits-state" title="Permalink to this heading">¶</a></h3>
+<p>You can display the matrix product state by using ‘show’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+<p>Please note that if you try to display a matrix product state for the
+large number of qubits, you may run out of memory, because qlazy
+internally converts it to a quantum state vector.</p>
+</div>
+<div class="section" id="display-the-partial-qubits-state">
+<h3>Display the partial qubits state<a class="headerlink" href="#display-the-partial-qubits-state" title="Permalink to this heading">¶</a></h3>
+<p>You can also display the matrix product state for specific qubits.  In
+the case of displaying a matrix product state for 0th and 2nd qubit,
+do as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The result is this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
+</pre></div>
+</div>
+<p>If you specify the other qubit as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>the result is this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+</pre></div>
+</div>
+<p>If the qubits you want to display and the other qubits are entangled,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+<p>the result is probable.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>then,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+</pre></div>
+</div>
+<p>or,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-only-non-zero-components">
+<h3>Display only non-zero components<a class="headerlink" href="#display-only-non-zero-components" title="Permalink to this heading">¶</a></h3>
+<p>If you want to display only components with non-zero probability
+amplitude, use the ‘nonzero’ option as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nonzero</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+</pre></div>
+</div>
+<p>Use it if you want to display the matrix product state that most of
+the components are zero amplitude.</p>
+</div>
+<div class="section" id="notes-on-normalization">
+<h3>Notes on normalization<a class="headerlink" href="#notes-on-normalization" title="Permalink to this heading">¶</a></h3>
+<p>When you display the matrix product state with the ‘show’ method,
+normalization is performed to be norm is 1.  In addition, a global
+phase factor of the state is taken out, so that the coefficient of
+C[00..0] becomes positive number.  In the case that C[00..0] of the
+original state is 0, the global phase will not be taken out (we can’t
+do it).  If you want to take out the global phase so that coefficient
+of some specific qubit to become positive number, use ‘preal’ option
+as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">preal</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you do not want to take out the global phase, specify -1 to the
+‘preal’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">preal</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="probability-amplitude">
+<h3>Probability amplitude<a class="headerlink" href="#probability-amplitude" title="Permalink to this heading">¶</a></h3>
+<p>You can get an array (ndarray) of probability amplitudes using
+‘get_amp’ method.  If you set a list of qubit id in ‘qid’ option, you
+will get probability amplitudes corresponding to the list of qubit id.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_amp</span><span class="p">()</span>  <span class="c1"># probability amplitudes for the whole qubits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># probability amplitudes for the specified qubits</span>
+</pre></div>
+</div>
+<p>Please note that if the specified qubits and the rest are entangled,
+the results will change each time you execute (like the show method).
+Since the ‘get_amp’ method without the argument is defined as ‘amp’
+property, the same result as “qs.get_amp()” can be obtained as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">amp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="measurement-of-matrix-product-state">
+<h2>Measurement of matrix product state<a class="headerlink" href="#measurement-of-matrix-product-state" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="execution-of-measurement">
+<h3>Execution of measurement<a class="headerlink" href="#execution-of-measurement" title="Permalink to this heading">¶</a></h3>
+<p>You can perform Z-axial direction measurement (measurement at the
+computational basis) with ‘m’ method.  Set the following arguments
+and execute.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ‘qid’ means the list of specified qubit id, the ‘shots’ means
+number of measurement trials.  If the ‘qid’ is not specified, all
+qubits measurements is performed.  If the ‘shots’ is not specified,
+one time measurement is performed.  The ‘m’ method returns an instance
+of the ‘MDataMPState’ class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to get the frequencies of the measured value, use
+‘frequency’ property.  You will get it as python standard ‘Counter’
+data format.  If you want to get the last measured value, use ‘last’
+property.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
+<span class="go">Counter({&#39;00&#39;:53,&#39;11&#39;:47})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+<p>The quantum state after measurement changes according to the last
+measurement result as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +1.0000+0.0000*i : 1.0000 |+++++++++++</span>
+</pre></div>
+</div>
+<div class="section" id="notes">
+<h4>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h4>
+<p>Even if the quantum circuit of several tens to hundreds of quantum
+bits is not so deep and not so much entanglements, the calculation of
+the quantum circuit can be executed without difficulty.  However, if
+it has measurements for many qubits in a large number of shots, it may
+take a tremendous time to get the measurement result.  The main
+purpose of using the matrix product state simulation is considered to
+be a simulation for quantum machine learning, quantum chemical
+calculations, and optimization issues on NISC devices, so we recommend
+that you try it with the expectation value calculation (described
+later) instead of obtaining the measurement values in large number of
+shots.</p>
+</div>
+</div>
+<div class="section" id="one-time-measurement">
+<h3>One-time measurement<a class="headerlink" href="#one-time-measurement" title="Permalink to this heading">¶</a></h3>
+<p>If you simply measure it once and get the measured value at the
+computational basis, use ‘measure’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mval</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+<p>As a result, the matrix product state becomes the state after
+measurement as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +1.0000+0.0000*i : 1.0000 |+++++++++++</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calculation-regarding-matrix-product-states">
+<h2>Calculation regarding matrix product states<a class="headerlink" href="#calculation-regarding-matrix-product-states" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="inner-product-of-two-matrix-product-states">
+<h3>Inner product of two matrix product states<a class="headerlink" href="#inner-product-of-two-matrix-product-states" title="Permalink to this heading">¶</a></h3>
+<p>If you want to get an inner product of two matrix product states, use
+the ‘inpro’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_0</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># |00&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps_1</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># |11&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">mps_0</span><span class="o">.</span><span class="n">inpro</span><span class="p">(</span><span class="n">mps_1</span><span class="p">)</span>
+<span class="go">0j</span>
+</pre></div>
+</div>
+<p>In the above example, &lt;00|11&gt; value is calculated.</p>
+</div>
+<div class="section" id="fidelity-of-two-matrix-product-states">
+<h3>Fidelity of two matrix product states<a class="headerlink" href="#fidelity-of-two-matrix-product-states" title="Permalink to this heading">¶</a></h3>
+<p>If you want to get a fidelity of two matrix product states, use the
+‘fidelity’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_0</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps_1</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">qs_0</span><span class="o">.</span><span class="n">fidelity</span><span class="p">(</span><span class="n">qs_1</span><span class="p">)</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+<p>In the above example, an absolute value of &lt;00|11&gt;, that is |&lt;00|11&gt;|
+is calculated.</p>
+</div>
+<div class="section" id="expectation-value-for-observable">
+<h3>Expectation value for observable<a class="headerlink" href="#expectation-value-for-observable" title="Permalink to this heading">¶</a></h3>
+<p>You can calculate an expectation value of observable for the matrix
+product state.  In order to do it, first, you should create an
+instance of ‘Observable’ class you are considering.  For example, you
+can create the observable expressed by “z0 + 2.0 z1” as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">(</span><span class="s2">&quot;z_0 + 2.0 * z_1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliPruduct</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="n">PauliPruduct</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Or,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy.Observable</span> <span class="kn">import</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See ‘Observable’ documentation for more details about how to create.
+If the current matrix product state is given as ‘mps’, the expectation
+value ‘exp’ can be calculated as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021-2022, Sam.N.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

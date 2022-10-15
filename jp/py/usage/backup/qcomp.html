@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -82,10 +87,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../python-api/qlazy.html">qlazy package</a></li>
 </ul>
@@ -156,9 +162,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="qcomp-backend">
-<h1>量子コンピュータ(QCompクラス, Backendクラスなど)<a class="headerlink" href="#qcomp-backend" title="Permalink to this headline">¶</a></h1>
+<h1>量子コンピュータ(QCompクラス, Backendクラスなど)<a class="headerlink" href="#qcomp-backend" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="id1">
-<h2>量子コンピュータ操作の基本<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>量子コンピュータ操作の基本<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>量子コンピュータで量子計算を行うというのは、欲しい結果を得るように設計
 された量子回路をユニタリゲートと測定の組み合わせという形で用意しておき、
 それを量子コンピュータに投入して測定結果を取得するということです。
@@ -166,7 +172,7 @@ QCompクラスは、そのような一連の操作を実行できるように量
 そのものを抽象化したクラスです。このクラスを使って、どのように量子計算
 を実行するかについて、以下で説明します。</p>
 <div class="section" id="id2">
-<h3>量子コンピュータの生成・初期化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>量子コンピュータの生成・初期化<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>量子計算を実行するためには、当たり前ですが、まず量子コンピュータを用意
 する必要があります。QCompのインスタンスを生成するときに、どの量子コン
 ピュータのバックエンドで計算をさせるかをproduct(製品名)とdevice(デバイ
@@ -190,9 +196,9 @@ QCompクラスは、そのような一連の操作を実行できるように量
 使用法などの詳細は「対応しているバックエンド」(後述)をご参照ください。</p>
 </div>
 <div class="section" id="id3">
-<h3>量子回路の設定と実行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>量子回路の設定と実行<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <div class="section" id="id4">
-<h4>測定<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<h4>測定<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
 <p>量子コンピュータが用意できたら、次に量子回路を設定します。QStateクラス
 やDensopクラスと同じ記法でゲートを追加していきます。例えば、Bell状態を
 作成する回路を設定したい場合は、</p>
@@ -273,7 +279,7 @@ resultにはNoneが入ります。</p>
 場合、全古典レジスタにわたり頻度が計算されます。</p>
 </div>
 <div class="section" id="id5">
-<h4>測定結果に応じたゲート演算制御<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<h4>測定結果に応じたゲート演算制御<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
 <p>古典レジスタに格納されている測定結果に応じて、以降のゲート制御をしたい
 ことがあります。そのような一例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QComp</span><span class="p">()</span>
@@ -312,7 +318,7 @@ xはQStateクラスやDensOpクラスと同様パウリXゲートを表してお
 の確率で|00&gt;になります。</p>
 </div>
 <div class="section" id="id6">
-<h4>リセット<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<h4>リセット<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
 <p>特定の量子ビットを強制的に|0&gt;にすることができます。例えば、以下のよう
 にresetメソッドを使います。qidオプションには|0&gt;にしたい量子ビット番号
 を指定します。何も指定しなかった場合、すべての量子ビットが|0&gt;にリセッ
@@ -331,7 +337,7 @@ xはQStateクラスやDensOpクラスと同様パウリXゲートを表してお
 </div>
 </div>
 <div class="section" id="id7">
-<h3>量子コンピュータの解放<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>量子コンピュータの解放<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <p>生成・初期化した量子コンピュータのメモリ領域は使われなくなったら自動的
 に解放されます。が、delで明示的に好きなタイミングで解放することもでき
 ます。</p>
@@ -341,12 +347,12 @@ xはQStateクラスやDensOpクラスと同様パウリXゲートを表してお
 <p>基本は以上です。</p>
 </div>
 <div class="section" id="id8">
-<h3>対応している量子ゲート<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>対応している量子ゲート<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
 <p>以下に利用可能な量子ゲートを示します。指定できる引数はQStateクラスや
 DensOpクラスのものと同様で、さらに上で説明したctrlという引数がすべてユ
 ニタリゲートで指定できます。</p>
 <div class="section" id="id9">
-<h4>1量子ビットゲート（ユニタリゲート）<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<h4>1量子ビットゲート（ユニタリゲート）<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>x,y,z: Pauli X/Y/Z gate</p></li>
 <li><p>h: Hadamard gate</p></li>
@@ -359,7 +365,7 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 </ul>
 </div>
 <div class="section" id="id10">
-<h4>2量子ビットゲート（ユニタリゲート）<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<h4>2量子ビットゲート（ユニタリゲート）<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>cx,cy,cz: controlled X/Y/Z gate</p></li>
 <li><p>cxr,cxr_dg: controlled XR and XR dagger gate</p></li>
@@ -373,32 +379,32 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 </ul>
 </div>
 <div class="section" id="id11">
-<h4>3量子ビットゲート（ユニタリゲート）<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<h4>3量子ビットゲート（ユニタリゲート）<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>ccx: toffoli gate (or CCX gate, controlled controlled X gate)</p></li>
 <li><p>csw: fredkin gate (or controlled swap gate)</p></li>
 </ul>
 </div>
 <div class="section" id="id12">
-<h4>測定ゲート（非ユニタリゲート）<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<h4>測定ゲート（非ユニタリゲート）<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>measure: measurement gate (computational basis)</p></li>
 </ul>
 </div>
 <div class="section" id="id13">
-<h4>リセットゲート（非ユニタリゲート）<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<h4>リセットゲート（非ユニタリゲート）<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>reset: reset gate (computational basis)</p></li>
 </ul>
 </div>
 <div class="section" id="id14">
-<h4>注意：スタビライザーシミュレータの場合<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<h4>注意：スタビライザーシミュレータの場合<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
 <p>‘qlazy_stabilizer_simulator’の場合、実行できるのはクリフォードゲート
 (x,y,z,h,s,s_dg,cx,cy,cz)のみです。</p>
 </div>
 </div>
 <div class="section" id="id15">
-<h3>パウリ積の演算<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<h3>パウリ積の演算<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h3>
 <p>パウリ演算子X,Y,Zのテンソル積を定義して量子コンピュータに設定すること
 ができます。パウリ積を扱うために、まず、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QComp</span><span class="p">,</span> <span class="n">PauliProduct</span>
@@ -426,9 +432,9 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 </div>
 </div>
 <div class="section" id="id16">
-<h2>少し高度な技<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<h2>少し高度な技<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id17">
-<h3>量子回路をクリアしない実行<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3>量子回路をクリアしない実行<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
 <p>上で説明した基本パターンを改めてまとめると、</p>
 <ul class="simple">
 <li><p>(1) バックエンドの定義</p></li>
@@ -479,7 +485,7 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 で元の初期状態に戻るというわけです。</p>
 </div>
 <div class="section" id="id18">
-<h3>レジスタの設定<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<h3>レジスタの設定<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
 <p>大規模な量子回路を相手に量子プログラミングしたい場合、レジスタ関連ツー
 ルを使うと便利です。</p>
 <p>まず、</p>
@@ -552,7 +558,7 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 でCreateRegisterとInitRegisterを実行します。</p>
 </div>
 <div class="section" id="id19">
-<h3>カスタムゲートの追加<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<h3>カスタムゲートの追加<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
 <p>QCompクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
 ることができます。ベル状態を作成する回路をbellメソッドとして、QCompを
 継承したMyQCompクラスに追加する例を示します。</p>
@@ -572,25 +578,25 @@ DensOpクラスのものと同様で、さらに上で説明したctrlという�
 </div>
 </div>
 <div class="section" id="id20">
-<h2>対応しているバックエンド<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<h2>対応しているバックエンド<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h2>
 <p>現在のバージョンで対応しているバックエンドは<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>と
 <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum</a>です。
 各々の使い方について、以下で説明します。</p>
 <div class="section" id="qulacs">
-<h3>qulacs<a class="headerlink" href="#qulacs" title="Permalink to this headline">¶</a></h3>
+<h3>qulacs<a class="headerlink" href="#qulacs" title="Permalink to this heading">¶</a></h3>
 <p><a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>は、<a class="reference external" href="https://qunasys.com/">株式会社
 QunaSys</a>が提供しているオープンソースの量子回路シ
 ミュレータで、GPUを利用して高速計算が実行できるという特徴があります。</p>
 <p><a class="reference external" href="https://quantum-computing.ibm.com/">qlazy</a>の簡単なインターフェースで
 GPUを利用した高速計算を実行したい場合、このバックエンドがおすすめです。</p>
 <div class="section" id="id21">
-<h4>準備<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<h4>準備<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h4>
 <p>まず、<a class="reference external" href="http://docs.qulacs.org/ja/latest/intro/1_install.html">Installation - Qulacs ドキュメント</a>
 あたりを参照しながらインストールしてください。</p>
 </div>
 </div>
 <div class="section" id="id22">
-<h3>使用法<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<h3>使用法<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
 <p>GPUを利用しないシミュレータで計算させたい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">)</span>
 </pre></div>
@@ -609,7 +615,7 @@ GPUを利用した高速計算を実行したい場合、このバックエン�
 <p>のようにすれば、qulacsを使った計算ができます。</p>
 </div>
 <div class="section" id="ibm-quantum">
-<h3>IBM Quantum<a class="headerlink" href="#ibm-quantum" title="Permalink to this headline">¶</a></h3>
+<h3>IBM Quantum<a class="headerlink" href="#ibm-quantum" title="Permalink to this heading">¶</a></h3>
 <p><a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum(IBMQ)</a>は、
 <a class="reference external" href="https://www.ibm.com/jp-ja">IBM</a>が開発した量子コンピュータ（およびシミュ
 レータ）を利用するためのクラウドサービスです。</p>
@@ -617,7 +623,7 @@ GPUを利用した高速計算を実行したい場合、このバックエン�
 本物の量子コンピュータを利用した計算を実行したい場合、このバックエンドが
 おすすめです。</p>
 <div class="section" id="id23">
-<h4>準備<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<h4>準備<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h4>
 <p>IBMQやローカルシミュレータをPythonから利用するためのライブラリである
 <a class="reference external" href="https://qiskit.org/">qiskit</a>をインストールして、量子計算を実行できる
 環境を整えてください。例えば、<a class="reference external" href="https://dojo.qulacs.org/ja/latest/">Quantum Native
@@ -631,7 +637,7 @@ Experienceの使い
 です。</p>
 </div>
 <div class="section" id="id24">
-<h4>使用法<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<h4>使用法<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h4>
 <p>本物の量子コンピュータを利用しないでローカルなシミュレータで計算させたい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qasm_simulator&#39;</span><span class="p">)</span>
 </pre></div>

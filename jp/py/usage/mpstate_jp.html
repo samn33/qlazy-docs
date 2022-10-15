@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,9 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -82,10 +87,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../Introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_en.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Tutorial_jp.html">Tutorial (japanese)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python-api/qlazy.html">qlazy package</a></li>
 </ul>
@@ -156,9 +162,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="mpstate">
-<h1>行列積状態(MPStateクラス)<a class="headerlink" href="#mpstate" title="Permalink to this headline">¶</a></h1>
+<h1>行列積状態(MPStateクラス)<a class="headerlink" href="#mpstate" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="id1">
-<h2>行列積状態の操作<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>行列積状態の操作<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>量子状態ベクトルを使って量子計算のシミュレーションが実行できますが、量
 子ビット数Nに対してO(2^N)のメモリが必要になるため、あまり大きなサイズ
 の量子計算は実行できません。現在普及している一般的なPCレベルだと、25〜
@@ -170,7 +176,7 @@
 レーションすることができます。内部でgoogleの
 <a class="reference external" href="https://github.com/google/TensorNetwork">tensornetwork</a>を使っています。</p>
 <div class="section" id="id2">
-<h3>簡単な例<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>簡単な例<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>はじめに簡単な例を示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">MPState</span>
 <span class="gp">&gt;&gt;&gt; </span>
@@ -189,7 +195,7 @@
 <p>MPStateクラスの使い方について以下で詳細に説明します。</p>
 </div>
 <div class="section" id="id3">
-<h3>生成・初期化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>生成・初期化<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>MPStateクラスのコンストラクタに量子ビット数を指定することで、そのイン
 スタンスを作成できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">MPState</span>
@@ -198,7 +204,7 @@
 </div>
 </div>
 <div class="section" id="id4">
-<h3>ゲート演算<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>ゲート演算<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <p>行列積状態として表現された量子状態に対して以下のようにゲート演算をする
 ことができます。記法および対応しているゲートはQStateと全く同様です。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -206,7 +212,7 @@
 </pre></div>
 </div>
 <div class="section" id="id5">
-<h4>カスタム・ゲートの追加<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<h4>カスタム・ゲートの追加<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
 <p>MPStateクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
 ることができます。ベル状態を作成する回路をbellメソッドとして、MPStateを
 継承したMyMPStateクラスに追加する例を示します。</p>
@@ -223,7 +229,7 @@
 </div>
 </div>
 <div class="section" id="id6">
-<h3>パウリ積の演算<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>パウリ積の演算<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
 <p>パウリ演算子X,Y,Zのテンソル積を定義して行列積状態に演算することができま
 す。パウリ積を扱うために、まず、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">MPState</span><span class="p">,</span> <span class="n">PauliProduct</span>
@@ -246,7 +252,7 @@
 </div>
 </div>
 <div class="section" id="id7">
-<h3>メモリ解放<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>メモリ解放<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <p>行列積状態インスタンスのメモリは使用されなくなったら自動的に解放されますが、
 明示的に解放したい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">mps</span>
@@ -274,14 +280,14 @@
 <p>という指定の仕方でも大丈夫です。</p>
 </div>
 <div class="section" id="id8">
-<h3>複製<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>複製<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
 <p>行列積状態を複製することができます。以下のようにcloneメソッドを呼び出します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_clone</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id9">
-<h3>リセット<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>リセット<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
 <p>すでに生成済みの行列積状態を破棄することなく、再度初期化して使いたい場
 合は、reset()メソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -301,9 +307,9 @@
 </div>
 </div>
 <div class="section" id="id10">
-<h2>行列積状態の表示<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<h2>行列積状態の表示<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id11">
-<h3>量子ビット全体の状態表示<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>量子ビット全体の状態表示<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
 <p>QStateと同様にshowメソッドで量子状態を表示することができます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -318,7 +324,7 @@
 すので、ご注意ください。</p>
 </div>
 <div class="section" id="id12">
-<h3>特定量子ビットの状態表示<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>特定量子ビットの状態表示<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
 <p>特定の量子ビットを選択して表示することもできます。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -368,7 +374,7 @@
 <p>となったりします。</p>
 </div>
 <div class="section" id="id13">
-<h3>非ゼロ成分のみ表示<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<h3>非ゼロ成分のみ表示<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
 <p>確率振幅がゼロでない成分だけを表示したい場合、以下のように’nonzero’オ
 プションを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nonzero</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -383,7 +389,7 @@
 ゼロになっているようなものをコンパクトに表示したい場合にお使いください。</p>
 </div>
 <div class="section" id="id14">
-<h3>正規化に関する注意事項<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h3>正規化に関する注意事項<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h3>
 <p>showメソッドで表示する際、ノルムを1にする正規化を行うとともに、全体に
 かかっている位相項（グローバル位相項）を括り出して、これを無視して表示
 するようにしています。グローバル位相項を括り出す際には、C[00..0]の係数
@@ -404,7 +410,7 @@
 <p>のようにprealに-1を指定します。</p>
 </div>
 <div class="section" id="id15">
-<h3>行列積状態の確率振幅値の取得<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<h3>行列積状態の確率振幅値の取得<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h3>
 <p>get_ampメソッドで、特定の量子ビットに対応した確率振幅の複素係数をnumpy
 配列として取得できます。qidを指定しない場合は、全量子ビットに対応した
 確率振幅となります。</p>
@@ -421,9 +427,9 @@ qs.get_amp()と同じ結果は、以下でも取得できます。</p>
 </div>
 </div>
 <div class="section" id="id16">
-<h2>測定<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<h2>測定<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id17">
-<h3>測定の実行<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3>測定の実行<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
 <p>mメソッドでZ軸方向の測定(計算基底での測定)が実行できます。以下のような
 引数を与えて実行します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">)</span>
@@ -458,7 +464,7 @@ mdで受けるというのが、一つの使い方です。</p>
 </div>
 <p>のように変化します。</p>
 <div class="section" id="id18">
-<h4>注意事項<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<h4>注意事項<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h4>
 <p>数十〜数百量子ビットの量子回路でもそれほど深くない回路でエンタングルが
 あまりないような場合は難なく量子回路の演算が実行できたりするのですが、
 最後に多数の量子ビットに対して大量のショット数で測定するようなことをす
@@ -470,7 +476,7 @@ mdで受けるというのが、一つの使い方です。</p>
 </div>
 </div>
 <div class="section" id="id19">
-<h3>一回限りの測定<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<h3>一回限りの測定<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
 <p>計算基底で単純に１回だけ測定してその測定値を得たい場合、measureメソッ
 ドを使うこともできます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -491,9 +497,9 @@ mdで受けるというのが、一つの使い方です。</p>
 </div>
 </div>
 <div class="section" id="id20">
-<h2>行列積状態に関する計算<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<h2>行列積状態に関する計算<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id21">
-<h3>２つの行列積状態の内積<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<h3>２つの行列積状態の内積<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
 <p>MPStateクラスのinproメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_0</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mps_1</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -504,7 +510,7 @@ mdで受けるというのが、一つの使い方です。</p>
 <p>状態|00&gt;と状態|11&gt;の内積&lt;00|11&gt;を計算しています。</p>
 </div>
 <div class="section" id="id22">
-<h3>２つの量子状態の忠実度<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<h3>２つの量子状態の忠実度<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
 <p>MPStateクラスのfidelityメソッドを使います。使用例を以下に示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps_0</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mps_1</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -515,7 +521,7 @@ mdで受けるというのが、一つの使い方です。</p>
 <p>状態|00&gt;と状態|11&gt;の内積の絶対値|&lt;00|11&gt;|を計算しています。</p>
 </div>
 <div class="section" id="id23">
-<h3>オブザーバブルの期待値<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<h3>オブザーバブルの期待値<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
 <p>行列積状態に対するオブザーバブルの期待値を計算できます。MPStateクラス
 のexpectメソッドに引数としてObservableクラスのインスタンスを指定します。
 使用例を以下に示します。</p>
