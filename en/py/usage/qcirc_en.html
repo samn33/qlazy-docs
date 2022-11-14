@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Quantum circuit execution (QCirc class, Backend class) &mdash; qlazy  documentation</title>
+  <title>Quantum circuit execution (Backend, QCirc class) &mdash; qlazy  documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Quantum circuit execution (QCirc class, Backend class)</li>
+      <li>Quantum circuit execution (Backend, QCirc class)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,8 +161,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="quantum-circuit-execution-qcirc-class-backend-class">
-<h1>Quantum circuit execution (QCirc class, Backend class)<a class="headerlink" href="#quantum-circuit-execution-qcirc-class-backend-class" title="Permalink to this heading">¶</a></h1>
+  <div class="section" id="quantum-circuit-execution-backend-qcirc-class">
+<h1>Quantum circuit execution (Backend, QCirc class)<a class="headerlink" href="#quantum-circuit-execution-backend-qcirc-class" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="basics-of-quantum-circuit-execution">
 <h2>Basics of quantum circuit execution<a class="headerlink" href="#basics-of-quantum-circuit-execution" title="Permalink to this heading">¶</a></h2>
 <p>Performing quantum calculation on a quantum computer means that you
@@ -203,7 +203,7 @@ and <a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls"
 </div>
 <p>You can get the devices list that can be used in each product as follows.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;ibmq&#39;</span><span class="p">))</span>
-<span class="go">[&#39;aer_simulator&#39;, &#39;qasm_simulator&#39;, &#39;least_busy&#39;, &#39;ibmq_armonk&#39;, &#39;ibmq_bogota&#39;, &#39;ibmq_lima&#39;, &#39;ibmq_belem&#39;, &#39;ibmq_quito&#39;, &#39;ibmq_manila&#39;]</span>
+<span class="go">[&#39;aer_simulator&#39;, &#39;least_busy&#39;, &#39;ibmq_armonk&#39;, &#39;ibmq_bogota&#39;, &#39;ibmq_lima&#39;, &#39;ibmq_belem&#39;, &#39;ibmq_quito&#39;, &#39;ibmq_manila&#39;]</span>
 </pre></div>
 </div>
 </div>
@@ -254,9 +254,9 @@ follows,</p>
 </pre></div>
 </div>
 <p>Controlled pauli product can be added by specifying the control
-qubit id in the ‘ctrl’ option of the ‘operate’ method as follows.</p>
+qubit id in the ‘qctrl’ option of the ‘operate’ method as follows.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="measuring-gate">
@@ -431,9 +431,8 @@ calculations, and optimization issues on NISC devices, so we recommend
 that you try it with the expectation value calculation instead of
 obtaining the measurement values in large number of shots.</p>
 </div>
-</div>
 <div class="section" id="getting-quantum-state-qlazy-and-qulacs-only">
-<h3>Getting quantum state (qlazy and qulacs only)<a class="headerlink" href="#getting-quantum-state-qlazy-and-qulacs-only" title="Permalink to this heading">¶</a></h3>
+<h4>Getting quantum state (qlazy and qulacs only)<a class="headerlink" href="#getting-quantum-state-qlazy-and-qulacs-only" title="Permalink to this heading">¶</a></h4>
 <p>When you execute the ‘run’ method using qlazy’s ‘qstate_simulator’,
 ‘stabilizer_simulator’, or ‘mps_simulator’, by specifing ‘out_state’
 option to be ‘True’, quantum state after executing the quantum circuit
@@ -483,6 +482,59 @@ or ‘gpu_simulator’ of ‘qulacs’ as follows.</p>
 <span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
 <span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="expectation-value-of-observable">
+<h4>Expectation value of observable<a class="headerlink" href="#expectation-value-of-observable" title="Permalink to this heading">¶</a></h4>
+<p>When you want to calculate an expectation value of an observable after
+executing a quantum circuit, you can use ‘expect’ method of
+‘Backend’ class.  For example, after executing the following quantum
+circuit,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>expectation value of the following observable,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is obtained as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you set the quantum circuit to the ‘qcirc’ option, set the
+observable to ‘observable’ option and set the number of trials to
+‘shots’ option, then qlazy executes the quantum circuit and measures
+the observable for the number of times specified in ‘shots’, outputs
+the average value of the measured values as the expectation value.  If
+a simulator is specified as a backend, it generates a random number
+internally and simulates the measurement.  If the actual machine is
+specified, obtain the actual measurement values and calculate the
+expected value.  Therefore, the obtained expectation value isn’t equal
+to the theoretical value.  The expectation value in the above example
+should be theoretically zero, but in fact, it shifts a little as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exp = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
+<span class="go">exp = -0.001200+0.000000j</span>
+</pre></div>
+</div>
+<p>If you want to get the theoretical expectation value, set the
+‘precise’ option to True instead of the ‘shots’ option as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">precise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This executes the theoretical calculation internally to output
+accurate expectation value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exp = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
+<span class="go">-0.000000+0.000000j	</span>
+</pre></div>
+</div>
+<p>However, this can be executed when a simulator is specified in the
+backend, specifically, when only qlazy’s ‘qstate_simulator’,
+‘qstate_gpu_simulator’, ‘mps_simulator’, and qulacs’ ‘cpu_simulator’
+and ‘gpu_simulator’ are specified.</p>
 </div>
 </div>
 <div class="section" id="supported-quantum-gate">
@@ -571,6 +623,35 @@ follows.</p>
 <span class="go">    2     0 0 0 0 1</span>
 </pre></div>
 </div>
+<p>If you want to display a long (deep) quantum circuit that does not fit
+into the screen width, you can specify the width of line breaks in
+‘width’ option as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;&gt; qc.show(width=60)</span>
+<span class="go">q[0] -Z---------X-Z-H-X-X-------*-T-S-X-X-------X-X-X-----S-</span>
+<span class="go">q[1] ---------S-|---T---|-H-H-X-|-T-----|-*-------X-|---*-H-</span>
+<span class="go">q[2] -H-X-X-T-H-|-------*-------|-S-S---|-|---------|-S-|-Z-</span>
+<span class="go">q[3] -----------|---T-----------|-H-----*-|-X-*-X-S-*---|-S-</span>
+<span class="go">q[4] -H-------X-*---------------X---X-----X---X---T---Z-X---</span>
+<span class="go">c  =/=======================================================</span>
+<span class="go">    5</span>
+
+<span class="go">----*-X-------X-Z-------------------T-Z-T-X-X-H-X-X-H-Z---X-</span>
+<span class="go">*---|-|-H-X-X---X-X-*-X-Z---H-H-T---------|-|-H---|-------|-</span>
+<span class="go">|-Z-X-*-----*-------|-H---*-X-S-----T-T---|-|-S---*-X-S-X-|-</span>
+<span class="go">|---------S-------H-X-Z-S-X-T-X---*-X---Z-*-*-X-T-------*-*-</span>
+<span class="go">X-----------------T---------H---S-X-----T-----------X-T-----</span>
+<span class="go">============================================================</span>
+
+<span class="go">Z-S---S-----X-----------M---------</span>
+<span class="go">------------|-----*---S-|-M-------</span>
+<span class="go">H-----T-----|---S-|-S-S-|-|-M-----</span>
+<span class="go">H-S-*---*---*-X---|---S-|-|-|-M---</span>
+<span class="go">----X---X-H---*---X-----|-|-|-|-M-</span>
+<span class="go">========================v=v=v=v=v=</span>
+<span class="go">                        0 1 2 3 4</span>
+<span class="go">					</span>
+</pre></div>
+</div>
 <div class="section" id="identicality-of-quantum-circuits">
 <h4>Identicality of quantum circuits<a class="headerlink" href="#identicality-of-quantum-circuits" title="Permalink to this heading">¶</a></h4>
 <p>Whether the two quantum circuits are exactly the same can be
@@ -600,11 +681,10 @@ determined by the logical operator ‘==’.</p>
 </pre></div>
 </div>
 <p>then you will get a following circuit.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">H</span><span class="o">---*------</span>
-           <span class="o">|</span>
-<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">------</span><span class="n">X</span><span class="o">---</span><span class="n">M</span>
-               <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">----------*--</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span><span class="n">H</span><span class="o">-*-</span><span class="n">M</span><span class="o">-</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">---</span><span class="n">X</span><span class="o">-|-</span>
+<span class="n">c</span>  <span class="o">=/=====</span><span class="n">v</span><span class="o">=</span>
+    <span class="mi">1</span>     <span class="mi">0</span>
 </pre></div>
 </div>
 <p>In addition, it is also possible to concatenate using an increment
@@ -612,6 +692,15 @@ operator.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">qc_A</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">+=</span> <span class="n">qc_B</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">+=</span> <span class="n">qc_C</span>
+</pre></div>
+</div>
+<p>Moreover, if you want to concatenate the same quantum circuits
+repeatedly, you can use ‘*’ operator as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">qc_A</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -H-*-H-*-H-*-</span>
+<span class="go">q[1] ---X---X---X-</span>
 </pre></div>
 </div>
 </div>
@@ -790,13 +879,11 @@ that can calculate ZX-Calculus, so when using this function, the
 “PyZX” must be installed.</p>
 <p>Here is a simple example.  Let’s make sure that</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">H</span><span class="o">--*--</span><span class="n">H</span><span class="o">--</span>
-     <span class="o">|</span>
 <span class="o">--</span><span class="n">H</span><span class="o">--</span><span class="n">X</span><span class="o">--</span><span class="n">H</span><span class="o">--</span>
 </pre></div>
 </div>
 <p>and</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span><span class="n">X</span><span class="o">---</span>
-   <span class="o">|</span>
 <span class="o">---*---</span>
 </pre></div>
 </div>
@@ -882,6 +969,128 @@ own quantum gate as follows.</p>
 <p>This is a very simple example, so you may not feel much profit, but
 there are many situations where you can use it, such as when you want
 to create a large quantum circuit.</p>
+</div>
+</div>
+<div class="section" id="parametric-quantum-circuit">
+<h3>Parametric quantum circuit<a class="headerlink" href="#parametric-quantum-circuit" title="Permalink to this heading">¶</a></h3>
+<p>If you want to execute the quantum circuit repeatedly while changing
+the parameters contained in the quantum circuit, you can use
+parametric quantum circut.</p>
+<p>For example, Suppose you have the following quantum circuit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>It has an ‘rz’ gate with parameter ‘0.2’ and a ‘crx’ gate with
+parameter ‘0.3’.  After executing this quantum circuit, if you want to
+execute the quantum circuit changing this parameter from (0.2, 0.3) to
+(0.4, 0.5), you need to generate a new quantum circuit from scratch as
+follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>If your quantum circuit is very deep and is operated many times, this
+method is very useless.  In such a case, you can create a parametric
+quantum circuit as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Here, you set a tag name in the ‘tag’ option instead of specifing
+the ‘phase’ parameter.  When setting each parameter to 0.2,0.3, use
+‘set_params’ method to set the phase value corresponding to each tag
+name as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">set_params</span><span class="p">({</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>This means that a quantum circuit containing a specific phase value
+has been created.  You can execute this circuit as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Bakcend</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, if you want to change the parameters to 0.4,0.5, do as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">set_params</span><span class="p">({</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is no need to create another quantum circuit.</p>
+</div>
+<div class="section" id="adding-a-control-qubit">
+<h3>Adding a control qubit<a class="headerlink" href="#adding-a-control-qubit" title="Permalink to this heading">¶</a></h3>
+<p>If you want to add a control qubit to your quantum circuit, use the
+‘add_control’ method.  Suppose you have a following quantum circuit,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ---</span>
+<span class="go">q[1] -X-</span>
+<span class="go">q[2] -Z-</span>
+</pre></div>
+</div>
+<p>to add the 0th qubit as a control qubit, set 0 in the ‘qctrl’ option
+of the ‘add_control’ method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">add_controll</span><span class="p">(</span><span class="n">qctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -*-*-</span>
+<span class="go">q[1] -X-|-</span>
+<span class="go">q[2] ---Z-</span>
+</pre></div>
+</div>
+<p>This is a very simple example, so you may not feel so much profit.
+Here are some more complicated example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -*-------</span>
+<span class="go">q[1] -RZ(0.3)-</span>
+</pre></div>
+</div>
+<p>For such quantum circuit, to add the 2nd qubit as a control qubit, set
+2 in the ‘qctrl’ option as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">add_controll</span><span class="p">(</span><span class="n">qctrl</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ------------*-------RZ(0.25)-X---*--------RZ(-0.25)-X--------------------------------*-------RZ</span>
+<span class="go">q[1] -RZ(0.15)-H-RZ(0.5)-H--------|-H-RZ(-0.5)-H---------|-H-RZ(0.5)-H--------RZ(-0.15)-H-RZ(0.5)-H-</span>
+<span class="go">q[2] -*---------------------------*----------------------*---*-------RZ(0.25)-*---------------------</span>
+
+<span class="go">(0.25)-X---*--------RZ(-0.25)-X--------------------</span>
+<span class="go">-------|-H-RZ(-0.5)-H---------|-H-RZ(0.5)-H--------</span>
+<span class="go">-------*----------------------*---*-------RZ(0.25)-</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="remapping-the-qubit-id-and-the-classical-bit-id">
+<h3>Remapping the qubit id and the classical bit id<a class="headerlink" href="#remapping-the-qubit-id-and-the-classical-bit-id" title="Permalink to this heading">¶</a></h3>
+<p>If you want to change the qubit id and the classical bit id of the
+created quantum circuit, you can use ‘remap’ method.  Suppose you have
+the following quantum circuit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -H-*-M---</span>
+<span class="go">q[1] ---X-|-M-</span>
+<span class="go">c  =/=====v=v=</span>
+<span class="go">2         0 1</span>
+</pre></div>
+</div>
+<p>When you change the qubit id [0,1] of this to [1,0] and the classical
+bit id [0 ,1] to [1,0], set [1,0] in the ‘qid’ option and set [1,0] in
+the ‘cid’ option of ‘remap’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new1</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">remap</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new1</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ---X---M-</span>
+<span class="go">q[1] -H-*-M-|-</span>
+<span class="go">c  =/=====v=v=</span>
+<span class="go">2         1 0</span>
+</pre></div>
+</div>
+<p>This allows you to get a new quantum circuit ‘qc_new1’.  In addition,
+the quantum circuit where the quantum bit id is changed to [2,1] and
+the classical bit id to [1,0] can be created as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new2</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">remap</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ---------</span>
+<span class="go">q[1] ---X---M-</span>
+<span class="go">q[2] -H-*-M-|-</span>
+<span class="go">c  =/=====v=v=</span>
+<span class="go">2         1 0</span>
+</pre></div>
 </div>
 </div>
 </div>

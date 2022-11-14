@@ -253,9 +253,9 @@ the 3-qubit density operator ‘de’, create the instance of
 </pre></div>
 </div>
 <p>Controlled pauli product can be operated by specifying the control
-qubit id in the ‘ctrl’ option of the ‘operate’ method as follows.</p>
+qubit id in the ‘qctrl’ option of the ‘operate’ method as follows.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">de</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">de</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

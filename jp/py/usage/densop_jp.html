@@ -201,7 +201,7 @@
 <div class="section" id="id3">
 <h3>ゲート演算<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>密度演算子として表現された量子状態に対してゲート演算することができます。
-適用するゲート演算子をU、密度演算子をrhoとしたとき、「U * rho * U^dagger」
+適用するゲート演算子をU、密度演算子をrhoとしたとき、「U * rho * U^」
 という行列計算を実行しています。仕様はQStateクラスの場合と全く同じです。
 以下に使用例を示します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">de</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -242,10 +242,10 @@
 </pre></div>
 </div>
 <p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
-定します。制御化されたパウリ積はoperateメソッドのctrlオプションに制御
+定します。制御化されたパウリ積はoperateメソッドのqctrlオプションに制御
 量子ビット番号を指定することで実現できます。以下のようにします。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -439,7 +439,7 @@ partialメソッドでは「残したい」量子ビット番号を指定しま�
 <span class="gp">&gt;&gt;&gt; </span><span class="n">de</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># 2番目の量子ビットにXゲート演算</span>
 </pre></div>
 </div>
-<p>密度演算子rhoに対して変換行列Mがあったときに、「M * rho * M^dagger」の
+<p>密度演算子rhoに対して変換行列Mがあったときに、「M * rho * M^」の
 計算をします。行列はnumpyの２次元配列として用意しておきます。密度演算
 子よりも変換行列のサイズの方が小さくなくてはいけません。また、qidで指定
 する引数のリストのサイズをnとしたとき、行列の行数、列数はともに2^nでな

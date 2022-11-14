@@ -166,13 +166,14 @@
 <div class="section" id="id1">
 <h2>量子回路ファイルの実行<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>まず、簡単な使用例を示します。以下のようなファイル(foo.qc)を用意し、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">init</span> <span class="mi">2</span>
-<span class="n">h</span> <span class="mi">0</span>
-<span class="n">cx</span> <span class="mi">0</span> <span class="mi">1</span>
-<span class="n">m</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat foo.qc
+init 2
+h 0
+cx 0 1
+m
 </pre></div>
 </div>
-<p>を実行すると、</p>
+<p>以下のように実行すると、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlazy -qc foo.qc
 direction of measurement: z-axis
 frq[00] = 49
@@ -263,7 +264,7 @@ last state =&gt; 00
 </div>
 <p>のように、定義されているコマンドや使用可能な量子ゲートのリストを表示できます。
 各々の詳細は、helpの後に参照したいコマンドや量子ゲートの記号を入れると表示されます。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">help</span> <span class="n">X</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">help</span> <span class="n">x</span>
 <span class="o">==</span> <span class="n">X</span> <span class="n">gate</span> <span class="o">==</span>
 <span class="p">[</span><span class="n">description</span><span class="p">]</span>
   <span class="n">X</span> <span class="n">gate</span> <span class="ow">is</span> <span class="mi">1</span><span class="o">-</span><span class="n">qubit</span> <span class="n">gate</span> <span class="n">called</span> <span class="s1">&#39;pauli X gate&#39;</span><span class="o">.</span>

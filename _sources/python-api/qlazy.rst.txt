@@ -86,6 +86,14 @@ qlazy.QCirc module
    :undoc-members:
    :show-inheritance:
 
+qlazy.QCircBase module
+----------------------
+
+.. automodule:: qlazy.QCircBase
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qlazy.QState module
 -------------------
 

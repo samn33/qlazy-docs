@@ -243,11 +243,11 @@
 </pre></div>
 </div>
 <p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
-定します。制御化されたパウリ積はoperateメソッドのctrlオプションに制御
+定します。制御化されたパウリ積はoperateメソッドのqctrlオプションに制御
 量子ビット番号を指定することで実現できます。以下のようにします。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -341,7 +341,7 @@
 </pre></div>
 </div>
 <p>また、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>とすると、以下になります。</p>
@@ -351,10 +351,12 @@
 </div>
 <p>表示したい量子ビットとそれ以外の量子ビットがエンタングルしている場合、
 表示結果は確率的になります。例えば、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">MPState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
 </pre></div>
 </div>
 <p>のようなエンタングルした状態があったときに、</p>
@@ -414,12 +416,13 @@
 <p>get_ampメソッドで、特定の量子ビットに対応した確率振幅の複素係数をnumpy
 配列として取得できます。qidを指定しない場合は、全量子ビットに対応した
 確率振幅となります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_amp</span><span class="p">()</span>  <span class="c1"># 全量子ビットに対する確率振幅</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># 指定した量子ビットに対応した確率振幅</span>
 </pre></div>
 </div>
 <p>指定した量子ビットとそれ以外がエンタングルしている場合、実行のたびに結
 果が変わりますのでご注意ください（showメソッドと同様）。</p>
-<p>引数指定のないget_ampメソッドをampプロパティとして定義していますので。
+<p>引数指定のないget_ampメソッドをampプロパティとして定義していますので、
 qs.get_amp()と同じ結果は、以下でも取得できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">amp</span>
 </pre></div>
@@ -432,7 +435,7 @@ qs.get_amp()と同じ結果は、以下でも取得できます。</p>
 <h3>測定の実行<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
 <p>mメソッドでZ軸方向の測定(計算基底での測定)が実行できます。以下のような
 引数を与えて実行します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>qidには測定したい量子ビットの番号リストを指定します。何も指定しない場
@@ -456,10 +459,11 @@ mdで受けるというのが、一つの使い方です。</p>
 </pre></div>
 </div>
 <p>測定後の状態は、最後の測定結果に従い、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +1.0000+0.0000*i : 1.0000 |+++++++++++</span>
 </pre></div>
 </div>
 <p>のように変化します。</p>

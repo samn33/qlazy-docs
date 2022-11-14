@@ -52,10 +52,10 @@ qlazy.lib.observable\_base\_c module
    :undoc-members:
    :show-inheritance:
 
-qlazy.lib.qcirc\_c module
--------------------------
+qlazy.lib.qcirc\_base\_c module
+-------------------------------
 
-.. automodule:: qlazy.lib.qcirc_c
+.. automodule:: qlazy.lib.qcirc_base_c
    :members:
    :undoc-members:
    :show-inheritance:

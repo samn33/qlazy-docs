@@ -227,6 +227,8 @@
 <span class="sd">        ex) &quot;-2.0+Z_0*Z_1+X_0+X_1&quot; for 2-qubit system</span>
 <span class="sd">    weighted_pp_list : list of dict ({&#39;weight&#39;:weight, &#39;pp&#39;:pauli_product})</span>
 <span class="sd">        weighted pauli product list</span>
+<span class="sd">    qubit_num : int</span>
+<span class="sd">        total qubit number</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -324,7 +326,7 @@
 
         <span class="k">return</span> <span class="n">ans</span>
 
-    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ob</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ob</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -387,7 +389,7 @@
             <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
                     <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
@@ -436,7 +438,7 @@
             <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
                     <span class="n">out</span><span class="o">.</span><span class="n">add_wpp</span><span class="p">(</span><span class="n">weight</span><span class="o">=-</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">pp</span><span class="o">=</span><span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">])</span>
@@ -483,7 +485,7 @@
 <span class="sd">            observable (result)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">Observable</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">wpp_1</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">wpp_2</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
@@ -837,7 +839,31 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
 
-        <span class="k">return</span> <span class="bp">self</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">qubit_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_qubit_num</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Observable.get_qubit_num"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Observable.Observable.get_qubit_num">[docs]</a>    <span class="k">def</span> <span class="nf">get_qubit_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the total qubit number considerd</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qubit_num : inst</span>
+<span class="sd">            total qubit number considerd by the observable.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">wpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_pp_list</span><span class="p">:</span>
+            <span class="n">qubit_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">,</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_qubit_num</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">qubit_num</span></div></div>
 </pre></div>
 
            </div>

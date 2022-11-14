@@ -162,8 +162,29 @@
   <h1>Source code for qlazy.tools.Register</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot; functions to create and initialize registers &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserList</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<div class="viewcode-block" id="Register"><a class="viewcode-back" href="../../../python-api/qlazy.tools.html#qlazy.tools.Register.Register">[docs]</a><span class="k">class</span> <span class="nc">Register</span><span class="p">(</span><span class="n">UserList</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="Register.set_number"><a class="viewcode-back" href="../../../python-api/qlazy.tools.html#qlazy.tools.Register.Register.set_number">[docs]</a>    <span class="k">def</span> <span class="nf">set_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
+        <span class="n">reg_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)))</span>
+        <span class="n">reg_arr</span> <span class="o">=</span> <span class="n">reg_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reg_arr</span><span class="p">]</span> 
+
+        <span class="k">return</span> <span class="n">end</span></div></div>
+        
 <div class="viewcode-block" id="CreateRegister"><a class="viewcode-back" href="../../../python-api/qlazy.tools.html#qlazy.tools.Register.CreateRegister">[docs]</a><span class="k">def</span> <span class="nf">CreateRegister</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    create multi-dimensional register id and initialize zero.</span>
@@ -188,9 +209,7 @@
 <span class="sd">    [[0,0,0],[0,0,0]]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">COUNT</span>
-    <span class="n">COUNT</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">reg</span></div>
 
 <div class="viewcode-block" id="InitRegister"><a class="viewcode-back" href="../../../python-api/qlazy.tools.html#qlazy.tools.Register.InitRegister">[docs]</a><span class="k">def</span> <span class="nf">InitRegister</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
@@ -209,24 +228,19 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; reg_0 = QState.create_register(3)</span>
-<span class="sd">    &gt;&gt;&gt; reg_1 = QState.create_register(2,4)</span>
+<span class="sd">    &gt;&gt;&gt; reg_0 = CreateRegister(3)</span>
+<span class="sd">    &gt;&gt;&gt; reg_1 = CreateRegister(2,4)</span>
 <span class="sd">    &gt;&gt;&gt; print(reg_0, reg_1)</span>
 <span class="sd">    [0,0,0] [[0,0,0,0],[0,0,0,0]]</span>
 <span class="sd">    &gt;&gt;&gt; reg_num = InitRegister(reg_0, reg_1)</span>
 <span class="sd">    &gt;&gt;&gt; print(reg_num, reg_0, reg_1)</span>
 <span class="sd">    11 [0,1,2] [[3,4,5,6],[7,8,9,10]]</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">COUNT</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-                    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">COUNT</span>
-                    <span class="n">COUNT</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">num</span> <span class="o">=</span> <span class="n">InitRegister</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">COUNT</span></div>
+    <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">set_number</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cnt</span></div>
 </pre></div>
 
            </div>

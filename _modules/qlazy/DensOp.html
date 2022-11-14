@@ -502,9 +502,6 @@
 <span class="sd">        elm[1][1] = +0.5000+0.0000*i : 0.2500 |++++</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># de_part = self.partial(qid=qid)</span>
-        <span class="c1"># densop_print(de_part, nonzero)</span>
-
         <span class="n">de_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">)</span>
         <span class="n">mat</span> <span class="o">=</span> <span class="n">de_part</span><span class="o">.</span><span class="n">get_elm</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">de_part</span><span class="o">.</span><span class="n">row</span><span class="p">):</span>
@@ -1972,7 +1969,7 @@
         <span class="n">densop_mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="DensOp.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DensOp.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.DensOp.DensOp.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate unitary operator to density operator.</span>
 
@@ -1981,6 +1978,9 @@
 <span class="sd">        pp : instance of PauliProduct</span>
 <span class="sd">            pauli product to operate</span>
 <span class="sd">        ctrl : int</span>
+<span class="sd">            contoroll qubit id for controlled pauli product</span>
+<span class="sd">            (this option will be removed near future)</span>
+<span class="sd">        qctrl : int</span>
 <span class="sd">            contoroll qubit id for controlled pauli product</span>
 
 <span class="sd">        Returns</span>
@@ -1992,6 +1992,9 @@
         <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
         <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
         <span class="n">factor</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">factor</span>
+
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctrl</span> <span class="o">=</span> <span class="n">qctrl</span>
 
         <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>

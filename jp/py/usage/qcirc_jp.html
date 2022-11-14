@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>量子回路実行(QCircクラス, Backendクラス) &mdash; qlazy  documentation</title>
+  <title>量子回路実行(Backendクラス, QCircクラス) &mdash; qlazy  documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>量子回路実行(QCircクラス, Backendクラス)</li>
+      <li>量子回路実行(Backendクラス, QCircクラス)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,8 +161,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="qcirc-backend">
-<h1>量子回路実行(QCircクラス, Backendクラス)<a class="headerlink" href="#qcirc-backend" title="Permalink to this heading">¶</a></h1>
+  <div class="section" id="backend-qcirc">
+<h1>量子回路実行(Backendクラス, QCircクラス)<a class="headerlink" href="#backend-qcirc" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="id1">
 <h2>量子回路実行の基本<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>量子コンピュータで量子計算を行うというのは、欲しい結果を得るように設計
@@ -207,7 +207,7 @@ qstate_simulator(状態ベクトルシミュレータ)というdeviceで計算�
 </div>
 <p>とすれば確認できます。各々のproductで使えるdeviceは、例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Backend</span><span class="o">.</span><span class="n">devices</span><span class="p">(</span><span class="s1">&#39;ibmq&#39;</span><span class="p">))</span>
-<span class="go">[&#39;aer_simulator&#39;, &#39;qasm_simulator&#39;, &#39;least_busy&#39;, &#39;ibmq_armonk&#39;, &#39;ibmq_bogota&#39;, &#39;ibmq_lima&#39;, &#39;ibmq_belem&#39;, &#39;ibmq_quito&#39;, &#39;ibmq_manila&#39;]</span>
+<span class="go">[&#39;aer_simulator&#39;, &#39;least_busy&#39;, &#39;ibmq_armonk&#39;, &#39;ibmq_bogota&#39;, &#39;ibmq_lima&#39;, &#39;ibmq_belem&#39;, &#39;ibmq_quito&#39;, &#39;ibmq_manila&#39;]</span>
 </pre></div>
 </div>
 <p>とすれば確認できます。</p>
@@ -254,10 +254,10 @@ qstate_simulator(状態ベクトルシミュレータ)というdeviceで計算�
 </pre></div>
 </div>
 <p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
-定します。制御化されたパウリ積はoperateメソッドのctrlオプションに制御
+定します。制御化されたパウリ積はoperateメソッドのqctrlオプションに制御
 量子ビット番号を指定することで実現できます。以下のようにします。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -435,9 +435,8 @@ saveメソッドを使って、</p>
 MPStateのインスタンスを取得しておいてから、MPStateクラスのexpectメソッ
 ドで期待値計算することをとりあえずおすすめします。</p>
 </div>
-</div>
 <div class="section" id="qlazyqulacs">
-<h3>量子状態の取得(qlazyおよびqulacsのみ)<a class="headerlink" href="#qlazyqulacs" title="Permalink to this heading">¶</a></h3>
+<h4>量子状態の取得(qlazyおよびqulacsのみ)<a class="headerlink" href="#qlazyqulacs" title="Permalink to this heading">¶</a></h4>
 <p>qlazyの状態ベクトルシミュレータ(qstate_simulator)またはスタビライザー
 シミュレータ(stabilizer_simulator)または行列積状態シミュレータ
 (mps_simulator)でrunを実行するときにout_stateオプションをTrueにセット
@@ -490,12 +489,59 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 </div>
 </div>
 <div class="section" id="id10">
-<h3>対応している量子ゲート<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<h4>オブザーバブルの期待値<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
+<p>量子回路を実行した後の状態に対して、オブザーバブルの期待値を計算したい
+場合があります。そのような場合、Backendクラスのexpectメソッドが使えま
+す。例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のような量子回路を通した後、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようなオブザーバブルの期待値を計算したい場合、以下のようにします。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qlazy&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;qstate_simulator&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>expectメソッドのqcircオプションに量子回路、observableオプションにオブ
+ザーバブル、shotsオプションに試行回数を設定すると、shotsの回数分、
+qcircの量子回路を実行して、observableの測定を行い、その平均値を期待値
+として出力することを行います。バックエンドとしてシミュレータを指定した
+場合は、内部的に乱数を発生させてその測定をシミュレーションします。実機
+を指定した場合は、実際の測定値を取得して期待値を計算します。従って、得
+られる期待値は理論上期待される値からずれることになります。上の例の期待
+値は理論上ゼロになるはずですが、実際には、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exp = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
+<span class="go">exp = -0.001200+0.000000j</span>
+</pre></div>
+</div>
+<p>のように少しずれます。理論上の期待値を得たい場合は、shotsオプションの変わりに
+preciseオプションをTrueに設定します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">precise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>こうすると、内部的に理論上の計算（行列演算）を実行して正確な期待値を出力します。
+表示してみます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exp = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
+<span class="go">-0.000000+0.000000j	</span>
+</pre></div>
+</div>
+<p>ただし、これが実行できるのはバックエンドにシミュレータが指定されている
+場合、具体的にはqlazyのqstate_simulatorとqstate_gpu_simulatorと
+mps_simulator、およびqulacsのcpu_simulatorとgpu_simulatorのみです。</p>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>対応している量子ゲート<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
 <p>以下に利用可能な量子ゲートの一覧を示します。指定できる引数はQStateクラ
 スやDensOpクラスのものと同様で、さらに上で説明したctrlという引数がすべ
 てユニタリゲートで指定できます(非ユニタリゲートには指定できません)。</p>
-<div class="section" id="id11">
-<h4>1量子ビットゲート(ユニタリゲート)<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id12">
+<h4>1量子ビットゲート(ユニタリゲート)<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>x,y,z: Pauli X/Y/Z gate</p></li>
 <li><p>h: Hadamard gate</p></li>
@@ -506,8 +552,8 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 <li><p>rx,ry,rz: RX/RY/RZ (rotation around X/Y/Z-axis) gate</p></li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h4>2量子ビットゲート(ユニタリゲート)<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id13">
+<h4>2量子ビットゲート(ユニタリゲート)<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>cx,cy,cz: controlled X/Y/Z gate</p></li>
 <li><p>cxr,cxr_dg: controlled XR and XR dagger gate</p></li>
@@ -520,36 +566,36 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 <li><p>rxx,ryy,rzz: Ising coupling gate</p></li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h4>3量子ビットゲート(ユニタリゲート)<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id14">
+<h4>3量子ビットゲート(ユニタリゲート)<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>ccx: toffoli gate (or CCX gate, controlled controlled X gate)</p></li>
 <li><p>csw: fredkin gate (or controlled swap gate)</p></li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h4>測定ゲート(非ユニタリゲート)<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id15">
+<h4>測定ゲート(非ユニタリゲート)<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>measure: measurement gate (computational basis)</p></li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h4>リセットゲート(非ユニタリゲート)<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id16">
+<h4>リセットゲート(非ユニタリゲート)<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>reset: reset gate (computational basis)</p></li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h4>注意：スタビライザーシミュレータの場合<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id17">
+<h4>注意：スタビライザーシミュレータの場合<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h4>
 <p>‘qlazy_stabilizer_simulator’の場合、指定できるのはクリフォードゲート
 (x,y,z,h,s,s_dg,cx,cy,cz)のみです。</p>
 </div>
 </div>
 </div>
-<div class="section" id="id17">
-<h2>量子回路の操作<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id18">
-<h3>量子回路の表示<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
+<h2>量子回路の操作<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="id19">
+<h3>量子回路の表示<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
 <p>作成した量子回路はprint関数で表示することができます。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -576,8 +622,35 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 <span class="go">    2     0 0 0 0 1</span>
 </pre></div>
 </div>
-<div class="section" id="id19">
-<h4>量子回路の同等性<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h4>
+<p>画面幅に入り切らない長い（深い）量子回路を表示したい場合、widthオプショ
+ンで改行する幅を指定することができます。デフォルト値はwidth=100です。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;&gt; qc.show(width=60)</span>
+<span class="go">q[0] -Z---------X-Z-H-X-X-------*-T-S-X-X-------X-X-X-----S-</span>
+<span class="go">q[1] ---------S-|---T---|-H-H-X-|-T-----|-*-------X-|---*-H-</span>
+<span class="go">q[2] -H-X-X-T-H-|-------*-------|-S-S---|-|---------|-S-|-Z-</span>
+<span class="go">q[3] -----------|---T-----------|-H-----*-|-X-*-X-S-*---|-S-</span>
+<span class="go">q[4] -H-------X-*---------------X---X-----X---X---T---Z-X---</span>
+<span class="go">c  =/=======================================================</span>
+<span class="go">    5</span>
+
+<span class="go">----*-X-------X-Z-------------------T-Z-T-X-X-H-X-X-H-Z---X-</span>
+<span class="go">*---|-|-H-X-X---X-X-*-X-Z---H-H-T---------|-|-H---|-------|-</span>
+<span class="go">|-Z-X-*-----*-------|-H---*-X-S-----T-T---|-|-S---*-X-S-X-|-</span>
+<span class="go">|---------S-------H-X-Z-S-X-T-X---*-X---Z-*-*-X-T-------*-*-</span>
+<span class="go">X-----------------T---------H---S-X-----T-----------X-T-----</span>
+<span class="go">============================================================</span>
+
+<span class="go">Z-S---S-----X-----------M---------</span>
+<span class="go">------------|-----*---S-|-M-------</span>
+<span class="go">H-----T-----|---S-|-S-S-|-|-M-----</span>
+<span class="go">H-S-*---*---*-X---|---S-|-|-|-M---</span>
+<span class="go">----X---X-H---*---X-----|-|-|-|-M-</span>
+<span class="go">========================v=v=v=v=v=</span>
+<span class="go">                        0 1 2 3 4</span>
+</pre></div>
+</div>
+<div class="section" id="id20">
+<h4>量子回路の同等性<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h4>
 <p>2つの量子回路が全く同じものかどうか（同等性と呼ぶことにします）は
 論理演算子’==’で判定できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -592,8 +665,8 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 <p>量子回路の等価性（一見違うように見えていても実は同等の効果を及ぼす回路）
 の判定については後述します。</p>
 </div>
-<div class="section" id="id20">
-<h4>量子回路の連結<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id21">
+<h4>量子回路の連結<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h4>
 <p>複数の量子回路を’+’でつなげることで連結させることができます。例えば、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qc_B</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -605,11 +678,10 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 </pre></div>
 </div>
 <p>のようにすると、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">H</span><span class="o">---*------</span>
-           <span class="o">|</span>
-<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">------</span><span class="n">X</span><span class="o">---</span><span class="n">M</span>
-               <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">----------*--</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span><span class="n">H</span><span class="o">-*-</span><span class="n">M</span><span class="o">-</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">---</span><span class="n">X</span><span class="o">-|-</span>
+<span class="n">c</span>  <span class="o">=/=====</span><span class="n">v</span><span class="o">=</span>
+    <span class="mi">1</span>     <span class="mi">0</span>
 </pre></div>
 </div>
 <p>という量子回路を作成することができます。また、</p>
@@ -619,10 +691,18 @@ Stabilizer, MPStateで定義されている各種計算が実行できます(例
 </pre></div>
 </div>
 <p>のようにインクリメント演算子を使って連結することも可能です。</p>
+<p>また、同じ量子回路を繰り返して連結したい場合、’*’を使うこともできます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">qc_A</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -H-*-H-*-H-*-</span>
+<span class="go">q[1] ---X---X---X-</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="id21">
-<h3>量子回路の統計情報<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
+</div>
+<div class="section" id="id22">
+<h3>量子回路の統計情報<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
 <p>ここまでの説明でお気づきかと思いますが、qlazyでは最初の量子回路生成</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span>
 </pre></div>
@@ -684,8 +764,8 @@ get_statsメソッドを使えば、一気に取得することができます�
 </pre></div>
 </div>
 </div>
-<div class="section" id="id22">
-<h3>量子回路の生成<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id23">
+<h3>量子回路の生成<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
 <p>量子計算の性能評価とか量子回路最適化の研究等でランダムな量子回路を作り
 たくなることがあります。そんなときはget_random_gatesメソッド
 (classmethod)が使えます。例えば、以下のようにします。</p>
@@ -726,8 +806,8 @@ rxとかcrzなどの位相をどのようにバラけさせたいかをタプル
 </div>
 <p>のような回路が作成されていることが確認できます。</p>
 </div>
-<div class="section" id="id23">
-<h3>量子回路の保存と読み込み<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id24">
+<h3>量子回路の保存と読み込み<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
 <p>作成した量子回路をファイルに書き出したり、書き出されたファイルを読み込むことができます。</p>
 <p>まず、書き出す場合はsaveメソッドを使って、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_A</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -784,13 +864,11 @@ qlazyでは、equivalentメソッドを使って等価であるかどうかを�
 この機能を使う場合、pyzxがインストールされていなければなりません。</p>
 <p>というわけで、簡単な例ですが、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">H</span><span class="o">--*--</span><span class="n">H</span><span class="o">--</span>
-     <span class="o">|</span>
 <span class="o">--</span><span class="n">H</span><span class="o">--</span><span class="n">X</span><span class="o">--</span><span class="n">H</span><span class="o">--</span>
 </pre></div>
 </div>
 <p>と</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span><span class="n">X</span><span class="o">---</span>
-   <span class="o">|</span>
 <span class="o">---*---</span>
 </pre></div>
 </div>
@@ -806,8 +884,8 @@ qlazyでは、equivalentメソッドを使って等価であるかどうかを�
 <p>となり、確かに見た目が違うので同等ではないですが、
 その意味するところは同じということで等価であることが確認できました。</p>
 </div>
-<div class="section" id="id24">
-<h3>量子回路の最適化<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id25">
+<h3>量子回路の最適化<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
 <p>non-cliffordゲートであるTゲートはあらゆる量子アルゴリズムで活躍する重
 要なゲートなのですが、ハードウェア的には難しいゲートなので、量子回路か
 らなるべく追放したいのですが、単に追放しても意味のない回路になるだけなので、
@@ -841,8 +919,8 @@ optimeizeの効果をget_statsで見てみます。</p>
 その分、別のcliffordゲートが加わりますが、
 non-cliffordゲートが減ったことの方がうれしいのです(と思います)。</p>
 </div>
-<div class="section" id="id25">
-<h3>pyzxとのインターフェース<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id26">
+<h3>pyzxとのインターフェース<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
 <p>pyzxにはいろんな機能があって最適化に限ってみてもいろんな最適化ができるようになっています。
 また、ZX-calculusのグラフを表示したり編集したりする機能もあったりします。諸々遊びたい人のために、
 pyzxのCircuitを入出力する機能も用意しました。</p>
@@ -855,8 +933,8 @@ pyzxのCircuitを入出力する機能も用意しました。</p>
 </div>
 <p>でCircuitインスタンスをqlazyのQCircインスタンスに変換できます。</p>
 </div>
-<div class="section" id="id26">
-<h3>カスタムゲートの追加<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id27">
+<h3>カスタムゲートの追加<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
 <p>QCircクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
 ることができます。ベル状態を作成する回路をbellメソッドとして、QCircを
 継承したMyQCircクラスに追加する例を示します。</p>
@@ -874,9 +952,129 @@ pyzxのCircuitを入出力する機能も用意しました。</p>
 <p>これは非常に簡単な例なのであまりご利益を感じないかもしれませんが、大き
 な量子回路を繰り返し使いたい場合など、便利に使える場面は多いと思います。</p>
 </div>
+<div class="section" id="id28">
+<h3>パラメトリック量子回路<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
+<p>量子回路に含まれるパラメータを様々に変化させて繰り返し実行したい場合が
+あります。例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
 </div>
-<div class="section" id="id27">
-<h2>対応しているバックエンド<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h2>
+<p>のような量子回路があったとします。中に位相をパラメータとしたrzゲート、
+crxゲートがあり、各々に具体的な値として0.2,0.3という値が設定されていま
+す。例えば、この量子回路を実行した後、(0.2, 0.3)というパラメータを
+(0.4, 0.5)にして同じ量子回路を実行したい場合、もう一度QCircのインスタ
+ンスを生成して一から同じゲートを次々追加する必要があります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>この程度の深さの量子回路であれば特に問題はないのですが、非常に深い量子
+回路を相手にする場合や、何度もパラメータを更新して実行するような場合、
+一から量子回路を組む必要があるこのやり方は無駄です。</p>
+<p>そのような場合、パラメトリック量子回路を作成する方法がおすすめです。
+いま説明したことを実行するためには、まず、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">crx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>のように、位相の値を指定する代わりにtagオプションでタグ名を指定します。
+こうしておいて、各々を0.2,0.3に設定する場合、set_paramsメソッドを使って、
+各タグ名に対応した値を以下のように指定します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">set_params</span><span class="p">({</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>これで具体的な位相の値を含む量子回路が作成されたことになります。この回
+路に対して</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Bakcend</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のように実行することができます。その後、パラメータを0.4,0.5に変更した
+い場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">set_params</span><span class="p">({</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにパラメータをセットして、再び実行すれば良いです。
+別の量子回路を新たに作成する必要はありません。</p>
+</div>
+<div class="section" id="id29">
+<h3>制御量子ビットの追加<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<p>量子回路（ユニタリ演算子）に制御量子ビットを追加して制御ユニタリ演算子を作成したい場合、
+add_controlメソッドを使うことができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ---</span>
+<span class="go">q[1] -X-</span>
+<span class="go">q[2] -Z-</span>
+</pre></div>
+</div>
+<p>このような量子回路に対して、0番目の量子ビットを制御ビットにする量子回路を作成するには、
+以下にように、add_controlメソッドのオプションqctrlに0を与えれば良いです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">qctrl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -*-*-</span>
+<span class="go">q[1] -X-|-</span>
+<span class="go">q[2] ---Z-</span>
+</pre></div>
+</div>
+<p>これは非常に簡単な例なのでadd_controllのご利益を感じないと思いますので、
+もう少し複雑な例を示します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -*-------</span>
+<span class="go">q[1] -RZ(0.3)-</span>
+</pre></div>
+</div>
+<p>このような量子回路に対して、2番目の量子ビットを制御ビットにする回路を作成すると、
+以下のようになります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">qctrl</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_ctrl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ------------*-------RZ(0.25)-X---*--------RZ(-0.25)-X--------------------------------*-------RZ</span>
+<span class="go">q[1] -RZ(0.15)-H-RZ(0.5)-H--------|-H-RZ(-0.5)-H---------|-H-RZ(0.5)-H--------RZ(-0.15)-H-RZ(0.5)-H-</span>
+<span class="go">q[2] -*---------------------------*----------------------*---*-------RZ(0.25)-*---------------------</span>
+
+<span class="go">(0.25)-X---*--------RZ(-0.25)-X--------------------</span>
+<span class="go">-------|-H-RZ(-0.5)-H---------|-H-RZ(0.5)-H--------</span>
+<span class="go">-------*----------------------*---*-------RZ(0.25)-</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id30">
+<h3>量子ビット番号と古典ビット番号の付け替え<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h3>
+<p>作成した量子回路の量子ビット番号と古典ビット番号を付け替えたい場合、remapメソッドが使えます。
+以下のような量子回路があったとします。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -H-*-M---</span>
+<span class="go">q[1] ---X-|-M-</span>
+<span class="go">c  =/=====v=v=</span>
+<span class="go">2         0 1</span>
+</pre></div>
+</div>
+<p>これの量子ビット番号[0,1]を[1,0]にして、古典ビット番号[0,1]を[1,0]に変更した量子回路を作成する場合、
+remapメソッドのqidオプションに[1,0]を設定し、cidオプションに[1,0]を設定します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new1</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">remap</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new1</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ---X---M-</span>
+<span class="go">q[1] -H-*-M-|-</span>
+<span class="go">c  =/=====v=v=</span>
+<span class="go">2         1 0</span>
+</pre></div>
+</div>
+<p>これで新しい量子回路qc_new1が作成されました。
+量子ビット番号を[2,1]に古典ビット番号を[1,0]に変更した量子回路は以下のように作成することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new2</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">remap</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc_new2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] ---------</span>
+<span class="go">q[1] ---X---M-</span>
+<span class="go">q[2] -H-*-M-|-</span>
+<span class="go">c  =/=====v=v=</span>
+<span class="go">2         1 0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id31">
+<h2>対応しているバックエンド<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h2>
 <p>現在のバージョンで対応しているバックエンドは<a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>と
 <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum</a>と
 <a class="reference external" href="https://aws.amazon.com/braket/?nc1=h_ls">Amazon Braket</a>です。
@@ -886,16 +1084,16 @@ pyzxのCircuitを入出力する機能も用意しました。</p>
 <p><a class="reference external" href="https://github.com/qulacs/qulacs">qulacs</a>は、<a class="reference external" href="https://qunasys.com/">株式会社
 QunaSys</a>が提供しているオープンソースの量子回路シ
 ミュレータで、GPUを利用して高速計算が実行できるという特徴があります。</p>
-<p><a class="reference external" href="https://quantum-computing.ibm.com/">qlazy</a>の簡単なインターフェースで
-GPUを利用した高速計算を実行したい場合、このバックエンドがおすすめです。</p>
-<div class="section" id="id28">
-<h4>準備<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h4>
+<p>qlazyの簡単なインターフェースでGPUを利用した高速計算を実行したい場合、
+このバックエンドがおすすめです。</p>
+<div class="section" id="id32">
+<h4>準備<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h4>
 <p>まず、<a class="reference external" href="http://docs.qulacs.org/ja/latest/intro/1_install.html">Installation - Qulacs ドキュメント</a>
 あたりを参照しながらインストールしてください（v0.3.0で動作確認しています）。</p>
 </div>
 </div>
-<div class="section" id="id29">
-<h3>使用法<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id33">
+<h3>使用法<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h3>
 <p>GPUを利用しないシミュレータで計算させたい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;qulacs&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu_simulator&#39;</span><span class="p">)</span>
 </pre></div>
@@ -917,8 +1115,8 @@ GPUを利用した高速計算を実行したい場合、このバックエン�
 <p><a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum(IBMQ)</a>は、
 <a class="reference external" href="https://www.ibm.com/jp-ja">IBM</a>が開発した量子コンピュータ（およびシミュ
 レータ）を利用するためのクラウドサービスです。</p>
-<div class="section" id="id30">
-<h4>準備<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id34">
+<h4>準備<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h4>
 <p>IBMQやローカルシミュレータをPythonから利用するためのライブラリである
 <a class="reference external" href="https://qiskit.org/">qiskit</a>をインストールして、量子計算を実行できる
 環境を整えてください（v0.34.2で動作確認しています）。例えば、<a class="reference external" href="https://dojo.qulacs.org/ja/latest/">Quantum Native
@@ -931,8 +1129,8 @@ Experienceの使い
 <a class="reference external" href="https://quantum-computing.ibm.com/">https://quantum-computing.ibm.com/</a>
 です。</p>
 </div>
-<div class="section" id="id31">
-<h4>使用法<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id35">
+<h4>使用法<a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h4>
 <p>本物の量子コンピュータを利用しないでローカルなシミュレータで計算させたい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ibmq&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
 </pre></div>
@@ -963,8 +1161,8 @@ Experienceの使い
 <a class="reference external" href="https://ionq.com/">IonQ</a>、<a class="reference external" href="https://www.rigetti.com/">Rigetti</a>、
 <a class="reference external" href="https://oxfordquantumcircuits.com/">Oxford Quantum Circuits</a>
 などの量子コンピュータ（およびシミュレータ）を利用するためのクラウドサービスです。</p>
-<div class="section" id="id32">
-<h4>準備<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id36">
+<h4>準備<a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h4>
 <p><a class="reference external" href="https://aws.amazon.com/jp/console/">AWS</a>のアカウントがまず必要です。
 その上で、</p>
 <ul class="simple">
@@ -1011,8 +1209,8 @@ backet_name = amazon-braket-xxxx
 <p>ちなみに動作確認している<a class="reference external" href="https://github.com/aws/amazon-braket-sdk-python">amazon-braket-sdk-python</a>
 のバージョンはv1.18.0です。</p>
 </div>
-<div class="section" id="id33">
-<h4>使用法<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id37">
+<h4>使用法<a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h4>
 <p>Backendのインスタンスを生成する際にproductとdeviceを指定します。
 braket関連のproductは、braket_local(ローカルシミュレータ)、
 braket_aws(AWS上で動作するシミュレータ)、braket_ionq(IonQの量子コンピュータ)、
@@ -1079,8 +1277,8 @@ braket_oqc(Oxford Quantum Circuits)の5種類です。
 </div>
 <p>のようにすれば、Amazon Braketを使った計算ができます。</p>
 </div>
-<div class="section" id="id34">
-<h4>注意事項<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id38">
+<h4>注意事項<a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h4>
 <p>測定が最後にある量子回路しか受け付けません。
 したがって測定値に応じてオンオフするオプション(ctrl)も使えません。</p>
 <p>また、braket_local以外のproductは有料になります。

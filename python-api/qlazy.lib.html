@@ -106,7 +106,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.gpu_c">qlazy.lib.gpu_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.mdata_c">qlazy.lib.mdata_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.observable_base_c">qlazy.lib.observable_base_c module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qcirc_c">qlazy.lib.qcirc_c module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qcirc_base_c">qlazy.lib.qcirc_base_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qstate_c">qlazy.lib.qstate_c module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.qstate_mcx">qlazy.lib.qstate_mcx module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-qlazy.lib.stabilizer_c">qlazy.lib.stabilizer_c module</a></li>
@@ -126,6 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.ObservableBase">qlazy.ObservableBase module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.PauliProduct">qlazy.PauliProduct module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCirc">qlazy.QCirc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QCircBase">qlazy.QCircBase module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.QState">qlazy.QState module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Result">qlazy.Result module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qlazy.html#module-qlazy.Stabilizer">qlazy.Stabilizer module</a></li>
@@ -415,55 +416,67 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-qlazy.lib.qcirc_c">
-<span id="qlazy-lib-qcirc-c-module"></span><h2>qlazy.lib.qcirc_c module<a class="headerlink" href="#module-qlazy.lib.qcirc_c" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="module-qlazy.lib.qcirc_base_c">
+<span id="qlazy-lib-qcirc-base-c-module"></span><h2>qlazy.lib.qcirc_base_c module<a class="headerlink" href="#module-qlazy.lib.qcirc_base_c" title="Permalink to this heading">¶</a></h2>
 <p>wrapper functions for QCirc</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_append_gate">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_append_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">para</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_append_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_append_gate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_append_gate">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_append_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">para</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctrl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_append_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_append_gate" title="Permalink to this definition">¶</a></dt>
 <dd><p>append gate to the QCirc objects</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_copy">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_copy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_copy">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>copy QCirc object</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_free">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_free" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_free">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_free" title="Permalink to this definition">¶</a></dt>
 <dd><p>free memory of the QCirc object</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_init">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_init" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_init">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize QCirc object</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_is_equal">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_is_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_is_equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_is_equal" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_is_equal">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_is_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_is_equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_is_equal" title="Permalink to this definition">¶</a></dt>
 <dd><p>determine if 2 QCirc objects are equal or not</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_kind_first">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_kind_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_kind_first"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_kind_first" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_kind_first">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_kind_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_kind_first"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_kind_first" title="Permalink to this definition">¶</a></dt>
 <dd><p>get 1st gate kind of the quantum circuit</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_merge">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_merge" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_merge">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_merge" title="Permalink to this definition">¶</a></dt>
 <dd><p>merge QCirc objects</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qlazy.lib.qcirc_c.qcirc_pop_gate">
-<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_pop_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_c.html#qcirc_pop_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_c.qcirc_pop_gate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_merge_mutable">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_merge_mutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_mut</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_merge_mutable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_merge_mutable" title="Permalink to this definition">¶</a></dt>
+<dd><p>merge QCirc objects (mutable)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_pop_gate">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_pop_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_pop_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_pop_gate" title="Permalink to this definition">¶</a></dt>
 <dd><p>pop gate of the quantum circuit</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qlazy.lib.qcirc_base_c.qcirc_base_set_phase_list">
+<span class="sig-prename descclassname"><span class="pre">qlazy.lib.qcirc_base_c.</span></span><span class="sig-name descname"><span class="pre">qcirc_base_set_phase_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qlazy/lib/qcirc_base_c.html#qcirc_base_set_phase_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qlazy.lib.qcirc_base_c.qcirc_base_set_phase_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>set phase list</p>
 </dd></dl>
 
 </div>

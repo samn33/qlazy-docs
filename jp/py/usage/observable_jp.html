@@ -163,22 +163,28 @@
             
   <div class="section" id="obserbable">
 <h1>オブザーバブル(Obserbableクラス)<a class="headerlink" href="#obserbable" title="Permalink to this heading">¶</a></h1>
-<p>ハミルトニアンをはじめとする観測可能な物理量のことを「オブザーバブル
-(observable)」と言います。量子力学や量子情報理論でよくお目にかかるオブ
-ザーバブルはパウリ演算子X,Y,Zの積和で表現されたものです。スピンの集ま
-りや量子ビットの集まりのような２準位の量子多体系で何らかの物理量をエル
-ミート演算子として表そうとすると、こういう表現が自然に出てくる場合が多
-いのだと思います。qlazyでは、このようなパウリ演算子の積和で表現された
+<p>量子力学においては、ハミルトニアンをはじめとする観測可能な物理量のこと
+を「オブザーバブル(observable)」と言います。古典力学と違い、それらオブ
+ザーバブルは複素ベクトルから複素ベクトルにマッピングする演算子（or 複
+素行列）として表現されます。実際の測定器で測定される値は、そのオペレー
+タの固有値とみなされます。固有値は実数値なので（測定値が複素数なんてお
+かしいですよね..）、オブザーバブルはエルミート演算子でなければなりませ
+ん。このあたりの詳細については適当な量子力学の教科書を参照してください。</p>
+<p>量子力学や量子情報理論でよくお目にかかるオブザーバブルはパウリ演算子
+X,Y,Zの積和で表現されたものです。スピンの集まりや量子ビットの集まりの
+ような２準位の量子多体系で何らかの物理量をエルミート演算子として表そう
+とすると、こういう表現が自然に出てくる場合が多いのだと思います。</p>
+<p>qlazyでは、このようなパウリ演算子の積和で表現された
 オブザーバブルにまつわるいくつかの計算を実行することができます。具体的
 には、QStateクラスの量子状態に対して、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">オブザーバブルの期待値</span>
-<span class="o">*</span> <span class="n">量子状態の時間発展</span><span class="p">(</span><span class="n">オブザーバブルをハミルトニアンとする量子系の時間発展</span><span class="p">)</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>オブザーバブルの期待値</p></li>
+<li><p>量子状態の時間発展(オブザーバブルをハミルトニアンとする量子系の時間発展)</p></li>
+</ul>
 <p>MPStateクラスの行列積状態に対して、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">オブザーバブルの期待値</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>オブザーバブルの期待値</p></li>
+</ul>
 <p>を計算できます。その使い方についてはQStateクラスおよびMPStateクラスの
 ドキュメントを参照いただくとして、ここではオブザーバブルを記述する
 Observableクラスを使って、どのようにオブザーバブルを作成するかを説明し
@@ -193,11 +199,11 @@ Observableクラスを使って、どのようにオブザーバブルを作成�
 </div>
 <p>のようにObservableクラスおよび関連した関数X,Y,Zをimportします。オブザー
 バブルの作成には以下３通りのやり方があります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">文字列指定による方法</span>
-<span class="o">*</span> <span class="n">重み付きパウリ積を順次追加する方法</span>
-<span class="o">*</span> <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Zの加減乗除で指定する方法</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>文字列指定による方法</p></li>
+<li><p>重み付きパウリ積を順次追加する方法</p></li>
+<li><p>X,Y,Zの加減乗除で指定する方法</p></li>
+</ul>
 <p>以下の節で順に説明します。</p>
 <div class="section" id="id2">
 <h3>文字列指定による方法<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
@@ -336,7 +342,7 @@ product method)を適用することで、パウリ積とそれに対する係�
 <span class="go">0.5 Z(0) + Z(1)</span>
 </pre></div>
 </div>
-<p>また、’/=’演算子を使って、インクリメンタルな減算も実行できます。</p>
+<p>また、’/=’演算子を使って、インクリメンタルな除算も実行できます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_1</span> <span class="o">/=</span> <span class="mf">2.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ob_1</span><span class="p">)</span>

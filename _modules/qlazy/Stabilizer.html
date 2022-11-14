@@ -869,7 +869,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t free stabilizer.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Stabilizer.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Stabilizer.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        operate unitary operator to stabilizer.</span>
 
@@ -878,6 +878,9 @@
 <span class="sd">        pp : instance of PauliProduct</span>
 <span class="sd">            pauli product to operate</span>
 <span class="sd">        ctrl : int</span>
+<span class="sd">            contoroll qubit id for controlled pauli product</span>
+<span class="sd">            (this option will be removed near future)</span>
+<span class="sd">        qctrl : int</span>
 <span class="sd">            contoroll qubit id for controlled pauli product</span>
 
 <span class="sd">        Returns</span>
@@ -889,6 +892,9 @@
         <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
         <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
         <span class="n">factor</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">factor</span>
+
+        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctrl</span> <span class="o">=</span> <span class="n">qctrl</span>
 
         <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>

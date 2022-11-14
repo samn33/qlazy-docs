@@ -166,16 +166,21 @@
 <div class="section" id="id1">
 <h2>量子状態の操作<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id2">
-<h3>生成・初期化<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<h3>初期化<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>量子計算を実行するにあたり、まず、量子状態を生成・初期化する必要があり
-ます。計算に必要な量子ビット数を引数にしてQStateクラスのコンストラクタ
-を呼び出すのが基本ですが、乱数生成のシードを指定するオプションもありま
-す。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+ます。それには、計算に必要な量子ビット数を引数にしてQStateクラスのコン
+ストラクタを呼び出します。例えば、2量子ビットの初期状態|00&gt;は以下のよ
+うに取得できます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">quit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>デフォルトではseedはランダムに設定されるので実行のたびに結果は変わ
-りますが、このseedを指定すると、何度実行しても結果は同じになります。</p>
+<p>量子計算の結果は確率的なので、計算の結果は毎回変わります。qlazyではそ
+のような状況を、内部で乱数を生成することによってシミュレートしています。
+しかし、固定した結果を毎回得たい場合もあります。そのような際には、以下
+のようにseedオプションを指定すれば良いです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>この初期化について、２つ注意事項があります。</p>
 <ol class="simple">
 <li><p>状態は常に|00…0&gt;になります。どれかを|1&gt;にする初期化機能は用意して
@@ -190,44 +195,23 @@
 </pre></div>
 </div>
 <p>指定するベクトルの次元は２のべき乗である必要があります。</p>
+</div>
 <div class="section" id="id3">
-<h4>30の上限を外したい場合<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h4>
-<p>qlazy/qlazy/lib/c/qlazy.hの以下の行の数字を変えて、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#define MAX_QUBIT_NUM      30</span>
-</pre></div>
-</div>
-<p>さらに、qlazy/qlazy/config.pyの以下の行の数字を上と同じになるよう
-に変更して、再度ビルドしてください。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAX_QUBIT_NUM</span> <span class="o">=</span> <span class="mi">30</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="id4">
-<h3>複製<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<h3>複製<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>量子状態を複製することができます。シミュレータならではの機能です。以下
 のようにcloneメソッドを呼び出します。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs_clone</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h3>リセット<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id4">
+<h3>リセット<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <p>すでに生成済みの量子状態を破棄することなく、再度初期化して使いたい場合
-は、reset()メソッドを使います。例えば、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
-</pre></div>
-</div>
-<p>という一連の処理を行って結果を得た後、qsを|00…0&gt;の状態に戻して、
-再び一連の処理を実行する場合、</p>
+は、reset()メソッドを使います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>とすれば、qsは強制的に|00…&gt;となります。これは、同じ量子回路を何度も
-繰り返し適用しながら、何らかの統計量を得たいような場合に便利な機能です。</p>
-<p>また、</p>
+<p>とすれば、qsは強制的に|00…&gt;となります。また、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -236,12 +220,10 @@
 <p>特定の量子ビットだけをリセットする場合、内部的には当該量子ビットを測定
 してからリセットするようにしているため、当該量子ビットと他の量子ビット
 がエンタングルしている場合、リセットの影響が他の量子ビットにも及びます。
-つまり、実行のたびに結果が変わる可能性がありますので、ご注意ください。
-エンタングルしているかどうかは、後述のシュミット分解メソッドを使って状
-態を壊さずに確認することができます。</p>
+つまり、実行のたびに結果が変わる可能性がありますので、ご注意ください。</p>
 </div>
-<div class="section" id="id6">
-<h3>メモリ解放<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id5">
+<h3>メモリ解放<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
 <p>量子状態インスタンスのメモリは使用されなくなったら自動的に解放されますが、
 明示的に解放したい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">qs</span>
@@ -268,8 +250,8 @@
 </div>
 <p>という指定の仕方でも大丈夫です。</p>
 </div>
-<div class="section" id="id7">
-<h3>ゲート演算<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id6">
+<h3>ゲート演算<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
 <p>量子状態の生成・初期化ができたら、各種ゲート演算を行います。</p>
 <div class="section" id="x-y-z">
 <h4>パウリX,Y,Zゲート<a class="headerlink" href="#x-y-z" title="Permalink to this heading">¶</a></h4>
@@ -288,14 +270,14 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id8">
-<h4>アダマールゲート<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id7">
+<h4>アダマールゲート<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id9">
-<h4>位相シフトゲート<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id8">
+<h4>位相シフトゲート<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">s_dg</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># エルミート共役</span>
@@ -303,8 +285,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id10">
-<h4>回転ゲート<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id9">
+<h4>回転ゲート<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># X軸周りの回転</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># Y軸周りの回転</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># Z軸周りの回転</span>
@@ -314,8 +296,8 @@
 ない）。phaseに指定する値の単位はPIラジアンです。なので、0.5は0.5*PIラ
 ジアンを意味します。</p>
 </div>
-<div class="section" id="id11">
-<h4>制御ユニタリゲート<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id10">
+<h4>制御ユニタリゲート<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
 <p>パウリX,Y,Zゲート、ルートパウリXゲート、アダマールゲート、位相シフトゲー
 ト、回転ゲートを各々制御ユニタリ化したゲートです。引数q0,q1は各々量
 子ビット番号を表しています（以下、同様）。q0が制御量子ビット、q1が標
@@ -346,26 +328,26 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">rzz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">xxx</span><span class="p">)</span>  <span class="c1"># ZZ演算子に対するイジング結合ゲート</span>
 </pre></div>
 </div>
-<div class="section" id="id12">
-<h4>交換ゲート（スワップゲート）<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id11">
+<h4>交換ゲート（スワップゲート）<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">sw</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>  <span class="c1"># q0とq1を入れ替え</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id13">
-<h4>トフォリゲート<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id12">
+<h4>トフォリゲート<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>  <span class="c1"># q0,q1: 制御ビット</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id14">
-<h4>制御スワップゲート（フレドキンゲート）<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id13">
+<h4>制御スワップゲート（フレドキンゲート）<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">csw</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>  <span class="c1"># q0: 制御ビット</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id15">
-<h4>マルチ制御Xゲート<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id14">
+<h4>マルチ制御Xゲート<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
 <p>通常のトフォリゲートは、2つの制御ビットと1つの標的ビットを持つ制御Xゲー
 トですが、3つ以上の制御ビットを持つ制御Xゲート演算を実行できます。ここ
 では「マルチ制御Xゲート」と呼ぶことにします。</p>
@@ -379,8 +361,8 @@
 qlazyでは、数が不定の量子ビット番号を指定する必要がある場合、メソッド
 や関数に「リスト」として与えます（という仕様上のルールにしています）。</p>
 </div>
-<div class="section" id="id16">
-<h4>カスタム・ゲートの追加<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="id15">
+<h4>カスタム・ゲートの追加<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h4>
 <p>QStateクラスを継承することで、自分専用の量子ゲートを簡単に作成・追加す
 ることができます。ベル状態を作成する回路をbellメソッドとして、QStateを
 継承したMyQStateクラスに追加する例を示します。</p>
@@ -398,8 +380,8 @@ qlazyでは、数が不定の量子ビット番号を指定する必要がある
 模な量子回路を作成したい場合など、便利に使える場面は多いと思います。</p>
 </div>
 </div>
-<div class="section" id="id17">
-<h3>パウリ積の演算<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
+<div class="section" id="id16">
+<h3>パウリ積の演算<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h3>
 <p>パウリ演算子X,Y,Zのテンソル積を定義して量子状態に演算することができま
 す。パウリ積を扱うために、まず、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QState</span><span class="p">,</span> <span class="n">PauliProduct</span>
@@ -413,47 +395,40 @@ qlazyでは、数が不定の量子ビット番号を指定する必要がある
 </pre></div>
 </div>
 <p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
-定します。制御化されたパウリ積はoperateメソッドのctrlオプションに制御
+定します。制御化されたパウリ積はoperateメソッドのqctrlオプションに制御
 量子ビット番号を指定することで実現できます。以下のようにします。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">ctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="section" id="id17">
+<h2>量子状態の表示<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="id18">
-<h2>量子状態の表示<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h2>
+<h3>量子ビット全体の状態表示<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
+<p>showメソッドで量子状態を表示することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="id19">
 <h3>特定量子ビットの状態表示<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
-<p>量子ビット全体の状態を表示するのが基本ですが、特定の量子ビットを選択し
-て表示することもできます。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">])</span>
-</pre></div>
-</div>
-<p>例えば、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<p>特定の量子ビットを選択して表示することもできます。例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>とすると、全体の状態が表示されます。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">000</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">001</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">010</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">011</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">101</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">110</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">111</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-</pre></div>
-</div>
-<p>ここで、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-<p>とすると、以下になります。</p>
+<p>とすると、0番目と2番目の量子ビットに関する量子状態が表示されます。結果
+は以下になります。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
 <span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
 <span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.5000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.2500</span> <span class="o">|++++</span>
@@ -469,26 +444,21 @@ qlazyでは、数が不定の量子ビット番号を指定する必要がある
 <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
 </pre></div>
 </div>
-<p>内部的にどんなことをやっているかというと、表示したい特定の量子ビット以
-外のビットを仮に測定し無理やり波束を収縮させます。結果得られた確率振幅
-の係数たちの中から、表示したい量子ビットの組み合わせに相当する非ゼロ
-の係数をピックアップして表示します。非ゼロの係数がなかったらゼロとし
-ます。最後に、測定前の状態に戻します。以上がやっている内容です。</p>
-<p>したがって、表示したい量子ビットとそれ以外の量子ビットの世界がきっぱり
-とテンソル積で分解できる形になっていれば、これで予想通りの表示がなされ
-ます。問題はエンタングルしていてテンソル積の形になっていない場合です。
-この実装だとshowで表示するたびに結果が変わります。例えば、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.7071</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.5000</span> <span class="o">|++++++</span>
+<p>表示したい量子ビットとそれ以外の量子ビットがエンタングルしている場合、
+表示結果は確率的になります。例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.7071+0.0000*i : 0.5000 |++++++</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +0.7071+0.0000*i : 0.5000 |++++++</span>
 </pre></div>
 </div>
 <p>のようなエンタングルした状態があったときに、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>をやると、</p>
+<p>とすると、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
 <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
 </pre></div>
@@ -499,12 +469,6 @@ qlazyでは、数が不定の量子ビット番号を指定する必要がある
 </pre></div>
 </div>
 <p>となったりします。</p>
-<p>ちなみに、これは、エンタングルした純粋状態の部分トレースをとった結果と
-して現れた|0&gt;と|1&gt;の混合状態を表示していることに相当します。純粋状態で
-はないので、複数の純粋状態が確率的に表示されるわけです。</p>
-<p>ということですので、注意して使ってください。エンタングルしているかどう
-かは、後述のシュミット分解メソッドを使って状態を壊さずに確認することが
-できます。</p>
 </div>
 <div class="section" id="id20">
 <h3>非ゼロ成分のみ表示<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h3>
@@ -544,9 +508,10 @@ C[00..0]が0の場合は、グローバル位相項を括りだすことはし�
 <div class="section" id="id22">
 <h3>量子状態のデータ取得<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
 <p>get_ampメソッドで、特定の量子ビットに対応した確率振幅の複素係数をnumpy
-配列として取得できます。
-qidを指定しない場合は、全量子ビットに対応した確率振幅となります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">])</span>
+配列として取得できます。qidを指定しない場合は、全量子ビットに対応した
+確率振幅となります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">get_amp</span><span class="p">()</span>  <span class="c1"># 全量子ビットに対する確率振幅</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">get_amp</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># 0番目と3番目の量子ビットに対する確率振幅</span>
 </pre></div>
 </div>
 <p>引数を指定しないget_ampメソッドをampプロパティとして定義していますので。
@@ -597,11 +562,11 @@ get_probメソッドを使って、</p>
 <div class="section" id="id26">
 <h3>測定の実行<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
 <p>mメソッドに、以下のような引数を与えて実行します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">bbb</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">ccc</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>qid,shots,angle,phaseの指定をしない場合、通常のZ軸方向の測定を1回実施
-します（shotsのデフォルト値はv0.0.33で100から1に変更しました）。qidには
+します。qidには
 測定したい量子ビットの番号リストを指定します。shotsには測定回数を指定
 します。angle,phaseは測定の方向を表しており、angleにはZ軸とのなす角を
 単位PIラジアンで指定します。phaseにはX軸プラス方向を基準にしたZ軸周り
@@ -609,14 +574,14 @@ get_probメソッドを使って、</p>
 もらえれば良いです。この測定メソッドは、測定クラスMDataのインスタンス
 を返すので、それを例えば変数mdで受けるというのが、一つの使い方です。</p>
 <p>X軸、Y軸、Z軸方向の測定をするメッソドも用意されています。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mx</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">my</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mz</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="o">...</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mx</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">my</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mz</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>mzメソッドはmメソッドと全く同じものです。</p>
 <p>また、ベル測定のメソッドもあります。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mb</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="n">aaa</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">mb</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>測定のメソッドの後にメソッド・チェーンでQStateのメソッドをつなげること
@@ -630,50 +595,33 @@ get_probメソッドを使って、</p>
 </pre></div>
 </div>
 <p>という具合に、2行に分けてください。</p>
-<p>ここで、もう一つ注意点があります。上の例の1行目の測定は、HゲートとCXゲー
-トを適用した状態に対して、10回の測定シミュレーションを行います。シミュ
-レータなので、測定しても量子状態が消えることはないので、HゲートとCXゲー
-トを10回適用しなくても、測定シミュレーションはできます。で、10回目の測
-定結果に対応した量子状態がqsに格納されることになります（例えば、測定結
-果が’0’だった場合、qsは|00&gt;となります）。2行目は、前段最後の測定後の量
-子状態（|00&gt;）に対してXゲートの演算がなされます。それに対して、20回の
-測定シミュレーションがなされます。したがって、「H-CX-M-X-M」という量子
-回路を何度も通して測定した結果とは異なります。</p>
-<p>「H-CX-M-X-M」の回路を何度も通すシミュレーションは、ちょっと面倒ですが、
-例えば、以下のようにやればできます。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QState</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">qs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">md</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">m</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">freq</span> <span class="o">+=</span> <span class="n">md</span><span class="o">.</span><span class="n">frequency</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">qs</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>frequencyプロパティについては、少し下の「測定データの取得」に説明があ
-りますので、そちらを見てください。</p>
 </div>
 <div class="section" id="id27">
 <h3>測定結果の表示<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
-<p>showメソッドで表示します。Z軸方向以外の測定結果の表示例を以下に示しま
-す。Z軸方向の測定結果は|0&gt;,|1&gt;ですが、それ以外の方向は|0&gt;,|1&gt;にはなら
-ないので、|u&gt;,|d&gt;になるとして、結果を表しています。</p>
+<p>showメソッドで表示します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: z-axis</span>
+<span class="go">frq[00] = 49</span>
+<span class="go">frq[11] = 51</span>
+<span class="go">last state =&gt; 00</span>
+</pre></div>
+</div>
+<p>Z軸方向以外の測定結果の表示例を以下に示します。Z軸方向の測定結果は
+|0&gt;,|1&gt;ですが、それ以外の方向は|0&gt;,|1&gt;にはならないので、|u&gt;,|d&gt;になるとして、結果を表しています。</p>
 <p>X軸方向の測定結果</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">direction</span> <span class="n">of</span> <span class="n">measurement</span><span class="p">:</span> <span class="n">x</span><span class="o">-</span><span class="n">axis</span>
-<span class="n">frq</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="mi">49</span>
-<span class="n">frq</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="mi">51</span>
-<span class="n">last</span> <span class="n">state</span> <span class="o">=&gt;</span> <span class="n">u</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: x-axis</span>
+<span class="go">frq[u] = 49</span>
+<span class="go">frq[d] = 51</span>
+<span class="go">last state =&gt; u</span>
 </pre></div>
 </div>
 <p>Y軸方向の測定結果</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">direction</span> <span class="n">of</span> <span class="n">measurement</span><span class="p">:</span> <span class="n">y</span><span class="o">-</span><span class="n">axis</span>
-<span class="n">frq</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="mi">51</span>
-<span class="n">frq</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="mi">49</span>
-<span class="n">last</span> <span class="n">state</span> <span class="o">=&gt;</span> <span class="n">d</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">direction of measurement: y-axis</span>
+<span class="go">frq[u] = 51</span>
+<span class="go">frq[d] = 49</span>
+<span class="go">last state =&gt; d</span>
 </pre></div>
 </div>
 <p>任意方向の測定結果（angle=0.2, phase=0.3の場合）</p>
@@ -728,16 +676,16 @@ phi+ =&gt; 0, phi- =&gt; 3, psi+ =&gt; 1, psi- =&gt; 2と定義しています�
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mval</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mval</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">11</span>
 </pre></div>
 </div>
-<p>とやればmvalに文字列’00’または’11’が格納されます。量子状態は測定後の状
-態になります（例えば以下のように）。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">11</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">00</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">01</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">0.0000</span> <span class="o">|</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0000</span><span class="o">+</span><span class="mf">0.0000</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mf">1.0000</span> <span class="o">|+++++++++++</span>
+<p>とやればmvalに文字列’00’または’11’が格納されます。そして、量子状態は測
+定後の状態になります（例えば以下のように）。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">c[00] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[01] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[10] = +0.0000+0.0000*i : 0.0000 |</span>
+<span class="go">c[11] = +1.0000+0.0000*i : 1.0000 |+++++++++++</span>
 </pre></div>
 </div>
 </div>
@@ -787,7 +735,8 @@ phi+ =&gt; 0, phi- =&gt; 3, psi+ =&gt; 1, psi- =&gt; 2と定義しています�
 <p>QStateクラスのapplyメソッドを使います。行列をnumpyの配列として定義し、
 applyメソッドの引数として渡します。また、適用したい量子ビット番号リス
 トを指定することもできます。使用例を以下に示します。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>	
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>	
 <span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
