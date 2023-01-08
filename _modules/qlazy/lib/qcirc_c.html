@@ -171,7 +171,6 @@
 <span class="kn">from</span> <span class="nn">qlazy.QCirc</span> <span class="kn">import</span> <span class="n">QCirc</span>
 
 <span class="n">lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s1">&#39;libqlz.&#39;</span><span class="o">+</span><span class="n">get_lib_ext</span><span class="p">())))</span>
-<span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
 
 <div class="viewcode-block" id="qcirc_init"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_init">[docs]</a><span class="k">def</span> <span class="nf">qcirc_init</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; initialize QCirc object &quot;&quot;&quot;</span>
@@ -196,7 +195,7 @@
 
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_copy</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_copy</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span>
-                               <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
+                                    <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_copy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc</span><span class="p">),</span> <span class="n">c_qcirc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -212,13 +211,23 @@
 
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_merge</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_merge</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span>
-                                <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
+                                     <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_merge</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc_L</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc_R</span><span class="p">),</span> <span class="n">c_qcirc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t merge QCirc objects.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">c_qcirc</span></div>
+
+<div class="viewcode-block" id="qcirc_merge_mutable"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_merge_mutable">[docs]</a><span class="k">def</span> <span class="nf">qcirc_merge_mutable</span><span class="p">(</span><span class="n">qc_mut</span><span class="p">,</span> <span class="n">qc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; merge QCirc objects (mutable) &quot;&quot;&quot;</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_merge</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_merge</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">)]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_merge_mutable</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc_mut</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t merge QCirc objects.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="qcirc_is_equal"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_is_equal">[docs]</a><span class="k">def</span> <span class="nf">qcirc_is_equal</span><span class="p">(</span><span class="n">qc_L</span><span class="p">,</span> <span class="n">qc_R</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; determine if 2 QCirc objects are equal or not &quot;&quot;&quot;</span>
@@ -228,7 +237,7 @@
 
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_is_equal</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_is_equal</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span>
-                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">)]</span>
+                                        <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span><span class="p">)]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_is_equal</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc_L</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc_R</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_ans</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -237,15 +246,17 @@
     <span class="n">ans</span> <span class="o">=</span> <span class="n">c_ans</span><span class="o">.</span><span class="n">value</span>
     <span class="k">return</span> <span class="n">ans</span></div>
 
-<div class="viewcode-block" id="qcirc_append_gate"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_append_gate">[docs]</a><span class="k">def</span> <span class="nf">qcirc_append_gate</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">):</span>
+<div class="viewcode-block" id="qcirc_append_gate"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_append_gate">[docs]</a><span class="k">def</span> <span class="nf">qcirc_append_gate</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; append gate to the QCirc objects &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">para</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">para</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="n">para</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>  <span class="c1"># [phase, gphase, factor]</span>
     <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="n">qid_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
     <span class="n">para_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">para</span><span class="p">)</span>
@@ -253,12 +264,14 @@
     <span class="n">DoubleArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span> <span class="o">*</span> <span class="n">para_num</span>
     <span class="n">c_qid</span> <span class="o">=</span> <span class="n">IntArray</span><span class="p">(</span><span class="o">*</span><span class="n">qid</span><span class="p">)</span>
     <span class="n">c_para</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="p">(</span><span class="o">*</span><span class="n">para</span><span class="p">)</span>
+    <span class="n">c_tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_append_gate</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
-    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_append_gate</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span> <span class="n">DoubleArray</span><span class="p">,</span>
-                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">]</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_append_gate</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">IntArray</span><span class="p">,</span>
+                                      <span class="n">DoubleArray</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+                                      <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_append_gate</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">kind</span><span class="p">),</span> <span class="n">c_qid</span><span class="p">,</span> <span class="n">c_para</span><span class="p">,</span>
-                                <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">ctrl</span><span class="p">))</span>
+                                <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">ctrl</span><span class="p">),</span> <span class="n">c_tag</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t append quantum gate.&quot;</span><span class="p">)</span></div>
@@ -298,14 +311,20 @@
     <span class="n">c_c</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="n">ctrl</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">c_ctrl</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TAG_STRLEN</span>
+    <span class="n">c_tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">taglen</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">c_taglen</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">taglen</span><span class="p">)</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_pop_gate</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
     <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_pop_gate</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
-                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
+                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
+                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                                   <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
 
     <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_pop_gate</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_kind</span><span class="p">),</span> <span class="n">c_qid</span><span class="p">,</span> <span class="n">c_para</span><span class="p">,</span>
-                             <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_c</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_ctrl</span><span class="p">))</span>
+                             <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_c</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_ctrl</span><span class="p">),</span> <span class="n">c_tag</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_taglen</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t pop gate.&quot;</span><span class="p">)</span>
@@ -321,7 +340,90 @@
     <span class="k">if</span> <span class="n">ctrl</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span></div>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">c_tag</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">taglen</span> <span class="o">=</span> <span class="n">c_taglen</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">if</span> <span class="n">taglen</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[:</span><span class="n">taglen</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="qcirc_set_params"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_set_params">[docs]</a><span class="k">def</span> <span class="nf">qcirc_set_params</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; set params &quot;&quot;&quot;</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_set_tag_phase</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_set_tag_phase</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">c_tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">c_phase</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_set_tag_phase</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span> <span class="n">c_tag</span><span class="p">,</span> <span class="n">c_phase</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t set tag:</span><span class="si">{}</span><span class="s2">, phase:</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">phase</span><span class="p">))</span>
+        
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_update_phases</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_update_phases</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">)]</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_update_phases</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t update phases.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="qcirc_get_tag_phase"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_get_tag_phase">[docs]</a><span class="k">def</span> <span class="nf">qcirc_get_tag_phase</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get phase for the tag &quot;&quot;&quot;</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_phase</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_phase</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">,</span>
+                                        <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)]</span>
+
+    <span class="n">c_tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">c_phase</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_phase</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span> <span class="n">c_tag</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">c_phase</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get param (= phase) for the tag: </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">c_phase</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">phase</span></div>
+
+<div class="viewcode-block" id="qcirc_get_tag_list"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_get_tag_list">[docs]</a><span class="k">def</span> <span class="nf">qcirc_get_tag_list</span><span class="p">(</span><span class="n">qcirc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get tag_list &quot;&quot;&quot;</span>
+
+    <span class="n">tag_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">c_tag_num</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">tag_num</span><span class="p">)</span>
+    <span class="n">tag_strlen</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">c_tag_strlen</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">tag_strlen</span><span class="p">)</span>
+
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_info</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_info</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                                       <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_info</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span> <span class="n">c_tag_num</span><span class="p">,</span> <span class="n">c_tag_strlen</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get tag info.&quot;</span><span class="p">)</span>
+
+    <span class="n">tag_num</span> <span class="o">=</span> <span class="n">c_tag_num</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">tag_strlen</span> <span class="o">=</span> <span class="n">c_tag_strlen</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="n">tag_buf</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="n">tag_num</span> <span class="o">*</span> <span class="n">tag_strlen</span>
+    <span class="n">c_tag_buf</span> <span class="o">=</span> <span class="n">tag_buf</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_buf</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+    <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_buf</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">QCirc</span><span class="p">),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span><span class="p">)]</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">qcirc_get_tag_buf</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">qcirc</span><span class="p">),</span> <span class="n">c_tag_buf</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get tag info.&quot;</span><span class="p">)</span>
+
+    <span class="n">tag_byte_list</span> <span class="o">=</span> <span class="n">c_tag_buf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">tag_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tag_num</span><span class="p">):</span>
+        <span class="n">tag_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag_byte_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">tag_list</span></div>
 
 <div class="viewcode-block" id="qcirc_free"><a class="viewcode-back" href="../../../python-api/qlazy.lib.html#qlazy.lib.qcirc_c.qcirc_free">[docs]</a><span class="k">def</span> <span class="nf">qcirc_free</span><span class="p">(</span><span class="n">qcirc</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; free memory of the QCirc object &quot;&quot;&quot;</span>

@@ -167,8 +167,9 @@
 <span class="kn">from</span> <span class="nn">qlazy.CMem</span> <span class="kn">import</span> <span class="n">CMem</span>
 <span class="kn">from</span> <span class="nn">qlazy.Result</span> <span class="kn">import</span> <span class="n">Result</span>
 <span class="kn">from</span> <span class="nn">qlazy.lib.stabilizer_c</span> <span class="kn">import</span> <span class="n">stabilizer_operate_qcirc</span>
+<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">is_clifford_gate</span>
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.qlazy_stabilizer_simulator.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.qlazy_stabilizer_simulator.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; run the quantum circuit &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">qcirc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -176,8 +177,15 @@
 
     <span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">qubit_num</span>
     <span class="n">cmem_num</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">cmem_num</span>
-    <span class="n">stab</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
-    <span class="n">stab</span><span class="o">.</span><span class="n">set_all</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stab</span> <span class="o">=</span> <span class="n">Stabilizer</span><span class="p">(</span><span class="n">qubit_num</span><span class="p">)</span>
+        <span class="n">stab</span><span class="o">.</span><span class="n">set_all</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit number of the quantum state must be equal or larger than the quantum circuit size.&quot;</span><span class="p">)</span>
+        <span class="n">stab</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        
     <span class="k">if</span> <span class="n">cmem_num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">cmem</span> <span class="o">=</span> <span class="n">CMem</span><span class="p">(</span><span class="n">cmem_num</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

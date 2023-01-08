@@ -368,6 +368,15 @@ qubits id.  Please note that the argument is the “list” of the qubit
 id.  In qlazy, if it is necessary to specify an indefinite number of
 qubit id, give a “list” of the qubit id to the method or function.</p>
 </div>
+<div class="section" id="quantum-fourier-transform">
+<h4>Quantum Fourier transform<a class="headerlink" href="#quantum-fourier-transform" title="Permalink to this heading">¶</a></h4>
+<p>Performing Quantum Fourier transform and its inverse transform are
+possible as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">qft</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="o">..</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">iqft</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="n">q0</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="o">..</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="custom-gate">
 <h4>Custom gate<a class="headerlink" href="#custom-gate" title="Permalink to this heading">¶</a></h4>
 <p>By inheriting the ‘QState’ class, you can easily create and add your
@@ -401,16 +410,39 @@ the 3-qubit quantum state vector ‘qs’, create the instance of
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>then perform ‘operate’ method with ‘pp’ option.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+<p>then perform ‘operate_pp’ method with ‘pp’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate_pp</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Controlled pauli product can be operated by specifying the control
-qubit id in the ‘qctrl’ option of the ‘operate’ method as follows.</p>
+qubit id in the ‘qctrl’ option of the ‘operate_pp’ method as follows.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate_pp</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="quantum-circuit-operation">
+<h3>Quantum circuit operation<a class="headerlink" href="#quantum-circuit-operation" title="Permalink to this heading">¶</a></h3>
+<p>You can operate a quantum circuit to the quantum state.
+The quantum circuit is prepared using the ‘QCirc’ class as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qlazy</span> <span class="kn">import</span> <span class="n">QCirc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">q[0] -H-*-</span>
+<span class="go">q[1] ---X-</span>
+</pre></div>
+</div>
+<p>To operate this into the quantum state, use the ‘operate_qcirc’ method</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate_qcirc</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also add a control qubit just like ‘operate_pp’ method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span><span class="o">.</span><span class="n">operate_qcirc</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, you should note that the quantum circuit that can be operated is limited to unitary.
+Those that contain non-unitary gates, such as the measurement gate, cannot be operated.</p>
 </div>
 </div>
 <div class="section" id="display-of-quantum-state-vector">

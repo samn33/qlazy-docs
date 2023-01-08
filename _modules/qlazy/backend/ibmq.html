@@ -173,11 +173,15 @@
 <span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
 <span class="kn">from</span> <span class="nn">qlazy.Result</span> <span class="kn">import</span> <span class="n">Result</span>
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.ibmq.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../python-api/qlazy.backend.html#qlazy.backend.ibmq.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; run the quantum circuit &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">qcirc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;quantum circuit must be specified.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">out_state</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;output option is not supported.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">init</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;init option is not supported.&quot;</span><span class="p">)</span>
 
     <span class="n">qcirc_tmp</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 
@@ -202,7 +206,7 @@
         <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">break</span>
 
-        <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">)</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span> <span class="o">=</span> <span class="n">qcirc_tmp</span><span class="o">.</span><span class="n">pop_gate</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">MEASURE</span><span class="p">:</span>
             <span class="n">exist_measurement</span> <span class="o">=</span> <span class="kc">True</span>
@@ -214,8 +218,7 @@
             <span class="n">qc</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">qubit_reg</span><span class="p">[</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">__ibmq_add_qgate</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">para</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">para</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
-                             <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">)</span>
+            <span class="n">__ibmq_add_qgate</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">para</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">para</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">)</span>
 
     <span class="c1"># set backend</span>
     <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;aer_simulator&#39;</span><span class="p">:</span>
@@ -272,7 +275,9 @@
 
     <span class="k">return</span> <span class="n">result</span></div>
 
-<span class="k">def</span> <span class="nf">__ibmq_add_qgate</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase2</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">__ibmq_add_qgate</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">para_phase</span><span class="p">,</span> <span class="n">para_gphase</span><span class="p">,</span> <span class="n">para_factor</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">cmem_reg</span><span class="p">):</span>
+
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">para_phase</span> <span class="o">*</span> <span class="n">para_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
 
     <span class="c1"># 1-qubit, 0-parameter gate</span>
     <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span><span class="p">:</span>
@@ -366,27 +371,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_U1</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># 1-qubit, 2-parameter gate</span>
-    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_U2</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># 1-qubit, 3-parameter gate</span>
-    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">ROTATION_U3</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># 2-qubit, 0-parameters gate</span>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_X</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -481,26 +465,6 @@
             <span class="n">qc</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">qc</span><span class="o">.</span><span class="n">crz</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_U1</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># 2-qubit, 2-parameters gate</span>
-    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_U2</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># 2-qubit, 3-parameters gate</span>
-    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_U3</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">cu</span><span class="p">(</span><span class="n">phase2</span><span class="p">,</span> <span class="n">phase1</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">cmem_reg</span><span class="p">[</span><span class="n">ctrl</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown gate&quot;</span><span class="p">)</span>

@@ -167,6 +167,8 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 
 <span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">is_clifford_gate</span><span class="p">,</span> <span class="n">get_qgate_qubit_num</span>
+<span class="kn">from</span> <span class="nn">qlazy.QObject</span> <span class="kn">import</span> <span class="n">QObject</span>
 
 <div class="viewcode-block" id="MDataStabilizer"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.MDataStabilizer">[docs]</a><span class="k">class</span> <span class="nc">MDataStabilizer</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Measured Data for Stabilizer</span>
@@ -191,7 +193,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">qid</span> <span class="o">=</span> <span class="n">qid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span></div>
 
-<div class="viewcode-block" id="Stabilizer"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+<div class="viewcode-block" id="Stabilizer"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer">[docs]</a><span class="k">class</span> <span class="nc">Stabilizer</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">,</span> <span class="n">QObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Stabilizer State</span>
 
 <span class="sd">    Attributes</span>
@@ -330,26 +332,6 @@
         <span class="n">gene_list</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">gene_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gene_list</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g[{0:</span><span class="si">{digits}</span><span class="s2">d}]:</span><span class="si">{1:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">gene_str</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="Stabilizer.reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        reset to initial generators which are all identity.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of Stabilizer</span>
-<span class="sd">            stabilizer state.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_fac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;+1&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Stabilizer.clone"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -524,163 +506,6 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can&#39;t get pauli operator.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">pauli_op_str</span></div>
-
-    <span class="c1"># 1-qubit gate</span>
-
-<div class="viewcode-block" id="Stabilizer.x"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.x">[docs]</a>    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate X gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_X</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.y"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Y gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Y</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.z"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Z gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PAULI_Z</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.h"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.h">[docs]</a>    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate H gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">HADAMARD</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.s"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.s">[docs]</a>    <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate S gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.s_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.s_dg">[docs]</a>    <span class="k">def</span> <span class="nf">s_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate S dagger gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PHASE_SHIFT_S_</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-    <span class="c1"># 2-qubit gate</span>
-
-<div class="viewcode-block" id="Stabilizer.cx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.cx">[docs]</a>    <span class="k">def</span> <span class="nf">cx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CX (CNOT) gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_X</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.cz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.cz">[docs]</a>    <span class="k">def</span> <span class="nf">cz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CZ gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_Z</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Stabilizer.cy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.cy">[docs]</a>    <span class="k">def</span> <span class="nf">cy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CY gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instans of Stabilizer</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="c1"># measurement</span>
 
@@ -929,6 +754,84 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
+    <span class="c1"># operate gate</span>
+
+<div class="viewcode-block" id="Stabilizer.operate_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.operate_gate">[docs]</a>    <span class="k">def</span> <span class="nf">operate_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate gate</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kind : int</span>
+<span class="sd">            kind of the gate</span>
+<span class="sd">        qid : list</span>
+<span class="sd">            quantum id list</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of QState</span>
+<span class="sd">            quantum state</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">RESET</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qid is not supported.&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gene_num</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_op</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_pauli_fac</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;+1&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">CONTROLLED_Y</span><span class="p">:</span>
+            <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_clifford_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">q0</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">stabilizer_operate_qgate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of qid must be 1 or 2.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gate: </span><span class="si">{}</span><span class="s2"> is not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># operate quantum circuit</span>
+
+<div class="viewcode-block" id="Stabilizer.operate_qcirc"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Stabilizer.Stabilizer.operate_qcirc">[docs]</a>    <span class="k">def</span> <span class="nf">operate_qcirc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate quantum circuit</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qcirc : instance of QCirc</span>
+<span class="sd">            quantum circuit</span>
+<span class="sd">        qctrl : int</span>
+<span class="sd">            control qubit id</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        qs : instance of QState</span>
+<span class="sd">            quantum state after executing the quantum circuit</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The quantum circut must be clifford.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">is_clifford</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qcirc must be clifford quantum circuit.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit number of quantum state must be equal or larger than the quantum circuit size.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">qctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stabilizer_operate_qcirc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qc_qctrl</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">qctrl</span><span class="o">=</span><span class="n">qctrl</span><span class="p">)</span>
+            <span class="n">stabilizer_operate_qcirc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc_qctrl</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">stabilizer_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -938,7 +841,8 @@
                                     <span class="n">stabilizer_set_pauli_fac</span><span class="p">,</span> <span class="n">stabilizer_get_pauli_fac</span><span class="p">,</span>
                                     <span class="n">stabilizer_set_pauli_op</span><span class="p">,</span> <span class="n">stabilizer_get_pauli_op</span><span class="p">,</span>
                                     <span class="n">stabilizer_operate_qgate</span><span class="p">,</span> <span class="n">stabilizer_get_rank</span><span class="p">,</span>
-                                    <span class="n">stabilizer_measure</span><span class="p">,</span> <span class="n">stabilizer_free</span><span class="p">)</span>
+                                    <span class="n">stabilizer_measure</span><span class="p">,</span> <span class="n">stabilizer_operate_qcirc</span><span class="p">,</span>
+                                    <span class="n">stabilizer_free</span><span class="p">)</span>
 </pre></div>
 
            </div>

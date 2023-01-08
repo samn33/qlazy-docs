@@ -395,7 +395,7 @@
         <span class="n">backend_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">,</span> <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">}</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">backend_dict</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Backend.run"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        run the quantum circuit.</span>
 
@@ -410,6 +410,8 @@
 <span class="sd">        out_state : bool, default False</span>
 <span class="sd">            output classical and quantum information after execting circuit.</span>
 <span class="sd">            (only for qlazy&#39;s qstate and stabilizer simulator)</span>
+<span class="sd">        init : instance of QState, Stabilizer, MPState</span>
+<span class="sd">            initial quantum state</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -452,7 +454,7 @@
         
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-                            <span class="n">out_state</span><span class="o">=</span><span class="n">out_state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                            <span class="n">out_state</span><span class="o">=</span><span class="n">out_state</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">end_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
         <span class="n">result</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">start_time</span>
@@ -461,11 +463,11 @@
 
         <span class="k">return</span> <span class="n">result</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;qstate&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;qstate&#39;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; estimate expectation value by calcu &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="s1">&#39;qstate&#39;</span> <span class="ow">or</span> <span class="n">state</span> <span class="o">==</span> <span class="s1">&#39;mpstate&#39;</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">out_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;state must be &#39;qstate&#39; or &#39;mpstate&#39;.&quot;</span><span class="p">)</span>
 
@@ -475,7 +477,7 @@
             <span class="n">expval</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">mpstate</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">observable</span><span class="o">=</span><span class="n">observable</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">expval</span>
 
-    <span class="k">def</span> <span class="nf">_get_expectation_value_by_measurement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_expectation_value_by_measurement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; estimate expectation value by measurements &quot;&quot;&quot;</span>
 
         <span class="n">expval</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span>
@@ -497,7 +499,7 @@
             <span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">)</span>
             <span class="n">fac</span> <span class="o">=</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">wpp</span><span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">factor</span>  <span class="c1"># complex (imaginary is zero, maybe)</span>
 
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="n">cid</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
             <span class="n">freq</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">frequency</span>
             
             <span class="n">n_even</span> <span class="o">=</span> <span class="mi">0</span>
@@ -512,7 +514,7 @@
 
         <span class="k">return</span> <span class="n">expval</span>
 
-<div class="viewcode-block" id="Backend.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Backend.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.Backend.Backend.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        run the quantum circuit.</span>
 
@@ -526,6 +528,8 @@
 <span class="sd">            number of measurements for estimating the expectation value.</span>
 <span class="sd">        precise : bool, default - False</span>
 <span class="sd">            precise calculation (only qlazy and qulacs) or estimation by measurements.</span>
+<span class="sd">        init : instance of QState, MPState</span>
+<span class="sd">            initial quantum state</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -557,18 +561,22 @@
         <span class="k">if</span> <span class="n">precise</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qlazy&#39;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qstate_simulator&#39;</span><span class="p">:</span>
-                    <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;qstate&#39;</span><span class="p">)</span>
+                    <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;qstate&#39;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;qstate_gpu_simulator&#39;</span><span class="p">:</span>
+                    <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;qstate&#39;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;mps_simulator&#39;</span><span class="p">:</span>
-                    <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;mpstate&#39;</span><span class="p">)</span>
+                    <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;mpstate&#39;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;device must be &#39;qstate_simulator&#39; or &#39;mps_simulator&#39;.&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s1">&#39;qulacs&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">init</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;init option is not supported in qulacs backend.&quot;</span><span class="p">)</span>
                 <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_calculation</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;qstate&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;product must be qlazy or qulacs.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shots</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-                <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_measurement</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+                <span class="n">expval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expectation_value_by_measurement</span><span class="p">(</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;shots must be set as int.&quot;</span><span class="p">)</span>
 

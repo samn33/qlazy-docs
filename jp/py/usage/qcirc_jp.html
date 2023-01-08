@@ -250,14 +250,14 @@ qstate_simulator(状態ベクトルシミュレータ)というdeviceで計算�
 <p>のようにPauliProductクラスをimportする必要があります。例えば、3量子ビッ
 トの状態に対して、X2 Y0 Z1というパウリ積を演算したい場合、</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">operate_pp</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>のようにoperateメソッドのppオプションにPauliProductのインスタンスを指
-定します。制御化されたパウリ積はoperateメソッドのqctrlオプションに制御
+<p>のようにoperate_ppメソッドのppオプションにPauliProductのインスタンスを指
+定します。制御化されたパウリ積はoperate_ppメソッドのqctrlオプションに制御
 量子ビット番号を指定することで実現できます。以下のようにします。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">operate_pp</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -436,7 +436,7 @@ MPStateのインスタンスを取得しておいてから、MPStateクラスの
 ドで期待値計算することをとりあえずおすすめします。</p>
 </div>
 <div class="section" id="qlazyqulacs">
-<h4>量子状態の取得(qlazyおよびqulacsのみ)<a class="headerlink" href="#qlazyqulacs" title="Permalink to this heading">¶</a></h4>
+<h4>量子状態の取得(qlazyおよびqulacsのバックエンドのみ)<a class="headerlink" href="#qlazyqulacs" title="Permalink to this heading">¶</a></h4>
 <p>qlazyの状態ベクトルシミュレータ(qstate_simulator)またはスタビライザー
 シミュレータ(stabilizer_simulator)または行列積状態シミュレータ
 (mps_simulator)でrunを実行するときにout_stateオプションをTrueにセット
@@ -533,6 +533,39 @@ preciseオプションをTrueに設定します。</p>
 <p>ただし、これが実行できるのはバックエンドにシミュレータが指定されている
 場合、具体的にはqlazyのqstate_simulatorとqstate_gpu_simulatorと
 mps_simulator、およびqulacsのcpu_simulatorとgpu_simulatorのみです。</p>
+</div>
+<div class="section" id="qlazy">
+<h4>初期量子状態の設定(qlazyのバックエンドのみ)<a class="headerlink" href="#qlazy" title="Permalink to this heading">¶</a></h4>
+<p>runメソッドで量子回路を実行したり、
+expectメソッドで量子回路実行後のオブザーバブルの期待値を求める場合、
+初期量子状態は|00…0&gt;に設定されます。
+しかし、何か特別な量子状態を初期状態にしてrunまたはexpectを実行したい場合があります。
+そのような場合、initオプションを使うことができます。例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のような量子状態を初期状態にして、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>という量子回路を実行したい場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">qs</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにします。</p>
+<p>expectメソッドも同様に初期状態を設定することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_meas</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">qs</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_prec</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">qs</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">presice</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>のようにします。</p>
+<p>runメソッドに初期量子状態を設定できるのは、qlazyのバックエンド
+(qstate_simulator, qstate_gpu_simulator, stabilzer_simulator,
+mps_simulator)の場合のみです。また、expectメソッドに初期量子状態を設定
+できるのは、qlazyのバックエンド(qstate_simulator,
+qstate_gpu_simulator, mps_simulator)の場合のみです。</p>
 </div>
 </div>
 <div class="section" id="id11">
@@ -995,6 +1028,11 @@ crxゲートがあり、各々に具体的な値として0.2,0.3という値が�
 </div>
 <p>のようにパラメータをセットして、再び実行すれば良いです。
 別の量子回路を新たに作成する必要はありません。</p>
+<p>セットされているパラメータの値は、get_paramsメソッドで取得することができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">get_params</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id29">
 <h3>制御量子ビットの追加<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>

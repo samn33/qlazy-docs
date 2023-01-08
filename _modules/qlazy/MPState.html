@@ -172,12 +172,9 @@
 <span class="kn">from</span> <span class="nn">tensornetwork</span> <span class="kn">import</span> <span class="n">FiniteMPS</span>
 
 <span class="kn">import</span> <span class="nn">qlazy.config</span> <span class="k">as</span> <span class="nn">cfg</span>
-
-<div class="viewcode-block" id="gray_code"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.gray_code">[docs]</a><span class="k">def</span> <span class="nf">gray_code</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; gray code generator (for mcx method) &quot;&quot;&quot;</span>
-
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">yield</span> <span class="n">k</span><span class="o">^</span><span class="p">(</span><span class="n">k</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">)</span></div>
+<span class="kn">from</span> <span class="nn">qlazy.util</span> <span class="kn">import</span> <span class="n">is_unitary_gate</span><span class="p">,</span> <span class="n">get_qgate_qubit_num</span>
+<span class="kn">from</span> <span class="nn">qlazy.QObject</span> <span class="kn">import</span> <span class="n">QObject</span>
+<span class="kn">from</span> <span class="nn">qlazy.lib.mpstate_func</span> <span class="kn">import</span> <span class="n">mps_operate_qcirc</span>
 
 <div class="viewcode-block" id="MDataMPState"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MDataMPState">[docs]</a><span class="k">class</span> <span class="nc">MDataMPState</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Measured Data for MPState</span>
@@ -202,7 +199,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">=</span> <span class="n">qubit_num</span></div>
 
 
-<div class="viewcode-block" id="MPState"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState">[docs]</a><span class="k">class</span> <span class="nc">MPState</span><span class="p">(</span><span class="n">FiniteMPS</span><span class="p">):</span>
+<div class="viewcode-block" id="MPState"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState">[docs]</a><span class="k">class</span> <span class="nc">MPState</span><span class="p">(</span><span class="n">FiniteMPS</span><span class="p">,</span> <span class="n">QObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Matrix Product State</span>
 
 <span class="sd">    Attributes</span>
@@ -837,709 +834,61 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="c1"># 1-qubit gate</span>
-
-<div class="viewcode-block" id="MPState.x"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.x">[docs]</a>    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
+<div class="viewcode-block" id="MPState.reset_qubits"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.reset_qubits">[docs]</a>    <span class="k">def</span> <span class="nf">reset_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate X gate.</span>
+<span class="sd">        reset to |00..0&gt; state.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
+<span class="sd">        qid : list, default - qubit id&#39;s list for all of the qubits</span>
+<span class="sd">            qubit id&#39;s list to reset.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.y"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Y gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.z"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Z gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.xr"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.xr">[docs]</a>    <span class="k">def</span> <span class="nf">xr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate root X gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;xr&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.xr_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.xr_dg">[docs]</a>    <span class="k">def</span> <span class="nf">xr_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate root X dagger gate</span>
-<span class="sd">        (hermmitian conjugate of root X gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;xr_dg&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.h"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.h">[docs]</a>    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate H gate (hadamard gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.s"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.s">[docs]</a>    <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate S gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.s_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.s_dg">[docs]</a>    <span class="k">def</span> <span class="nf">s_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate S dagger gate (hermitian conjugate of S gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;s_dg&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.t"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.t">[docs]</a>    <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate T gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.t_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.t_dg">[docs]</a>    <span class="k">def</span> <span class="nf">t_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate T dagger gate (hermitian conjugate of T gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;t_dg&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.rx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.rx">[docs]</a>    <span class="k">def</span> <span class="nf">rx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate RX gate (rotation around X-axis).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.ry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.ry">[docs]</a>    <span class="k">def</span> <span class="nf">ry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate RY gate (rotation around Y-axis).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;ry&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.rz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.rz">[docs]</a>    <span class="k">def</span> <span class="nf">rz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate RZ gate (rotation around Z-axis).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.p"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.p">[docs]</a>    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate P gate (phase shift gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id.</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
+<span class="sd">            matrix product state.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        matrix expression is following...</span>
-<span class="sd">        | 1.0 0.0             |</span>
-<span class="sd">        | 0.0 exp(i*phase*PI) |</span>
+<span class="sd">        If &#39;qid&#39; is set, specified qubits are reset after</span>
+<span class="sd">        measurement. So if the specified qubits are entangled with the</span>
+<span class="sd">        remaining qubits, output quantum state is probabilistic. If no</span>
+<span class="sd">        qubits are set, all qubits are zero reset.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-    <span class="c1"># 2-qubit gate</span>
-
-<div class="viewcode-block" id="MPState.cx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cx">[docs]</a>    <span class="k">def</span> <span class="nf">cx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CX gate (controlled X gate, controlled NOT gate, CNOT gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cy">[docs]</a>    <span class="k">def</span> <span class="nf">cy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CY gate (controlled X gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cz">[docs]</a>    <span class="k">def</span> <span class="nf">cz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CZ gate (controlled Z gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cxr"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cxr">[docs]</a>    <span class="k">def</span> <span class="nf">cxr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CXR gate (controlled root X gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cxr&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cxr_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cxr_dg">[docs]</a>    <span class="k">def</span> <span class="nf">cxr_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CXR dagger gate (controlled XR dagger gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cxr_dg&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.ch"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.ch">[docs]</a>    <span class="k">def</span> <span class="nf">ch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CH gate (controlled H gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cs"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cs">[docs]</a>    <span class="k">def</span> <span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CS gate (controlled S gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cs&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cs_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cs_dg">[docs]</a>    <span class="k">def</span> <span class="nf">cs_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CS dagger gate (controlled S dagger gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cs_dg&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.ct"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.ct">[docs]</a>    <span class="k">def</span> <span class="nf">ct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CT gate (controlled T gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;ct&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.ct_dg"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.ct_dg">[docs]</a>    <span class="k">def</span> <span class="nf">ct_dg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CT dagger gate (controlled T dagger gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;ct_dg&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.sw"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.sw">[docs]</a>    <span class="k">def</span> <span class="nf">sw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        swap gate</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;sw&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cp"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cp">[docs]</a>    <span class="k">def</span> <span class="nf">cp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CP gate (controlled P gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.crx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.crx">[docs]</a>    <span class="k">def</span> <span class="nf">crx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CRX gate (controlled RX gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;crx&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.cry"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.cry">[docs]</a>    <span class="k">def</span> <span class="nf">cry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CRY gate (controlled RY gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;cry&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.crz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.crz">[docs]</a>    <span class="k">def</span> <span class="nf">crz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CRZ gate (controlled RZ gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;crz&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.rxx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.rxx">[docs]</a>    <span class="k">def</span> <span class="nf">rxx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Rxx gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;rxx&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.ryy"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.ryy">[docs]</a>    <span class="k">def</span> <span class="nf">ryy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Ryy gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;ryy&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.rzz"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.rzz">[docs]</a>    <span class="k">def</span> <span class="nf">rzz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate Rxx gate.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-<span class="sd">        phase : float</span>
-<span class="sd">            rotation angle (unit of angle is PI radian).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="s1">&#39;rzz&#39;</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-    <span class="c1"># 3-qubit gate</span>
-
-<div class="viewcode-block" id="MPState.ccx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.ccx">[docs]</a>    <span class="k">def</span> <span class="nf">ccx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CCX gate (toffoli gate, controlled controlled X gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q2 : int</span>
-<span class="sd">            qubit id (target qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr_dg</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">cxr</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.csw"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.csw">[docs]</a>    <span class="k">def</span> <span class="nf">csw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate CSW gate (fredkin gate, controlled swap gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        q0 : int</span>
-<span class="sd">            qubit id (control qubit).</span>
-<span class="sd">        q1 : int</span>
-<span class="sd">            qubit id (swap qubit).</span>
-<span class="sd">        q2 : int</span>
-<span class="sd">            qubit id (swap qubit).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span><span class="o">.</span><span class="n">ccx</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-    <span class="c1"># other gate</span>
-
-<div class="viewcode-block" id="MPState.mcx"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.mcx">[docs]</a>    <span class="k">def</span> <span class="nf">mcx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate MCX gate (multi-controlled X gate).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        qid : list of int</span>
-<span class="sd">            qubit id list [control, control, ... , control, target]</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qid must be set.&quot;</span><span class="p">)</span>
-
-        <span class="c1"># controled and target register</span>
-        <span class="n">qid_ctr</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">qid_tar</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-        <span class="c1"># hadamard</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid_tar</span><span class="p">)</span>
-
-        <span class="c1"># controlled-RZ(psi), psi=pi/(2**(bitnum-1))</span>
-        <span class="n">bitnum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qid_ctr</span><span class="p">)</span>
-        <span class="n">psi</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bitnum</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># unit=pi(radian)</span>
-        <span class="n">gray_pre</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">gray</span> <span class="ow">in</span> <span class="n">gray_code</span><span class="p">(</span><span class="n">bitnum</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">gray</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__qubit_num</span><span class="p">))</span>
+
+        <span class="n">proj_gate</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">],</span>
+                               <span class="p">[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">]]),</span>
+                     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">],</span>
+                               <span class="p">[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">]])]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__probability</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">:</span>
+                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">continue</span>
-            <span class="n">msb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">gray</span><span class="p">)))</span><span class="o">-</span><span class="mi">3</span>
-            <span class="n">chb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">gray</span><span class="o">^</span><span class="n">gray_pre</span><span class="p">)))</span><span class="o">-</span><span class="mi">3</span>
-            <span class="k">if</span> <span class="n">gray</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">chb</span> <span class="o">==</span> <span class="n">msb</span><span class="p">:</span>
-                    <span class="n">chb</span> <span class="o">-=</span> <span class="mi">1</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qid_ctr</span><span class="p">[</span><span class="n">chb</span><span class="p">],</span> <span class="n">qid_ctr</span><span class="p">[</span><span class="n">msb</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">qid_ctr</span><span class="p">[</span><span class="n">msb</span><span class="p">],</span> <span class="n">qid_tar</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">psi</span><span class="p">)</span>
-            <span class="n">psi</span> <span class="o">=</span> <span class="o">-</span><span class="n">psi</span>
-            <span class="n">gray_pre</span> <span class="o">=</span> <span class="n">gray</span>
+            <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">:</span>
+                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">continue</span>
 
-        <span class="c1"># hadamard</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qid_tar</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">prob</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_one_site_gate</span><span class="p">(</span><span class="n">gate</span><span class="o">=</span><span class="n">proj_gate</span><span class="p">[</span><span class="n">measured_value</span><span class="p">],</span> <span class="n">site</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_one_site_gate</span><span class="p">(</span><span class="n">gate</span><span class="o">=</span><span class="n">proj_gate</span><span class="p">[</span><span class="n">measured_value</span><span class="p">],</span> <span class="n">site</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
-    
+
     <span class="k">def</span> <span class="nf">__probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
 
         <span class="n">z_gate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_gate_array</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
@@ -1692,125 +1041,6 @@
         <span class="n">mval</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">last</span>
         <span class="k">return</span> <span class="n">mval</span></div>
         
-<div class="viewcode-block" id="MPState.reset"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        reset to |00..0&gt; state.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        qid : list, default - qubit id&#39;s list for all of the qubits</span>
-<span class="sd">            qubit id&#39;s list to reset.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of MPState</span>
-<span class="sd">            matrix product state.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        If &#39;qid&#39; is set, specified qubits are reset after</span>
-<span class="sd">        measurement. So if the specified qubits are entangled with the</span>
-<span class="sd">        remaining qubits, output quantum state is probabilistic. If no</span>
-<span class="sd">        qubits are set, all qubits are zero reset.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">qid</span> <span class="o">==</span> <span class="p">[]:</span>
-            <span class="n">qid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__qubit_num</span><span class="p">))</span>
-
-        <span class="n">proj_gate</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">],</span>
-                               <span class="p">[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">]]),</span>
-                     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">],</span>
-                               <span class="p">[</span><span class="mf">0.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">,</span> <span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">]])]</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-            <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__probability</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">:</span>
-                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="k">continue</span>
-            <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">cfg</span><span class="o">.</span><span class="n">EPS</span><span class="p">:</span>
-                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-                <span class="k">continue</span>
-
-            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">prob</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">apply_one_site_gate</span><span class="p">(</span><span class="n">gate</span><span class="o">=</span><span class="n">proj_gate</span><span class="p">[</span><span class="n">measured_value</span><span class="p">],</span> <span class="n">site</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">measured_value</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">apply_one_site_gate</span><span class="p">(</span><span class="n">gate</span><span class="o">=</span><span class="n">proj_gate</span><span class="p">[</span><span class="n">measured_value</span><span class="p">],</span> <span class="n">site</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="MPState.operate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        operate unitary operator to quantum state.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        pp : instance of PauliProduct</span>
-<span class="sd">            pauli product to operate</span>
-<span class="sd">        ctrl : int</span>
-<span class="sd">            contoroll qubit id for controlled pauli product</span>
-<span class="sd">            (this option will be removed near future)</span>
-<span class="sd">        qctrl : int</span>
-<span class="sd">            contoroll qubit id for controlled pauli product</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self : instance of QState</span>
-<span class="sd">            quantum state after operation</span>
-
-<span class="sd">        See Also</span>
-<span class="sd">        --------</span>
-<span class="sd">        PauliProduct class (PauliProduct.py)</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pauli_list</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">pauli_list</span>
-        <span class="n">qid</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">qid</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">factor</span>
-
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ctrl</span> <span class="o">=</span> <span class="n">qctrl</span>
-
-        <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">continue</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">qid</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;controll and target qubit id conflict&quot;</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">pauli_list</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">pauli</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">continue</span>
-
-            <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">factor</span> <span class="o">==</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">1.</span><span class="n">j</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">factor</span> <span class="o">==</span> <span class="mf">0.</span><span class="o">-</span><span class="mf">1.</span><span class="n">j</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">s_dg</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span></div>
-
 <div class="viewcode-block" id="MPState.expect"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.expect">[docs]</a>    <span class="k">def</span> <span class="nf">expect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the expectation value for observable under the matrix product state.</span>
@@ -1847,7 +1077,80 @@
             <span class="p">[</span><span class="n">mps</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pauli_list</span><span class="p">,</span> <span class="n">qid</span><span class="p">)]</span>
             <span class="n">expect_value</span> <span class="o">+=</span> <span class="p">(</span><span class="n">weight</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">inpro</span><span class="p">(</span><span class="n">mps</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">expect_value</span></div></div>
+        <span class="k">return</span> <span class="n">expect_value</span></div>
+
+    <span class="c1"># operate gate</span>
+
+<div class="viewcode-block" id="MPState.operate_gate"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.operate_gate">[docs]</a>    <span class="k">def</span> <span class="nf">operate_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate gate</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kind : int</span>
+<span class="sd">            kind of the gate</span>
+<span class="sd">        qid : list</span>
+<span class="sd">            quantum id list</span>
+<span class="sd">        phase : float</span>
+<span class="sd">            phase for rotation gate</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of MPState</span>
+<span class="sd">            quantum state</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gstr</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">RESET</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reset_qubits</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_unitary_gate</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">q0</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">operate_1qubit_gate</span><span class="p">(</span><span class="n">gstr</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">get_qgate_qubit_num</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">qid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">operate_2qubit_gate</span><span class="p">(</span><span class="n">gstr</span><span class="p">,</span> <span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">para</span><span class="o">=</span><span class="n">phase</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of qid must be 1 or 2.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gate: </span><span class="si">{}</span><span class="s2"> is not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">GATE_STRING</span><span class="p">[</span><span class="n">kind</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># operate quantum circuit</span>
+
+<div class="viewcode-block" id="MPState.operate_qcirc"><a class="viewcode-back" href="../../python-api/qlazy.html#qlazy.MPState.MPState.operate_qcirc">[docs]</a>    <span class="k">def</span> <span class="nf">operate_qcirc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qcirc</span><span class="p">,</span> <span class="n">qctrl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        operate quantum circuit</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        qcirc : instance of QCirc</span>
+<span class="sd">            quantum circuit</span>
+<span class="sd">        qctrl : int</span>
+<span class="sd">            control qubit id</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : instance of MPState</span>
+<span class="sd">            quantum state after executing the quantum circuit</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The quantum circut must be unintary.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">is_unitary</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qcirc must be clifford quantum circuit.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_num</span> <span class="o">&lt;</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">qubit_num</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;qubit number of quantum state must be equal or larger than the quantum circuit size.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">qctrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mps_operate_qcirc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qcirc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qc_qctrl</span> <span class="o">=</span> <span class="n">qcirc</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">qctrl</span><span class="o">=</span><span class="n">qctrl</span><span class="p">)</span>
+            <span class="n">mps_operate_qcirc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc_qctrl</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cid</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div></div>
 </pre></div>
 
            </div>

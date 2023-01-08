@@ -249,14 +249,14 @@ follows,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>then perform ‘operate’ method with ‘pp’ option.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
+<p>then perform ‘operate_pp’ method with ‘pp’ option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate_pp</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Controlled pauli product can be added by specifying the control
-qubit id in the ‘qctrl’ option of the ‘operate’ method as follows.</p>
+qubit id in the ‘qctrl’ option of the ‘operate_pp’ method as follows.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">PauliProduct</span><span class="p">(</span><span class="n">pauli_str</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">operate_pp</span><span class="p">(</span><span class="n">pp</span><span class="o">=</span><span class="n">pp</span><span class="p">,</span> <span class="n">qctlr</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="measuring-gate">
@@ -431,8 +431,8 @@ calculations, and optimization issues on NISC devices, so we recommend
 that you try it with the expectation value calculation instead of
 obtaining the measurement values in large number of shots.</p>
 </div>
-<div class="section" id="getting-quantum-state-qlazy-and-qulacs-only">
-<h4>Getting quantum state (qlazy and qulacs only)<a class="headerlink" href="#getting-quantum-state-qlazy-and-qulacs-only" title="Permalink to this heading">¶</a></h4>
+<div class="section" id="getting-quantum-state-only-qlazy-backend-and-qulacs-backend">
+<h4>Getting quantum state (only qlazy backend and qulacs backend)<a class="headerlink" href="#getting-quantum-state-only-qlazy-backend-and-qulacs-backend" title="Permalink to this heading">¶</a></h4>
 <p>When you execute the ‘run’ method using qlazy’s ‘qstate_simulator’,
 ‘stabilizer_simulator’, or ‘mps_simulator’, by specifing ‘out_state’
 option to be ‘True’, quantum state after executing the quantum circuit
@@ -535,6 +535,39 @@ accurate expectation value.</p>
 backend, specifically, when only qlazy’s ‘qstate_simulator’,
 ‘qstate_gpu_simulator’, ‘mps_simulator’, and qulacs’ ‘cpu_simulator’
 and ‘gpu_simulator’ are specified.</p>
+</div>
+<div class="section" id="setting-of-initial-quantum-state-only-qlazy-backend">
+<h4>Setting of initial quantum state (only qlazy backend)<a class="headerlink" href="#setting-of-initial-quantum-state-only-qlazy-backend" title="Permalink to this heading">¶</a></h4>
+<p>If you execute a quantum circuit with the ‘run’ method or find the
+expectation value of the observable after the quantum circuit
+execution in the ‘expect’ method, the initial quantum state is set to |00…0&gt;.
+However, you may want to execute ‘run’ or ‘expect’ withsome special
+quantum state in the initial state.  In such a case, you can use the
+‘init’ option.</p>
+<p>For example, suppose an initial quantum state as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit_num</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>execute the following quantum circuit,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QCirc</span><span class="p">()</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cid</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>do as follows,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bk</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">qs</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ‘expect’ method can also set the initial state in the same way as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_meas</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">qs</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_prec</span> <span class="o">=</span> <span class="n">bk</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">qs</span><span class="p">,</span> <span class="n">qcirc</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="n">ob</span><span class="p">,</span> <span class="n">presice</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The initial quantum state can be set in the ‘run’ method only for
+qlazy backends (qstate_simulator, qstate_gpu_simulator,
+stabilzer_Simulator, and mps_simulator).  The initial quantum state
+can be set in the ‘expect’ method only for qlazy backends
+(qstate_simulator, qstate_gpu_simulator, and mps_simulator).</p>
 </div>
 </div>
 <div class="section" id="supported-quantum-gate">
@@ -1013,6 +1046,12 @@ has been created.  You can execute this circuit as follows,</p>
 </pre></div>
 </div>
 <p>There is no need to create another quantum circuit.</p>
+<p>The value of the set parameters can be obtained by the ‘get_params’
+method as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">get_params</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="adding-a-control-qubit">
 <h3>Adding a control qubit<a class="headerlink" href="#adding-a-control-qubit" title="Permalink to this heading">¶</a></h3>
